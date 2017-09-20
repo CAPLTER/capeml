@@ -2,11 +2,13 @@ Package: capeml
 Title: CAP LTER package for generating EML
 Version: 0.0.0.9000
 Authors@R: person("S", "Earl", email = "stevan.earl@asu.edu", role = c("aut", "cre"))
-Description: This package is intented to facilitate the creation of EML metadata
-  with intent to publish data and metadata in the Environmental Data Initiative
-  (EDI) data repository. Functions and a workflow are included that allow for 
-  the creation of metadata at the data set level, and individual data entities
-  (spatial vectors, raster, other entities, data tables).
+Description: This package is intented to facilitate the creation of EML
+  metadata with intent to publish data and metadata in the Environmental Data
+  Initiative (EDI) data repository. Functions and a workflow are included that
+  allow for the creation of metadata at the data set level, and individual data
+  entities (spatial vectors, raster, other entities, data tables). Currently
+  only the creation of spatialRaster entities is supported but other modules
+  will be rolled out soon.
 Depends: R (>= 3.4.1)
 License: CC0
 Encoding: UTF-8

@@ -5,11 +5,10 @@
 \title{create_spatialRaster}
 \usage{
 create_spatialRaster(rasterName, rasterValueAttrs, rasterValueFactors,
-  description)
+  description, onlineURL)
 }
 \arguments{
-\item{rasterName}{the quoted name of the raster file (or base file in the
-case when the entity consists of multiple files)}
+\item{rasterName}{the quoted name of the raster file}
 
 \item{rasterValueAttrs}{raster attribute and details}
 
@@ -17,6 +16,9 @@ case when the entity consists of multiple files)}
 enumerated domain}
 
 \item{description}{quoted description of raster}
+
+\item{onlineURL}{quoted address of data file when accessed through a local
+data catalog}
 }
 \value{
 EML spatial data object is returned. Additionally, the spatial data
@@ -28,20 +30,33 @@ create_spatialRaster generates a EML entity of type
   spatialRaster
 }
 \details{
-a single data file (e.g., *.img) or a collection of related files
-  (e.g., *.img and *.img.aux.xml) may be passed to create_spatialRaster. In
-  the case of multiple file, all related files (as identified by a common
-  base name) are aggregated into a single compressed (zipped) file. In all
-  cases, the resulting entity is renamed with the project id + base file name
-  + md5sum + file extension (zip in the case when multiple files are
-  aggregated).
+a spatialRaster entity is created from a single data file (e.g.,
+  CAP_1985.img) or a collection of related files (e.g., CAP_1985.img,
+  CAP_1985.img.aux.xml). In the case of multiple file, all related files as
+  identified by a common base name (e.g., 'CAP_1985') are aggregated into a
+  single compressed (zipped) file. In all cases, the resulting entity is
+  renamed with the project id + base file name + md5sum + file extension (zip
+  in the case when multiple files are aggregated).
+}
+\note{
+create_spatialRaster will look for a project id in the working
+  environment; this parameter is not passed to the function and it must
+  exist.
+
+create_spatialRaster currently requires an address to the file for
+  access from a local data catalog; if this parameter is missing, the
+  function defaults to the CAP LTER's file storage location.
+
+create_spatialRaster relies on the helper functions zipRelatedFiles and
+  get_emlProjection, which are specific to UNIX operating systems.
 }
 \examples{
+\dontrun{
 The current workflow includes hand-coding metadata given that there will
 only ever be one attribute for a raster.
 
 Create attribute table manually, here calling the attribute 'value':
-rasterValueAttrs <-
+rasterValueAttribute <-
   data.frame(
     attributeName = c('value'),
     attributeLabel = c('categorical raster cell value'),
@@ -61,13 +76,13 @@ rasterValueFactors <-
     definition = rasterValuesMetadata$`Class Name`
   )
 
-Create attribute list to pass to createSpatialRaster function
-rasterAttributeList <- set_attributes(attributes = rasterValueAttrs,
-                                      factors = rasterValueFactors,
-                                      col_classes = c("factor"))
 
-\\code {spatial entity <- create_spatialRaster('name of raster',
-                                        rasterValueAttrs,
-                                        rasterAttributeList,
-                                        'Phoenix-area raster')}
+spatial_entity <- create_spatialRaster(rasterName = 'CAP_1985.img',
+                                       rasterValueAttrs = rasterValueAttribute,
+                                       rasterValueFactors = rasterValueFactors,
+                                       description = 'Phoenix-area raster',
+                                       onlineURL = 'https://data.gios.asu.edu/datasets/cap/'
+                                       )
+}
+
 }

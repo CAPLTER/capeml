@@ -7,16 +7,18 @@
 zipRelatedFiles(targetFile)
 }
 \arguments{
-\item{targetFile}{a spatial data file}
+\item{targetFile}{quoted name of target data file in the current working
+directory}
 }
 \value{
-the zipped file name for inclusion in the EML documentation
+the zipped file name for inclusion in the EML documentation - not
+  relevant when run independently
 }
 \description{
-the zipped file name for inclusion in the EML documentation is
-  returned. Side effects include all relevant files zipped into a single,
-  compressed file named as: projectid + basefile name + md5sum + extension
-  (zip).
+Zip files in a common directory that share the same base name
+  (i.e., file name sans path and extension). Zipped file includes all
+  relevant files zipped into a single, compressed file named as: projectid +
+  basefile name + md5sum + extension (zip).
 }
 \details{
 zipRelatedFiles is a helper function designed primarily to assist
@@ -27,5 +29,15 @@ zipRelatedFiles is a helper function designed primarily to assist
   CAP_1985.img and CAP_1985.img.aux.xml share the same base name and would be
   zipped). In keeping with the CAP LTER workflow for generating EML metadata,
   the resulting compressed file is named projectid + basefile name + md5sum +
-  extension (zip).
+  extension (zip). Though intended primarily as a helper function,
+  zipRelatedFiles can be run independently.
+}
+\note{
+The target file must be in the current working directory.
+
+zipRelatedFiles is specific to UNIX operating environments.
+}
+\examples{
+\dontrun{ zipRelatedFiles('CAP_1985.img') }
+
 }

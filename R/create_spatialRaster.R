@@ -3,20 +3,29 @@
 #' @description create_spatialRaster generates a EML entity of type
 #'   spatialRaster
 #'
-#' @details a single data file (e.g., *.img) or a collection of related files
-#'   (e.g., *.img and *.img.aux.xml) may be passed to create_spatialRaster. In
-#'   the case of multiple file, all related files (as identified by a common
-#'   base name) are aggregated into a single compressed (zipped) file. In all
-#'   cases, the resulting entity is renamed with the project id + base file name
-#'   + md5sum + file extension (zip in the case when multiple files are
-#'   aggregated).
+#' @details a spatialRaster entity is created from a single data file (e.g.,
+#'   CAP_1985.img) or a collection of related files (e.g., CAP_1985.img,
+#'   CAP_1985.img.aux.xml). In the case of multiple file, all related files as
+#'   identified by a common base name (e.g., 'CAP_1985') are aggregated into a
+#'   single compressed (zipped) file. In all cases, the resulting entity is
+#'   renamed with the project id + base file name + md5sum + file extension (zip
+#'   in the case when multiple files are aggregated).
+#' @note create_spatialRaster will look for a project id in the working
+#'   environment; this parameter is not passed to the function and it must
+#'   exist.
+#' @note create_spatialRaster currently requires an address to the file for
+#'   access from a local data catalog; if this parameter is missing, the
+#'   function defaults to the CAP LTER's file storage location.
+#' @note create_spatialRaster relies on the helper functions zipRelatedFiles and
+#'   get_emlProjection, which are specific to UNIX operating systems.
 #'
-#' @param rasterName the quoted name of the raster file (or base file in the
-#'   case when the entity consists of multiple files)
+#' @param rasterName the quoted name of the raster file
 #' @param rasterValueAttrs raster attribute and details
 #' @param rasterValueFactors raster attribute details if attribute is of type
 #'   enumerated domain
 #' @param description quoted description of raster
+#' @param onlineURL quoted address of data file when accessed through a local
+#'   data catalog
 #'
 #' @import EML
 #' @importFrom raster raster bandnr
@@ -26,14 +35,13 @@
 #'   file is renamed with the project id + base file name + md5sum + file
 #'   extension (zip in the case when multiple files are aggregated).
 #'
-#' @export
-#'
 #' @examples
+#' \dontrun{
 #' The current workflow includes hand-coding metadata given that there will
 #' only ever be one attribute for a raster.
 #'
 #' Create attribute table manually, here calling the attribute 'value':
-#' rasterValueAttrs <-
+#' rasterValueAttribute <-
 #'   data.frame(
 #'     attributeName = c('value'),
 #'     attributeLabel = c('categorical raster cell value'),
@@ -53,21 +61,24 @@
 #'     definition = rasterValuesMetadata$`Class Name`
 #'   )
 #'
-#' Create attribute list to pass to createSpatialRaster function
-#' rasterAttributeList <- set_attributes(attributes = rasterValueAttrs,
-#'                                       factors = rasterValueFactors,
-#'                                       col_classes = c("factor"))
 #'
-#' \code {spatial entity <- create_spatialRaster('name of raster',
-#'                                         rasterValueAttrs,
-#'                                         rasterAttributeList,
-#'                                         'Phoenix-area raster')}
+#' spatial_entity <- create_spatialRaster(rasterName = 'CAP_1985.img',
+#'                                        rasterValueAttrs = rasterValueAttribute,
+#'                                        rasterValueFactors = rasterValueFactors,
+#'                                        description = 'Phoenix-area raster',
+#'                                        onlineURL = 'https://data.gios.asu.edu/datasets/cap/'
+#'                                        )
+#' }
+#'
+#' @export
 
-create_spatialRaster <- function(rasterName, rasterValueAttrs, rasterValueFactors, description) {
-
+create_spatialRaster <- function(rasterName, rasterValueAttrs, rasterValueFactors, description, onlineURL) {
 
   # do not proceed if the project id has not been identified in the working env
   if (!exists('projectid')) { stop("missing project id") }
+
+  # do not proceed if the target file is not in the working directory
+  if(!file.exists(paste0('./', basename(rasterName)))) { stop("raster file is not in the working directory") }
 
 
   # read raster to access inherent file metadata
@@ -85,30 +96,26 @@ create_spatialRaster <- function(rasterName, rasterValueAttrs, rasterValueFactor
   rasterProjection <- new('spatialReference',
                           horizCoordSysName = get_emlProjection(rasterObject))
 
-
-  # parse file name and extension
+  # parse base name of file without extension
   targetFileBaseName <- str_extract(basename(rasterName), "^[^\\.]*")
-  targetFileExtension <- str_extract(rasterName, "[^\\.]+$")
-
 
   # if there are related files (e.g., supporting files) as determined by other
   # files with the same name as the raster (but with different file extentions),
-  # then zip all files of the same name by calling the zipRelatedFiles()
-  # function, and that will be our object with dataFormat = zip; the name of the
-  # zipped file is returned and passed to objectName for further processing.
-  # Else, process only the raster file with dataFormat = the file's extension.
+  # then zip all files of the same name by calling the zipRelatedFiles function,
+  # and that will be our object with dataFormat = zip; the name of the zipped
+  # file is returned and passed to objectName for further processing. Else,
+  # process only the raster file with dataFormat = the file's extension.
   if (length(list.files(pattern = targetFileBaseName)) > 1) {
     objectName <- zipRelatedFiles(rasterName)
     objectFormat <- 'zip'
   } else {
-    expandedName <- paste0(projectid, "_", targetFileBaseName, "_", md5sum(rasterName), ".", targetFileExtension)
+    expandedName <- paste0(projectid, "_", targetFileBaseName, "_", md5sum(rasterName), ".", file_ext(rasterName))
     file.rename(rasterName, expandedName)
     objectName <- expandedName
-    objectFormat <- targetFileExtension
   }
 
 
-  # EML: physicl
+  # EML: physical
 
   # create @physical
   physical <- set_physical(objectName)
@@ -126,15 +133,18 @@ create_spatialRaster <- function(rasterName, rasterValueAttrs, rasterValueFactor
   physical@authentication <- c(md5)
 
   # add distribution to @physical
+  # set onlineURL according to CAP's system if that parameter is missing
+  if(missing(onlineURL)) { onlineURL <- "https://data.gios.asu.edu/datasets/cap/" }
+
   online_url <- new("online",
-                    url = paste0("https://data.gios.asu.edu/datasets/cap/", objectName))
+                    url = paste0(onlineURL, objectName))
   file_dist <- new("distribution",
                    online = online_url)
   physical@distribution <- c(file_dist)
 
   # add zip format to physical
   ext_format <- new("externallyDefinedFormat",
-                    formatName = objectFormat)
+                    formatName = file_ext(rasterName))
   dat_format <- new("dataFormat",
                     externallyDefinedFormat = ext_format)
   physical@dataFormat <- dat_format

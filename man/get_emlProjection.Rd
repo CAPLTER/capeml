@@ -7,11 +7,12 @@
 get_emlProjection(spatialDataEntity)
 }
 \arguments{
-\item{spatialDataEntity}{a spatial data file}
+\item{spatialDataEntity}{a spatial data entity, often loaded into R with the
+raster (for rasters) or rgdal (for vectors) packages}
 }
 \value{
 if a suitable match was found, function returns an EML-compliant
-  listing of the projection of the spatial file
+  listing of the projection of the spatial data object
 }
 \description{
 get_emlProjection attempts to identify the projection of a
@@ -22,5 +23,19 @@ get_emlProjection attempts to identify the projection of a
 get_emlProjection is a helper function designed primarily to assist
   the creation of EML spatial data objects. The function currently is
   restricted to matching coordinate systems in the northern hemisphere, and
-  will not match projections of type transverse mercator.
+  will not match projections of type transverse mercator. Though intended
+  primarily as a helper function, get_emlProjection can be run independently.
+}
+\note{
+get_emlProjection currently is restricted to matching coordinate
+  systems in the northern hemisphere, and will not match projections of type
+  transverse mercator.
+}
+\examples{
+\dontrun{
+vectorData <- readOGR(dsn='/GISfiles/WatershedShapefile/', layer='AZwatersheds_prj')
+rasterdata <- raster('CAP_1985.img')
+emlCompliantProjection <- get_emlProjection(rasterdata)
+}
+
 }
