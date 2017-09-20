@@ -1,24 +1,27 @@
-#' get_emlProjection
+#' @title get_emlProjection
+#'
+#' @description get_emlProjection attempts to identify the projection of a
+#'   spatial data file, and match this to the corresponding projection ID
+#'   permissible by EML.
+#'
+#' @details get_emlProjection is a helper function designed primarily to assist
+#'   the creation of EML spatial data objects. The function currently is
+#'   restricted to matching coordinate systems in the northern hemisphere, and
+#'   will not match projections of type transverse mercator.
 #'
 #' @param spatialDataEntity a spatial data file
 #'
 #' @import rgdal
-#' @import stringr
+#' @importFrom stringr str_match str_replace_all
 #' @import dplyr
 #' @import magrittr
-#' @import readr
+#' @importFrom readr read_csv
+#' @importFrom raster crs
 #'
 #' @return if a suitable match was found, function returns an EML-compliant
-#'  listing of the projection of the spatial file
+#'   listing of the projection of the spatial file
 #'
 #' @export
-#'
-
-# generate a table of EPSG CRSs from rgdal package
-EPSG <- make_EPSG()
-
-# load file with the list of EML-acceptable projection names
-emlCoordSystems <- read_csv('emlCoordSystems')
 
 get_emlProjection <- function(spatialDataEntity) {
 
@@ -31,13 +34,14 @@ get_emlProjection <- function(spatialDataEntity) {
   entityDatum <- paste0("+datum=", str_match(crs(spatialDataEntity), "(datum=)(\\w+)")[,3]) # datum
   entityUnits <- paste0("+units=", str_match(crs(spatialDataEntity), "(units=)(\\w+)")[,3]) # units
 
+  # generate a table of EPSG CRSs from rgdal package
   # filter table of EPSG CRSs based on CRS criteria of input file
   # this match is exclusive to Northern hemisphere references
-  entityProjection <- EPSG %>%
-    filter(grepl(entityProj, prj4) & grepl(entityZone, prj4) & grepl(entityDatum, prj4) & grepl(entityUnits, prj4) & !grepl("+south", prj4)) %>%
-    mutate(code = as.integer(code)) %>%
-    mutate(note = as.character(note)) %>%
-    mutate(prj4 = as.character(prj4))
+  entityProjection <- rgdal::make_EPSG() %>%
+    dplyr::filter(grepl(entityProj, prj4) & grepl(entityZone, prj4) & grepl(entityDatum, prj4) & grepl(entityUnits, prj4) & !grepl("+south", prj4)) %>%
+    dplyr::mutate(code = as.integer(code)) %>%
+    dplyr::mutate(note = as.character(note)) %>%
+    dplyr::mutate(prj4 = as.character(prj4))
 
   # modif the EPSG text to facilitate matching with accepted EML CRS names
   entityProjectionString <- str_replace_all(entityProjection$note, "[^[:alnum:]] ", "") %>%
