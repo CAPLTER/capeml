@@ -80,7 +80,6 @@ create_spatialRaster <- function(rasterName, rasterValueAttrs, rasterValueFactor
   # do not proceed if the target file is not in the working directory
   if(!file.exists(paste0('./', basename(rasterName)))) { stop("raster file is not in the working directory") }
 
-
   # read raster to access inherent file metadata
   rasterObject <- raster(rasterName)
   numBand <- new('numberOfBands',
@@ -89,6 +88,10 @@ create_spatialRaster <- function(rasterName, rasterValueAttrs, rasterValueFactor
                  nrow(rasterObject))
   numCols <- new('columns',
                  ncol(rasterObject))
+  cellsX <- new('cellSizeXDirection',
+                xres(rasterObject))
+  cellsY <- new('cellSizeXDirection',
+                yres(rasterObject))
 
 
   # call the get_emlProjection function to [attempt to] match the raster's
@@ -107,7 +110,7 @@ create_spatialRaster <- function(rasterName, rasterValueAttrs, rasterValueFactor
   # process only the raster file with dataFormat = the file's extension.
   if (length(list.files(pattern = targetFileBaseName)) > 1) {
     objectName <- zipRelatedFiles(rasterName)
-    objectFormat <- 'zip'
+    zipIsTrue <- TRUE
   } else {
     expandedName <- paste0(projectid, "_", targetFileBaseName, "_", md5sum(rasterName), ".", file_ext(rasterName))
     file.rename(rasterName, expandedName)
@@ -142,13 +145,20 @@ create_spatialRaster <- function(rasterName, rasterValueAttrs, rasterValueFactor
                    online = online_url)
   physical@distribution <- c(file_dist)
 
-  # add zip format to physical
-  ext_format <- new("externallyDefinedFormat",
-                    formatName = file_ext(rasterName))
-  dat_format <- new("dataFormat",
-                    externallyDefinedFormat = ext_format)
-  physical@dataFormat <- dat_format
-
+  # add raster format or zip to physical
+  if(isTRUE(zipIsTrue)) {
+    ext_format <- new("externallyDefinedFormat",
+                      formatName = 'zip')
+    dat_format <- new("dataFormat",
+                      externallyDefinedFormat = ext_format)
+    physical@dataFormat <- dat_format
+  } else {
+    ext_format <- new("externallyDefinedFormat",
+                      formatName = file_ext(rasterName))
+    dat_format <- new("dataFormat",
+                      externallyDefinedFormat = ext_format)
+    physical@dataFormat <- dat_format
+  }
 
   # compile components for @attributeList of @dataTable
   # ignore factors if they are not relevant to this dataset;
@@ -169,11 +179,18 @@ create_spatialRaster <- function(rasterName, rasterValueAttrs, rasterValueFactor
                entityDescription = description,
                physical = physical,
                attributeList = attr_list,
-               id = objectName,
+               spatialReference = rasterProjection,
+               # horizontalAccuracy = ,
+               # verticalAccuracy = ,
+               cellSizeXDirection = cellsX,
+               cellSizeYDirection = cellsY,
                numberOfBands = numBand,
+               # rasterOrigin = ,
                rows = numRows,
                columns = numCols,
-               spatialReference = rasterProjection
+               # verticals = ,
+               # cellGeometry = ,
+               id = objectName
   )
 
 
