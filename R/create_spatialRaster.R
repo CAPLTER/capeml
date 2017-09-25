@@ -72,13 +72,19 @@
 #'
 #' @export
 
-create_spatialRaster <- function(rasterName, rasterValueAttrs, rasterValueFactors, description, onlineURL) {
+create_spatialRaster <- function(metadataFile, categoricalValues) {
 
   # do not proceed if the project id has not been identified in the working env
   if (!exists('projectid')) { stop("missing project id") }
+  
+  
+  rasterMetadata <- read_csv(metadataFile)
+  rasterName <- as.character(rasterMetadata )
 
   # do not proceed if the target file is not in the working directory
   if(!file.exists(paste0('./', basename(rasterName)))) { stop("raster file is not in the working directory") }
+  
+  
 
   # read raster to access inherent file metadata
   rasterObject <- raster(rasterName)
@@ -136,8 +142,8 @@ create_spatialRaster <- function(rasterName, rasterValueAttrs, rasterValueFactor
   physical@authentication <- c(md5)
 
   # add distribution to @physical
-  # set onlineURL according to CAP's system if that parameter is missing
-  if(missing(onlineURL)) { onlineURL <- "https://data.gios.asu.edu/datasets/cap/" }
+  # set onlineURL according to CAP's system
+  onlineURL <- "https://data.gios.asu.edu/datasets/cap/"
 
   online_url <- new("online",
                     url = paste0(onlineURL, objectName))
@@ -161,11 +167,15 @@ create_spatialRaster <- function(rasterName, rasterValueAttrs, rasterValueFactor
   }
 
   # compile components for @attributeList of @dataTable
-  # ignore factors if they are not relevant to this dataset;
-  # workflow assumes that raster data that are not factors are numeric
+  # ignore factors if they are not relevant to this dataset
   if(missing(rasterValueFactors)) {
+    # determine raster value data type when non-factor
+    nonFactor = case_when(
+      is.numeric(getValues(rasterObject)) == TRUE ~ "numeric",
+      is.character(getValues(rasterObject)) == TRUE ~ "character"
+    )
     attr_list <- set_attributes(attributes = rasterValueAttrs,
-                                col_classes = c("numeric"))
+                                col_classes = c(nonFactor))
   } else {
     attr_list <- set_attributes(attributes = rasterValueAttrs,
                                 factors = rasterValueFactors,
