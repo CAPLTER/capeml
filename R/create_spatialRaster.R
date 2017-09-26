@@ -72,22 +72,39 @@
 #'
 #' @export
 
-create_spatialRaster <- function(metadataFile, categoricalValues) {
+create_spatialRaster <- function(pathToRaster, metadataFile, categoricalValues) {
 
-  # do not proceed if the project id has not been identified in the working env
-  if (!exists('projectid')) { stop("missing project id") }
+  
+  # check for required environmental parameters and arguments
+  
+    # do not proceed if the project id has not been identified in the working env
+    if (!exists('projectid')) { stop("missing project id") }
+    
+    # do not proceed if the path to where raster data reside is not provided
+    if (!exists('pathToRaster')) { stop("specify the path to directory with raster data") }
+    
+    # do not proceed if a metadata file is not provided
+    if (!exists('metadataFile')) { stop("specify the raster metadata file") }
   
   
+  # load metadata file
   rasterMetadata <- read_csv(metadataFile)
-  rasterName <- as.character(rasterMetadata )
-
-  # do not proceed if the target file is not in the working directory
-  if(!file.exists(paste0('./', basename(rasterName)))) { stop("raster file is not in the working directory") }
   
+  # acces name of raster file
+  rasterFileName <- rasterMetadata %>% 
+    filter(metadata_entity == 'rasterName') %>% 
+    select(metadata_value) %>% 
+    unlist(., use.names = FALSE)
+    
+  # do not proceed if the raster file is not in the prescribed directory
+  if(!file.exists(paste0(pathToRaster, "/", basename(rasterName)))) { stop("raster file is not in the prescribed directory") }
+  
+  # load the raster file
+  rasterObject <- raster(paste0(pathToRaster, "/", rasterFileName))
   
 
   # read raster to access inherent file metadata
-  rasterObject <- raster(rasterName)
+  # rasterObject <- raster(rasterName)
   numBand <- new('numberOfBands',
                  bandnr(rasterObject))
   numRows <- new('rows',
@@ -190,16 +207,31 @@ create_spatialRaster <- function(metadataFile, categoricalValues) {
                physical = physical,
                attributeList = attr_list,
                spatialReference = rasterProjection,
-               # horizontalAccuracy = ,
-               # verticalAccuracy = ,
+               horizontalAccuracy = rasterMetadata %>%
+                 filter(metadata_entity == 'horizontalAccuracy') %>% 
+                 select(metadata_value) %>% 
+                 unlist(., use.names = FALSE),
+               verticalAccuracy = rasterMetadata %>%
+                 filter(metadata_entity == 'verticalAccuracy') %>% 
+                 select(metadata_value) %>% 
+                 unlist(., use.names = FALSE),
                cellSizeXDirection = cellsX,
                cellSizeYDirection = cellsY,
                numberOfBands = numBand,
-               # rasterOrigin = ,
+               rasterOrigin = rasterMetadata %>%
+                 filter(metadata_entity == 'rasterOrigin') %>% 
+                 select(metadata_value) %>% 
+                 unlist(., use.names = FALSE),
                rows = numRows,
                columns = numCols,
-               # verticals = ,
-               # cellGeometry = ,
+               verticals = rasterMetadata %>%
+                 filter(metadata_entity == 'verticals') %>% 
+                 select(metadata_value) %>% 
+                 unlist(., use.names = FALSE),
+               cellGeometry = rasterMetadata %>%
+                 filter(metadata_entity == 'cellGeometry') %>% 
+                 select(metadata_value) %>% 
+                 unlist(., use.names = FALSE),
                id = objectName
   )
 
