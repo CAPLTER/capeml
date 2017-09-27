@@ -72,7 +72,7 @@
 #'
 #' @export
 
-create_spatialRaster <- function(pathToRaster, metadataFile, categoricalValues) {
+create_spatialRaster <- function(pathToRaster, metadataFile, categoricalMetadataFile) {
 
   
   # check for required environmental parameters and arguments
@@ -87,6 +87,9 @@ create_spatialRaster <- function(pathToRaster, metadataFile, categoricalValues) 
     if (!exists('metadataFile')) { stop("specify the raster metadata file") }
   
   
+  # use full path - UNIX specific!
+  pathToRaster <- path.expand(pathToRaster)
+  
   # load metadata file
   rasterMetadata <- read_csv(metadataFile)
   
@@ -97,10 +100,15 @@ create_spatialRaster <- function(pathToRaster, metadataFile, categoricalValues) 
     unlist(., use.names = FALSE)
     
   # do not proceed if the raster file is not in the prescribed directory
-  if(!file.exists(paste0(pathToRaster, "/", basename(rasterName)))) { stop("raster file is not in the prescribed directory") }
+  if(!file.exists(paste0(pathToRaster, "/", basename(rasterFileName)))) { stop("raster file is not in the prescribed directory") }
+  
+  # identify raster location and file
+  targetRaster <- paste0(pathToRaster, "/", rasterFileName)
+ 
   
   # load the raster file
-  rasterObject <- raster(paste0(pathToRaster, "/", rasterFileName))
+  # rasterObject <- raster(paste0(pathToRaster, "/", rasterFileName))
+  rasterObject <- raster(targetRaster)
   
 
   # read raster to access inherent file metadata
@@ -113,7 +121,7 @@ create_spatialRaster <- function(pathToRaster, metadataFile, categoricalValues) 
                  ncol(rasterObject))
   cellsX <- new('cellSizeXDirection',
                 xres(rasterObject))
-  cellsY <- new('cellSizeXDirection',
+  cellsY <- new('cellSizeYDirection',
                 yres(rasterObject))
 
 
@@ -123,7 +131,7 @@ create_spatialRaster <- function(pathToRaster, metadataFile, categoricalValues) 
                           horizCoordSysName = get_emlProjection(rasterObject))
 
   # parse base name of file without extension
-  targetFileBaseName <- str_extract(basename(rasterName), "^[^\\.]*")
+  targetFileBaseName <- str_extract(basename(rasterFileName), "^[^\\.]*")
 
   # if there are related files (e.g., supporting files) as determined by other
   # files with the same name as the raster (but with different file extentions),
@@ -131,16 +139,19 @@ create_spatialRaster <- function(pathToRaster, metadataFile, categoricalValues) 
   # and that will be our object with dataFormat = zip; the name of the zipped
   # file is returned and passed to objectName for further processing. Else,
   # process only the raster file with dataFormat = the file's extension.
-  if (length(list.files(pattern = targetFileBaseName)) > 1) {
-    objectName <- zipRelatedFiles(rasterName)
+  if (length(list.files(path = pathToRaster, pattern = targetFileBaseName)) > 1) {
+    objectName <- zipRelatedFiles(pathToRaster, rasterFileName)
     zipIsTrue <- TRUE
   } else {
-    expandedName <- paste0(projectid, "_", targetFileBaseName, "_", md5sum(rasterName), ".", file_ext(rasterName))
-    file.rename(rasterName, expandedName)
+    expandedName <- paste0(projectid, "_", targetFileBaseName, "_", md5sum(targetRaster), ".", file_ext(targetRaster))
+    file.rename(targetRaster, paste0(pathToRaster, expandedName))
     objectName <- expandedName
   }
 
-
+  # generate path to newly created object
+  newObjectLocation <- paste0(pathToRaster, objectName)
+  
+  
   # EML: physical
 
   # create @physical
@@ -148,13 +159,13 @@ create_spatialRaster <- function(pathToRaster, metadataFile, categoricalValues) 
 
   # add file size and unit to @physical
   file_size <- new("size",
-                   deparse(file.size(objectName)),
+                   deparse(file.size(newObjectLocation)),
                    unit = "byte")
   physical@size <- file_size
 
   # add authentication type (here md5) to @physical
   md5 <- new("authentication",
-             md5sum(objectName),
+             md5sum(newObjectLocation),
              method = "MD5")
   physical@authentication <- c(md5)
 
@@ -177,33 +188,68 @@ create_spatialRaster <- function(pathToRaster, metadataFile, categoricalValues) 
     physical@dataFormat <- dat_format
   } else {
     ext_format <- new("externallyDefinedFormat",
-                      formatName = file_ext(rasterName))
+                      formatName = file_ext(targetRaster))
     dat_format <- new("dataFormat",
                       externallyDefinedFormat = ext_format)
     physical@dataFormat <- dat_format
   }
 
+  
+  # generate raster attribute table
+  rasterValueAttrs <- data.frame(
+    attributeName = c('value'),
+    attributeLabel = c(rasterMetadata %>%
+                         filter(metadata_entity == 'rasterValueLabel') %>% 
+                         select(metadata_value) %>% 
+                         unlist(., use.names = FALSE)),
+    attributeDefinition = c(rasterMetadata %>%
+                              filter(metadata_entity == 'rasterValueDescription') %>% 
+                              select(metadata_value) %>% 
+                              unlist(., use.names = FALSE)),
+    definition = c(rasterMetadata %>%
+                     filter(metadata_entity == 'rasterValueDescription') %>% 
+                     select(metadata_value) %>% 
+                     unlist(., use.names = FALSE))
+  )
+  
+  
   # compile components for @attributeList of @dataTable
   # ignore factors if they are not relevant to this dataset
-  if(missing(rasterValueFactors)) {
-    # determine raster value data type when non-factor
+  if(missing(categoricalMetadataFile)) {
+    
+    # determine raster value data type when not categorical
     nonFactor = case_when(
       is.numeric(getValues(rasterObject)) == TRUE ~ "numeric",
       is.character(getValues(rasterObject)) == TRUE ~ "character"
     )
+    
     attr_list <- set_attributes(attributes = rasterValueAttrs,
                                 col_classes = c(nonFactor))
+    
   } else {
+    
+    # import categorical metadata
+    rasterValueCategories <- read_csv(categoricalMetadataFile)
+    
+    rasterValueFactors <- data.frame(
+      attributeName = "value",
+      code = rasterValueCategories$rasterValue,
+      definition = rasterValueCategories$categoryName
+    )
+    
     attr_list <- set_attributes(attributes = rasterValueAttrs,
                                 factors = rasterValueFactors,
                                 col_classes = c("factor"))
   }
-
+  
 
   # create spatialRaster
   newSR <- new("spatialRaster",
                entityName = objectName,
-               entityDescription = description,
+               entityDescription = rasterMetadata %>%
+                 filter(metadata_entity == 'rasterDescription') %>% 
+                 select(metadata_value) %>% 
+                 unlist(., use.names = FALSE),
                physical = physical,
                attributeList = attr_list,
                spatialReference = rasterProjection,
