@@ -1,0 +1,29 @@
+---
+title: "create_spatialRaster"
+author: "S. Earl"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+For each raster, generate a separate metadata file to detail critical information about the raster. 
+
+![example raster metadata file](raster_metadata_example.png) 
+
+If the raster values are categorical, generate a metadata file to catalog the unique raster value categories and their meaning. Additional metadata about the categories can be provided at the data set level.
+
+
+![example raster value categories](raster_categorical_variable_example.png) 
+
+
+
+Call the create_spatialRaster function to generate the EML to describe the raster.
+```{r, eval=FALSE}
+cap1985 <- create_spatialRaster('~/knb-lter-cap.650.1/CAP 30m Landsat Series Submit/',
+                                '~/knb-lter-cap.650.1/rasterMetadataFiles/CAP1985_metadata.csv',
+                                '~/knb-lter-cap.650.1/rasterMetadataFiles/landsat_factors.csv')
+```
+

@@ -32,12 +32,9 @@
 #'
 #' @examples
 #' \dontrun{
-#'
 #' zipRelatedFiles(
 #'   pathToFile = "~/folder/",
-#'   targetFile = "CAP_1985.img
-#' )
-#'
+#'   targetFile = "CAP_1985.img")
 #' }
 #'
 #' @export

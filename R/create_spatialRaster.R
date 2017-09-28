@@ -19,10 +19,13 @@
 #' @note create_spatialRaster relies on the helper functions zipRelatedFiles and
 #'   get_emlProjection, which are specific to UNIX operating systems.
 #'
-#' @param pathToRaster the quoted path of the raster directory
-#' @param metadataFile the quoted path and name of the raster metadata file
-#' @param categoricalMetadataFile quoted path and name of the raster metadata
-#'   file
+#' @param pathToRaster The quoted path of the raster directory.
+#' @param metadataFile The quoted path and name of the raster metadata file (the
+#'   name of the raster data to be processed is included as a parameter in this
+#'   metadata file).
+#' @param categoricalMetadataFile Included if raster values are categorical. The
+#'   quoted path and name of the raster metadata file that provides said
+#'   details.
 #'
 #' @import EML
 #' @import dplyr
@@ -37,14 +40,15 @@
 #'
 #' @examples
 #' \dontrun{
-#' The current workflow includes harvesting metadata from template files.
+#' The workflow features harvesting metadata from template files. Most metadata
+#' are documented in a raster-level metadata file (e.g., CAP1985_metadata.csv
+#' below). If raster values are categorical, an addiitonal metadata file is
+#' required to document the categories (e.g., CAP1985_factors.csv below)
 #'
 #'  spatial_entity <- create_spatialRaster(
-#'    pathToRaster = '~/folder/',
-#'    metadataFile = ~/folder/CAP1985_metadata.csv',
-#'    categoricalMetadataFile = '~/folder/CAP1985_factors.csv'
-#'  )
-#'
+#'    pathToRaster = "~/folder/",
+#'    metadataFile = "~/folder/CAP1985_metadata.csv",
+#'    categoricalMetadataFile = "~/folder/CAP1985_factors.csv")
 #' }
 #'
 #' @export
@@ -102,8 +106,25 @@ create_spatialRaster <- function(pathToRaster, metadataFile, categoricalMetadata
 
   # call the get_emlProjection function to [attempt to] match the raster's
   # projection with the corresponding projection name that is pemissible in EML
+  coordSystem <- tryCatch({
+
+    get_emlProjection(rasterObject)
+
+  }, warning = function(warn) {
+
+    print(paste("WARNING: projection not resolved"))
+    return("METADATA_NOT_AVAILABLE")
+
+  }, error = function(err) {
+
+    print(paste("WARNING: projection not resolved"))
+    return("METADATA_NOT_AVAILABLE")
+
+  }) # close try catch
+
   rasterProjection <- new('spatialReference',
-                          horizCoordSysName = get_emlProjection(rasterObject))
+                          horizCoordSysName = coordSystem)
+
 
   # parse base name of file without extension
   targetFileBaseName <- str_extract(basename(rasterFileName), "^[^\\.]*")

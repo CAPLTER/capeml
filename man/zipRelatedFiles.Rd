@@ -38,3 +38,11 @@ zipRelatedFiles is a helper function designed primarily to assist
 \note{
 zipRelatedFiles is specific to UNIX operating environments.
 }
+\examples{
+\dontrun{
+zipRelatedFiles(
+  pathToFile = "~/folder/",
+  targetFile = "CAP_1985.img")
+}
+
+}

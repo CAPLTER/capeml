@@ -29,8 +29,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' vectorData <- readOGR(dsn='/GISfiles/WatershedShapefile/', layer='AZwatersheds_prj')
-#' rasterdata <- raster('CAP_1985.img')
+#' vectorData <- readOGR(dsn="/GISfiles/WatershedShapefile/", layer="AZwatersheds_prj")
+#' rasterdata <- raster("CAP_1985.img")
 #' emlCompliantProjection <- get_emlProjection(rasterdata)
 #' }
 #'

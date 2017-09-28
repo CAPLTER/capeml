@@ -7,12 +7,15 @@
 create_spatialRaster(pathToRaster, metadataFile, categoricalMetadataFile)
 }
 \arguments{
-\item{pathToRaster}{the quoted path of the raster directory}
+\item{pathToRaster}{The quoted path of the raster directory.}
 
-\item{metadataFile}{the quoted path and name of the raster metadata file}
+\item{metadataFile}{The quoted path and name of the raster metadata file (the
+name of the raster data to be processed is included as a parameter in this
+metadata file).}
 
-\item{categoricalMetadataFile}{quoted path and name of the raster metadata
-file}
+\item{categoricalMetadataFile}{Included if raster values are categorical. The
+quoted path and name of the raster metadata file that provides said
+details.}
 }
 \value{
 EML spatial data object is returned. Additionally, the spatial data
@@ -43,4 +46,18 @@ create_spatialRaster currently does not accept an argument for url to a
 
 create_spatialRaster relies on the helper functions zipRelatedFiles and
   get_emlProjection, which are specific to UNIX operating systems.
+}
+\examples{
+\dontrun{
+The workflow features harvesting metadata from template files. Most metadata
+are documented in a raster-level metadata file (e.g., CAP1985_metadata.csv
+below). If raster values are categorical, an addiitonal metadata file is
+required to document the categories (e.g., CAP1985_factors.csv below)
+
+ spatial_entity <- create_spatialRaster(
+   pathToRaster = "~/folder/",
+   metadataFile = "~/folder/CAP1985_metadata.csv",
+   categoricalMetadataFile = "~/folder/CAP1985_factors.csv")
+}
+
 }
