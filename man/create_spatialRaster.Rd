@@ -4,21 +4,15 @@
 \alias{create_spatialRaster}
 \title{create_spatialRaster}
 \usage{
-create_spatialRaster(rasterName, rasterValueAttrs, rasterValueFactors,
-  description, onlineURL)
+create_spatialRaster(pathToRaster, metadataFile, categoricalMetadataFile)
 }
 \arguments{
-\item{rasterName}{the quoted name of the raster file}
+\item{pathToRaster}{the quoted path of the raster directory}
 
-\item{rasterValueAttrs}{raster attribute and details}
+\item{metadataFile}{the quoted path and name of the raster metadata file}
 
-\item{rasterValueFactors}{raster attribute details if attribute is of type
-enumerated domain}
-
-\item{description}{quoted description of raster}
-
-\item{onlineURL}{quoted address of data file when accessed through a local
-data catalog}
+\item{categoricalMetadataFile}{quoted path and name of the raster metadata
+file}
 }
 \value{
 EML spatial data object is returned. Additionally, the spatial data
@@ -43,46 +37,10 @@ create_spatialRaster will look for a project id in the working
   environment; this parameter is not passed to the function and it must
   exist.
 
-create_spatialRaster currently requires an address to the file for
-  access from a local data catalog; if this parameter is missing, the
-  function defaults to the CAP LTER's file storage location.
+create_spatialRaster currently does not accept an argument for url to a
+  data file; the package defaults to a CAP LTER specific URL, and this must
+  be changed manually in the resulting xml
 
 create_spatialRaster relies on the helper functions zipRelatedFiles and
   get_emlProjection, which are specific to UNIX operating systems.
-}
-\examples{
-\dontrun{
-The current workflow includes hand-coding metadata given that there will
-only ever be one attribute for a raster.
-
-Create attribute table manually, here calling the attribute 'value':
-rasterValueAttribute <-
-  data.frame(
-    attributeName = c('value'),
-    attributeLabel = c('categorical raster cell value'),
-    attributeDefinition = c('categorical value...land use/land cover type'),
-    definition = c('categorical value...land use/land cover type')
-  )
-
-In this example, the raster value is of type enumerated domain so factor
-details must be provided.
-
-Generate factor details, here details are pulled from a file where the
-code and definition are detailed.
-rasterValueFactors <-
-  data.frame(
-    attributeName = "value",
-    code = rasterValuesMetadata$`Class ID`,
-    definition = rasterValuesMetadata$`Class Name`
-  )
-
-
-spatial_entity <- create_spatialRaster(rasterName = 'CAP_1985.img',
-                                       rasterValueAttrs = rasterValueAttribute,
-                                       rasterValueFactors = rasterValueFactors,
-                                       description = 'Phoenix-area raster',
-                                       onlineURL = 'https://data.gios.asu.edu/datasets/cap/'
-                                       )
-}
-
 }
