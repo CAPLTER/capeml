@@ -4,11 +4,14 @@
 \alias{zipRelatedFiles}
 \title{zipRelatedFiles}
 \usage{
-zipRelatedFiles(targetFile)
+zipRelatedFiles(pathToFile, targetFile)
 }
 \arguments{
-\item{targetFile}{quoted name of target data file in the current working
-directory}
+\item{pathToFile}{quoted name of the directory where the target file is
+located directory}
+
+\item{targetFile}{quoted name of target data file to which other file names
+in the prescribed directory will be evalated directory}
 }
 \value{
 the zipped file name for inclusion in the EML documentation - not
@@ -33,11 +36,13 @@ zipRelatedFiles is a helper function designed primarily to assist
   zipRelatedFiles can be run independently.
 }
 \note{
-The target file must be in the current working directory.
-
 zipRelatedFiles is specific to UNIX operating environments.
 }
 \examples{
-\dontrun{ zipRelatedFiles('CAP_1985.img') }
+\dontrun{
+zipRelatedFiles(
+  pathToFile = "~/folder/",
+  targetFile = "CAP_1985.img")
+}
 
 }
