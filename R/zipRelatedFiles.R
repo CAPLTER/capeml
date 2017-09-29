@@ -96,7 +96,7 @@ zipRelatedFiles <- function(pathToFile, targetFile) {
     file.rename(temporaryDirectoryLocation, namedDirectory)
 
     # zip the target directory
-    system(paste0("zip -jX ", namedDirectory, " ", namedDirectory, "/*"))
+    system(paste0("zip -jX ", shQuote(namedDirectory, type = "sh"), " ", shQuote(namedDirectory, type = "sh"), "/*"))
 
     # mimic the name of the created zip entity
     created_zip_name <- paste0(targetFileBaseName, '.zip')
