@@ -19,4 +19,4 @@ devtools::install_github("CAPLTER/capeml")
 
 ## raster data
 
-Please see the vignette, [](https://github.com/CAPLTER/capeml/blob/master/vignettes/create_spatialRaster.Rmd) for more information about creating EML for raster data.
+Please see the [create_spatialRaster](https://github.com/CAPLTER/capeml/blob/master/vignettes/create_spatialRaster.Rmd) vignette for more information about creating EML for raster data.

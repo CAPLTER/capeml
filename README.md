@@ -13,3 +13,8 @@ You can install the current version from GitHub (after installing the `devtools`
 ``` r
 devtools::install_github("CAPLTER/capeml")
 ```
+
+raster data
+-----------
+
+Please see the [create\_spatialRaster](https://github.com/CAPLTER/capeml/blob/master/vignettes/create_spatialRaster.Rmd) vignette for more information about creating EML for raster data.
