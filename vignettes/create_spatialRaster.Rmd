@@ -9,18 +9,38 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-For each raster, generate a separate metadata file to detail critical information about the raster. 
+## detail raster metdata
 
-![example raster metadata file](raster_metadata_example.png) 
+For each raster, generate a separate metadata file to detail critical information about the raster. Note that the raster file name should be provided as unquoted text, and the file (or files) should be in the directory specified when calling the create_spatialRaster function.
+
+```{r, echo=FALSE}
+load(file = "CAP1985_metadata.rda")
+```
+
+
+```{r, echo=FALSE, results='asis'}
+knitr::kable(CAP1985_metadata)
+```
+
+
+
+### categorical raster values
 
 If the raster values are categorical, generate a metadata file to catalog the unique raster value categories and their meaning. Additional metadata about the categories can be provided at the data set level.
 
+```{r, echo=FALSE}
+load(file = "CAP1985_factors.rda")
+```
 
-![example raster value categories](raster_categorical_variable_example.png) 
+```{r, echo=FALSE, results='asis'}
+knitr::kable(CAP1985_factors)
+```
 
 
+## call the function
 
-Call the create_spatialRaster function to generate the EML to describe the raster.
+Call the create_spatialRaster function to generate the EML to describe the raster. Arguments include the quoted path to the raster file (or files), the quoted path and name of the raster metadata file, and the quoted path and name of the raster value categories (if needed).
+
 ```{r, eval=FALSE}
 cap1985 <- create_spatialRaster('~/knb-lter-cap.650.1/CAP 30m Landsat Series Submit/',
                                 '~/knb-lter-cap.650.1/rasterMetadataFiles/CAP1985_metadata.csv',
