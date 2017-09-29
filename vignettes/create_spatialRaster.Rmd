@@ -39,7 +39,7 @@ knitr::kable(CAP1985_factors)
 
 ## call the function
 
-Call the create_spatialRaster function to generate the EML to describe the raster. Arguments include the quoted path to the raster file (or files), the quoted path and name of the raster metadata file, and the quoted path and name of the raster value categories (if needed).
+Call the create_spatialRaster function to generate the EML to describe the raster. Arguments include the quoted path to the raster file (or files), the quoted path and name of the raster metadata file, and the quoted path and name of the raster value categories (if needed). Output of the function yields EML that can be incorporated into the metadata for a data set.
 
 ```{r, eval=FALSE}
 cap1985 <- create_spatialRaster('~/knb-lter-cap.650.1/CAP 30m Landsat Series Submit/',
@@ -47,3 +47,21 @@ cap1985 <- create_spatialRaster('~/knb-lter-cap.650.1/CAP 30m Landsat Series Sub
                                 '~/knb-lter-cap.650.1/rasterMetadataFiles/landsat_factors.csv')
 ```
 
+### helper functions
+
+create_spatialRaster calls two helper functions: get_emlProjection and zipRelatedFiles. 
+
+
+#### get_emlProjection
+
+EML requires projection data be included with raster metadata, and the projection details must be in a specific string form [valid EML CRS](https://knb.ecoinformatics.org/#external//emlparser/docs/eml-2.1.1/./eml-spatialReference.html). get_emlProjection attempts to identify the projection of a raster based on metadata inherent in the file and match it to the appropriate projection permissible by EML. If a match is not found, the string "METADATA_NOT_AVAILABLE" is returned in the resulting EML and must be edited manually.
+
+
+#### zipRelatedFiles
+
+Raster data typically consist of a single file (e.g., \*.img, \*.rrd) but are often accompanied by metadata (often in xml format) or other ancillary, supporting files. zipRelatedFiles attempts to identify any related files based on a common file name. For example, the raster `CAP_1985.img` is a raster file but has accompanying metadata/ancillary files titled `CAP_1985.aux.xml` and `CAP_1985.img.clr`. zipRelatedFiles will search the provided directory location for any files with the base name `CAP_1985`. All files with that base name will be transferred to a new directory and zipped into a single entity.
+
+
+### output
+
+If all requisite metadata were provided and the get_emlProjection function successfully identified the raster project, the create_spatialRaster function yields an EML-compliant  object of type spatialRaster per the [ropensci EML package](https://github.com/ropensci/EML). The object name will include the `project id (identified in the working environment) + the base name of the raster + the md5sum of the raster + the file extension of the raster`. In the case where multiple files with a common base name were identified by zipRelatedFiles, the object will be of type `zip`.
