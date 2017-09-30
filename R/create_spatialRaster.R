@@ -249,14 +249,16 @@ create_spatialRaster <- function(pathToRaster, metadataFile, categoricalMetadata
                physical = physical,
                attributeList = attr_list,
                spatialReference = rasterProjection,
-               horizontalAccuracy = rasterMetadata %>%
-                 filter(metadata_entity == 'horizontalAccuracy') %>%
-                 select(metadata_value) %>%
-                 unlist(., use.names = FALSE),
-               verticalAccuracy = rasterMetadata %>%
-                 filter(metadata_entity == 'verticalAccuracy') %>%
-                 select(metadata_value) %>%
-                 unlist(., use.names = FALSE),
+               horizontalAccuracy = new("horizontalAccuracy",
+                                        accuracyReport= rasterMetadata %>%
+                                          filter(metadata_entity == 'horizontalAccuracy') %>%
+                                          select(metadata_value) %>%
+                                          unlist(., use.names = FALSE)),
+               verticalAccuracy = new("verticalAccuracy",
+                                      accuracyReport= rasterMetadata %>%
+                                        filter(metadata_entity == 'verticalAccuracy') %>%
+                                        select(metadata_value) %>%
+                                        unlist(., use.names = FALSE)),
                cellSizeXDirection = cellsX,
                cellSizeYDirection = cellsY,
                numberOfBands = numBand,
