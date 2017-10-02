@@ -15,14 +15,6 @@ vignette: >
 
 For each raster, generate a separate metadata file to detail critical information about the raster. Note that the raster file name should be provided as unquoted text, and the file (or files) should be in the directory specified when calling the create_spatialRaster function.
 
-```{r, eval=FALSE, echo=FALSE}
-load(file = "CAP1985_metadata.rda")
-```
-
-
-```{r, eval=FALSE, results='asis', echo=FALSE}
-knitr::kable(CAP1985_metadata)
-```
 
 *Raster metadata example*
 
@@ -44,13 +36,6 @@ knitr::kable(CAP1985_metadata)
 
 If the raster values are categorical, generate a metadata file to catalog the unique raster value categories and their meaning. Additional metadata about the categories can be provided at the data set level.
 
-```{r, eval=FALSE, echo=FALSE}
-load(file = "CAP1985_factors.rda")
-```
-
-```{r, eval=FALSE, results='asis', echo=FALSE}
-knitr::kable(CAP1985_factors)
-```
 
 *Raster categorical values metadata example*
 
