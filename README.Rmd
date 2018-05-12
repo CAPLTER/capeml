@@ -32,14 +32,16 @@ Please see the [create_spatialRaster](https://github.com/CAPLTER/capeml/blob/mas
 
 The function `create_keywordSet` geneerates a EML object of type keywordSet from a csv file containing thesaurus, keyword, and type where type is an optional keyword attribute. Keyword files should be structured like the following...
 
-```{r sampleKeywordFile}
+```{r sampleKeywordFile, echo=FALSE}
 load(file = './data/keywordTest.rda')
 kable(keywordTest)
 ```
 
+Call the function and assign output:
+
 ```{r create_keywordSet, eval=FALSE}
 
-datasetKeyords <- create_keywordSet('path/keywordTest.csv')
+datasetKeyords <- create_keywordSet('path/keywordFile.csv')
 ```
 
-The datasetKeywords object can then be included in the EML generation script.
+The object (e.g., datasetKeywords) can then be included in the EML generation script.

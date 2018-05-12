@@ -38,11 +38,6 @@ keywordSet from a csv file containing thesaurus, keyword, and type where
 type is an optional keyword attribute. Keyword files should be
 structured like the following…
 
-``` r
-load(file = './data/keywordTest.rda')
-kable(keywordTest)
-```
-
 | thesaurus                   | keyword          | type  |
 | :-------------------------- | :--------------- | :---- |
 | LTER controlled vocabulary  | nutrients        | theme |
@@ -54,9 +49,11 @@ kable(keywordTest)
 | CAPLTER Keyword Set List    | arid land        | theme |
 | CAPLTER Keyword Set List    | az               | place |
 
+Call the function and assign output:
+
 ``` r
-datasetKeyords <- create_keywordSet('path/keywordTest.csv')
+datasetKeyords <- create_keywordSet('path/keywordFile.csv')
 ```
 
-The datasetKeywords object can then be included in the EML generation
-script.
+The object (e.g., datasetKeywords) can then be included in the EML
+generation script.
