@@ -1,7 +1,7 @@
 ---
 title: "create_spatialRaster"
 author: "S. Earl"
-date: "`r Sys.Date()`"
+date: "2018-05-12"
 output: 
   rmarkdown::html_vignette:
     keep_md: true
@@ -58,7 +58,8 @@ If the raster values are categorical, generate a metadata file to catalog the un
 
 Call the create_spatialRaster function to generate the EML to describe the raster. Arguments include the quoted full or relative path to the raster file (or files), the quoted full or relative path and name of the raster metadata file, and the quoted full or relative path and name of the raster value categories (if needed). Output of the function yields EML that can be incorporated into the metadata for a data set.
 
-```{r, eval=FALSE}
+
+```r
 cap1985 <- create_spatialRaster('~/knb-lter-cap.650.1/CAP 30m Landsat Series Submit/',
                                 '~/knb-lter-cap.650.1/rasterMetadataFiles/CAP1985_metadata.csv',
                                 '~/knb-lter-cap.650.1/rasterMetadataFiles/landsat_factors.csv')
