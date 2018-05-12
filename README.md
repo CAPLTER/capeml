@@ -16,7 +16,7 @@ Helper functions for the creation of spatialRaster entities, and to
 generate a keywordSet from a template file are currently supported.
 Additional helper functions are planned.
 
-## Installation
+### Installation
 
 Install the current version from GitHub (after installing the `devtools`
 package from CRAN):
@@ -25,15 +25,15 @@ package from CRAN):
 devtools::install_github("CAPLTER/capeml")
 ```
 
-## raster data
+### generate spatialRaster
 
 Please see the
 [create\_spatialRaster](https://github.com/CAPLTER/capeml/blob/master/vignettes/create_spatialRaster.Rmd)
 vignette for more information about creating EML for raster data.
 
-## generate keywordSet from file
+### generate keywordSet (from file)
 
-The function `create_keywordSet` geneerates a EML object of type
+The function `create_keywordSet` generates a EML object of type
 keywordSet from a csv file containing thesaurus, keyword, and type where
 type is an optional keyword attribute. Keyword files should be
 structured like the following…
@@ -49,10 +49,10 @@ structured like the following…
 | CAPLTER Keyword Set List    | arid land        | theme |
 | CAPLTER Keyword Set List    | az               | place |
 
-Call the function and assign output:
+Call the function:
 
 ``` r
-datasetKeyords <- create_keywordSet('path/keywordFile.csv')
+datasetKeywords <- create_keywordSet('path/keywordFile.csv')
 ```
 
 The object (e.g., datasetKeywords) can then be included in the EML

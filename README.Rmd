@@ -2,7 +2,8 @@
 output: github_document
 ---
 
-```{r libraries, echo=FALSE}
+```{r libraries, echo=FALSE, message=FALSE}
+
 library(kableExtra)
 ```
 
@@ -14,34 +15,36 @@ This package contains tools to aid the generation of EML metadata with intent to
 
 Helper functions for the creation of spatialRaster entities, and to generate a keywordSet from a template file are currently supported. Additional helper functions are planned.
 
-## Installation
+### Installation
 
 Install the current version from GitHub (after installing the `devtools` package from CRAN):
 
-```{r eval=FALSE}
+```{r load package, eval=FALSE}
+
 devtools::install_github("CAPLTER/capeml")
 ```
 
 
-## raster data
+### generate spatialRaster
 
 Please see the [create_spatialRaster](https://github.com/CAPLTER/capeml/blob/master/vignettes/create_spatialRaster.Rmd) vignette for more information about creating EML for raster data.
 
 
-## generate keywordSet from file
+### generate keywordSet (from file)
 
-The function `create_keywordSet` geneerates a EML object of type keywordSet from a csv file containing thesaurus, keyword, and type where type is an optional keyword attribute. Keyword files should be structured like the following...
+The function `create_keywordSet` generates a EML object of type keywordSet from a csv file containing thesaurus, keyword, and type where type is an optional keyword attribute. Keyword files should be structured like the following...
 
 ```{r sampleKeywordFile, echo=FALSE}
+
 load(file = './data/keywordTest.rda')
 kable(keywordTest)
 ```
 
-Call the function and assign output:
+Call the function:
 
 ```{r create_keywordSet, eval=FALSE}
 
-datasetKeyords <- create_keywordSet('path/keywordFile.csv')
+datasetKeywords <- create_keywordSet('path/keywordFile.csv')
 ```
 
 The object (e.g., datasetKeywords) can then be included in the EML generation script.
