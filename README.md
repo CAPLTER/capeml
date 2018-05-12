@@ -1,6 +1,4 @@
 
-    ## Warning: package 'kableExtra' was built under R version 3.4.4
-
 <!-- README.md is generated from README.Rmd. Please edit the latter. -->
 
 # capeml: tools to aid the generation of EML metadata

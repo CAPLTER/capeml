@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-```{r libraries, echo=FALSE, message=FALSE}
+```{r libraries, echo=FALSE, message=FALSE, warning=FALSE}
 
 library(kableExtra)
 ```
