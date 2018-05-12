@@ -2,50 +2,34 @@
 % Please edit documentation in R/create_keywordSet.R
 \name{create_keywordSet}
 \alias{create_keywordSet}
-\alias{generateKeyword}
 \title{create_keywordSet}
 \usage{
 create_keywordSet(keywordsFile)
-
-generateKeyword(datasetKeyword, theAttribute)
 }
 \arguments{
 \item{keywordsFile}{The quoted name and path of the keywords file.}
-
-\item{datasetKeyword}{A keyword or subject.}
-
-\item{theAttribute}{A keyword attribute.}
 }
 \value{
 EML keywordSet object is returned.
-
-EML keyword object is returned.
 }
 \description{
-create_keywordSe generates a EML entity of type
-  keywordSet
-
-A helper function to generate EML entities of type keyword.
+create_keywordSet generates a EML entity of type
+  keywordSet.
 }
 \details{
-a keywordSet entity is created from a single data file (.csv) with
+A keywordSet entity is created from a single data file (.csv) with
   the fields: thesaurus, keyword, and type where type is an intended (but
   optional) attribute for the keyword.
 }
 \examples{
 \dontrun{
 
-need to add...
+datasetKeywordSet <- create_keywordSet('keywordTest.csv')
 
-The workflow features harvesting metadata from template files. Most metadata
-are documented in a raster-level metadata file (e.g., CAP1985_metadata.csv
-below). If raster values are categorical, an addiitonal metadata file is
-required to document the categories (e.g., CAP1985_factors.csv below)
+The workflow harvests keyword metadata from a keyword file (.csv) with the
+columns: thesaurus, keyword, type where type is an optional attribute that
+will be associated with the keyword EML/XML element.
 
- spatial_entity <- create_spatialRaster(
-   pathToRaster = "~/folder/",
-   metadataFile = "~/folder/CAP1985_metadata.csv",
-   categoricalMetadataFile = "~/folder/CAP1985_factors.csv")
 }
 
 }
