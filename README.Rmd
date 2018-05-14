@@ -11,7 +11,7 @@ library(kableExtra)
 
 # capeml: tools to aid the generation of EML metadata
 
-This package contains tools to aid the generation of EML metadata with intent to publish a dataset (data + metadata) in the Environmental Data Initiative (EDI) data repository. Functions and a workflow are included that allow for the creation of metadata at the data set level, and individual data entities (spatial vectors, raster, other entities, data tables). 
+This package contains tools to aid the generation of EML metadata with intent to publish a data set (data + metadata) in the Environmental Data Initiative (EDI) data repository. Functions and a workflow are included that allow for the creation of metadata at the data set level, and individual data entities (spatial vectors, raster, other entities, data tables). 
 
 Helper functions for the creation of spatialRaster entities, and to generate a keywordSet from a template file are currently supported. Additional helper functions are planned.
 
@@ -48,3 +48,28 @@ datasetKeywords <- create_keywordSet('path/keywordFile.csv')
 ```
 
 The object (e.g., datasetKeywords) can then be included in the EML generation script.
+
+### generate taxonomicCoverage
+
+The function `set_taxonomicCoverage` is borrowed from [rOpenSci EML](https://github.com/ropensci/EML) to create a EML entity of type taxonomicCoverage that can be added to the coverage element of an EML document. This function and approach is a fast-and-easy way to generate a taxonomicCoverage for resolvable taxa in a data set - it is not designed to resolve or address any challenges to resolving the ITIS identification of a taxa. That is, only taxa that are cleanly matched to the ITIS database are included in the taxonomicCoverage. As such, some taxa may not be included in the taxonomicCoverage element. For a more iterative approach that allows for resolving the corresponding ITIS ID of all taxa (but also may require taxonomic expertise), users should consider the EDI's [taxonomyCleanr](https://github.com/EDIorg/taxonomyCleanr) package. 
+
+Taxa should first be passed through the `indentify_resolvable_taxa` function to identify those taxa for which an ITIS ID is resolvable.
+
+```{r identify_resolvable_taxa, eval=FALSE}
+
+all_taxa <- identify_resolvable_taxa(listOfTaxa)
+```
+
+Run setTaxonomicCoverage on the subset of taxa for which an ITIS ID is resolvable.
+
+```{r set_taxonomicCoverage workflow, eval=FALSE}
+
+resolved_taxa <- c(all_taxa[!is.na(all_taxa$resolve),]$taxon)a
+taxaCoverage <- set_taxonomicCoverage(resolved_taxa, expand = T, db = 'itis')
+```
+
+```{r add taxonomic coverage to EML coverage, eval=FALSE}
+
+coverage@taxonomicCoverage <- c(taxaCoverage)
+```
+
