@@ -11,11 +11,24 @@ library(kableExtra)
 
 # capeml: tools to aid the generation of EML metadata
 
+### overview
+
 This package contains tools to aid the generation of EML metadata with intent to publish a data set (data + metadata) in the Environmental Data Initiative (EDI) data repository. Functions and a workflow are included that allow for the creation of metadata at the data set level, and individual data entities (spatial vectors, raster, other entities, data tables). 
 
 Helper functions for the creation of spatialRaster entities, and to generate a keywordSet from a template file are currently supported. Additional helper functions are planned.
 
-### Installation
+
+**navigation**
+
+- [installation](https://github.com/CAPLTER/capeml#installation)
+- [spatial raster](https://github.com/CAPLTER/capeml#generate-spatialraster)
+- [generate keyword set](https://github.com/CAPLTER/capeml#generate-keywordset-from-file)
+- [generate taxonomic coverage](https://github.com/CAPLTER/capeml#generate-taxonomiccoverage)
+
+<!-- - [generate kml](https://github.com/CAPLTER/capeml#generate-taxonomiccoverage) -->
+
+
+### installation
 
 Install the current version from GitHub (after installing the `devtools` package from CRAN):
 
@@ -73,3 +86,14 @@ taxaCoverage <- set_taxonomicCoverage(resolved_taxa, expand = T, db = 'itis')
 coverage@taxonomicCoverage <- c(taxaCoverage)
 ```
 
+
+### generate otherEntity with dataType kml
+
+The function `create_KML`...
+
+```{r generate otherEntity of dataType kml, eval=FALSE}
+
+desert_fertilization_sites <- create_KML(
+  kmlFile = "~/Desktop/desert_fertilization_sampling_sites.kml",
+  description = "approximate location of desert fertiliztion long-term study sites")
+```

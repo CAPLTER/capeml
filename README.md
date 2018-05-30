@@ -3,11 +3,21 @@
 capeml: tools to aid the generation of EML metadata
 ===================================================
 
+### overview
+
 This package contains tools to aid the generation of EML metadata with intent to publish a data set (data + metadata) in the Environmental Data Initiative (EDI) data repository. Functions and a workflow are included that allow for the creation of metadata at the data set level, and individual data entities (spatial vectors, raster, other entities, data tables).
 
 Helper functions for the creation of spatialRaster entities, and to generate a keywordSet from a template file are currently supported. Additional helper functions are planned.
 
-### Installation
+**navigation**
+
+-   [installation](https://github.com/CAPLTER/capeml#installation)
+-   [spatial raster](https://github.com/CAPLTER/capeml#generate-spatialraster)
+-   [generate keyword set](https://github.com/CAPLTER/capeml#generate-keywordset-from-file)
+-   [generate taxonomic coverage](https://github.com/CAPLTER/capeml#generate-taxonomiccoverage)
+
+<!-- - [generate kml](https://github.com/CAPLTER/capeml#generate-taxonomiccoverage) -->
+### installation
 
 Install the current version from GitHub (after installing the `devtools` package from CRAN):
 
@@ -23,17 +33,111 @@ Please see the [create\_spatialRaster](https://github.com/CAPLTER/capeml/blob/ma
 
 The function `create_keywordSet` generates a EML object of type keywordSet from a csv file containing thesaurus, keyword, and type where type is an optional keyword attribute. Keyword files should be structured like the following...
 
-| thesaurus                   | keyword          | type  |
-|:----------------------------|:-----------------|:------|
-| LTER controlled vocabulary  | nutrients        | theme |
-| LTER controlled vocabulary  | nitrate          | theme |
-| LTER core areas             | water and fluxes | theme |
-| LTER core areas             | parks and rivers | theme |
-| Creator Defined Keyword Set | stormwater       | theme |
-| Creator Defined Keyword Set | catchment        | theme |
-| CAPLTER Keyword Set List    | arid land        | theme |
-| CAPLTER Keyword Set List    | az               | place |
-
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+thesaurus
+</th>
+<th style="text-align:left;">
+keyword
+</th>
+<th style="text-align:left;">
+type
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+LTER controlled vocabulary
+</td>
+<td style="text-align:left;">
+nutrients
+</td>
+<td style="text-align:left;">
+theme
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LTER controlled vocabulary
+</td>
+<td style="text-align:left;">
+nitrate
+</td>
+<td style="text-align:left;">
+theme
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LTER core areas
+</td>
+<td style="text-align:left;">
+water and fluxes
+</td>
+<td style="text-align:left;">
+theme
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LTER core areas
+</td>
+<td style="text-align:left;">
+parks and rivers
+</td>
+<td style="text-align:left;">
+theme
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Creator Defined Keyword Set
+</td>
+<td style="text-align:left;">
+stormwater
+</td>
+<td style="text-align:left;">
+theme
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Creator Defined Keyword Set
+</td>
+<td style="text-align:left;">
+catchment
+</td>
+<td style="text-align:left;">
+theme
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CAPLTER Keyword Set List
+</td>
+<td style="text-align:left;">
+arid land
+</td>
+<td style="text-align:left;">
+theme
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CAPLTER Keyword Set List
+</td>
+<td style="text-align:left;">
+az
+</td>
+<td style="text-align:left;">
+place
+</td>
+</tr>
+</tbody>
+</table>
 Call the function:
 
 ``` r
@@ -61,4 +165,14 @@ taxaCoverage <- set_taxonomicCoverage(resolved_taxa, expand = T, db = 'itis')
 
 ``` r
 coverage@taxonomicCoverage <- c(taxaCoverage)
+```
+
+### generate otherEntity with dataType kml
+
+The function `create_KML`...
+
+``` r
+desert_fertilization_sites <- create_KML(
+  kmlFile = "~/Desktop/desert_fertilization_sampling_sites.kml",
+  description = "approximate location of desert fertiliztion long-term study sites")
 ```
