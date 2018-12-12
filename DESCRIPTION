@@ -22,7 +22,8 @@ Imports:
     raster,
     utils,
     EML
-RoxygenNote: 6.0.1
+Remotes: ropensci/EML
+RoxygenNote: 6.1.1
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
