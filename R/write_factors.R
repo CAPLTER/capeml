@@ -61,43 +61,36 @@
 
 write_factors <- function(dfname) {
 
-  listOfFactors <- sapply(dfname, is.factor)
-  trueList <- which(listOfFactors)
+  # list of factors in target data entity
+  listOfFactors <- dfname %>%
+    select_if(is.factor) %>%
+    names()
 
-  dfname_factors <- data.frame()
-  for(i in 1:length(trueList)) {
+  # build a tibble of factors for a given field
+  factorToFrame <- function(dfname, field) {
 
-    if(exists(names(trueList)[i])) {
-      factor_elements <- get(names(trueList)[i])
-      temp_frame <- rbind(
-        data.frame(
-          attributeName = names(trueList)[i],
-          code = names(factor_elements),
-          definition = unname(factor_elements)
-        ))
-      dfname_factors <- rbind(dfname_factors, temp_frame)
-    } else {
-      temp_frame <- rbind(
-        data.frame(
-          attributeName = names(trueList)[i],
-          code = levels(dfname[[(trueList)[i]]]),
-          # code = levels(dfname[,names(trueList)[i]]),
-          definition = 'metadata_not_provided'
-        ))
-      dfname_factors <- rbind(dfname_factors, temp_frame)
-    }
-  } # close loop
+    factorsInFrame <- tibble(
+      attributeName = field,
+      code = levels(dfname[[field]]),
+      definition = 'metadata_not_provided'
+    )
 
-  # write dfname of factor data to file
+    return(factorsInFrame)
+
+  } # close factorToFrame
+
+  dfnameFactors <- map_df(.x = listOfFactors, .f = factorToFrame, dfname = dfname)
+
+  # # write dfname of factor data to file
   objectName <- paste0(deparse(substitute(dfname)), "_factors")
 
-  # need to add a prompt to overwrite an existing file (future!)
-  # if(file.exists(paste0(objectName, ".csv"))) {
-  #   over_write <- readline(prompt="file exists, over write (y/n)?")
-  #   if(over_write)
-  # }
+  # # need to add a prompt to overwrite an existing file (future!)
+  # # if(file.exists(paste0(objectName, ".csv"))) {
+  # #   over_write <- readline(prompt="file exists, over write (y/n)?")
+  # #   if(over_write)
+  # # }
 
-  write_csv(dfname_factors, path = paste0(objectName, ".csv"))
+  write_csv(dfnameFactors, path = paste0(objectName, ".csv"))
 
   return(objectName)
 
