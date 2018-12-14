@@ -21,7 +21,10 @@ Imports:
     readr,
     raster,
     utils,
-    EML
+    EML,
+    purrr,
+    taxize,
+    tibble
 Remotes: ropensci/EML
 RoxygenNote: 6.1.1
 Suggests: knitr,

@@ -1,19 +1,21 @@
 #' @title create_keywordSet
 #'
-#' @description create_keywordSet generates a EML entity of type
-#'   keywordSet.
+#' @description create_keywordSet generates a list of keywords and attributes
+#'   that is suitable for passing to the keywordSet parameter of a eml$dataset
 #'
 #' @details A keywordSet entity is created from a single data file (.csv) with
 #'   the fields: thesaurus, keyword, and type where type is an intended (but
 #'   optional) attribute for the keyword.
 #'
-#' @param keywordsFile The quoted name and path of the keywords file.
+#' @param keywordsFile The quoted path and name of the keywords file.
 #'
 #' @import EML
+#' @import purrr
 #' @importFrom dplyr filter
 #' @importFrom readr read_csv
 #'
-#' @return EML keywordSet object is returned.
+#' @return list of keywords and attributes that is suitable for passing to the
+#'   keywordSet parameter of a eml$dataset
 #'
 #' @examples
 #' \dontrun{
@@ -30,32 +32,52 @@
 #'
 create_keywordSet <- function(keywordsFile) {
 
-  keywords <- read_csv(keywordsFile)
+  keywordsFile <- read_csv(keywordsFile)
 
-  thesaurusSet <- list()
-  for (category in unique(keywords$thesaurus)) {
+  keywordSet <- map(unique(keywordsFile[['thesaurus']]), create_keywordList, keywordsFile = keywordsFile)
 
-    keywordsSubset <- keywords %>%
-      filter(thesaurus == category)
+  return(keywordSet)
 
-    keywordList <- list()
-    for (word in unique(keywordsSubset$keyword)) {
+}
 
-      keywordIdent <- create_keyword(datasetKeyword = keywordsSubset[keywordsSubset$keyword == word,]$keyword,
-                                     theAttribute = keywordsSubset[keywordsSubset$keyword == word,]$type)
-      keywordList[[word]] <- keywordIdent
+# create keyword function: helper function in the create_keywordSet workflow.
+# Generates a EML keyword with or without an attribute
+create_keyword <- function(datasetKeyword, keywordAttribute = NA) {
 
-    } # close keywordList
+  # require function input: keyword
+  if (missing(datasetKeyword)) { stop("keyword required")}
 
-    thesaurusSet[[category]] <- new('keywordSet',
-                                    keyword = unname(keywordList))
+  # generate keyword sans attribute
+  if (is.na(keywordAttribute) || keywordAttribute == '') {
 
-    thesaurusSet[[category]]@keywordThesaurus <- category
+    emlKeyword <- datasetKeyword
 
-  } # close thesaurusSet
+  } else {
 
-  datasetKeywords <- unname(thesaurusSet)
+    # generate keyword with attribute
+    emlKeyword <- eml$keyword(keywordType = keywordAttribute)
+    emlKeyword$keyword <- datasetKeyword
 
-  return(datasetKeywords)
+  }
+
+  return(emlKeyword)
+
+}
+
+# create keyword list function: helper function in the create_keywordSet
+# workflow. Generates a list of keywords for a given thesaurus
+create_keywordList <- function(category, keywordsFile) {
+
+  thesaurusSubset <- keywordsFile %>%
+    filter(thesaurus == category)
+
+  keywordSubset <- map2(.x = thesaurusSubset$keyword, .y = thesaurusSubset$type, .f = create_keyword)
+
+  emlKeywordList <- list(
+    keyword = keywordSubset,
+    keywordThesaurus = category
+  )
+
+  return(emlKeywordList)
 
 }

@@ -7,14 +7,15 @@
 create_keywordSet(keywordsFile)
 }
 \arguments{
-\item{keywordsFile}{The quoted name and path of the keywords file.}
+\item{keywordsFile}{The quoted path and name of the keywords file.}
 }
 \value{
-EML keywordSet object is returned.
+list of keywords and attributes that is suitable for passing to the
+  keywordSet parameter of a eml$dataset
 }
 \description{
-create_keywordSet generates a EML entity of type
-  keywordSet.
+create_keywordSet generates a list of keywords and attributes
+  that is suitable for passing to the keywordSet parameter of a eml$dataset
 }
 \details{
 A keywordSet entity is created from a single data file (.csv) with
