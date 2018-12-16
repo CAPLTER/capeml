@@ -29,18 +29,18 @@
 #'
 
 # gios address, publisher, contact ----
-giosAddress <- eml$address(
+giosAddress <- EML::eml$address(
   deliveryPoint = 'PO Box 875402',
   city = 'Tempe',
   administrativeArea = 'AZ',
   postalCode = '85287',
   country = 'USA')
 
-publisher <- eml$publisher(
+giosPublisher <- EML::eml$publisher(
   organizationName = 'Arizona State University, Julie Ann Wrigley Global Institute of Sustainability',
   address = giosAddress)
 
-contact <- list(
+giosContact <- list(
   organizationName = 'Julie Ann Wrigley Global Institute of Sustainability, Arizona State University',
   positionName = 'Data Manager',
   electronicMail = "caplter.data@asu.edu",
@@ -52,17 +52,17 @@ language <- 'english'
 
 
 # intellectual rights ----
-rights <- 'Copyright Board of Regents, Arizona State University. This information is released to the public and may be used for academic, educational, or commercial purposes subject to the following restrictions. While the CAP LTER will make every effort possible to control and document the quality of the data it publishes, the data are made available \'as is\'. The CAP LTER cannot assume responsibility for damages resulting from mis-use or mis-interpretation of datasets, or from errors or omissions that may exist in the data. It is considered a matter of professional ethics to acknowledge the work of other scientists that has resulted in data used in subsequent research. The CAP LTER expects that any use of data from this server will be accompanied with the appropriate citations and acknowledgments. The CAP LTER encourages users to contact the original investigator responsible for the data that they are accessing. Where appropriate, researchers whose projects are integrally dependent on CAP LTER data are encouraged to consider collaboration and/or co-authorship with original investigators. The CAP LTER requests that users submit to the Julie Ann Wrigley Global Institute of Sustainability at Arizona State University reference to any publication(s) resulting from the use of data obtained from this site.'
+capRights <- 'Copyright Board of Regents, Arizona State University. This information is released to the public and may be used for academic, educational, or commercial purposes subject to the following restrictions. While the CAP LTER will make every effort possible to control and document the quality of the data it publishes, the data are made available \'as is\'. The CAP LTER cannot assume responsibility for damages resulting from mis-use or mis-interpretation of datasets, or from errors or omissions that may exist in the data. It is considered a matter of professional ethics to acknowledge the work of other scientists that has resulted in data used in subsequent research. The CAP LTER expects that any use of data from this server will be accompanied with the appropriate citations and acknowledgments. The CAP LTER encourages users to contact the original investigator responsible for the data that they are accessing. Where appropriate, researchers whose projects are integrally dependent on CAP LTER data are encouraged to consider collaboration and/or co-authorship with original investigators. The CAP LTER requests that users submit to the Julie Ann Wrigley Global Institute of Sustainability at Arizona State University reference to any publication(s) resulting from the use of data obtained from this site.'
 
 
 # lter_access ----
-allow_cap <- eml$allow(
+allow_cap <- EML::eml$allow(
   principal = "uid=CAP,o=LTER,dc=ecoinformatics,dc=org",
   permission = "all")
-allow_public <- eml$allow(
+allow_public <- EML::eml$allow(
   principal = "public",
   permission = "read")
-lter_access <- eml$access(
+lter_access <- EML::eml$access(
   authSystem = "knb",
   order = "allowFirst",
   scope = "document",
@@ -74,11 +74,11 @@ lter_access <- eml$access(
 # metadata distribution (i.e., path to xml file) ----
 create_distribution <- function(packageIdent) {
 
-  xml_url <- eml$online(
+  xml_url <- EML::eml$online(
     onlineDescription = "CAPLTER Metadata URL",
     url = paste0("https://sustainability.asu.edu/caplter/data/data-catalog/view/", packageIdent, "/xml/"))
 
-  metadata_dist <- eml$distribution(
+  metadata_dist <- EML::eml$distribution(
     online = xml_url)
 
 }

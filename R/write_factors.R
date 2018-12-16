@@ -43,6 +43,8 @@
 #' )
 #'
 #' @param dfname The unquoted name of the R data frame or Tibble.
+#' @param overwrite Quoted yes or no indicating if an existing attributes file
+#'   in the target directory should be overwritten.
 #'
 #' @import dplyr
 #'
@@ -54,12 +56,22 @@
 #' \dontrun{
 #'
 #'  write_factors(R data object)
+#'  write_factors(R data object, overwrite = 'yes')
 #'
 #' }
 #'
 #' @export
 
-write_factors <- function(dfname) {
+write_factors <- function(dfname, overwrite = 'no') {
+
+  # establish object name for checking if exists and, ultimately, writing to file
+  objectName <- paste0(deparse(substitute(dfname)), "_factors")
+  fileName <- paste0(objectName, ".csv")
+
+  # check if attributes already exist for given data entity
+  if(file.exists(fileName) && grepl("n", overwrite, ignore.case = T)) {
+    stop(paste0("file ", fileName, " already exists, use write_factors(overwrite = 'yes') to overwrite"))
+  }
 
   # list of factors in target data entity
   listOfFactors <- dfname %>%
@@ -81,16 +93,9 @@ write_factors <- function(dfname) {
 
   dfnameFactors <- map_df(.x = listOfFactors, .f = factorToFrame, dfname = dfname)
 
-  # # write dfname of factor data to file
-  objectName <- paste0(deparse(substitute(dfname)), "_factors")
-
-  # # need to add a prompt to overwrite an existing file (future!)
-  # # if(file.exists(paste0(objectName, ".csv"))) {
-  # #   over_write <- readline(prompt="file exists, over write (y/n)?")
-  # #   if(over_write)
-  # # }
-
-  write_csv(dfnameFactors, path = paste0(objectName, ".csv"))
+  # write dfname of factor data to file
+  write_csv(dfnameFactors,
+            path = fileName)
 
   return(objectName)
 

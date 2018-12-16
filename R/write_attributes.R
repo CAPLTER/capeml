@@ -17,6 +17,8 @@
 #' @param MVCE an optional missing value code explanation (MVCE). If MVCE is
 #'   omitted, default text of `missing value` is used to document missing values
 #'   (always NAs).
+#' @param overwrite Quoted yes or no indicating if an existing attributes file
+#'   in the target directory should be overwritten.
 #'
 #' @import dplyr
 #'
@@ -28,12 +30,22 @@
 #' \dontrun{
 #'
 #'  write_attributes(R data object)
+#'  write_attributes(R data object, overwrite = 'yes')
 #'
 #' }
 #'
 #' @export
 
-write_attributes <- function(dfname, MVCE) {
+write_attributes <- function(dfname, MVCE, overwrite = 'no') {
+
+  # establish object name for checking if exists and, ultimately, writing to file
+  objectName <- paste0(deparse(substitute(dfname)), "_attrs", ".csv")
+  fileName <- paste0(objectName, ".csv")
+
+  # check if attributes already exist for given data entity
+  if(file.exists(fileName) && grepl("n", overwrite, ignore.case = T)) {
+    stop(paste0("file ", fileName, " already exists, use write_attributes(overwrite = 'yes') to overwrite"))
+  }
 
   # set up the data frame for metadata
   rows <- ncol(dfname)
@@ -120,10 +132,7 @@ write_attributes <- function(dfname, MVCE) {
   } # close the if-statement
 
   # write attribute df to file
-  objectName <- paste0(deparse(substitute(dfname)), "_attrs")
-
-  # write.csv(df_attrs, file = paste0(deparse(substitute(dfname)), "_attrs.csv"), row.names = FALSE)
-  write.csv(df_attrs, file = paste0(objectName, ".csv"), row.names = FALSE)
+  write.csv(df_attrs, file = fileName, row.names = FALSE)
 
   return(objectName)
 
