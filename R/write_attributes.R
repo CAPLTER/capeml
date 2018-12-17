@@ -39,7 +39,7 @@
 write_attributes <- function(dfname, MVCE, overwrite = 'no') {
 
   # establish object name for checking if exists and, ultimately, writing to file
-  objectName <- paste0(deparse(substitute(dfname)), "_attrs", ".csv")
+  objectName <- paste0(deparse(substitute(dfname)), "_attrs")
   fileName <- paste0(objectName, ".csv")
 
   # check if attributes already exist for given data entity
