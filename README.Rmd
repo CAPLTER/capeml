@@ -13,19 +13,20 @@ library(kableExtra)
 
 ### overview
 
-This package contains tools to aid the generation of EML metadata with intent to publish a data set (data + metadata) in the Environmental Data Initiative (EDI) data repository. Functions and a workflow are included that allow for the creation of metadata at the data set level, and individual data entities (spatial vectors, raster, other entities, data tables). 
+This package contains tools to aid the generation of EML metadata with intent to publish a data set (data + metadata) in the Environmental Data Initiative (EDI) data repository. Functions and a workflow are included that allow for the creation of metadata at the data set level, and individual data entities (e.g., spatial vectors, raster, other entities, data tables). 
 
-Helper functions for the creation of spatialRaster entities, and to generate a keywordSet from a template file are currently supported. Additional helper functions are planned.
-
+Helper functions for the creation of data set metadata and a dataTable entity using the ropensci/eml are currently supported. Helper functions for the creation of metadata for spatial data (e.g., spatialRaster) currently are built on an earlier version of ropensci/eml and not functional - these will be updated soon (2018-12-17). Note that the creation of people-related entities in EML are specific to functions that rely on Global Institute of Sustainability infrastructure - these tools are located in a the [gioseml](https://github.com/CAPLTER/gioseml) package.
 
 **navigation**
 
 - [installation](https://github.com/CAPLTER/capeml#installation)
+- [dataTable](https://github.com/CAPLTER/capeml#dataTable)
+- [dataSet](https://github.com/CAPLTER/capeml#dataSet)
+
+currently unsupported
 - [spatial raster](https://github.com/CAPLTER/capeml#generate-spatialraster)
 - [generate keyword set](https://github.com/CAPLTER/capeml#generate-keywordset-from-file)
 - [generate taxonomic coverage](https://github.com/CAPLTER/capeml#generate-taxonomiccoverage)
-
-<!-- - [generate kml](https://github.com/CAPLTER/capeml#generate-taxonomiccoverage) -->
 
 
 ### installation
@@ -36,6 +37,44 @@ Install the current version from GitHub (after installing the `devtools` package
 
 devtools::install_github("CAPLTER/capeml")
 ```
+
+
+### dataTable
+
+Given a rectangular data matrix of type dataframe or Tibble in the R envionment:
+
+`write_attributes(data_entity)` will generate a template as a csv file in the working directory based on properties of the data entity such that metadata properties (e.g., attributeDefinition, units) can be added via a editor or spreadsheet application. 
+
+`write_factors(data_entity)` will generate a template as a csv file in the working directory based on columns of the data entity that are factors such that details of factor levels can be added via a editor or spreadsheet application.
+
+`create_dataTable(data_entity)` performs many services:
+* the data entity is written to file as a csv in the working directory with the file name: projectid_data-entity-name_md5-hash-of-file.csv
+* metadata provided in the attributes and factors (if relevant) templates are ingested
+* a EML object of type dataTable is returned
+* note that the data entity name should be used consistently within the chunk, and the resulting dataTable entity should have the name: data_entity_DT
+
+```{r sample_createDataTable, eval=FALSE}
+
+data_entity <- read("data source") %>% 
+  processing %>% 
+  processing
+
+write_attributes(data_entity)
+write_factors(data_entity)
+
+data_entity_desc <- "snow leopard data"
+
+data_entity_DT <- create_dataTable(dfname = data_entity,
+                                   description = data_entity_desc)
+
+```
+
+
+### dataSet
+
+...most documentation in project template (in progress)...
+
+`write_keywords()` will generate a template as a csv file in the working directory with default CAP LTER keywords, and the appropriate thesaurii for adding and referencing additional keywords.
 
 
 ### generate spatialRaster
