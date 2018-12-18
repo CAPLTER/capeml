@@ -4,7 +4,7 @@
 \alias{write_attributes}
 \title{write_attributes}
 \usage{
-write_attributes(dfname, MVCE, overwrite = "no")
+write_attributes(dfname, MVCE, overwrite = FALSE)
 }
 \arguments{
 \item{dfname}{The unquoted name of the R data frame or Tibble.}
@@ -13,8 +13,8 @@ write_attributes(dfname, MVCE, overwrite = "no")
 omitted, default text of `missing value` is used to document missing values
 (always NAs).}
 
-\item{overwrite}{Quoted yes or no indicating if an existing attributes file
-in the target directory should be overwritten.}
+\item{overwrite}{Logical indicating if an existing attributes file in the
+target directory should be overwritten.}
 }
 \value{
 The name of the file generated is returned, and a template for

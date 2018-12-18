@@ -29,22 +29,13 @@
 #'   file is perfectly acceptable.
 #'
 #' @note manual approach that we are encapsulating with the function:
-#' meter_factors <- rbind(
-#'   data.frame(
-#'     attributeName = "reach",
-#'     code = names(reach),
-#'     definition = unname(reach)
-#'   ),
-#'   data.frame(
-#'     attributeName = "urbanized",
-#'     code = names(urbanized),
-#'     definition = unname(urbanized)
-#'   )
-#' )
+#'   meter_factors <- rbind( data.frame( attributeName = "reach", code =
+#'   names(reach), definition = unname(reach) ), data.frame( attributeName =
+#'   "urbanized", code = names(urbanized), definition = unname(urbanized) ) )
 #'
 #' @param dfname The unquoted name of the R data frame or Tibble.
-#' @param overwrite Quoted yes or no indicating if an existing attributes file
-#'   in the target directory should be overwritten.
+#' @param overwrite Logical indicating if an existing factors file in the target
+#'   directory should be overwritten.
 #'
 #' @import dplyr
 #'
@@ -62,15 +53,15 @@
 #'
 #' @export
 
-write_factors <- function(dfname, overwrite = 'no') {
+write_factors <- function(dfname, overwrite = FALSE) {
 
   # establish object name for checking if exists and, ultimately, writing to file
   objectName <- paste0(deparse(substitute(dfname)), "_factors")
   fileName <- paste0(objectName, ".csv")
 
   # check if attributes already exist for given data entity
-  if(file.exists(fileName) && grepl("n", overwrite, ignore.case = T)) {
-    stop(paste0("file ", fileName, " already exists, use write_factors(overwrite = 'yes') to overwrite"))
+  if(file.exists(fileName) && overwrite == FALSE) {
+    stop(paste0("file ", fileName, " already exists, use write_factors(overwrite = TRUE) to overwrite"))
   }
 
   # list of factors in target data entity

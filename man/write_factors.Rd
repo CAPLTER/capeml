@@ -4,13 +4,13 @@
 \alias{write_factors}
 \title{write_factors}
 \usage{
-write_factors(dfname, overwrite = "no")
+write_factors(dfname, overwrite = FALSE)
 }
 \arguments{
 \item{dfname}{The unquoted name of the R data frame or Tibble.}
 
-\item{overwrite}{Quoted yes or no indicating if an existing attributes file
-in the target directory should be overwritten.}
+\item{overwrite}{Logical indicating if an existing factors file in the target
+directory should be overwritten.}
 }
 \value{
 The name of the file generated is returned, and a template for
@@ -49,18 +49,9 @@ Input is the name of a data frame (after all factors have been
   file is perfectly acceptable.
 
 manual approach that we are encapsulating with the function:
-meter_factors <- rbind(
-  data.frame(
-    attributeName = "reach",
-    code = names(reach),
-    definition = unname(reach)
-  ),
-  data.frame(
-    attributeName = "urbanized",
-    code = names(urbanized),
-    definition = unname(urbanized)
-  )
-)
+  meter_factors <- rbind( data.frame( attributeName = "reach", code =
+  names(reach), definition = unname(reach) ), data.frame( attributeName =
+  "urbanized", code = names(urbanized), definition = unname(urbanized) ) )
 }
 \examples{
 \dontrun{

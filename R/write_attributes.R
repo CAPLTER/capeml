@@ -17,8 +17,8 @@
 #' @param MVCE an optional missing value code explanation (MVCE). If MVCE is
 #'   omitted, default text of `missing value` is used to document missing values
 #'   (always NAs).
-#' @param overwrite Quoted yes or no indicating if an existing attributes file
-#'   in the target directory should be overwritten.
+#' @param overwrite Logical indicating if an existing attributes file in the
+#'   target directory should be overwritten.
 #'
 #' @import dplyr
 #'
@@ -36,15 +36,15 @@
 #'
 #' @export
 
-write_attributes <- function(dfname, MVCE, overwrite = 'no') {
+write_attributes <- function(dfname, MVCE, overwrite = FALSE) {
 
   # establish object name for checking if exists and, ultimately, writing to file
   objectName <- paste0(deparse(substitute(dfname)), "_attrs")
   fileName <- paste0(objectName, ".csv")
 
   # check if attributes already exist for given data entity
-  if(file.exists(fileName) && grepl("n", overwrite, ignore.case = T)) {
-    stop(paste0("file ", fileName, " already exists, use write_attributes(overwrite = 'yes') to overwrite"))
+  if(file.exists(fileName) && overwrite == FALSE) {
+    stop(paste0("file ", fileName, " already exists, use write_attributes(overwrite = TRUE) to overwrite"))
   }
 
   # set up the data frame for metadata

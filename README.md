@@ -1,9 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit the latter. -->
 
-# capeml: tools to aid the generation of EML metadata
+## capeml: tools to aid the generation of EML metadata
 
-### overview
+#### overview
 
 This package contains tools to aid the generation of EML metadata with
 intent to publish a data set (data + metadata) in the Environmental Data
@@ -28,14 +28,16 @@ package.
   - [dataTable](https://github.com/CAPLTER/capeml#dataTable)
   - [dataSet](https://github.com/CAPLTER/capeml#dataSet)
 
-currently unsupported - [spatial
-raster](https://github.com/CAPLTER/capeml#generate-spatialraster) -
-[generate keyword
-set](https://github.com/CAPLTER/capeml#generate-keywordset-from-file) -
-[generate taxonomic
-coverage](https://github.com/CAPLTER/capeml#generate-taxonomiccoverage)
+currently unsupported
 
-### installation
+  - [spatial
+    raster](https://github.com/CAPLTER/capeml#generate-spatialraster)
+  - [generate keyword
+    set](https://github.com/CAPLTER/capeml#generate-keywordset-from-file)
+  - [generate taxonomic
+    coverage](https://github.com/CAPLTER/capeml#generate-taxonomiccoverage)
+
+#### installation
 
 Install the current version from GitHub (after installing the `devtools`
 package from CRAN):
@@ -44,7 +46,7 @@ package from CRAN):
 devtools::install_github("CAPLTER/capeml")
 ```
 
-### dataTable
+#### dataTable
 
 Given a rectangular data matrix of type dataframe or Tibble in the R
 envionment:
@@ -59,13 +61,19 @@ the working directory based on columns of the data entity that are
 factors such that details of factor levels can be added via a editor or
 spreadsheet application.
 
-`create_dataTable(data_entity)` performs many services: \* the data
-entity is written to file as a csv in the working directory with the
-file name: projectid\_data-entity-name\_md5-hash-of-file.csv \* metadata
-provided in the attributes and factors (if relevant) templates are
-ingested \* a EML object of type dataTable is returned \* note that the
-data entity name should be used consistently within the chunk, and the
-resulting dataTable entity should have the name: data\_entity\_DT
+`create_dataTable(data_entity)` performs many services:
+
+  - the data entity is written to file as a csv in the working directory
+    with the file name:
+    projectid\_data-entity-name\_md5-hash-of-file.csv
+  - metadata provided in the attributes and factors (if relevant)
+    templates are ingested
+  - a EML object of type dataTable is returned
+  - note that the data entity name should be used consistently within
+    the chunk, and the resulting dataTable entity should have the name:
+    data\_entity\_DT
+
+<!-- end list -->
 
 ``` r
 data_entity <- read("data source") %>% 
@@ -81,236 +89,33 @@ data_entity_DT <- create_dataTable(dfname = data_entity,
                                    description = data_entity_desc)
 ```
 
-### dataSet
+#### dataSet
 
-…most documentation in project template (in progress)…
+…*most documentation in project template (in progress)*…
 
 `write_keywords()` will generate a template as a csv file in the working
 directory with default CAP LTER keywords, and the appropriate thesaurii
 for adding and referencing additional keywords.
 
-### generate spatialRaster
+### currently unsupported…
+
+#### generate spatialRaster
 
 Please see the
 [create\_spatialRaster](https://github.com/CAPLTER/capeml/blob/master/vignettes/create_spatialRaster.Rmd)
 vignette for more information about creating EML for raster data.
 
-### generate keywordSet (from file)
+#### generate keywordSet (from file)
 
 The function `create_keywordSet` generates a EML object of type
 keywordSet from a csv file containing thesaurus, keyword, and type where
 type is an optional keyword attribute. Keyword files should be
 structured like the following…
 
-<table>
-
-<thead>
-
-<tr>
-
-<th style="text-align:left;">
-
-thesaurus
-
-</th>
-
-<th style="text-align:left;">
-
-keyword
-
-</th>
-
-<th style="text-align:left;">
-
-type
-
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-
-<td style="text-align:left;">
-
-LTER controlled vocabulary
-
-</td>
-
-<td style="text-align:left;">
-
-nutrients
-
-</td>
-
-<td style="text-align:left;">
-
-theme
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-LTER controlled vocabulary
-
-</td>
-
-<td style="text-align:left;">
-
-nitrate
-
-</td>
-
-<td style="text-align:left;">
-
-theme
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-LTER core areas
-
-</td>
-
-<td style="text-align:left;">
-
-water and fluxes
-
-</td>
-
-<td style="text-align:left;">
-
-theme
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-LTER core areas
-
-</td>
-
-<td style="text-align:left;">
-
-parks and rivers
-
-</td>
-
-<td style="text-align:left;">
-
-theme
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Creator Defined Keyword Set
-
-</td>
-
-<td style="text-align:left;">
-
-stormwater
-
-</td>
-
-<td style="text-align:left;">
-
-theme
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-Creator Defined Keyword Set
-
-</td>
-
-<td style="text-align:left;">
-
-catchment
-
-</td>
-
-<td style="text-align:left;">
-
-theme
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-CAPLTER Keyword Set List
-
-</td>
-
-<td style="text-align:left;">
-
-arid land
-
-</td>
-
-<td style="text-align:left;">
-
-theme
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-CAPLTER Keyword Set List
-
-</td>
-
-<td style="text-align:left;">
-
-az
-
-</td>
-
-<td style="text-align:left;">
-
-place
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
+``` r
+load(file = './data/keywordTest.rda')
+kable(keywordTest)
+```
 
 Call the function:
 
@@ -321,7 +126,7 @@ datasetKeywords <- create_keywordSet('path/keywordFile.csv')
 The object (e.g., datasetKeywords) can then be included in the EML
 generation script.
 
-### generate taxonomicCoverage
+#### generate taxonomicCoverage
 
 The function `set_taxonomicCoverage` is borrowed from [rOpenSci
 EML](https://github.com/ropensci/EML) to create a EML entity of type
@@ -356,7 +161,7 @@ taxaCoverage <- set_taxonomicCoverage(resolved_taxa, expand = T, db = 'itis')
 coverage@taxonomicCoverage <- c(taxaCoverage)
 ```
 
-### generate otherEntity with dataType kml
+#### generate otherEntity with dataType kml
 
 The function `create_KML`…
 

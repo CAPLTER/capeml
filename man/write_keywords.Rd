@@ -4,11 +4,11 @@
 \alias{write_keywords}
 \title{write_keywords}
 \usage{
-write_keywords(overwrite = "no")
+write_keywords(overwrite = FALSE)
 }
 \arguments{
-\item{overwrite}{Quoted yes or no indicating if an existing keywords.csv file
-in the target directory should be overwritten.}
+\item{overwrite}{Logical indicating if an existing keywords.csv file in the
+target directory should be overwritten.}
 }
 \value{
 output is a csv file titled keywords.csv

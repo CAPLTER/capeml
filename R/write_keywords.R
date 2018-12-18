@@ -8,8 +8,8 @@
 #'   appropriate structure to be read into the create_keywordSet function to
 #'   include in EML metadata for a dataset.
 #'
-#' @param overwrite Quoted yes or no indicating if an existing keywords.csv file
-#'   in the target directory should be overwritten.
+#' @param overwrite Logical indicating if an existing keywords.csv file in the
+#'   target directory should be overwritten.
 #'
 #' @import dplyr
 #' @import tibble
@@ -26,9 +26,9 @@
 #'
 #' @export
 
-write_keywords <- function(overwrite = 'no') {
+write_keywords <- function(overwrite = FALSE) {
 
-  if(file.exists('keywords.csv') && grepl("n", overwrite, ignore.case = T)) { stop("file keywords.csv already exists, use write_keywords('yes') to overwrite") }
+  if(file.exists('keywords.csv') && overwrite == FALSE) { stop("file keywords.csv already exists, use write_keywords(overwrite = TRUE) to overwrite") }
 
   tibble(
     thesaurus = c(
