@@ -58,43 +58,43 @@ create_KML <- function(kmlFile, description) {
   file.copy(kmlFile, new_kml_name)
   # file.rename(kmlFile, new_kml_name)
 
-  # create @physical
-  physical <- set_physical(new_kml_name)
+  # NEW
 
-  # add file size and unit to @physical
-  file_size <- new("size",
-                   deparse(file.size(new_kml_name)),
-                   unit = "byte")
-  physical@size <- file_size
+  # set authentication (md5)
+  kmlAuthentication <- eml$authentication(method = "MD5")
+  kmlAuthentication$authentication <- md5sum(new_kml_name)
 
-  # add authentication type (here md5) to @physical
-  md5 <- new("authentication",
-             md5sum(new_kml_name),
-             method = "MD5")
-  physical@authentication <- c(md5)
+  # set file size
+  kmlSize <- eml$size(unit = "byte")
+  kmlSize$size <- deparse(file.size(new_kml_name))
 
-  # add distribution to @physical
-  online_url <- new("online",
-                    url = paste0("https://data.gios.asu.edu/datasets/cap/", new_kml_name))
-  file_dist <- new("distribution",
-                   online = online_url)
-  physical@distribution <- c(file_dist)
+  # set file format to kml
+  kmlDataFormat <- eml$dataFormat(
+    externallyDefinedFormat = eml$externallyDefinedFormat(formatName = "kml")
+  )
 
-  # add kml format to physical
-  ext_format <- new("externallyDefinedFormat",
-                    formatName = "kml")
-  dat_format <- new("dataFormat",
-                    externallyDefinedFormat = ext_format)
-  physical@dataFormat <- dat_format
+  # set distribution
+  kmlDistribution <- eml$distribution(
+    eml$online(url = paste0("https://data.gios.asu.edu/datasets/cap/", new_kml_name))
+  )
 
-  # create @otherEntity
-  newOE <- new("otherEntity",
-               entityName = new_kml_name,
-               entityDescription = description,
-               physical = physical,
-               id = new_kml_name,
-               entityType = "kml")
+  # build physical
+  kmlPhysical <- eml$physical(
+    objectName = new_kml_name,
+    authentication = kmlAuthentication,
+    size = kmlSize,
+    dataFormat = kmlDataFormat,
+    distribution = kmlDistribution
+  )
 
-  return(newOE)
+  # create kml object as otherEntity
+  newKML <- eml$otherEntity(
+    entityName = new_kml_name,
+    entityDescription = description,
+    physical = kmlPhysical,
+    entityType = "kml"
+  )
+
+  return(newKML)
 
 }
