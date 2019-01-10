@@ -21,8 +21,12 @@ Imports:
     readr,
     raster,
     utils,
-    EML
-RoxygenNote: 6.0.1
+    EML,
+    purrr,
+    taxize,
+    tibble
+Remotes: ropensci/EML
+RoxygenNote: 6.1.1
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
