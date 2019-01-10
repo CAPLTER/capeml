@@ -20,7 +20,6 @@
 #' @import rgdal
 #' @importFrom stringr str_match str_replace_all
 #' @import dplyr
-#' @import magrittr
 #' @importFrom readr read_csv
 #' @importFrom raster crs
 #'

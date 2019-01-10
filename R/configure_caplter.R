@@ -27,6 +27,7 @@
 #'
 #' }
 #'
+#' @export
 
 # gios address, publisher, contact ----
 giosAddress <- EML::eml$address(
