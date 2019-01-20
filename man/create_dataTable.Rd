@@ -4,7 +4,8 @@
 \alias{create_dataTable}
 \title{create_dataTable}
 \usage{
-create_dataTable(dfname, description, dateRangeField)
+create_dataTable(dfname, description, dateRangeField,
+  baseURL = "https://data.gios.asu.edu/datasets/cap/")
 }
 \arguments{
 \item{dfname}{The unquoted name of the R data frame or Tibble.}
@@ -17,6 +18,10 @@ file).}
 \item{dateRangeField}{(optional) The quoted name of the data entity field
 that is a date field that would reflect the start and end dates of the data
 reflected in the data entity.}
+
+\item{baseURL}{The base path of the web-accessible location of the data file;
+the name of the resulting file will be passed to the base path to generate
+a web-resolvable file path.}
 }
 \value{
 EML dataTable object is returned. Additionally, the data entity is
@@ -49,9 +54,9 @@ create_dataTable creates a EML dataTable object from a data frame or
 create_dataTable will look for a project id in the working environment;
   this parameter is not passed to the function and it must exist.
 
-create_dataTable currently does not accept an argument for url to a
-  data file; the package defaults to a CAP LTER specific URL, and this must
-  be changed manually in the resulting xml if needed.
+create_dataTable currently accepts an argument for a base url path to
+  which the new file name will be appended so as to be a web-resolvable file;
+  the package defaults to a URL specific to the CAP LTER.
 }
 \examples{
 \dontrun{
