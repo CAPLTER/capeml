@@ -12,7 +12,7 @@
 #'   the renamed file with project id and hash will be written to the current
 #'   working directory.
 #'
-#' @param file The quoted name and path of the data file.
+#' @param targetFile The quoted name and path of the data file.
 #' @param description A description of the data.
 #' @param baseURL The base path of the web-accessible location of the data file;
 #'   the name of the resulting file will be passed to the base path to generate

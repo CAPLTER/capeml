@@ -8,13 +8,13 @@ create_otherEntity(targetFile, description,
   baseURL = "https://data.gios.asu.edu/datasets/cap/")
 }
 \arguments{
+\item{targetFile}{The quoted name and path of the data file.}
+
 \item{description}{A description of the data.}
 
 \item{baseURL}{The base path of the web-accessible location of the data file;
 the name of the resulting file will be passed to the base path to generate
 a web-resolvable file path.}
-
-\item{file}{The quoted name and path of the data file.}
 }
 \value{
 EML entity of type otherEntity is returned. Additionally, the data
