@@ -100,6 +100,7 @@ create_dataTable <- function(dfname, description, dateRangeField, baseURL = "htt
   # set physical
   dataTablePhysical <- set_physical(objectName = fname,
                                     numHeaderLines = 1,
+                                    recordDelimiter = "\\r\\n",
                                     quoteCharacter = "\"",
                                     url = paste0(baseURL, fname))
 
@@ -109,7 +110,8 @@ create_dataTable <- function(dfname, description, dateRangeField, baseURL = "htt
     entityName = fname,
     entityDescription = description,
     physical = dataTablePhysical,
-    attributeList = attr_list)
+    attributeList = attr_list,
+    id = fname)
 
   # add temporalCoverage if appropriate
   if(!missing(dateRangeField)) {

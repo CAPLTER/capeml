@@ -43,12 +43,11 @@ giosPublisher <- EML::eml$publisher(
   address = giosAddress)
 
 #' @export giosContact
-giosContact <- list(
+giosContact <- EML::eml$contact(
   organizationName = 'Julie Ann Wrigley Global Institute of Sustainability, Arizona State University',
   positionName = 'Data Manager',
-  electronicMail = "caplter.data@asu.edu",
+  electronicMailAddress = "caplter.data@asu.edu",
   address = giosAddress)
-
 
 # language ----
 #' @export giosLanguage

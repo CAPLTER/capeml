@@ -93,7 +93,8 @@ create_otherEntity <- function(targetFile, description, baseURL = "https://data.
     entityName = new_file_name,
     entityDescription = description,
     physical = filePhysical,
-    entityType = fileExtension
+    entityType = fileExtension,
+    id = new_file_name
   )
 
   return(newfile)
