@@ -111,6 +111,7 @@ create_dataTable <- function(dfname, description, dateRangeField, baseURL = "htt
     entityDescription = description,
     physical = dataTablePhysical,
     attributeList = attr_list,
+    numberOfRecords = nrow(dfname),
     id = fname)
 
   # add temporalCoverage if appropriate
