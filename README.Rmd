@@ -21,6 +21,7 @@ Helper functions for the creation of data set metadata and a dataTable entity us
 
 - [installation](https://github.com/CAPLTER/capeml#installation)
 - [dataTable](https://github.com/CAPLTER/capeml#dataTable)
+- [otherEntity](https://github.com/CAPLTER/capeml#otherEntity)
 - [dataSet](https://github.com/CAPLTER/capeml#dataSet)
 
 currently unsupported
@@ -68,6 +69,34 @@ data_entity_desc <- "snow leopard data"
 
 data_entity_DT <- create_dataTable(dfname = data_entity,
                                    description = data_entity_desc)
+
+```
+
+#### otherEntity
+
+A EML object of type otherEntity can be created from a single file or a directory. As with all objects created with the capeml package, the resulting object is named with the `projectid_object-name_md5sum-hash.file extension` convention. In the case of generating a otherEntity object from a directory, a zipped file of the directory is created.
+
+```{r sample_createOtherEntity, eval=FALSE}
+
+other_entity_name <- create_otherEntity(
+  targetFile = "file or directory name",
+  description = "description of entity"
+)
+
+# example, create otherEntity object from a kml file
+desert_fertilization_sites <- create_otherEntity(
+  targetFile = "~/Desktop/desert_fertilization_sampling_sites.kml",
+  description = "approximate location of desert fertiliztion long-term study sites")
+
+# example, create otherEntity object from a pdf file
+pass_codebook_2011 <- create_otherEntity(
+  targetFile = "PASS-2011-Codebook-Feb2016rev.pdf",
+  description = "PASS 2011 survey codebook")
+
+# example, create otherEntity object from a directory
+pass_codebook_2011 <- create_otherEntity(
+  targetFile = "~/Desktop/max_temperature",
+  description = "rasters of max temperature years 2000-2016")
 
 ```
 
