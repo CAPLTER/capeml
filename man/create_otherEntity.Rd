@@ -5,16 +5,21 @@
 \title{Create EML entity of type otherEntity}
 \usage{
 create_otherEntity(targetFile, description,
-  baseURL = "https://data.gios.asu.edu/datasets/cap/")
+  baseURL = "https://data.gios.asu.edu/datasets/cap/",
+  overwrite = FALSE)
 }
 \arguments{
-\item{targetFile}{The quoted name and path of the data file.}
+\item{targetFile}{The quoted name and path of the data file or directory.}
 
-\item{description}{A description of the data.}
+\item{description}{A description of the data entity.}
 
 \item{baseURL}{The base path of the web-accessible location of the data file;
 the name of the resulting file will be passed to the base path to generate
 a web-resolvable file path.}
+
+\item{overwrite}{If creating otherEntity by zipping a directory, this is a
+logical indicating whether to overwrite an already existing zip file that
+has the same name and location as the temporary zip object to be created.}
 }
 \value{
 EML entity of type otherEntity is returned. Additionally, the data
@@ -26,23 +31,25 @@ create_otherEntity generates a EML entity of type otherEntity.
 }
 \details{
 A otherEntity entity is created from a single file (e.g.,
-  desert_fertilization_sampling_sites.kml). The resulting entity is renamed
-  with the project id + base file name + md5sum + file extension.
+  desert_fertilization_sampling_sites.kml) or a directory. The resulting
+  entity is renamed with the project id + base file name + md5sum + file
+  extension. File extension is always .zip if the otherEntity is being
+  created by zipping a directory.
 }
 \note{
 create_otherEntity will look for a project id in the working
   environment; this parameter is not passed to the function and it must
   exist.
 
-The source data file can be located anywhere on a local computer but
-  the renamed file with project id and hash will be written to the current
-  working directory.
+The target data file or directory can be located anywhere on a local
+  computer but the renamed file with project id and hash will be written to
+  the current working directory.
 }
 \examples{
 \dontrun{
 
- # source file can reside in or out of the working directory (but the output
- file will be written to the working directory)
+ # source file or dirctory can reside in or out of the working directory (but
+ the output file will be written to the working directory)
 
  desert_fertilization_sites <- create_otherEntity(
    targetFile = "~/Desktop/desert_fertilization_sampling_sites.kml",
@@ -51,6 +58,10 @@ The source data file can be located anywhere on a local computer but
  pass_codebook_2011 <- create_otherEntity(
    targetFile = "PASS-2011-Codebook-Feb2016rev.pdf",
    description = "PASS 2011 survey codebook")
+
+ pass_codebook_2011 <- create_otherEntity(
+   targetFile = "~/Desktop/max_temperature",
+   description = "rasters of max temperature years 2000-2016")
 
 }
 
