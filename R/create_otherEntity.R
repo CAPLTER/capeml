@@ -3,20 +3,25 @@
 #' @description create_otherEntity generates a EML entity of type otherEntity.
 #'
 #' @details A otherEntity entity is created from a single file (e.g.,
-#'   desert_fertilization_sampling_sites.kml). The resulting entity is renamed
-#'   with the project id + base file name + md5sum + file extension.
+#'   desert_fertilization_sampling_sites.kml) or a directory. The resulting
+#'   entity is renamed with the project id + base file name + md5sum + file
+#'   extension. File extension is always .zip if the otherEntity is being
+#'   created by zipping a directory.
 #' @note create_otherEntity will look for a project id in the working
 #'   environment; this parameter is not passed to the function and it must
 #'   exist.
-#' @note The source data file can be located anywhere on a local computer but
-#'   the renamed file with project id and hash will be written to the current
-#'   working directory.
+#' @note The target data file or directory can be located anywhere on a local
+#'   computer but the renamed file with project id and hash will be written to
+#'   the current working directory.
 #'
-#' @param targetFile The quoted name and path of the data file.
-#' @param description A description of the data.
+#' @param targetFile The quoted name and path of the data file or directory.
+#' @param description A description of the data entity.
 #' @param baseURL The base path of the web-accessible location of the data file;
 #'   the name of the resulting file will be passed to the base path to generate
 #'   a web-resolvable file path.
+#' @param overwrite If creating otherEntity by zipping a directory, this is a
+#'   logical indicating whether to overwrite an already existing zip file that
+#'   has the same name and location as the temporary zip object to be created.
 #'
 #' @import EML
 #' @import dplyr
@@ -24,6 +29,7 @@
 #' @importFrom tools md5sum file_ext
 #' @importFrom stringr str_extract
 #' @importFrom tools file_ext
+#' @importFrom utils file_test
 #'
 #' @return EML entity of type otherEntity is returned. Additionally, the data
 #'   file is renamed with the project id + base file name + md5sum + file
@@ -32,8 +38,8 @@
 #' @examples
 #' \dontrun{
 #'
-#'  # source file can reside in or out of the working directory (but the output
-#'  file will be written to the working directory)
+#'  # source file or dirctory can reside in or out of the working directory (but
+#'  the output file will be written to the working directory)
 #'
 #'  desert_fertilization_sites <- create_otherEntity(
 #'    targetFile = "~/Desktop/desert_fertilization_sampling_sites.kml",
@@ -43,12 +49,60 @@
 #'    targetFile = "PASS-2011-Codebook-Feb2016rev.pdf",
 #'    description = "PASS 2011 survey codebook")
 #'
+#'  pass_codebook_2011 <- create_otherEntity(
+#'    targetFile = "~/Desktop/max_temperature",
+#'    description = "rasters of max temperature years 2000-2016")
+#'
 #' }
 #'
 #' @export
 
 
-create_otherEntity <- function(targetFile, description, baseURL = "https://data.gios.asu.edu/datasets/cap/") {
+create_otherEntity <- function(targetFile, description, baseURL = "https://data.gios.asu.edu/datasets/cap/", overwrite = FALSE) {
+
+  # prerequisites -----------------------------------------------------------
+
+  # do not proceed if the project id has not been identified in the working env
+  if (!exists('projectid')) { stop("missing project id") }
+
+  # do not proceed if the target file or directly has not been provided
+  if (missing('targetFile')) { stop("specify the name of the file or directory") }
+
+  # default: targetFile is a file, not a directory
+  isDirectory <- FALSE
+
+
+  # zip if targetfile is a directory ----------------------------------------
+
+  # create zip of directory if targetFile is in fact a directory
+  if (file_test(op = "-d", x = targetFile)) {
+
+    # flag that targetFile is a directory
+    isDirectory <- TRUE
+
+    # new object name: base name + zip extension
+    zippedObject <- paste0(basename(targetFile), ".zip")
+
+    # need full path to zip a directory
+    targetFileFullPath <- path.expand(targetFile)
+
+    # stop if zipping the directory will overwrite an existing object without
+    # explicit overwrite - note that this is checking the existence of the
+    # temporary object (e.g., dirname.zip), not the ultimate object (e.g.,
+    # projectid_dirname_md5hash.zip)
+    if (file.exists(zippedObject) && overwrite == FALSE) {
+      stop("zipped object to be created with that name and location (e.g., targetfile.zip) already exists, change working directory or set overwrite to TRUE")
+    }
+
+    # zip the target directory
+    system(paste0("zip -jXr ", shQuote(zippedObject, type = "sh"), " ", shQuote(targetFileFullPath, type = "sh")))
+
+    targetFile <- zippedObject
+
+  }
+
+
+  # main function -----------------------------------------------------------
 
   # determine the file extension
   fileExtension <- tools::file_ext(targetFile)
@@ -96,6 +150,11 @@ create_otherEntity <- function(targetFile, description, baseURL = "https://data.
     entityType = fileExtension,
     id = new_file_name
   )
+
+  # if otherEntity created by zipping a directory, remove the temporary zip object (e.g., targetFile.zip)
+  if (isDirectory == TRUE && file.exists(zippedObject)) {
+    file.remove(zippedObject)
+  }
 
   return(newfile)
 
