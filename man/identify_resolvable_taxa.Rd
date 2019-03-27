@@ -4,10 +4,13 @@
 \alias{identify_resolvable_taxa}
 \title{Identify taxa within a list that can be matched to ITIS}
 \usage{
-identify_resolvable_taxa(taxa_list)
+identify_resolvable_taxa(taxa_list, nameType)
 }
 \arguments{
 \item{taxa_list}{A list of taxa to validate}
+
+\item{nameType}{Indiate whether the taxonomic nomenclature refers to common
+or scientific names}
 }
 \value{
 List of provided taxa and associated ITIS identifier if a match was

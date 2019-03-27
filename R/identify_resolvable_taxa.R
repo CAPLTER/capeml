@@ -9,6 +9,8 @@
 #'   could be found.
 #'
 #' @param taxa_list A list of taxa to validate
+#' @param nameType Indiate whether the taxonomic nomenclature refers to common
+#'   or scientific names
 #'
 #' @import taxize
 #'
@@ -25,13 +27,28 @@
 #'
 #' @export
 #'
-identify_resolvable_taxa <- function(taxa_list) {
+identify_resolvable_taxa <- function(taxa_list, nameType) {
 
-  resolved_taxa <- data.frame(taxon = NA, resolve = NA)
+  # check for required parameters
 
-  for (i in 1:length(taxa_list)){
+  # do not proceed if the project id has not been identified in the working env
+  if (missing('taxa_list')) { stop("missing project id") }
+
+  # do not proceed if the project id has not been identified in the working env
+  if (missing('nameType')) { stop("missing project id") }
+
+  # confirm appropriate search type
+  if (!grepl("sci|com", nameType)) { stop("nameType must be 'scientific' or 'common'")}
+
+
+  # empty data frame to hold results
+  resolved_taxa <- data.frame(taxon = NA,
+                              resolve = NA)
+
+  for (i in 1:length(taxa_list)) {
+
     info <- suppressWarnings(get_tsn(searchterm = taxa_list[i],
-                                     searchtype = "scientific",
+                                     searchtype = nameType,
                                      accepted = T,
                                      ask = T))
     resolved_taxa[i,"taxon"] <- taxa_list[i]

@@ -59,13 +59,13 @@ create_spatialRaster <- function(pathToRaster, metadataFile, categoricalMetadata
   # check for required environmental parameters and arguments
 
     # do not proceed if the project id has not been identified in the working env
-    if (!exists('projectid')) { stop("missing project id") }
+    if (missing('projectid')) { stop("missing project id") }
 
     # do not proceed if the path to where raster data reside is not provided
-    if (!exists('pathToRaster')) { stop("specify the path to directory with raster data") }
+    if (missing('pathToRaster')) { stop("specify the path to directory with raster data") }
 
     # do not proceed if a metadata file is not provided
-    if (!exists('metadataFile')) { stop("specify the raster metadata file") }
+    if (missing('metadataFile')) { stop("specify the raster metadata file") }
 
 
   # use full path
