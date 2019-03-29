@@ -4,13 +4,17 @@
 \alias{identify_resolvable_taxa}
 \title{Identify taxa within a list that can be matched to ITIS}
 \usage{
-identify_resolvable_taxa(taxa_list, nameType)
+identify_resolvable_taxa(taxa_list, nameType, interactive = FALSE)
 }
 \arguments{
 \item{taxa_list}{A list of taxa to validate}
 
 \item{nameType}{Indiate whether the taxonomic nomenclature refers to common
 or scientific names}
+
+\item{interactive}{Indiate whether the resolving taxa should be interactive.
+If TRUE and more than one TSN is found for the species, the user is asked
+for input. If FALSE (default) NA is returned for multiple matches.}
 }
 \value{
 List of provided taxa and associated ITIS identifier if a match was
@@ -29,8 +33,20 @@ A list of provided taxa and associated ITIS identifier if a match
 \examples{
 \dontrun{
 
-resolvedTaxa <- create_keyword(c('Ephemeroptera', 'Plecoptera')
-resolvedTaxa <- create_keyword(listOfTaxa)
+allTaxa <- identify_resolvable_taxa(taxa_list = c('Ephemeroptera', 'Plecoptera'),
+                                    nameType = "scientific",
+                                    interactive = TRUE)
+
+allTaxa <- identify_resolvable_taxa(taxa_list = 'Ephemeroptera')
+                                    nameType = "scientific",
+
+datasetTaxa <- core_birds \%>\%
+  distinct(taxaColumn) \%>\%
+  filter(!is.na(taxaColumn)) \%>\%
+  pull(taxaColumn)
+
+allTaxa <- identify_resolvable_taxa(taxa_list = datasetTaxa,
+                                    nameType = "common")
 
 }
 
