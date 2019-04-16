@@ -106,7 +106,7 @@ create_dataTable <- function(dfname, description, dateRangeField, baseURL = "htt
 
 
   # create dataTable entity
-  newDT <- eml$dataTable(
+  newDT <- EML::eml$dataTable(
     entityName = fname,
     entityDescription = description,
     physical = dataTablePhysical,
@@ -117,13 +117,13 @@ create_dataTable <- function(dfname, description, dateRangeField, baseURL = "htt
   # add temporalCoverage if appropriate
   if(!missing(dateRangeField)) {
 
-    dataTableCoverage <- eml$coverage(
-      temporalCoverage = eml$temporalCoverage(
-        rangeOfDates = eml$rangeOfDates(
-          eml$beginDate(
+    dataTableCoverage <- EML::eml$coverage(
+      temporalCoverage = EML::eml$temporalCoverage(
+        rangeOfDates = EML::eml$rangeOfDates(
+          EML::eml$beginDate(
             calendarDate = format(min(dfname[[dateRangeField]]), "%Y-%m-%d")
           ),
-          eml$endDate(
+          EML::eml$endDate(
             calendarDate = format(max(dfname[[dateRangeField]]), "%Y-%m-%d")
           )
         )
