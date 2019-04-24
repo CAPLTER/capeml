@@ -37,11 +37,18 @@
 #' @param baseURL The base path of the web-accessible location of the data file;
 #'   the name of the resulting file will be passed to the base path to generate
 #'   a web-resolvable file path.
+#' @param missingValueCode (optional) create_dataTable will automatically
+#'   document the presence of NA and NaN entries as missing values in the EML
+#'   output. The user has the ability to identify an additional indicator of
+#'   missing values. Numbers (e.g., -9999 should be unquotes) whereas text
+#'   values (e.g., "missing") should be quoted.
 #'
 #' @import EML
 #' @import dplyr
 #' @importFrom readr read_csv
 #' @importFrom tools md5sum file_ext
+#' @importFrom purrr map_df
+#' @importFrom tibble tibble add_row
 #'
 #' @return EML dataTable object is returned. Additionally, the data entity is
 #'   written to file as type csv, and renamed with the project id + base file
@@ -58,8 +65,13 @@
 #'
 #' @export
 
+create_dataTable <- function(dfname,
+                             description,
+                             dateRangeField,
+                             baseURL = "https://data.gios.asu.edu/datasets/cap/",
+                             missingValueCode = NULL) {
 
-create_dataTable <- function(dfname, description, dateRangeField, baseURL = "https://data.gios.asu.edu/datasets/cap/") {
+  # file-level processing ---------------------------------------------------
 
   # Writes a datframe to file, determines the md5sum of that file, (re)writing
   # the dataframe with the project id number and m5sum hash in the file name.
@@ -71,41 +83,102 @@ create_dataTable <- function(dfname, description, dateRangeField, baseURL = "htt
   write.csv(dfname, fname, row.names = F, eol = "\r\n")
   file.remove(paste0(namestr, ".csv"))
 
-  # Read the attributes file and extract classes note that the na.strings =
-  # character(0) argument preserves NA strings in the file as strings but also
-  # has the effect of converting actual NAs and missing values to "".
-  attrs <- read.csv(paste0(namestr, "_attrs.csv"),
-                    header = TRUE, sep = ",",
-                    quote = "\"",
-                    as.is = TRUE,
-                    na.strings = character(0),
-                    stringsAsFactors = F)
-  classes <- attrs[,"columnClasses"] # column classes => vector as required by set_attribute
+  # write_missing_value -----------------------------------------------------
 
-  # Compile components for attributeList of dataTable; set factors to NA if they
-  # are not relevant to this dataset.
-  if(file.exists(paste0(namestr, "_factors.csv"))) {
+  missingValueFrame <- tibble(
+    attributeName = as.character(),
+    code = as.character(),
+    definition = as.character()
+  )
+
+  write_missing_values <- function(dataObject, field, MVC) {
+
+    if (any(is.na(dataObject[[field]]))) {
+
+      missingValueFrame <- missingValueFrame %>%
+        add_row(
+          attributeName = field,
+          code = "NA",
+          definition = "missing value"
+        )
+
+    }
+
+    if (any(is.nan(dataObject[[field]]))) {
+
+      missingValueFrame <- missingValueFrame %>%
+        add_row(
+          attributeName = field,
+          code = "NaN",
+          definition = "missing value"
+        )
+
+    }
+
+    if (any(dataObject[[field]] %in% MVC)) {
+
+      missingValueFrame <- missingValueFrame %>%
+        add_row(
+          attributeName = field,
+          code = MVC,
+          definition = "missing value"
+        )
+
+    }
+
+    return(missingValueFrame)
+
+  }
+
+  mvframe <- map_df(.x = colnames(dfname), .f = write_missing_values, dataObject = dfname, MVC = missingValueCode)
+
+  # attributes --------------------------------------------------------------
+
+  # Read the attributes file and extract classes into its own vector then delete
+  # from attrs data frame (as required by rEML)
+  attrs <- read_csv(paste0(namestr, "_attrs.csv"))
+  classes <- attrs %>% pull(columnClasses) # column classes to vector (req'd by set_attributes)
+  attrs <- attrs %>% select(-columnClasses) # remove col classes from attrs (req'd by set_attributes)
+
+  # Compile components for attributeList of dataTable
+  # condition: factors present, missing values not present
+  if (file.exists(paste0(namestr, "_factors.csv")) & nrow(mvframe) == 0) {
 
     df_factors <- read_csv(paste0(namestr, "_factors.csv"),
                            col_types = cols()) # to suppress tibble output
 
     attr_list <- set_attributes(attributes = attrs, factors = df_factors, col_classes = classes)
 
+    # condition: factors present, missing values present
+  } else if (file.exists(paste0(namestr, "_factors.csv")) & nrow(mvframe) >= 1) {
+
+    df_factors <- read_csv(paste0(namestr, "_factors.csv"),
+                           col_types = cols()) # to suppress tibble output
+
+    attr_list <- set_attributes(attributes = attrs, factors = df_factors, col_classes = classes, missingValues = mvframe)
+
+    # condition: factors NOT present, missing values present
+  } else if (!file.exists(paste0(namestr, "_factors.csv")) & nrow(mvframe) >= 1) {
+
+    attr_list <- set_attributes(attributes = attrs, col_classes = classes, missingValues = mvframe)
+
+    # condition: factors NOT present, missing values NOT present
   } else {
 
     attr_list <- set_attributes(attributes = attrs, col_classes = classes)
 
   }
 
-  # set physical
+  # set physical ------------------------------------------------------------
+
   dataTablePhysical <- set_physical(objectName = fname,
                                     numHeaderLines = 1,
                                     recordDelimiter = "\\r\\n",
                                     quoteCharacter = "\"",
                                     url = paste0(baseURL, fname))
 
+  # create dataTable entity -------------------------------------------------
 
-  # create dataTable entity
   newDT <- EML::eml$dataTable(
     entityName = fname,
     entityDescription = description,
@@ -114,7 +187,8 @@ create_dataTable <- function(dfname, description, dateRangeField, baseURL = "htt
     numberOfRecords = nrow(dfname),
     id = fname)
 
-  # add temporalCoverage if appropriate
+  # add temporalCoverage if appropriate -------------------------------------
+
   if(!missing(dateRangeField)) {
 
     dataTableCoverage <- EML::eml$coverage(

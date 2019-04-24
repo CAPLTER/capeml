@@ -5,7 +5,8 @@
 \title{create_dataTable}
 \usage{
 create_dataTable(dfname, description, dateRangeField,
-  baseURL = "https://data.gios.asu.edu/datasets/cap/")
+  baseURL = "https://data.gios.asu.edu/datasets/cap/",
+  missingValueCode = NULL)
 }
 \arguments{
 \item{dfname}{The unquoted name of the R data frame or Tibble.}
@@ -22,6 +23,12 @@ reflected in the data entity.}
 \item{baseURL}{The base path of the web-accessible location of the data file;
 the name of the resulting file will be passed to the base path to generate
 a web-resolvable file path.}
+
+\item{missingValueCode}{(optional) create_dataTable will automatically
+document the presence of NA and NaN entries as missing values in the EML
+output. The user has the ability to identify an additional indicator of
+missing values. Numbers (e.g., -9999 should be unquotes) whereas text
+values (e.g., "missing") should be quoted.}
 }
 \value{
 EML dataTable object is returned. Additionally, the data entity is
