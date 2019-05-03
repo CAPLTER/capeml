@@ -14,13 +14,11 @@
 #'   dataTable entity.
 #'
 #' @param dfname The unquoted name of the R data frame or Tibble.
-#' @param MVCE an optional missing value code explanation (MVCE). If MVCE is
-#'   omitted, default text of `missing value` is used to document missing values
-#'   (always NAs).
 #' @param overwrite Logical indicating if an existing attributes file in the
 #'   target directory should be overwritten.
 #'
 #' @import dplyr
+#' @importFrom purrr map_chr
 #'
 #' @return The name of the file generated is returned, and a template for
 #'   providing attribute metadata as a csv file with the file name of the R data
@@ -36,7 +34,7 @@
 #'
 #' @export
 
-write_attributes <- function(dfname, MVCE, overwrite = FALSE) {
+write_attributes <- function(dfname, overwrite = FALSE) {
 
   # establish object name for checking if exists and, ultimately, writing to file
   objectName <- paste0(deparse(substitute(dfname)), "_attrs")
@@ -49,23 +47,17 @@ write_attributes <- function(dfname, MVCE, overwrite = FALSE) {
 
   # set up the data frame for metadata
   rows <- ncol(dfname)
-  df_attrs <- data.frame(attributeName = character(rows),
+  df_attrs <- data.frame(attributeName = names(dfname),
                          formatString = character(rows),
                          unit = character(rows),
                          numberType = character(rows),
                          definition = character(rows),
                          attributeDefinition = character(rows),
-                         columnClasses = character(rows),
-                         minimum = character(rows),
-                         maximum = character(rows),
-                         missingValueCode = character(rows),
-                         missingValueCodeExplanation = character(rows),
+                         columnClasses = map_chr(dfname, class),
+                         minimum = map_chr(dfname, function(x) if (is.numeric(x)) { x = min(x, na.rm = TRUE) } else { x = "" }),
+                         maximum = map_chr(dfname, function(x) if (is.numeric(x)) { x = max(x, na.rm = TRUE) } else { x = "" }),
                          stringsAsFactors = FALSE)
 
-  df_attrs$attributeName <- names(dfname) # assign attributeNames from dfname
-  df_attrs$columnClasses <- sapply(dfname, class) # assign variable types from dfname
-
-  # adjust type integer and date data types
   # need to change any integer type values to type numeric
   df_attrs$columnClasses <- lapply(df_attrs$columnClasses, function(x) if(any(grepl("integer", x))) { x <- 'numeric' } else { x <- x })
 
@@ -74,21 +66,6 @@ write_attributes <- function(dfname, MVCE, overwrite = FALSE) {
 
   # if there were POSIX values, the column classes will be a list so we need to change the list to a type character
   df_attrs$columnClasses <- as.character(df_attrs$columnClasses)
-
-  # address missing value code and explanation
-  df_attrs$missingValueCode <- sapply(dfname, function(x) if(any(is.na(x))) { x = 'NA' } else { x = "" })
-
-  if(missing(MVCE)){
-    df_attrs <- df_attrs %>%
-      mutate(missingValueCodeExplanation = replace(missingValueCodeExplanation, missingValueCode == "NA", "missing value"))
-  } else {
-    df_attrs <- df_attrs %>%
-      mutate(missingValueCodeExplanation = replace(missingValueCodeExplanation, missingValueCode == "NA", MVCE))
-  }
-
-  # generate minimum & maximum values
-  df_attrs$minimum <- sapply(dfname, function(x) if(is.numeric(x)) { x = min(x, na.rm = TRUE) } else { x = "" })
-  df_attrs$maximum <- sapply(dfname, function(x) if(is.numeric(x)) { x = max(x, na.rm = TRUE) } else { x = "" })
 
   # calculate numberType for numeric values
 
@@ -135,9 +112,5 @@ write_attributes <- function(dfname, MVCE, overwrite = FALSE) {
   write.csv(df_attrs, file = fileName, row.names = FALSE)
 
   return(objectName)
-
-  # from here, edit the file that was just created as needed, then read it back
-  # into R - sorta blasphemous but really easy and possibly a good model for
-  # user-contributed data submissions
 
 }

@@ -37,11 +37,13 @@ giosAddress <- EML::eml$address(
   postalCode = '85287',
   country = 'USA')
 
+#' @title default CAP LTER / GIOS publisher as EML::publisher
 #' @export giosPublisher
 giosPublisher <- EML::eml$publisher(
   organizationName = 'Arizona State University, Julie Ann Wrigley Global Institute of Sustainability',
   address = giosAddress)
 
+#' @title default CAP LTER / GIOS contact as EML::contact
 #' @export giosContact
 giosContact <- EML::eml$contact(
   organizationName = 'Julie Ann Wrigley Global Institute of Sustainability, Arizona State University',
@@ -50,12 +52,13 @@ giosContact <- EML::eml$contact(
   address = giosAddress)
 
 # language ----
+#' @title giosLanguage: default language (english) passed to EML-generating workflow
 #' @export giosLanguage
 giosLanguage <- 'english'
 
 
 # intellectual rights ----
-#' @title CAP LTER default access / copy rights
+#' @title capRights: default intellectual rights statement passed to EML-generating workflow
 #' @export capRights
 capRights <- 'Copyright Board of Regents, Arizona State University. This information is released to the public and may be used for academic, educational, or commercial purposes subject to the following restrictions. While the CAP LTER will make every effort possible to control and document the quality of the data it publishes, the data are made available \'as is\'. The CAP LTER cannot assume responsibility for damages resulting from mis-use or mis-interpretation of datasets, or from errors or omissions that may exist in the data. It is considered a matter of professional ethics to acknowledge the work of other scientists that has resulted in data used in subsequent research. The CAP LTER expects that any use of data from this server will be accompanied with the appropriate citations and acknowledgments. The CAP LTER encourages users to contact the original investigator responsible for the data that they are accessing. Where appropriate, researchers whose projects are integrally dependent on CAP LTER data are encouraged to consider collaboration and/or co-authorship with original investigators. The CAP LTER requests that users submit to the Julie Ann Wrigley Global Institute of Sustainability at Arizona State University reference to any publication(s) resulting from the use of data obtained from this site.'
 
@@ -70,6 +73,7 @@ allow_public <- EML::eml$allow(
   permission = "read")
 
 
+#' @title default CAP LTER / GIOS access as EML::access
 #' @export lterAccess
 lterAccess <- EML::eml$access(
   authSystem = "knb",
@@ -81,6 +85,8 @@ lterAccess <- EML::eml$access(
 
 
 # metadata distribution (i.e., path to xml file) ----
+#' @title create_distribution
+#' @param packageIdent The data package number
 #' @export create_distribution
 create_distribution <- function(packageIdent) {
 

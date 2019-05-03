@@ -3,12 +3,12 @@
 \docType{data}
 \name{capRights}
 \alias{capRights}
-\title{CAP LTER default access / copy rights}
+\title{capRights: default intellectual rights statement passed to EML-generating workflow}
 \format{An object of class \code{character} of length 1.}
 \usage{
 capRights
 }
 \description{
-CAP LTER default access / copy rights
+capRights: default intellectual rights statement passed to EML-generating workflow
 }
 \keyword{datasets}
