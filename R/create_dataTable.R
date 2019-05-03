@@ -34,13 +34,13 @@
 #' @param dateRangeField (optional) The quoted name of the data entity field
 #'   that is a date field that would reflect the start and end dates of the data
 #'   reflected in the data entity.
-#' @param baseURL The base path of the web-accessible location of the data file;
-#'   the name of the resulting file will be passed to the base path to generate
-#'   a web-resolvable file path.
+#' @param baseURL (optional) The base path of the web-accessible location of the
+#'   data file; the name of the resulting file will be passed to the base path
+#'   to generate a web-resolvable file path.
 #' @param missingValueCode (optional) create_dataTable will automatically
 #'   document the presence of NA and NaN entries as missing values in the EML
 #'   output. The user has the ability to identify an additional indicator of
-#'   missing values. Numbers (e.g., -9999 should be unquotes) whereas text
+#'   missing values. Numbers (e.g., -9999 should be unquoted) whereas text
 #'   values (e.g., "missing") should be quoted.
 #'
 #' @import EML
