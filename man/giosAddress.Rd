@@ -10,22 +10,29 @@ giosAddress
 }
 \value{
 establishes in the R ennvironment upon package load, eml entities
-  referenced in (or outside) the remlTemplate.
+  referenced in (or outside) a EML development template.
 }
 \description{
 configure_caplter establishes several data set elements that are
-  likely to be consistent across all CAP LTER data sets, including the GIOS
-  address, contact information, landuage, intellectual rights, access, and
-  metadata distribution.
+  likely to be consistent across all CAP LTER or GIOS data sets, including
+  language, distribution, and access. In addition, address, publisher, and
+  contact are established each specific to CAP LTER or GIOS. The appropriate
+  reference (to CAP LTER or GIOS) should be made for these elements at the
+  time of eml$dataset construction. Note that at the time of this writing
+  (2019-05-08) there is only a CAP LTER intellectual rights.
 }
 \details{
 configure_caplter establishes several data set elements that are
-  likely to be consistent across all CAP LTER data sets, including the GIOS
-  address, contact information, landuage, intellectual rights, access, and
-  metadata distribution. Most of these eml entities are established in the R
-  environment when the capeml package is loaded and available for references
-  in the remlTemplate. Distribution is the exception as this is a function
-  that requires the data set package identifier as an input.
+  likely to be consistent across all CAP LTER or GIOS data sets, including
+  language, distribution, and access. In addition, address, publisher, and
+  contact are established each specific to CAP LTER or GIOS. The appropriate
+  reference (to CAP LTER or GIOS) should be made for these elements at the
+  time of eml$dataset construction. Note that at the time of this writing
+  (2019-05-08) there is only a CAP LTER intellectual rights. Most of these
+  eml entities are established in the R environment when the capeml package
+  is loaded and available for reference in the EML development template.
+  Distribution is the exception as this is a function that requires the data
+  set package identifier as an input.
 }
 \examples{
 \dontrun{

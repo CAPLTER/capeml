@@ -3,12 +3,12 @@
 \docType{data}
 \name{giosContact}
 \alias{giosContact}
-\title{default CAP LTER / GIOS contact as EML::contact}
+\title{default GIOS contact as EML::contact}
 \format{An object of class \code{list} of length 11.}
 \usage{
 giosContact
 }
 \description{
-default CAP LTER / GIOS contact as EML::contact
+default GIOS contact as EML::contact
 }
 \keyword{datasets}
