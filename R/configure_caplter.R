@@ -64,7 +64,7 @@ giosContact <- EML::eml$contact(
 # CAP LTER address, publisher, contact ------------------------------------
 
 #' @title default CAP LTER address
-#' @export giosAddress
+#' @export capAddress
 capAddress <- EML::eml$address(
   deliveryPoint = c('Arizona State University', 'Global Institute of Sustainability'),
   city = 'Tempe',
@@ -73,13 +73,13 @@ capAddress <- EML::eml$address(
   country = 'USA')
 
 #' @title default CAP LTER publisher as EML::publisher
-#' @export giosPublisher
+#' @export capPublisher
 capPublisher <- EML::eml$publisher(
   organizationName = 'Central Arizona–Phoenix LTER',
   address = capAddress)
 
 #' @title default CAP LTER contact as EML::contact
-#' @export giosContact
+#' @export capContact
 capContact <- EML::eml$contact(
   organizationName = 'Central Arizona–Phoenix LTER',
   positionName = 'Information Manager',
