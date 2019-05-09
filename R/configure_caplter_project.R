@@ -91,8 +91,8 @@ billie <- EML::eml$personnel(
 
 # Abby York
 
-# abbyOrcid <- EML::eml$userId(directory = "https://orcid.org")
-# abbyOrcid$userId <- "https://orcid.org/0000-0002-8859-6691"
+abbyOrcid <- EML::eml$userId(directory = "https://orcid.org")
+abbyOrcid$userId <- "https://orcid.org/0000-0002-2313-9262"
 
 abby <- EML::eml$personnel(
   individualName = EML::eml$individualName(
@@ -100,7 +100,7 @@ abby <- EML::eml$personnel(
     surName = "York"),
   electronicMailAddress = "Abigail.York@asu.edu",
   organizationName = "Arizona State University",
-  # userId = abbyOrcid,
+  userId = abbyOrcid,
   id = "personnel.abigail.york",
   role = "Co-principal Investigator"
 )
