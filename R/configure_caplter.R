@@ -75,13 +75,13 @@ capAddress <- EML::eml$address(
 #' @title default CAP LTER publisher as EML::publisher
 #' @export capPublisher
 capPublisher <- EML::eml$publisher(
-  organizationName = 'Central Arizona–Phoenix LTER',
+  organizationName = 'Central Arizona\u2013Phoenix LTER',
   address = capAddress)
 
 #' @title default CAP LTER contact as EML::contact
 #' @export capContact
 capContact <- EML::eml$contact(
-  organizationName = 'Central Arizona–Phoenix LTER',
+  organizationName = 'Central Arizona\u2013Phoenix LTER',
   positionName = 'Information Manager',
   electronicMailAddress = "caplter.data@asu.edu",
   onlineUrl = 'https://sustainability.asu.edu/caplter/',
