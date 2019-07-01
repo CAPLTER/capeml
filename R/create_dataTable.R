@@ -191,20 +191,20 @@ create_dataTable <- function(dfname,
 
   if(!missing(dateRangeField)) {
 
-    dataTableCoverage <- EML::eml$coverage(
+    dataTableTemporalCoverage <- EML::eml$coverage(
       temporalCoverage = EML::eml$temporalCoverage(
         rangeOfDates = EML::eml$rangeOfDates(
           EML::eml$beginDate(
-            calendarDate = format(min(dfname[[dateRangeField]]), "%Y-%m-%d")
+            calendarDate = format(min(dfname[[dateRangeField]], na.rm = TRUE), "%Y-%m-%d")
           ),
           EML::eml$endDate(
-            calendarDate = format(max(dfname[[dateRangeField]]), "%Y-%m-%d")
+            calendarDate = format(max(dfname[[dateRangeField]], na.rm = TRUE), "%Y-%m-%d")
           )
         )
       )
     )
 
-    newDT$coverage <- dataTableTemporal
+    newDT$coverage <- dataTableTemporalCoverage
 
   } # close temporalCoverage
 

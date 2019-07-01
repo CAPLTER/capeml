@@ -81,7 +81,8 @@ The `create_dataTable` function accepts five arguments:
 2.  description = a description of the data object (required)
 3.  dateRangeField = (optional) The quoted name of the data entity field
     that is a date field that would reflect the start and end dates of
-    the data reflected in the data entity.
+    the data reflected in the data entity. The date must be of the
+    format %Y-%m-%d.
 4.  baseURL = (optional) The base path of the web-accessible location of
     the data file; the name of the resulting file will be passed to the
     base path to generate a web-resolvable file path.
