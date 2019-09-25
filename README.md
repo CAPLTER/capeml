@@ -13,14 +13,17 @@ individual data entities (e.g., spatial vectors, raster, other entities,
 data tables).
 
 Helper functions for the creation of data set metadata and a dataTable
-entity using the ropensci/eml are currently supported. Helper functions
-for the creation of metadata for spatial data (e.g., spatialRaster)
+entity using the ropensci/eml are currently supported.
+
+Helper functions for the creation of metadata for spatialRaster)
 currently are built on an earlier version of ropensci/eml and not
-functional - these will be updated soon (2018-12-17). Note that the
-creation of people-related entities in EML are specific to functions
-that rely on Global Institute of Sustainability infrastructure - these
-tools are located in the [gioseml](https://github.com/CAPLTER/gioseml)
-package.
+functional (these will be updated soon (2018-12-17)), but generating
+spatialVectors (output to kml) is supported.
+
+Note that the creation of people-related entities in EML are specific to
+functions that rely on Global Institute of Sustainability
+infrastructure; please see the
+[gioseml](https://github.com/CAPLTER/gioseml) package for these tools.
 
 **navigation**
 
@@ -33,6 +36,7 @@ package.
         set](https://github.com/CAPLTER/capeml#generate-keywordset-from-file)
       - [generate taxonomic
         coverage](https://github.com/CAPLTER/capeml#generate-taxonomiccoverage)
+  - [spatialVector](https://github.com/CAPLTER/capeml#spatialVector)
 
 currently unsupported
 
@@ -218,6 +222,35 @@ taxaCoverage <- make_taxonomicCoverage(path = my_path)
 # add taxonomic to other coverages
 coverage$taxonomicCoverage <- taxaCoverage
 ```
+
+#### spatialVector
+
+Given a spatial vector entity in the R envionment:
+
+`write_attributes(vector_data_entity)` will generate a template as a csv
+file in the working directory based on properties of the
+vector\_data\_entity such that metadata properties (e.g.,
+attributeDefinition) can be added via a editor or spreadsheet
+application.
+
+`create_spatialVector(data_entity)` performs many services:
+
+  - the spatial vector data entity is written to file as a kml in the
+    working/project directory with the file name:
+    *projectid\_data-entity-name.kml* (note all output is as kml)
+  - metadata provided in the attributes templates are ingested
+  - a EML object of type spatialVector is returned
+  - note that the spatial vector data entity name should be used
+    consistently within the chunk, and the resulting
+    vector\_data\_entity entity should have the name: *data\_entity\_SV*
+
+The `create_spatialVector` function accepts three arguments:
+
+1.  svname = spatial data entity name (required)
+2.  description = a description of the data object (required)
+3.  baseURL = (optional) The base path of the web-accessible location of
+    the data file; the name of the resulting file will be passed to the
+    base path to generate a web-resolvable file path.
 
 #### currently unsupported
 

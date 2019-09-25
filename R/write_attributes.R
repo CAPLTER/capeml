@@ -45,6 +45,10 @@ write_attributes <- function(dfname, overwrite = FALSE) {
     stop(paste0("file ", fileName, " already exists, use write_attributes(overwrite = TRUE) to overwrite"))
   }
 
+  # when we write attributes from a spatial file, column classes can be vectors.
+  # as such, we need to pull the first entity only
+  check_class <- function(x) { class(x)[[1]] }
+
   # set up the data frame for metadata
   rows <- ncol(dfname)
   df_attrs <- data.frame(attributeName = names(dfname),
@@ -53,7 +57,7 @@ write_attributes <- function(dfname, overwrite = FALSE) {
                          numberType = character(rows),
                          definition = character(rows),
                          attributeDefinition = character(rows),
-                         columnClasses = map_chr(dfname, class),
+                         columnClasses = map_chr(dfname, check_class),
                          minimum = map_chr(dfname, function(x) if (is.numeric(x)) { x = min(x, na.rm = TRUE) } else { x = "" }),
                          maximum = map_chr(dfname, function(x) if (is.numeric(x)) { x = max(x, na.rm = TRUE) } else { x = "" }),
                          stringsAsFactors = FALSE)
