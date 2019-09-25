@@ -25,7 +25,8 @@ Imports:
     purrr,
     taxize,
     tibble,
-    tools
+    tools,
+    sf
 Remotes: ropensci/EML
 RoxygenNote: 6.1.1
 Suggests: knitr,
