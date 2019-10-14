@@ -19,20 +19,23 @@
 #' @note create_spatialRaster relies on the helper functions zipRelatedFiles and
 #'   get_emlProjection, which are specific to UNIX operating systems.
 #'
-#' @param pathToRaster The quoted path of the raster directory.
-#' @param metadataFile The quoted path and name of the raster metadata file (the
-#'   name of the raster data to be processed is included as a parameter in this
-#'   metadata file).
-#' @param categoricalMetadataFile Included if raster values are categorical. The
-#'   quoted path and name of the raster metadata file that provides said
-#'   details.
+#' @param rasterFile Quoted full path to raster file.
+#' @param description Description of the raster.
+#' @param epsgProjection EPSG numeric code of raster's coordinate reference system
+#' @param emlProjection EML-compliant refence to raster's coordinate reference system
+#' @param rasterValueDescription Description of raster values
+#' @param rasterValueUnits Raster value units
+#' @param zipFiles Logical indicating whether spatial raster entity should be
+#'   constructed from a single raster file (FALSE, default) or entire directory (TRUE)
+#' @param baseURL (optional) The base path of the web-accessible location of the
+#'   data file; the name of the resulting file will be passed to the base path
+#'   to generate a web-resolvable file path.
 #'
 #' @import EML
 #' @import dplyr
-#' @importFrom raster raster bandnr xres yres
+#' @importFrom raster
 #' @importFrom readr read_csv
 #' @importFrom tools md5sum file_ext
-#' @importFrom stringr str_extract
 #'
 #' @return EML spatial data object is returned. Additionally, the spatial data
 #'   file is renamed with the project id + base file name + md5sum + file
@@ -53,234 +56,317 @@
 #'
 #' @export
 
-create_spatialRaster <- function(pathToRaster, metadataFile, categoricalMetadataFile) {
+create_spatialRaster <- function(rasterFile,
+                                 description,
+                                 epsgProjection,
+                                 emlProjection,
+                                 rasterValueDescription,
+                                 rasterValueUnits,
+                                 zipFiles = FALSE,
+                                 baseURL = "https://data.gios.asu.edu/datasets/cap/") {
 
 
-  # check for required environmental parameters and arguments
+  # set options -------------------------------------------------------------
 
-    # do not proceed if the project id has not been identified in the working env
-    if (missing('projectid')) { stop("missing project id") }
-
-    # do not proceed if the path to where raster data reside is not provided
-    if (missing('pathToRaster')) { stop("specify the path to directory with raster data") }
-
-    # do not proceed if a metadata file is not provided
-    if (missing('metadataFile')) { stop("specify the raster metadata file") }
+  options(scipen = 999)
 
 
-  # use full path
-  pathToRaster <- path.expand(pathToRaster)
+  # required parameters -----------------------------------------------------
 
-  # load metadata file
-  rasterMetadata <- read_csv(metadataFile)
+  # do not proceed if the project id has not been identified in the working env
+  if (!exists('projectid')) { stop("missing project id") }
 
-  # acces name of raster file
-  rasterFileName <- rasterMetadata %>%
-    filter(metadata_entity == 'rasterName') %>%
-    select(metadata_value) %>%
-    unlist(., use.names = FALSE)
+  # do not proceed if a description is not provided
+  if (missing('description')) { stop("please provide a description for this raster") }
 
-  # do not proceed if the raster file is not in the prescribed directory
-  if(!file.exists(paste0(pathToRaster, "/", basename(rasterFileName)))) { stop("raster file is not in the prescribed directory") }
+  # do not proceed if a description of the rater values is not provided
+  if (missing('rasterValueDescription')) { stop("please provide a desription of the raster cell values") }
 
-  # identify raster location and file
-  targetRaster <- paste0(pathToRaster, "/", rasterFileName)
+  # do not proceed if a epsg of EML-compliant projection is not provided
+  if (missing('epsgProjection') & missing('emlProjection')) {
 
+    stop("please provide a EPSG -or- EML-compliant projection for this raster")
 
-  # load the raster file
-  rasterObject <- raster(targetRaster)
-
-
-  # read raster to access inherent file metadata
-  numBand <- new('numberOfBands',
-                 bandnr(rasterObject))
-  numRows <- new('rows',
-                 nrow(rasterObject))
-  numCols <- new('columns',
-                 ncol(rasterObject))
-  cellsX <- new('cellSizeXDirection',
-                xres(rasterObject))
-  cellsY <- new('cellSizeYDirection',
-                yres(rasterObject))
-
-
-  # call the get_emlProjection function to [attempt to] match the raster's
-  # projection with the corresponding projection name that is pemissible in EML
-  coordSystem <- tryCatch({
-
-    get_emlProjection(rasterObject)
-
-  }, warning = function(warn) {
-
-    print(paste("WARNING: projection not resolved"))
-    return("METADATA_NOT_AVAILABLE")
-
-  }, error = function(err) {
-
-    print(paste("WARNING: projection not resolved"))
-    return("METADATA_NOT_AVAILABLE")
-
-  }) # close try catch
-
-  rasterProjection <- new('spatialReference',
-                          horizCoordSysName = coordSystem)
-
-
-  # parse base name of file without extension
-  targetFileBaseName <- str_extract(basename(rasterFileName), "^[^\\.]*")
-
-  # if there are related files (e.g., supporting files) as determined by other
-  # files with the same name as the raster (but with different file extentions),
-  # then zip all files of the same name by calling the zipRelatedFiles function,
-  # and that will be our object with dataFormat = zip; the name of the zipped
-  # file is returned and passed to objectName for further processing. Else,
-  # process only the raster file with dataFormat = the file's extension.
-  if (length(list.files(path = pathToRaster, pattern = targetFileBaseName)) > 1) {
-    objectName <- zipRelatedFiles(pathToRaster, rasterFileName)
-    zipIsTrue <- TRUE
-  } else {
-    expandedName <- paste0(projectid, "_", targetFileBaseName, "_", md5sum(targetRaster), ".", file_ext(targetRaster))
-    file.rename(targetRaster, paste0(pathToRaster, expandedName))
-    objectName <- expandedName
-  }
-
-  # generate path to newly created object
-  newObjectLocation <- paste0(pathToRaster, objectName)
-
-
-  # EML: physical
-
-  # create @physical
-  physical <- set_physical(objectName)
-
-  # add file size and unit to @physical
-  file_size <- new("size",
-                   deparse(file.size(newObjectLocation)),
-                   unit = "byte")
-  physical@size <- file_size
-
-  # add authentication type (here md5) to @physical
-  md5 <- new("authentication",
-             md5sum(newObjectLocation),
-             method = "MD5")
-  physical@authentication <- c(md5)
-
-  # add distribution to @physical
-  # set onlineURL according to CAP's system
-  onlineURL <- "https://data.gios.asu.edu/datasets/cap/"
-
-  online_url <- new("online",
-                    url = paste0(onlineURL, objectName))
-  file_dist <- new("distribution",
-                   online = online_url)
-  physical@distribution <- c(file_dist)
-
-  # add raster format or zip to physical
-  if(isTRUE(zipIsTrue)) {
-    ext_format <- new("externallyDefinedFormat",
-                      formatName = 'zip')
-    dat_format <- new("dataFormat",
-                      externallyDefinedFormat = ext_format)
-    physical@dataFormat <- dat_format
-  } else {
-    ext_format <- new("externallyDefinedFormat",
-                      formatName = file_ext(targetRaster))
-    dat_format <- new("dataFormat",
-                      externallyDefinedFormat = ext_format)
-    physical@dataFormat <- dat_format
   }
 
 
-  # generate raster attribute table
-  rasterValueAttrs <- data.frame(
-    attributeName = c('value'),
-    attributeLabel = c(rasterMetadata %>%
-                         filter(metadata_entity == 'rasterValueLabel') %>%
-                         select(metadata_value) %>%
-                         unlist(., use.names = FALSE)),
-    attributeDefinition = c(rasterMetadata %>%
-                              filter(metadata_entity == 'rasterValueDescription') %>%
-                              select(metadata_value) %>%
-                              unlist(., use.names = FALSE)),
-    definition = c(rasterMetadata %>%
-                     filter(metadata_entity == 'rasterValueDescription') %>%
-                     select(metadata_value) %>%
-                     unlist(., use.names = FALSE))
-  )
+  # load raster -------------------------------------------------------------
+
+  rasterObject <- raster(rasterFile)
 
 
-  # compile components for @attributeList of @dataTable
-  # ignore factors if they are not relevant to this dataset
-  if(missing(categoricalMetadataFile)) {
+  # establish raster file parent directory ----------------------------------
 
-    # determine raster value data type when not categorical
-    nonFactor = case_when(
-      is.numeric(getValues(rasterObject)) == TRUE ~ "numeric",
-      is.character(getValues(rasterObject)) == TRUE ~ "character"
+  directoryName <- dirname(rasterFile)
+
+
+  # build attribute table ---------------------------------------------------
+
+  rasterFactorsFileName <- paste0(directoryName, "/", basename(file_path_sans_ext(rasterFile)), "_factors.csv")
+
+  # compile components for attributeList of dataTable
+
+  # condition: factors present
+  if (file.exists(rasterFactorsFileName)) {
+
+    rasterAttributes <- data.frame(
+      attributeName = "raster_value",
+      attributeDefinition = rasterValueDescription
     )
 
-    attr_list <- set_attributes(attributes = rasterValueAttrs,
-                                col_classes = c(nonFactor))
+    rasterFactors <- read_csv(rasterFactorsFileName,
+                              col_types = cols()) # to suppress tibble output
 
+    attr_list <- set_attributes(attributes = rasterAttributes, factors = rasterFactors, col_classes = "factor")
+
+    # condition: factors not present
   } else {
 
-    # import categorical metadata
-    rasterValueCategories <- read_csv(categoricalMetadataFile)
+    # do not proceed if the units for the rater values is not provided
+    if (missing('rasterValueUnits')) { stop("please provide units for the raster cell values") }
 
-    rasterValueFactors <- data.frame(
-      attributeName = "value",
-      code = rasterValueCategories$rasterValue,
-      definition = rasterValueCategories$categoryName
+    # determine raster number type
+    # sample of raster values (10% of values sans NAs)
+    rasterValuesSample <- na.omit(sample(rasterObject, size = 0.1 * ncell(rasterObject)))
+    rasterValuesSample <- rasterValuesSample[is.finite(rasterValuesSample)] # remove infs (just in case)
+
+    rounded <- floor(rasterValuesSample)
+
+    if (length(rasterValuesSample) - sum(rasterValuesSample == rounded, na.rm = T) > 0) {
+
+      rasterNumberType <- "real" # all
+
+    } else if (min(rasterValuesSample, na.rm = T) > 0) {
+
+      rasterNumberType <- "natural" # 1, 2, 3, ... (sans 0)
+
+    } else if (min(rasterValuesSample, na.rm = T) < 0) {
+
+      rasterNumberType <- "integer" # whole + negative values
+
+    } else {
+
+      rasterNumberType <- "whole" # natural + 0
+
+    }
+
+    rasterAttributes <- data.frame(
+      attributeName = "raster_value",
+      attributeDefinition = rasterValueDescription,
+      unit = rasterValueUnits,
+      numberType = rasterNumberType
     )
 
-    attr_list <- set_attributes(attributes = rasterValueAttrs,
-                                factors = rasterValueFactors,
-                                col_classes = c("factor"))
+    attr_list <- set_attributes(attributes = rasterAttributes, col_classes = "numeric")
+
   }
 
 
-  # create spatialRaster
-  newSR <- new("spatialRaster",
-               entityName = objectName,
-               entityDescription = rasterMetadata %>%
-                 filter(metadata_entity == 'rasterDescription') %>%
-                 select(metadata_value) %>%
-                 unlist(., use.names = FALSE),
-               physical = physical,
-               attributeList = attr_list,
-               spatialReference = rasterProjection,
-               horizontalAccuracy = new("horizontalAccuracy",
-                                        accuracyReport= rasterMetadata %>%
-                                          filter(metadata_entity == 'horizontalAccuracy') %>%
-                                          select(metadata_value) %>%
-                                          unlist(., use.names = FALSE)),
-               verticalAccuracy = new("verticalAccuracy",
-                                      accuracyReport= rasterMetadata %>%
-                                        filter(metadata_entity == 'verticalAccuracy') %>%
-                                        select(metadata_value) %>%
-                                        unlist(., use.names = FALSE)),
-               cellSizeXDirection = cellsX,
-               cellSizeYDirection = cellsY,
-               numberOfBands = numBand,
-               rasterOrigin = rasterMetadata %>%
-                 filter(metadata_entity == 'rasterOrigin') %>%
-                 select(metadata_value) %>%
-                 unlist(., use.names = FALSE),
-               rows = numRows,
-               columns = numCols,
-               verticals = rasterMetadata %>%
-                 filter(metadata_entity == 'verticals') %>%
-                 select(metadata_value) %>%
-                 unlist(., use.names = FALSE),
-               cellGeometry = rasterMetadata %>%
-                 filter(metadata_entity == 'cellGeometry') %>%
-                 select(metadata_value) %>%
-                 unlist(., use.names = FALSE),
-               id = objectName
-  )
+  # add additionalInfo - projections ----------------------------------------
+
+  if (missing(epsgProjection)) {
+
+    if (emlProjection == "NAD_1983_UTM_Zone_12N") {
+
+      epsgProjection <- 26912
+
+    } else if (emlProjection == "NAD_1927_UTM_Zone_12N") {
+
+      epsgProjection <- 26712
+
+    } else if (emlProjection == "GCS_WGS_1984") {
+
+      epsgProjection <- 4326
+
+    } else if (emlProjection == "WGS_1984_UTM_Zone_12N") {
+
+      epsgProjection <- 32612
+
+    } else {
+
+      projections <- list(
+        section = list(
+          paste0("<title>raster derived coordinate reference system</title>\n<para>", as.character(crs(rasterObject)), "</para>")
+        )
+      )
+
+    }
+
+  } else {
+
+    projections <- list(
+      section = list(
+        paste0("<title>user provided coordinate reference system</title>\n<para>", epsgProjection,"</para>"),
+        paste0("<title>raster derived coordinate reference system</title>\n<para>", as.character(crs(rasterObject)), "</para>")
+      )
+    )
+
+  }
 
 
-  # return the xml object
+  # identify EML-compliant spatial reference --------------------------------
+
+  if (missing(emlProjection)) {
+
+    if (epsgProjection == 26912) {
+
+      emlProjection <- "NAD_1983_UTM_Zone_12N"
+
+    } else if (epsgProjection == 26712) {
+
+      emlProjection <- "NAD_1927_UTM_Zone_12N"
+
+    } else if (epsgProjection == 4326) {
+
+      emlProjection <- "GCS_WGS_1984"
+
+    } else if (epsgProjection == 32612) {
+
+      emlProjection <- "WGS_1984_UTM_Zone_12N"
+
+    } else {
+
+      stop("cannot identify EML-compliant projection, contact package developer")
+
+    }
+
+  }
+
+
+  # coverage ----------------------------------------------------------------
+
+  spatialCoverage <- set_coverage(west = raster::extent(rasterObject)@xmin,
+                                  east = raster::extent(rasterObject)@xmax,
+                                  north = raster::extent(rasterObject)@ymax,
+                                  south = raster::extent(rasterObject)@ymin)
+
+
+  # create spatial raster entity --------------------------------------------
+
+  # if zipping a directory
+
+  if (zipFiles == TRUE) {
+
+    # zip directory
+    directoryNameFull <- sub("/$", "", path.expand(directoryName))
+    zippedDirName <- paste0(directoryNameFull, ".zip")
+    zipShell <- paste0("zip -jX ", zippedDirName, " ", directoryNameFull, "/*")
+    system(zipShell)
+
+    # rename zipped dir with md5sum
+    zipHashName <- paste0(projectid, "_", file_path_sans_ext(basename(zippedDirName)), "_", md5sum(zippedDirName), ".zip")
+    zipHashDirName <- paste0(dirname(directoryName), "/", zipHashName)
+    renameShell <- paste0("mv ", zippedDirName, " ", zipHashDirName)
+    system(renameShell)
+
+    # build physical of zipped dir
+
+    # set authentication (md5)
+    fileAuthentication <- eml$authentication(method = "MD5")
+    fileAuthentication$authentication <- md5sum(zipHashDirName)
+
+    # set file size
+    fileSize <- eml$size(unit = "byte")
+    fileSize$size <- deparse(file.size(zipHashDirName))
+
+    # set file format
+    fileDataFormat <- eml$dataFormat(
+      externallyDefinedFormat = eml$externallyDefinedFormat(formatName = "zip")
+    )
+
+    # set distribution
+    fileDistribution <- eml$distribution(
+      eml$online(url = paste0(baseURL, zipHashName))
+    )
+
+    # build physical
+    spatialRasterPhysical <- eml$physical(
+      objectName = zipHashName,
+      authentication = fileAuthentication,
+      size = fileSize,
+      dataFormat = fileDataFormat,
+      distribution = fileDistribution
+    )
+
+    newSR <- EML::eml$spatialRaster(
+      entityName = zipHashName,
+      entityDescription = description,
+      physical = spatialRasterPhysical,
+      coverage = spatialCoverage,
+      additionalInfo = projections,
+      attributeList = attr_list,
+      spatialReference = EML::eml$spatialReference(
+        horizCoordSysName = emlProjection
+      ),
+      numberOfBands = bandnr(rasterObject),
+      rows = nrow(rasterObject),
+      columns = ncol(rasterObject),
+      cellSizeXDirection = xres(rasterObject),
+      cellSizeYDirection = yres(rasterObject),
+      id = zipHashName
+    )
+
+  } else {
+
+    # if working with a raster file (i.e., not zipping a directory)
+
+    newRasterName <- paste0(projectid, "_", basename(file_path_sans_ext(rasterFile)), "_", md5sum(rasterFile), ".", file_ext(rasterFile))
+    newRasterNameDir <- paste0(directoryName, "/", newRasterName)
+
+    file.copy(from = rasterFile,
+              to = newRasterNameDir)
+
+    # build physical of renamed raster
+
+    # set authentication (md5)
+    fileAuthentication <- eml$authentication(method = "MD5")
+    fileAuthentication$authentication <- md5sum(newRasterNameDir)
+
+    # set file size
+    fileSize <- eml$size(unit = "byte")
+    fileSize$size <- deparse(file.size(newRasterNameDir))
+
+    # set file format
+    fileDataFormat <- eml$dataFormat(
+      externallyDefinedFormat = eml$externallyDefinedFormat(formatName = file_ext(newRasterNameDir))
+    )
+
+    # set distribution
+    fileDistribution <- eml$distribution(
+      eml$online(url = paste0(baseURL, newRasterName))
+    )
+
+    # build physical
+    spatialRasterPhysical <- eml$physical(
+      objectName = newRasterName,
+      authentication = fileAuthentication,
+      size = fileSize,
+      dataFormat = fileDataFormat,
+      distribution = fileDistribution
+    )
+
+    newSR <- EML::eml$spatialRaster(
+      entityName = newRasterName,
+      entityDescription = description,
+      physical = spatialRasterPhysical,
+      coverage = spatialCoverage,
+      additionalInfo = projections,
+      attributeList = attr_list,
+      spatialReference = EML::eml$spatialReference(
+        horizCoordSysName = emlProjection
+      ),
+      numberOfBands = bandnr(rasterObject),
+      rows = nrow(rasterObject),
+      columns = ncol(rasterObject),
+      cellSizeXDirection = xres(rasterObject),
+      cellSizeYDirection = yres(rasterObject),
+      id = newRasterName
+    )
+
+  }
+
+  # return spatial raster object --------------------------------------------
+
   return(newSR)
 
 
