@@ -5,19 +5,14 @@
 #'
 #' @details a spatialRaster entity is created from a single data file (e.g.,
 #'   CAP_1985.img) or a collection of related files (e.g., CAP_1985.img,
-#'   CAP_1985.img.aux.xml). In the case of multiple file, all related files as
-#'   identified by a common base name (e.g., 'CAP_1985') are aggregated into a
+#'   CAP_1985.img.aux.xml). In the case of multiple files, all files in the
+#'   parent directory where the raster file is located are aggregated into a
 #'   single compressed (zipped) file. In all cases, the resulting entity is
 #'   renamed with the project id + base file name + md5sum + file extension (zip
 #'   in the case when multiple files are aggregated).
 #' @note create_spatialRaster will look for a project id in the working
 #'   environment; this parameter is not passed to the function and it must
 #'   exist.
-#' @note create_spatialRaster currently does not accept an argument for url to a
-#'   data file; the package defaults to a CAP LTER specific URL, and this must
-#'   be changed manually in the resulting xml
-#' @note create_spatialRaster relies on the helper functions zipRelatedFiles and
-#'   get_emlProjection, which are specific to UNIX operating systems.
 #'
 #' @param rasterFile Quoted full path to raster file.
 #' @param description Description of the raster.
