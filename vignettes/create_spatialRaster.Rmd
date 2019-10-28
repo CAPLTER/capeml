@@ -11,10 +11,56 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-### detail raster metdata
+### overview
 
-For each raster, generate a separate metadata file to detail critical information about the raster. Note that the raster file name should be provided as unquoted text, and the file (or files) should be in the directory specified when calling the create_spatialRaster function.
+The capeml package provides the user considerable flexibility to process spatial
+raster data and generate EML spatial raster metadata. Notably, the package
+allows for processing an individual raster file (e.g., xxx.tiff) or a raster
+file with supporting metadata (e.g., as xml or otherwise) in a zipped folder. In
+the case of multiple files, all files in the parent directory where the raster
+file is located are aggregated into a single compressed (zipped) file. In all
+cases, the resulting entity is renamed with the project id + base file name +
+md5sum + file extension (zip in the case when multiple files are aggregated).
 
+The create_spatialRaster function takes numerous arguments, including:
+
+- `rasterFile` (required) Quoted full path to raster file.
+- `description` (required) Description of the raster.
+- `epsgProjection` (required if emlProjection is not provided) EPSG numeric code
+of raster's coordinate reference system
+- `emlProjection` (required if epsgProjection is not provided) EML-compliant
+refence to raster's coordinate reference system
+- `rasterValueDescription` (required) Description of raster values
+- `rasterValueUnits` Raster value units; these are optional but should be
+provided if raster values are not categorical.
+- `zipFiles` (optional, default = FALSE) Logical indicating whether spatial
+raster entity should be constructed from a single raster file (FALSE, default)
+or entire directory (TRUE)
+- `baseURL` (optional) The base path of the web-accessible location of the data
+file; the name of the resulting file will be passed to the base path to generate
+a web-resolvable file path. The base path for CAP LTER data
+(https://data.gios.asu.edu/datasets/cap/) is passed as the default.
+
+Regardless of whether a single raster file or a zipped directory of related
+files is created as the final entity, the raster file is read into the R
+environment where select metadata are extracted using functions from the raster
+package.
+
+### projection
+
+A projection is required for spatialRaster. This critical piece of metadata can
+be provided by supplying the numeric epsg code of the projection (e.g., 4326 for
+WGS 1984) or an EML-compliant projection name (e.g., WGS_1984_UTM_Zone_12N).
+Ultimately, an EML-compliant projection name is required so the package will
+attempt to match the appropriate EML-compliant projection name to epsg code if
+epsg is provided but not an EML-compliant projection name. The package has a
+limited number of epsg codes matched to EML-compliant projection names, mostly
+those commonly used by CAP LTER investigators. The function will stop if a match
+cannot be identified, and the user should contact the package administrator to
+add the needed projection.
+
+The user may supply an epsg code and an an EML-compliant projection name in
+which case both will be represented in the metadata.
 
 *Raster metadata example*
 
