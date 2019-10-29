@@ -28,7 +28,7 @@
 #'
 #' @import EML
 #' @import dplyr
-#' @importFrom raster
+#' @import raster
 #' @importFrom readr read_csv
 #' @importFrom tools md5sum file_ext
 #'

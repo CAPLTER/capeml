@@ -4,18 +4,30 @@
 \alias{create_spatialRaster}
 \title{create_spatialRaster}
 \usage{
-create_spatialRaster(pathToRaster, metadataFile, categoricalMetadataFile)
+create_spatialRaster(rasterFile, description, epsgProjection,
+  emlProjection, rasterValueDescription, rasterValueUnits,
+  zipFiles = FALSE,
+  baseURL = "https://data.gios.asu.edu/datasets/cap/")
 }
 \arguments{
-\item{pathToRaster}{The quoted path of the raster directory.}
+\item{rasterFile}{Quoted full path to raster file.}
 
-\item{metadataFile}{The quoted path and name of the raster metadata file (the
-name of the raster data to be processed is included as a parameter in this
-metadata file).}
+\item{description}{Description of the raster.}
 
-\item{categoricalMetadataFile}{Included if raster values are categorical. The
-quoted path and name of the raster metadata file that provides said
-details.}
+\item{epsgProjection}{EPSG numeric code of raster's coordinate reference system}
+
+\item{emlProjection}{EML-compliant refence to raster's coordinate reference system}
+
+\item{rasterValueDescription}{Description of raster values}
+
+\item{rasterValueUnits}{Raster value units}
+
+\item{zipFiles}{Logical indicating whether spatial raster entity should be
+constructed from a single raster file (FALSE, default) or entire directory (TRUE)}
+
+\item{baseURL}{(optional) The base path of the web-accessible location of the
+data file; the name of the resulting file will be passed to the base path
+to generate a web-resolvable file path.}
 }
 \value{
 EML spatial data object is returned. Additionally, the spatial data
@@ -29,8 +41,8 @@ create_spatialRaster generates a EML entity of type
 \details{
 a spatialRaster entity is created from a single data file (e.g.,
   CAP_1985.img) or a collection of related files (e.g., CAP_1985.img,
-  CAP_1985.img.aux.xml). In the case of multiple file, all related files as
-  identified by a common base name (e.g., 'CAP_1985') are aggregated into a
+  CAP_1985.img.aux.xml). In the case of multiple files, all files in the
+  parent directory where the raster file is located are aggregated into a
   single compressed (zipped) file. In all cases, the resulting entity is
   renamed with the project id + base file name + md5sum + file extension (zip
   in the case when multiple files are aggregated).
@@ -39,13 +51,6 @@ a spatialRaster entity is created from a single data file (e.g.,
 create_spatialRaster will look for a project id in the working
   environment; this parameter is not passed to the function and it must
   exist.
-
-create_spatialRaster currently does not accept an argument for url to a
-  data file; the package defaults to a CAP LTER specific URL, and this must
-  be changed manually in the resulting xml
-
-create_spatialRaster relies on the helper functions zipRelatedFiles and
-  get_emlProjection, which are specific to UNIX operating systems.
 }
 \examples{
 \dontrun{
