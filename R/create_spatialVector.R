@@ -92,7 +92,7 @@ create_spatialVector <- function(svname,
       columnClasses = replace(columnClasses, grepl("polygon", columnClasses, ignore.case = T), "character")
     )
   classes <- attrs %>% pull(columnClasses) # column classes to vector (req'd by set_attributes)
-  attrs <- attrs %>% select(-columnClasses) # remove col classes from attrs (req'd by set_attributes)
+  attrs <- attrs %>% dplyr::select(-columnClasses) # remove col classes from attrs (req'd by set_attributes)
   attr_list <- set_attributes(attributes = attrs, col_classes = classes)
 
 
@@ -128,7 +128,7 @@ create_spatialVector <- function(svname,
 
   # add spatial reference  --------------------------------------------------
 
-  epsg4326 <- eml$spatialReference(
+  epsg4326 <- EML::eml$spatialReference(
     horizCoordSysName = 'GCS_WGS_1984'
   )
 

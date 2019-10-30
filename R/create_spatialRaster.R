@@ -257,25 +257,25 @@ create_spatialRaster <- function(rasterFile,
     # build physical of zipped dir
 
     # set authentication (md5)
-    fileAuthentication <- eml$authentication(method = "MD5")
+    fileAuthentication <- EML::eml$authentication(method = "MD5")
     fileAuthentication$authentication <- md5sum(zipHashDirName)
 
     # set file size
-    fileSize <- eml$size(unit = "byte")
+    fileSize <- EML::eml$size(unit = "byte")
     fileSize$size <- deparse(file.size(zipHashDirName))
 
     # set file format
-    fileDataFormat <- eml$dataFormat(
-      externallyDefinedFormat = eml$externallyDefinedFormat(formatName = "zip")
+    fileDataFormat <- EML::eml$dataFormat(
+      externallyDefinedFormat = EML::eml$externallyDefinedFormat(formatName = "zip")
     )
 
     # set distribution
-    fileDistribution <- eml$distribution(
-      eml$online(url = paste0(baseURL, zipHashName))
+    fileDistribution <- EML::eml$distribution(
+      EML::eml$online(url = paste0(baseURL, zipHashName))
     )
 
     # build physical
-    spatialRasterPhysical <- eml$physical(
+    spatialRasterPhysical <- EML::eml$physical(
       objectName = zipHashName,
       authentication = fileAuthentication,
       size = fileSize,
@@ -314,25 +314,25 @@ create_spatialRaster <- function(rasterFile,
     # build physical of renamed raster
 
     # set authentication (md5)
-    fileAuthentication <- eml$authentication(method = "MD5")
+    fileAuthentication <- EML::eml$authentication(method = "MD5")
     fileAuthentication$authentication <- md5sum(newRasterNameDir)
 
     # set file size
-    fileSize <- eml$size(unit = "byte")
+    fileSize <- EML::eml$size(unit = "byte")
     fileSize$size <- deparse(file.size(newRasterNameDir))
 
     # set file format
-    fileDataFormat <- eml$dataFormat(
-      externallyDefinedFormat = eml$externallyDefinedFormat(formatName = file_ext(newRasterNameDir))
+    fileDataFormat <- EML::eml$dataFormat(
+      externallyDefinedFormat = EML::eml$externallyDefinedFormat(formatName = file_ext(newRasterNameDir))
     )
 
     # set distribution
-    fileDistribution <- eml$distribution(
-      eml$online(url = paste0(baseURL, newRasterName))
+    fileDistribution <- EML::eml$distribution(
+      EML::eml$online(url = paste0(baseURL, newRasterName))
     )
 
     # build physical
-    spatialRasterPhysical <- eml$physical(
+    spatialRasterPhysical <- EML::eml$physical(
       objectName = newRasterName,
       authentication = fileAuthentication,
       size = fileSize,
