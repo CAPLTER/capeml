@@ -22,6 +22,11 @@
 #' @param overwrite If creating otherEntity by zipping a directory, this is a
 #'   logical indicating whether to overwrite an already existing zip file that
 #'   has the same name and location as the temporary zip object to be created.
+#' @param projectNaming Logical indicating if the raster file (or parent
+#'   directory if zipFiles == TRUE) should be renamed per the style used by the
+#'   CAP LTER (default) with the project id + base file name + md5sum + file
+#'   extension. The passed file or directory name will be used if this parameter
+#'   is set to FALSE.
 #'
 #' @import EML
 #' @import dplyr
@@ -57,13 +62,16 @@
 #'
 #' @export
 
-
-create_otherEntity <- function(targetFile, description, baseURL = "https://data.gios.asu.edu/datasets/cap/", overwrite = FALSE) {
+create_otherEntity <- function(targetFile,
+                               description,
+                               baseURL = "https://data.gios.asu.edu/datasets/cap/",
+                               overwrite = FALSE,
+                               projectNaming = TRUE ) {
 
   # prerequisites -----------------------------------------------------------
 
   # do not proceed if the project id has not been identified in the working env
-  if (!exists('projectid')) { stop("missing project id") }
+  if (projectNaming == TRUE & !exists('projectid')) { stop("missing project id") }
 
   # do not proceed if the target file or directly has not been provided
   if (missing('targetFile')) { stop("specify the name of the file or directory") }
@@ -107,55 +115,107 @@ create_otherEntity <- function(targetFile, description, baseURL = "https://data.
   # determine the file extension
   fileExtension <- tools::file_ext(targetFile)
 
-  # rename the existing file with new_file_name that features the project_id,
-  # base name, md5sum hash, and extension
-  targetFileBaseName <- basename(targetFile)
-  pathToFile <- path.expand(targetFile)
-  new_file_name <- paste0(projectid, "_", str_extract(targetFileBaseName, "^[^\\.]*"), "_", md5sum(pathToFile), ".", fileExtension)
-  file.copy(targetFile, new_file_name)
-  # file.rename(targetFile, new_file_name) # previous approach of renaming file instead of creating a copy with the new name
-
   # set authentication (md5)
   fileAuthentication <- eml$authentication(method = "MD5")
-  fileAuthentication$authentication <- md5sum(new_file_name)
+  fileAuthentication$authentication <- md5sum(targetFile)
 
   # set file size
   fileSize <- eml$size(unit = "byte")
-  fileSize$size <- deparse(file.size(new_file_name))
+  fileSize$size <- deparse(file.size(targetFile))
 
   # set file format
   fileDataFormat <- eml$dataFormat(
     externallyDefinedFormat = eml$externallyDefinedFormat(formatName = fileExtension)
   )
 
-  # set distribution
-  fileDistribution <- eml$distribution(
-    eml$online(url = paste0(baseURL, new_file_name))
-  )
+  targetFileBaseName <- basename(targetFile)
+  directoryName <- dirname(targetFile)
+  directoryNameFull <- sub("/$", "", path.expand(directoryName))
+  pathToFile <- path.expand(targetFile)
 
-  # build physical
-  filePhysical <- eml$physical(
-    objectName = new_file_name,
-    authentication = fileAuthentication,
-    size = fileSize,
-    dataFormat = fileDataFormat,
-    distribution = fileDistribution
-  )
+  if (projectNaming == TRUE) {
 
-  # create file object as otherEntity
-  newfile <- eml$otherEntity(
-    entityName = new_file_name,
-    entityDescription = description,
-    physical = filePhysical,
-    entityType = fileExtension,
-    id = new_file_name
-  )
+    # if using project naming, add project-name specific elements to
+    # spatialRaster entity
+
+    # rename the existing file with new_file_name that features the project_id,
+    # base name, md5sum hash, and extension
+    new_file_name <- paste0(projectid, "_", str_extract(targetFileBaseName, "^[^\\.]*"), "_", md5sum(pathToFile), ".", fileExtension)
+    file.copy(from = targetFile,
+              to = paste0(directoryNameFull, "/", new_file_name))
+    # file.rename(targetFile, new_file_name) # previous approach of renaming file instead of creating a copy with the new name
+
+    # set distribution
+    fileDistribution <- eml$distribution(
+      eml$online(url = paste0(baseURL, new_file_name))
+    )
+
+    # build physical
+    filePhysical <- eml$physical(
+      objectName = new_file_name,
+      authentication = fileAuthentication,
+      size = fileSize,
+      dataFormat = fileDataFormat,
+      distribution = fileDistribution
+    )
+
+    # create file object as otherEntity
+    newOE <- eml$otherEntity(
+      entityName = new_file_name,
+      entityDescription = description,
+      physical = filePhysical,
+      entityType = fileExtension,
+      id = new_file_name
+    )
+
+    # close projectNaming == TRUE
+  } else {
+
+    # if not using not project naming, add source-name specific elements to
+    # otherEntity object
+
+    # rename the existing file with new_file_name that features the project_id,
+    # base name, md5sum hash, and extension
+    # targetFileBaseName <- basename(targetFile)
+    # pathToFile <- path.expand(targetFile)
+    # new_file_name <- paste0(projectid, "_", str_extract(targetFileBaseName, "^[^\\.]*"), "_", md5sum(pathToFile), ".", fileExtension)
+    # file.copy(targetFile, new_file_name)
+    # file.rename(targetFile, new_file_name) # previous approach of renaming file instead of creating a copy with the new name
+
+    # set distribution
+    fileDistribution <- eml$distribution(
+      eml$online(url = paste0(baseURL, targetFileBaseName))
+    )
+
+    # build physical
+    filePhysical <- eml$physical(
+      objectName = targetFileBaseName,
+      authentication = fileAuthentication,
+      size = fileSize,
+      dataFormat = fileDataFormat,
+      distribution = fileDistribution
+    )
+
+    # create file object as otherEntity
+    newOE <- eml$otherEntity(
+      entityName = targetFileBaseName,
+      entityDescription = description,
+      physical = filePhysical,
+      entityType = fileExtension,
+      id = targetFileBaseName
+    )
+
+  }
 
   # if otherEntity created by zipping a directory, remove the temporary zip object (e.g., targetFile.zip)
   if (isDirectory == TRUE && file.exists(zippedObject)) {
     file.remove(zippedObject)
   }
 
-  return(newfile)
 
-}
+  # return other entity object ----------------------------------------------
+
+  return(newOE )
+
+
+} # close create_otherEntity
