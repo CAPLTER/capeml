@@ -256,7 +256,6 @@ create_spatialRaster <- function(rasterFile,
   # create spatial raster entity --------------------------------------------
 
   # if zipping a directory
-
   if (zipFiles == TRUE) {
 
     # zip directory
@@ -265,117 +264,215 @@ create_spatialRaster <- function(rasterFile,
     zipShell <- paste0("zip -jX ", zippedDirName, " ", directoryNameFull, "/*")
     system(zipShell)
 
-    # rename zipped dir with md5sum
-    zipHashName <- paste0(projectid, "_", file_path_sans_ext(basename(zippedDirName)), "_", md5sum(zippedDirName), ".zip")
-    zipHashDirName <- paste0(dirname(directoryName), "/", zipHashName)
-    renameShell <- paste0("mv ", zippedDirName, " ", zipHashDirName)
-    system(renameShell)
-
-    # build physical of zipped dir
+    zipBaseName <- basename(zippedDirName)
 
     # set authentication (md5)
     fileAuthentication <- EML::eml$authentication(method = "MD5")
-    fileAuthentication$authentication <- md5sum(zipHashDirName)
+    fileAuthentication$authentication <- md5sum(zippedDirName)
 
     # set file size
     fileSize <- EML::eml$size(unit = "byte")
-    fileSize$size <- deparse(file.size(zipHashDirName))
+    fileSize$size <- deparse(file.size(zippedDirName))
 
     # set file format
     fileDataFormat <- EML::eml$dataFormat(
       externallyDefinedFormat = EML::eml$externallyDefinedFormat(formatName = "zip")
     )
 
-    # set distribution
-    fileDistribution <- EML::eml$distribution(
-      EML::eml$online(url = paste0(baseURL, zipHashName))
-    )
+    if (projectNaming == TRUE) {
 
-    # build physical
-    spatialRasterPhysical <- EML::eml$physical(
-      objectName = zipHashName,
-      authentication = fileAuthentication,
-      size = fileSize,
-      dataFormat = fileDataFormat,
-      distribution = fileDistribution
-    )
+      # if using project naming, add project-name specific elements to
+      # spatialRaster entity
 
-    newSR <- EML::eml$spatialRaster(
-      entityName = zipHashName,
-      entityDescription = description,
-      physical = spatialRasterPhysical,
-      coverage = spatialCoverage,
-      additionalInfo = projections,
-      attributeList = attr_list,
-      spatialReference = EML::eml$spatialReference(
-        horizCoordSysName = emlProjection
-      ),
-      numberOfBands = bandnr(rasterObject),
-      rows = nrow(rasterObject),
-      columns = ncol(rasterObject),
-      cellSizeXDirection = xres(rasterObject),
-      cellSizeYDirection = yres(rasterObject),
-      id = zipHashName
-    )
+      if (!exists('projectid')) { stop("missing project id") }
 
+      # rename zipped dir with md5sum
+      zipHashName <- paste0(projectid, "_", file_path_sans_ext(basename(zippedDirName)), "_", md5sum(zippedDirName), ".zip")
+      zipHashDirName <- paste0(dirname(directoryName), "/", zipHashName)
+      renameShell <- paste0("mv ", zippedDirName, " ", zipHashDirName)
+      system(renameShell)
+
+      # set distribution
+      fileDistribution <- EML::eml$distribution(
+        EML::eml$online(url = paste0(baseURL, zipHashName))
+      )
+
+      # build physical
+      spatialRasterPhysical <- EML::eml$physical(
+        objectName = zipHashName,
+        authentication = fileAuthentication,
+        size = fileSize,
+        dataFormat = fileDataFormat,
+        distribution = fileDistribution
+      )
+
+      newSR <- EML::eml$spatialRaster(
+        entityName = zipHashName,
+        entityDescription = description,
+        physical = spatialRasterPhysical,
+        coverage = spatialCoverage,
+        additionalInfo = projections,
+        attributeList = attr_list,
+        spatialReference = EML::eml$spatialReference(
+          horizCoordSysName = emlProjection
+        ),
+        numberOfBands = bandnr(rasterObject),
+        rows = nrow(rasterObject),
+        columns = ncol(rasterObject),
+        cellSizeXDirection = xres(rasterObject),
+        cellSizeYDirection = yres(rasterObject),
+        id = zipHashName
+      )
+
+      # close projectNaming == TRUE
+    } else {
+
+      # if not using not project naming, add source-name specific elements to
+      # spatialRaster entity
+
+      # set distribution
+      fileDistribution <- EML::eml$distribution(
+        EML::eml$online(url = paste0(baseURL, zipBaseName))
+      )
+
+      # build physical
+      spatialRasterPhysical <- EML::eml$physical(
+        objectName = zipBaseName,
+        authentication = fileAuthentication,
+        size = fileSize,
+        dataFormat = fileDataFormat,
+        distribution = fileDistribution
+      )
+
+      newSR <- EML::eml$spatialRaster(
+        entityName = zipBaseName,
+        entityDescription = description,
+        physical = spatialRasterPhysical,
+        coverage = spatialCoverage,
+        additionalInfo = projections,
+        attributeList = attr_list,
+        spatialReference = EML::eml$spatialReference(
+          horizCoordSysName = emlProjection
+        ),
+        numberOfBands = bandnr(rasterObject),
+        rows = nrow(rasterObject),
+        columns = ncol(rasterObject),
+        cellSizeXDirection = xres(rasterObject),
+        cellSizeYDirection = yres(rasterObject),
+        id = zipBaseName
+      )
+
+    } # close projectNaming == FALSE
+
+    # close if zipping a directory
   } else {
 
     # if working with a raster file (i.e., not zipping a directory)
 
-    newRasterName <- paste0(projectid, "_", basename(file_path_sans_ext(rasterFile)), "_", md5sum(rasterFile), ".", file_ext(rasterFile))
-    newRasterNameDir <- paste0(directoryName, "/", newRasterName)
-
-    file.copy(from = rasterFile,
-              to = newRasterNameDir)
-
-    # build physical of renamed raster
-
     # set authentication (md5)
     fileAuthentication <- EML::eml$authentication(method = "MD5")
-    fileAuthentication$authentication <- md5sum(newRasterNameDir)
+    fileAuthentication$authentication <- md5sum(rasterFile)
 
     # set file size
     fileSize <- EML::eml$size(unit = "byte")
-    fileSize$size <- deparse(file.size(newRasterNameDir))
+    fileSize$size <- deparse(file.size(rasterFile))
 
     # set file format
     fileDataFormat <- EML::eml$dataFormat(
-      externallyDefinedFormat = EML::eml$externallyDefinedFormat(formatName = file_ext(newRasterNameDir))
+      externallyDefinedFormat = EML::eml$externallyDefinedFormat(formatName = file_ext(rasterFile))
     )
 
-    # set distribution
-    fileDistribution <- EML::eml$distribution(
-      EML::eml$online(url = paste0(baseURL, newRasterName))
-    )
+    rasterBaseName <- basename(rasterFile)
+    directoryName <- dirname(rasterFile)
+    directoryNameFull <- sub("/$", "", path.expand(directoryName))
+    pathToFile <- path.expand(rasterFile)
 
-    # build physical
-    spatialRasterPhysical <- EML::eml$physical(
-      objectName = newRasterName,
-      authentication = fileAuthentication,
-      size = fileSize,
-      dataFormat = fileDataFormat,
-      distribution = fileDistribution
-    )
+    if (projectNaming == TRUE) {
 
-    newSR <- EML::eml$spatialRaster(
-      entityName = newRasterName,
-      entityDescription = description,
-      physical = spatialRasterPhysical,
-      coverage = spatialCoverage,
-      additionalInfo = projections,
-      attributeList = attr_list,
-      spatialReference = EML::eml$spatialReference(
-        horizCoordSysName = emlProjection
-      ),
-      numberOfBands = bandnr(rasterObject),
-      rows = nrow(rasterObject),
-      columns = ncol(rasterObject),
-      cellSizeXDirection = xres(rasterObject),
-      cellSizeYDirection = yres(rasterObject),
-      id = newRasterName
-    )
+      # if using project naming, add project-name specific elements to
+      # spatialRaster entity
 
-  }
+      newRasterName <- paste0(projectid, "_", file_path_sans_ext(rasterBaseName), "_", md5sum(rasterFile), ".", file_ext(rasterFile))
+      newRasterNameDir <- paste0(directoryNameFull, "/", newRasterName)
+
+      file.copy(from = rasterFile,
+                to = newRasterNameDir)
+
+      # set distribution
+      fileDistribution <- EML::eml$distribution(
+        EML::eml$online(url = paste0(baseURL, newRasterName))
+      )
+
+      # build physical
+      spatialRasterPhysical <- EML::eml$physical(
+        objectName = newRasterName,
+        authentication = fileAuthentication,
+        size = fileSize,
+        dataFormat = fileDataFormat,
+        distribution = fileDistribution
+      )
+
+      # build spatialRaster
+      newSR <- EML::eml$spatialRaster(
+        entityName = newRasterName,
+        entityDescription = description,
+        physical = spatialRasterPhysical,
+        coverage = spatialCoverage,
+        additionalInfo = projections,
+        attributeList = attr_list,
+        spatialReference = EML::eml$spatialReference(
+          horizCoordSysName = emlProjection
+        ),
+        numberOfBands = bandnr(rasterObject),
+        rows = nrow(rasterObject),
+        columns = ncol(rasterObject),
+        cellSizeXDirection = xres(rasterObject),
+        cellSizeYDirection = yres(rasterObject),
+        id = newRasterName
+      )
+
+      # close projectNaming == TRUE
+    } else {
+
+      # if not using not project naming, add source-name specific elements to
+      # spatialRaster entity
+
+      # set distribution
+      fileDistribution <- EML::eml$distribution(
+        EML::eml$online(url = paste0(baseURL, rasterBaseName))
+      )
+
+      # build physical
+      spatialRasterPhysical <- EML::eml$physical(
+        objectName = rasterBaseName,
+        authentication = fileAuthentication,
+        size = fileSize,
+        dataFormat = fileDataFormat,
+        distribution = fileDistribution
+      )
+
+      # build spatialRaster
+      newSR <- EML::eml$spatialRaster(
+        entityName = rasterBaseName,
+        entityDescription = description,
+        physical = spatialRasterPhysical,
+        coverage = spatialCoverage,
+        additionalInfo = projections,
+        attributeList = attr_list,
+        spatialReference = EML::eml$spatialReference(
+          horizCoordSysName = emlProjection
+        ),
+        numberOfBands = bandnr(rasterObject),
+        rows = nrow(rasterObject),
+        columns = ncol(rasterObject),
+        cellSizeXDirection = xres(rasterObject),
+        cellSizeYDirection = yres(rasterObject),
+        id = rasterBaseName
+      )
+
+    } # close projectNaming == FALSE
+
+  } # if working with a raster file (i.e., not zipping a directory)
 
   # return spatial raster object --------------------------------------------
 

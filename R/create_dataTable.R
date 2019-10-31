@@ -138,7 +138,7 @@ create_dataTable <- function(dfname,
   # from attrs data frame (as required by rEML)
   attrs <- read_csv(paste0(namestr, "_attrs.csv"))
   classes <- attrs %>% pull(columnClasses) # column classes to vector (req'd by set_attributes)
-  attrs <- attrs %>% select(-columnClasses) # remove col classes from attrs (req'd by set_attributes)
+  attrs <- attrs %>% dplyr::select(-columnClasses) # remove col classes from attrs (req'd by set_attributes)
 
   # Compile components for attributeList of dataTable
   # condition: factors present, missing values not present

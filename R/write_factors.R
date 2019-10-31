@@ -66,7 +66,7 @@ write_factors <- function(dfname, overwrite = FALSE) {
 
   # list of factors in target data entity
   listOfFactors <- dfname %>%
-    select_if(is.factor) %>%
+    dplyr::select_if(is.factor) %>%
     names()
 
   # build a tibble of factors for a given field
