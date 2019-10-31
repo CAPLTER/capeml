@@ -22,19 +22,27 @@
 #' @param rasterValueUnits Raster value units
 #' @param zipFiles Logical indicating whether spatial raster entity should be
 #'   constructed from a single raster file (FALSE, default) or entire directory (TRUE)
-#' @param baseURL (optional) The base path of the web-accessible location of the
-#'   data file; the name of the resulting file will be passed to the base path
-#'   to generate a web-resolvable file path.
+#' @param baseURL The base path of the web-accessible location of the data file;
+#'   the name of the resulting file will be passed to the base path to generate
+#'   a web-resolvable file path. This parameter is required with the default set
+#'   to the CAP LTER file path
+#' @param projectNaming Logical indicating if the raster file (or parent
+#'   directory if zipFiles == TRUE) should be renamed per the style used by the
+#'   CAP LTER (default) with the project id + base file name + md5sum + file
+#'   extension. The passed file or directory name will be used if this parameter
+#'   is set to FALSE.
 #'
 #' @import EML
 #' @import dplyr
 #' @import raster
 #' @importFrom readr read_csv
 #' @importFrom tools md5sum file_ext
+#' @importFrom utils file_test
 #'
-#' @return EML spatial data object is returned. Additionally, the spatial data
-#'   file is renamed with the project id + base file name + md5sum + file
-#'   extension (zip in the case when multiple files are aggregated).
+#' @return EML spatial data object is returned. Additionally, if projectNaming
+#'   is set to TRUE (default) the spatial data file is renamed with the project
+#'   id + base file name + md5sum + file extension (zip in the case when
+#'   multiple files are aggregated).
 #'
 #' @examples
 #' \dontrun{
@@ -58,7 +66,8 @@ create_spatialRaster <- function(rasterFile,
                                  rasterValueDescription,
                                  rasterValueUnits,
                                  zipFiles = FALSE,
-                                 baseURL = "https://data.gios.asu.edu/datasets/cap/") {
+                                 baseURL = "https://data.gios.asu.edu/datasets/cap/",
+                                 projectNaming = TRUE) {
 
 
   # set options -------------------------------------------------------------
@@ -69,7 +78,7 @@ create_spatialRaster <- function(rasterFile,
   # required parameters -----------------------------------------------------
 
   # do not proceed if the project id has not been identified in the working env
-  if (!exists('projectid')) { stop("missing project id") }
+  if (projectNaming == TRUE & !exists('projectid')) { stop("missing project id") }
 
   # do not proceed if a description is not provided
   if (missing('description')) { stop("please provide a description for this raster") }
@@ -114,47 +123,55 @@ create_spatialRaster <- function(rasterFile,
 
     attr_list <- set_attributes(attributes = rasterAttributes, factors = rasterFactors, col_classes = "factor")
 
-    # condition: factors not present
+    # condition: factors not present (presuming that vars are not categorical)
   } else {
 
     # do not proceed if the units for the rater values is not provided
     if (missing('rasterValueUnits')) { stop("please provide units for the raster cell values") }
 
-    # determine raster number type
-    # sample of raster values (10% of values sans NAs)
-    rasterValuesSample <- na.omit(sample(rasterObject, size = 0.1 * ncell(rasterObject)))
-    rasterValuesSample <- rasterValuesSample[is.finite(rasterValuesSample)] # remove infs (just in case)
-
-    rounded <- floor(rasterValuesSample)
-
-    if (length(rasterValuesSample) - sum(rasterValuesSample == rounded, na.rm = T) > 0) {
-
-      rasterNumberType <- "real" # all
-
-    } else if (min(rasterValuesSample, na.rm = T) > 0) {
-
-      rasterNumberType <- "natural" # 1, 2, 3, ... (sans 0)
-
-    } else if (min(rasterValuesSample, na.rm = T) < 0) {
-
-      rasterNumberType <- "integer" # whole + negative values
-
-    } else {
-
-      rasterNumberType <- "whole" # natural + 0
-
-    }
-
+    # build base attributes data frame
     rasterAttributes <- data.frame(
       attributeName = "raster_value",
       attributeDefinition = rasterValueDescription,
-      unit = rasterValueUnits,
-      numberType = rasterNumberType
+      unit = rasterValueUnits
     )
+
+    # determine raster value number type
+    # this code is run only if the raster is a reasonable size (<= 500 Mb)
+    if (file.size(rasterFile) <= 524288000) {
+
+      # determine raster number type
+      # sample of raster values (20% of values sans NAs)
+      rasterValuesSample <- na.omit(sample(rasterObject, size = 0.2 * ncell(rasterObject)))
+      rasterValuesSample <- rasterValuesSample[is.finite(rasterValuesSample)] # remove infs (just in case)
+
+      rounded <- floor(rasterValuesSample)
+
+      if (length(rasterValuesSample) - sum(rasterValuesSample == rounded, na.rm = T) > 0) {
+
+        rasterNumberType <- "real" # all
+
+      } else if (min(rasterValuesSample, na.rm = T) > 0) {
+
+        rasterNumberType <- "natural" # 1, 2, 3, ... (sans 0)
+
+      } else if (min(rasterValuesSample, na.rm = T) < 0) {
+
+        rasterNumberType <- "integer" # whole + negative values
+
+      } else {
+
+        rasterNumberType <- "whole" # natural + 0
+
+      }
+
+      rasterAttributes$numberType <- rasterNumberType
+
+    } # close raster value number type
 
     attr_list <- set_attributes(attributes = rasterAttributes, col_classes = "numeric")
 
-  }
+  } # close condition: factors not present
 
 
   # add additionalInfo - projections ----------------------------------------
