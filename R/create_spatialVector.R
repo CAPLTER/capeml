@@ -36,6 +36,10 @@
 #' @param baseURL (optional) The base path of the web-accessible location of the
 #'   data file; the name of the resulting file will be passed to the base path
 #'   to generate a web-resolvable file path.
+#' @param projectNaming Logical indicating if the raster file should be renamed
+#'   per the style used by the CAP LTER (default) with the project id + base
+#'   file name + md5sum + file extension. The passed file or directory name will
+#'   be used if this parameter is set to FALSE.
 #'
 #' @import EML
 #' @import dplyr
@@ -59,13 +63,28 @@
 
 create_spatialVector <- function(svname,
                                  description,
-                                 baseURL = "https://data.gios.asu.edu/datasets/cap/") {
+                                 baseURL = "https://data.gios.asu.edu/datasets/cap/",
+                                 projectNaming = TRUE) {
+
+  # required parameters -----------------------------------------------------
+
+  # do not proceed if the project id has not been identified in the working env
+  if (projectNaming == TRUE & !exists('projectid')) { stop("missing project id") }
+
+  # do not proceed if a description is not provided
+  if (missing('description')) { stop("please provide a description for this vector") }
+
 
   # object names ------------------------------------------------------------
 
-  # add project id to object name
+  # add kml extension and project id to object name if projectNaming == TRUE
   namestr <- deparse(substitute(svname))
-  fname <- paste0(projectid, "_", namestr, ".kml")
+
+  if (projectNaming == TRUE) {
+    fname <- paste0(projectid, "_", namestr, ".kml")
+  } else {
+    fname <- paste0(namestr, ".kml")
+  }
 
 
   # ensure epsg4326 ---------------------------------------------------------
