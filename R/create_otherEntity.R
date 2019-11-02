@@ -22,11 +22,10 @@
 #' @param overwrite If creating otherEntity by zipping a directory, this is a
 #'   logical indicating whether to overwrite an already existing zip file that
 #'   has the same name and location as the temporary zip object to be created.
-#' @param projectNaming Logical indicating if the raster file (or parent
-#'   directory if zipFiles == TRUE) should be renamed per the style used by the
-#'   CAP LTER (default) with the project id + base file name + md5sum + file
-#'   extension. The passed file or directory name will be used if this parameter
-#'   is set to FALSE.
+#' @param projectNaming Logical indicating if the file or directory should be
+#'   renamed per the style used by the CAP LTER (default) with the project id +
+#'   base file name + md5sum + file extension. The passed file or directory name
+#'   will be used if this parameter is set to FALSE.
 #'
 #' @import EML
 #' @import dplyr
@@ -116,16 +115,16 @@ create_otherEntity <- function(targetFile,
   fileExtension <- tools::file_ext(targetFile)
 
   # set authentication (md5)
-  fileAuthentication <- eml$authentication(method = "MD5")
-  fileAuthentication$authentication <- md5sum(targetFile)
+  fileAuthentication <- EML::eml$authentication(method = "MD5")
+  fileAuthentication$authentication <- tools::md5sum(targetFile)
 
   # set file size
-  fileSize <- eml$size(unit = "byte")
+  fileSize <- EML::eml$size(unit = "byte")
   fileSize$size <- deparse(file.size(targetFile))
 
   # set file format
-  fileDataFormat <- eml$dataFormat(
-    externallyDefinedFormat = eml$externallyDefinedFormat(formatName = fileExtension)
+  fileDataFormat <- EML::eml$dataFormat(
+    externallyDefinedFormat = EML::eml$externallyDefinedFormat(formatName = fileExtension)
   )
 
   targetFileBaseName <- basename(targetFile)
@@ -146,12 +145,12 @@ create_otherEntity <- function(targetFile,
     # file.rename(targetFile, new_file_name) # previous approach of renaming file instead of creating a copy with the new name
 
     # set distribution
-    fileDistribution <- eml$distribution(
-      eml$online(url = paste0(baseURL, new_file_name))
+    fileDistribution <- EML::eml$distribution(
+      EML::eml$online(url = paste0(baseURL, new_file_name))
     )
 
     # build physical
-    filePhysical <- eml$physical(
+    filePhysical <- EML::eml$physical(
       objectName = new_file_name,
       authentication = fileAuthentication,
       size = fileSize,
@@ -160,7 +159,7 @@ create_otherEntity <- function(targetFile,
     )
 
     # create file object as otherEntity
-    newOE <- eml$otherEntity(
+    newOE <- EML::eml$otherEntity(
       entityName = new_file_name,
       entityDescription = description,
       physical = filePhysical,
@@ -183,12 +182,12 @@ create_otherEntity <- function(targetFile,
     # file.rename(targetFile, new_file_name) # previous approach of renaming file instead of creating a copy with the new name
 
     # set distribution
-    fileDistribution <- eml$distribution(
-      eml$online(url = paste0(baseURL, targetFileBaseName))
+    fileDistribution <- EML::eml$distribution(
+      EML::eml$online(url = paste0(baseURL, targetFileBaseName))
     )
 
     # build physical
-    filePhysical <- eml$physical(
+    filePhysical <- EML::eml$physical(
       objectName = targetFileBaseName,
       authentication = fileAuthentication,
       size = fileSize,
@@ -197,7 +196,7 @@ create_otherEntity <- function(targetFile,
     )
 
     # create file object as otherEntity
-    newOE <- eml$otherEntity(
+    newOE <- EML::eml$otherEntity(
       entityName = targetFileBaseName,
       entityDescription = description,
       physical = filePhysical,
