@@ -20,6 +20,8 @@
 #' @param emlProjection EML-compliant refence to raster's coordinate reference system
 #' @param rasterValueDescription Description of raster values
 #' @param rasterValueUnits Raster value units
+#' @param geoDescription A textual description of the geographic study area of
+#'   the raster. "CAP LTER study area" is the default.
 #' @param zipFiles Logical indicating whether spatial raster entity should be
 #'   constructed from a single raster file (FALSE, default) or entire directory (TRUE)
 #' @param baseURL The base path of the web-accessible location of the data file;
@@ -66,6 +68,7 @@ create_spatialRaster <- function(rasterFile,
                                  rasterValueDescription,
                                  rasterValueUnits,
                                  zipFiles = FALSE,
+                                 geoDescription = "CAP LTER study area",
                                  baseURL = "https://data.gios.asu.edu/datasets/cap/",
                                  projectNaming = TRUE) {
 
@@ -247,7 +250,9 @@ create_spatialRaster <- function(rasterFile,
 
   # coverage ----------------------------------------------------------------
 
-  spatialCoverage <- set_coverage(west = raster::extent(rasterObject)@xmin,
+  rasterGeographicDescription <- geoDescription
+  spatialCoverage <- set_coverage(geographicDescription = rasterGeographicDescription,
+                                  west = raster::extent(rasterObject)@xmin,
                                   east = raster::extent(rasterObject)@xmax,
                                   north = raster::extent(rasterObject)@ymax,
                                   south = raster::extent(rasterObject)@ymin)
