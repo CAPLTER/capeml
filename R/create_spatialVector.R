@@ -33,6 +33,8 @@
 #'   environment.
 #' @param description A quoted description of the spatial object that will
 #'   populate the entityDescription element of the EML document.
+#' @param geoDescription A textual description of the geographic study area of
+#'   the vector. "CAP LTER study area" is the default.
 #' @param baseURL (optional) The base path of the web-accessible location of the
 #'   data file; the name of the resulting file will be passed to the base path
 #'   to generate a web-resolvable file path.
@@ -63,6 +65,7 @@
 
 create_spatialVector <- function(svname,
                                  description,
+                                 geoDescription = "CAP LTER study area",
                                  baseURL = "https://data.gios.asu.edu/datasets/cap/",
                                  projectNaming = TRUE) {
 
@@ -89,6 +92,17 @@ create_spatialVector <- function(svname,
 
   # ensure epsg4326 ---------------------------------------------------------
   svname <- st_transform(svname, crs = 4326)
+
+
+  # geographic coverage -----------------------------------------------------
+
+  vectorGeographicDescription <- geoDescription
+  spatialCoverage <- set_coverage(geographicDescription = vectorGeographicDescription,
+                                  west = st_bbox(svname)[['xmin']],
+                                  east = st_bbox(svname)[['xmax']],
+                                  north = st_bbox(svname)[['ymax']],
+                                  south = st_bbox(svname)[['ymin']])
+
 
 
   # write to kml ------------------------------------------------------------
@@ -127,6 +141,7 @@ create_spatialVector <- function(svname,
     entityName = fname,
     entityDescription = description,
     physical = spatialVectorPhysical,
+    coverage = spatialCoverage,
     attributeList = attr_list,
     geometricObjectCount = nrow(svname),
     id = fname)
@@ -137,8 +152,15 @@ create_spatialVector <- function(svname,
   sfGeometry <- attr(svname$geometry, "class")[[1]]
 
   if (grepl("polygon", sfGeometry, ignore.case = TRUE)) {
+
     objectGeometry <- "Polygon"
+
+  } else if (grepl("point", sfGeometry, ignore.case = TRUE)) {
+
+    objectGeometry <- "Point"
+
   } else {
+
     stop("undetermined geometry")
   }
 
