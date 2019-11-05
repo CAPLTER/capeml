@@ -170,6 +170,10 @@ create_spatialRaster <- function(rasterFile,
 
       rasterAttributes$numberType <- rasterNumberType
 
+    } else {
+
+      rasterAttributes$numberType <- "real"
+
     } # close raster value number type
 
     attr_list <- set_attributes(attributes = rasterAttributes, col_classes = "numeric")
@@ -324,8 +328,13 @@ create_spatialRaster <- function(rasterFile,
         numberOfBands = bandnr(rasterObject),
         rows = nrow(rasterObject),
         columns = ncol(rasterObject),
+        horizontalAccuracy = EML::eml$horizontalAccuracy(accuracyReport = "METADATA_NOT_PROVIDED"),
+        verticalAccuracy = EML::eml$verticalAccuracy(accuracyReport = "METADATA_NOT_PROVIDED"),
         cellSizeXDirection = xres(rasterObject),
         cellSizeYDirection = yres(rasterObject),
+        rasterOrigin = "Upper Left",
+        verticals = 1,
+        cellGeometry = "pixel",
         id = zipHashName
       )
 
@@ -362,8 +371,13 @@ create_spatialRaster <- function(rasterFile,
         numberOfBands = bandnr(rasterObject),
         rows = nrow(rasterObject),
         columns = ncol(rasterObject),
+        horizontalAccuracy = EML::eml$horizontalAccuracy(accuracyReport = "METADATA_NOT_PROVIDED"),
+        verticalAccuracy = EML::eml$verticalAccuracy(accuracyReport = "METADATA_NOT_PROVIDED"),
         cellSizeXDirection = xres(rasterObject),
         cellSizeYDirection = yres(rasterObject),
+        rasterOrigin = "Upper Left",
+        verticals = 1,
+        cellGeometry = "pixel",
         id = zipBaseName
       )
 
@@ -431,8 +445,13 @@ create_spatialRaster <- function(rasterFile,
         numberOfBands = bandnr(rasterObject),
         rows = nrow(rasterObject),
         columns = ncol(rasterObject),
+        horizontalAccuracy = EML::eml$horizontalAccuracy(accuracyReport = "METADATA_NOT_PROVIDED"),
+        verticalAccuracy = EML::eml$verticalAccuracy(accuracyReport = "METADATA_NOT_PROVIDED"),
         cellSizeXDirection = xres(rasterObject),
         cellSizeYDirection = yres(rasterObject),
+        rasterOrigin = "Upper Left",
+        verticals = 1,
+        cellGeometry = "pixel",
         id = newRasterName
       )
 
@@ -470,8 +489,13 @@ create_spatialRaster <- function(rasterFile,
         numberOfBands = bandnr(rasterObject),
         rows = nrow(rasterObject),
         columns = ncol(rasterObject),
+        horizontalAccuracy = EML::eml$horizontalAccuracy(accuracyReport = "METADATA_NOT_PROVIDED"),
+        verticalAccuracy = EML::eml$verticalAccuracy(accuracyReport = "METADATA_NOT_PROVIDED"),
         cellSizeXDirection = xres(rasterObject),
         cellSizeYDirection = yres(rasterObject),
+        rasterOrigin = "Upper Left",
+        verticals = 1,
+        cellGeometry = "pixel",
         id = rasterBaseName
       )
 
