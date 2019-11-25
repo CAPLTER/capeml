@@ -23,10 +23,8 @@ write_keywords creates a template as a csv file for supplying
   include in EML metadata for a dataset.
 }
 \examples{
-\dontrun{
 
- write_keywords()
-
-}
+ # write_keywords()
+ # write_keywords(overwrite = TRUE)
 
 }

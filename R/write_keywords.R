@@ -18,11 +18,9 @@
 #' @return output is a csv file titled keywords.csv
 #'
 #' @examples
-#' \dontrun{
 #'
-#'  write_keywords()
-#'
-#' }
+#'  # write_keywords()
+#'  # write_keywords(overwrite = TRUE)
 #'
 #' @export
 

@@ -23,7 +23,8 @@ infrastructure; please see the
 [gioseml](https://github.com/CAPLTER/gioseml) package for these tools.
 
 A template workflow to generating a complete EML record is included with
-this package: knb-lter-cap.xxx.Rmd.
+this package:
+[knb-lter-cap.xxx.Rmd](https://github.com/CAPLTER/capeml/blob/master/knb-lter-cap.xxx.Rmd).
 
 #### tools to generate metadata
 
@@ -51,7 +52,9 @@ this package: knb-lter-cap.xxx.Rmd.
   - `create_dataTable()` creates a EML entity of type dataTable
   - `create_otherEntity()` creates a EML entity of type otherEntity
   - `create_spatialRaster()` creates a EML entity of type spatialRaster
-    \[see vignette for more detail\]
+    - see
+    [vignette](https://caplter.github.io/capeml/articles/create_spatialRaster.html)
+    for more detail
   - `create_spatialVector()` creates a EML entity of type spatialRaster
 
 ### installation

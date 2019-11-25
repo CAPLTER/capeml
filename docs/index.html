@@ -86,7 +86,7 @@
 <p>This package contains tools to aid the generation of EML metadata with intent to publish a data set (data + metadata) in the Environmental Data Initiative (EDI) data repository. Functions and a workflow are included that allow for the creation of metadata at the dataset level, and individual data entities (e.g., spatial vectors, raster, other entities, data tables).</p>
 <p>Helper functions for the creation of dataset metadata, and <code>dataTable()</code>, <code>otherEntity()</code>, <code>spatialRaster()</code>, and <code>spatialVector()</code> entities using the <a href="https://ropensci.github.io/EML/">ropensci::eml package</a> are currently supported.</p>
 <p>Note that the creation of people-related entities in EML are specific to functions that rely on Global Institute of Sustainability infrastructure; please see the <a href="https://github.com/CAPLTER/gioseml">gioseml</a> package for these tools.</p>
-<p>A template workflow to generating a complete EML record is included with this package: knb-lter-cap.xxx.Rmd.</p>
+<p>A template workflow to generating a complete EML record is included with this package: <a href="https://github.com/CAPLTER/capeml/blob/master/knb-lter-cap.xxx.Rmd">knb-lter-cap.xxx.Rmd</a>.</p>
 <div id="tools-to-generate-metadata" class="section level4">
 <h4 class="hasAnchor">
 <a href="#tools-to-generate-metadata" class="anchor"></a>tools to generate metadata</h4>
@@ -115,7 +115,11 @@
 <li>
 <code><a href="reference/create_otherEntity.html">create_otherEntity()</a></code> creates a EML entity of type otherEntity</li>
 <li>
-<code><a href="reference/create_spatialRaster.html">create_spatialRaster()</a></code> creates a EML entity of type spatialRaster [see vignette for more detail]</li>
+<code><a href="reference/create_spatialRaster.html">create_spatialRaster()</a></code> creates a EML entity of type spatialRaster
+<ul>
+<li>see <a href="https://caplter.github.io/capeml/articles/create_spatialRaster.html">vignette</a> for more detail</li>
+</ul>
+</li>
 <li>
 <code><a href="reference/create_spatialVector.html">create_spatialVector()</a></code> creates a EML entity of type spatialRaster</li>
 </ul>
