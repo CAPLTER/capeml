@@ -123,10 +123,18 @@
   spatialRaster</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_spatialRaster</span>(<span class='no'>rasterFile</span>, <span class='no'>description</span>, <span class='no'>epsgProjection</span>,
-  <span class='no'>emlProjection</span>, <span class='no'>rasterValueDescription</span>, <span class='no'>rasterValueUnits</span>,
+    <pre class="usage"><span class='fu'>create_spatialRaster</span>(
+  <span class='no'>rasterFile</span>,
+  <span class='no'>description</span>,
+  <span class='no'>epsgProjection</span>,
+  <span class='no'>emlProjection</span>,
+  <span class='no'>rasterValueDescription</span>,
+  <span class='no'>rasterValueUnits</span>,
   <span class='kw'>zipFiles</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>baseURL</span> <span class='kw'>=</span> <span class='st'>"https://data.gios.asu.edu/datasets/cap/"</span>)</pre>
+  <span class='kw'>geoDescription</span> <span class='kw'>=</span> <span class='st'>"CAP LTER study area"</span>,
+  <span class='kw'>baseURL</span> <span class='kw'>=</span> <span class='st'>"https://data.gios.asu.edu/datasets/cap/"</span>,
+  <span class='kw'>projectNaming</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,18 +169,33 @@
 constructed from a single raster file (FALSE, default) or entire directory (TRUE)</p></td>
     </tr>
     <tr>
+      <th>geoDescription</th>
+      <td><p>A textual description of the geographic study area of
+the raster. "CAP LTER study area" is the default.</p></td>
+    </tr>
+    <tr>
       <th>baseURL</th>
-      <td><p>(optional) The base path of the web-accessible location of the
-data file; the name of the resulting file will be passed to the base path
-to generate a web-resolvable file path.</p></td>
+      <td><p>The base path of the web-accessible location of the data file;
+the name of the resulting file will be passed to the base path to generate
+a web-resolvable file path. This parameter is required with the default set
+to the CAP LTER file path</p></td>
+    </tr>
+    <tr>
+      <th>projectNaming</th>
+      <td><p>Logical indicating if the raster file (or parent
+directory if zipFiles == TRUE) should be renamed per the style used by the
+CAP LTER (default) with the project id + base file name + md5sum + file
+extension. The passed file or directory name will be used if this parameter
+is set to FALSE.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>EML spatial data object is returned. Additionally, the spatial data
-  file is renamed with the project id + base file name + md5sum + file
-  extension (zip in the case when multiple files are aggregated).</p>
+    <p>EML spatial data object is returned. Additionally, if projectNaming
+  is set to TRUE (default) the spatial data file is renamed with the project
+  id + base file name + md5sum + file extension (zip in the case when
+  multiple files are aggregated).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>a spatialRaster entity is created from a single data file (e.g.,
@@ -189,7 +212,25 @@ to generate a web-resolvable file path.</p></td>
   exist.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
+    <pre class="examples"><div class='input'>
+# rasterDesc <- 'NDVI for the central Arizona region derived from 2015 NAIP
+# imagery. NAIP NDVI data are presented as a series of tiles each representing
+# a portion of the overall central Arizona coverage area. The relative position
+# of this tile to the entire coverage area is detailed in the files
+# NAIP_GRID.kml, NAIP_GRID.pdf, and NAIP_GRID.png included with this data set.'
+
+# geoDesc <- "one in a series of tiles covering the central-Arizona Phoenix
+# region"
+
+# NAIP_NDVI_2015_SV <- create_spatialRaster(rasterFile = '~/Desktop/NAIP_NDVI_2015.tiff',
+#                                           description = rasterDesc,
+#                                           epsgProjection = 4326,
+#                                           rasterValueDescription = 'Normalized Difference Vegetation Index (NDVI)',
+#                                           rasterValueUnits = 'dimensionless',
+#                                           geoDescription = geoDesc,
+#                                           projectNaming = FALSE)
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

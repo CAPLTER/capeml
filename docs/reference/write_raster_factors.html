@@ -125,8 +125,13 @@
   categorical.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>write_raster_factors</span>(<span class='kw'>buildFromFile</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>rangeStart</span>, <span class='no'>rangeEnd</span>,
-  <span class='no'>rasterFile</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>write_raster_factors</span>(
+  <span class='kw'>buildFromFile</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>rangeStart</span>,
+  <span class='no'>rangeEnd</span>,
+  <span class='no'>rasterFile</span>,
+  <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -194,16 +199,27 @@ overwritten by setting overwrite = TRUE.</p></td>
   rasters.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'>
+# example: write raster factors template file, allowing the function to
+# identify the unique raster values:
+# write_raster_factors(buildFromFile = TRUE,
+#                      rasterFile = '~/Desktop/smaller_raster.tif')
 
-<span class='fu'>write_raster_factors</span>(<span class='kw'>buildFromFile</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-                     <span class='kw'>rasterFile</span> <span class='kw'>=</span> <span class='st'>'~/Desktop/smaller_raster.tif'</span>)
+# example: write raster factors template file, with the user setting the
+# starting and ending range of raster values:
+# write_raster_factors(rangeStart = 1,
+#                      rangeEnd = 12,
+#                      rasterFile = '~/Desktop/smaller_raster.tif')
 
-<span class='fu'>write_raster_factors</span>(<span class='kw'>rangeStart</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-                     <span class='kw'>rangeEnd</span> <span class='kw'>=</span> <span class='fl'>12</span>,
-                     <span class='kw'>rasterFile</span> <span class='kw'>=</span> <span class='st'>'~/Desktop/smaller_raster.tif'</span>)
+# example: write raster factors template file, with the user setting the
+# starting and ending range of raster values, and overwriting an existing
+# raster factors template file:
+# write_raster_factors(rangeStart = 1,
+#                      rangeEnd = 12,
+#                      rasterFile = '~/Desktop/smaller_raster.tif',
+#                      overwrite = TRUE)
 
-}</div></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

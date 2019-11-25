@@ -121,9 +121,13 @@
     <p>create_dataTable generates a EML entity of type dataTable</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_dataTable</span>(<span class='no'>dfname</span>, <span class='no'>description</span>, <span class='no'>dateRangeField</span>,
+    <pre class="usage"><span class='fu'>create_dataTable</span>(
+  <span class='no'>dfname</span>,
+  <span class='no'>description</span>,
+  <span class='no'>dateRangeField</span>,
   <span class='kw'>baseURL</span> <span class='kw'>=</span> <span class='st'>"https://data.gios.asu.edu/datasets/cap/"</span>,
-  <span class='kw'>missingValueCode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>missingValueCode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -194,7 +198,29 @@ values (e.g., "missing") should be quoted.</p></td>
   the package defaults to a URL specific to the CAP LTER.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
+    <pre class="examples"><div class='input'># data_entity <- read("data source") %>%
+#   processing %>%
+#   processing
+
+# write_attributes(data_entity)
+# write_factors(data_entity)
+#
+# data_entity_desc <- "snow leopard data"
+
+# create_dataTable with minimal arguments
+# data_entity_DT <- create_dataTable(dfname = data_entity,
+#                                    description = data_entity_desc)
+
+# create_dataTable with optional arguments dateRangeField and missingValueCode
+# data_entity_DT <- create_dataTable(dfname = data_entity,
+#                                    description = data_entity_desc,
+#                                    dateRangeField = "observation date",
+#                                    missingValueCode = "missing")
+
+# The resulting dataTable entity can be added to a EML dataset
+# dataset <- EML::eml$dataset(dataTable = data_entity_DT)
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

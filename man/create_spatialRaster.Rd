@@ -4,10 +4,18 @@
 \alias{create_spatialRaster}
 \title{create_spatialRaster}
 \usage{
-create_spatialRaster(rasterFile, description, epsgProjection,
-  emlProjection, rasterValueDescription, rasterValueUnits,
+create_spatialRaster(
+  rasterFile,
+  description,
+  epsgProjection,
+  emlProjection,
+  rasterValueDescription,
+  rasterValueUnits,
   zipFiles = FALSE,
-  baseURL = "https://data.gios.asu.edu/datasets/cap/")
+  geoDescription = "CAP LTER study area",
+  baseURL = "https://data.gios.asu.edu/datasets/cap/",
+  projectNaming = TRUE
+)
 }
 \arguments{
 \item{rasterFile}{Quoted full path to raster file.}
@@ -25,14 +33,25 @@ create_spatialRaster(rasterFile, description, epsgProjection,
 \item{zipFiles}{Logical indicating whether spatial raster entity should be
 constructed from a single raster file (FALSE, default) or entire directory (TRUE)}
 
-\item{baseURL}{(optional) The base path of the web-accessible location of the
-data file; the name of the resulting file will be passed to the base path
-to generate a web-resolvable file path.}
+\item{geoDescription}{A textual description of the geographic study area of
+the raster. "CAP LTER study area" is the default.}
+
+\item{baseURL}{The base path of the web-accessible location of the data file;
+the name of the resulting file will be passed to the base path to generate
+a web-resolvable file path. This parameter is required with the default set
+to the CAP LTER file path}
+
+\item{projectNaming}{Logical indicating if the raster file (or parent
+directory if zipFiles == TRUE) should be renamed per the style used by the
+CAP LTER (default) with the project id + base file name + md5sum + file
+extension. The passed file or directory name will be used if this parameter
+is set to FALSE.}
 }
 \value{
-EML spatial data object is returned. Additionally, the spatial data
-  file is renamed with the project id + base file name + md5sum + file
-  extension (zip in the case when multiple files are aggregated).
+EML spatial data object is returned. Additionally, if projectNaming
+  is set to TRUE (default) the spatial data file is renamed with the project
+  id + base file name + md5sum + file extension (zip in the case when
+  multiple files are aggregated).
 }
 \description{
 create_spatialRaster generates a EML entity of type
@@ -53,16 +72,22 @@ create_spatialRaster will look for a project id in the working
   exist.
 }
 \examples{
-\dontrun{
-The workflow features harvesting metadata from template files. Most metadata
-are documented in a raster-level metadata file (e.g., CAP1985_metadata.csv
-below). If raster values are categorical, an addiitonal metadata file is
-required to document the categories (e.g., CAP1985_factors.csv below)
 
- spatial_entity <- create_spatialRaster(
-   pathToRaster = "~/folder/",
-   metadataFile = "~/folder/CAP1985_metadata.csv",
-   categoricalMetadataFile = "~/folder/CAP1985_factors.csv")
-}
+# rasterDesc <- 'NDVI for the central Arizona region derived from 2015 NAIP
+# imagery. NAIP NDVI data are presented as a series of tiles each representing
+# a portion of the overall central Arizona coverage area. The relative position
+# of this tile to the entire coverage area is detailed in the files
+# NAIP_GRID.kml, NAIP_GRID.pdf, and NAIP_GRID.png included with this data set.'
+
+# geoDesc <- "one in a series of tiles covering the central-Arizona Phoenix
+# region"
+
+# NAIP_NDVI_2015_SV <- create_spatialRaster(rasterFile = '~/Desktop/NAIP_NDVI_2015.tiff',
+#                                           description = rasterDesc,
+#                                           epsgProjection = 4326,
+#                                           rasterValueDescription = 'Normalized Difference Vegetation Index (NDVI)',
+#                                           rasterValueUnits = 'dimensionless',
+#                                           geoDescription = geoDesc,
+#                                           projectNaming = FALSE)
 
 }

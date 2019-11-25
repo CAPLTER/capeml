@@ -1,0 +1,388 @@
+---
+title: "remlTemplate"
+author: "SRE"
+date: Sys.Date()
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r knitr-setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r eml-2.1.1, include=FALSE}
+options("emld_db" = "eml-2.1.1")
+emld::eml_version("eml-2.2.0")
+emld::eml_version("eml-2.1.1")
+```
+
+```{r libraries}
+library(EML)
+library(RPostgreSQL)
+library(RMySQL)
+library(tidyverse)
+library(tools)
+library(readxl)
+library(aws.s3)
+library(capeml)
+library(gioseml)
+```
+
+```{r dataset_details}
+projectid <- 
+packageIdent <- 'knb-lter-cap.xxx.x'
+pubDate <- as.character(Sys.Date())
+```
+
+```{r helper_functions}
+source('~/localRepos/reml-helper-tools/amazon_file_upload.R')
+```
+
+```{r connections::amazon}
+source('~/Documents/localSettings/aws.s3')
+```
+
+```{r connections::postgres::local, eval=FALSE}
+source('~/Documents/localSettings/pg_local.R')
+pg <- pg_local
+```
+
+```{r connections::postgres::prod, eval=T }
+source('~/Documents/localSettings/pg_prod.R')
+pg <- pg_prod
+```
+
+```{r connections::mysql::prod, eval=T }
+source('~/Documents/localSettings/mysql_prod.R')
+mysql_prod <- mysql_prod_connect()
+```
+
+```{r compiled_data, eval=TRUE}
+
+# tabularDataEntity <- import / generate...process...
+
+write_attributes(tabularDataEntity)
+write_factors(tabularDataEntity)
+
+tabularDataEntity_desc <- "desc"
+
+tabularDataEntity_DT <- create_dataTable(dfname = tabularDataEntity,
+                                              description = tabularDataEntity_desc)
+
+```
+
+```{r otherEntity, eval=TRUE}
+
+otherEntityObject_OE <- create_otherEntity(targetFile = 'kml_pdf_etc',
+                                  description = 'desc')
+
+```
+
+```{r spatialVector, eval=TRUE}
+
+# call this library as needed
+library(sf)
+
+# note layer name is sans file extention
+spatialVectorEntity <- read_sf(dsn = "directory/", layer = "layer name")
+
+# assign Name to the column that is the site identifier
+spatialVectorEntity <- spatialVectorEntity %>% 
+  mutate(Name = site identifier)
+
+write_attributes(spatialVectorEntity)
+
+spatialVectorEntity_desc <- "desc"
+
+spatialVector_SV <- create_spatialVector(targetFile = spatialVectorEntity,
+                                         description = spatialVectorEntityDesc )
+
+```
+
+```{r title}
+
+title <- ''
+```
+
+```{r abstract}
+
+abstract <- set_TextType("abstract.md")
+```
+
+```{r connections::mysql::prod redux, eval=T }
+source('~/Documents/localSettings/mysql_prod.R')
+mysql_prod <- mysql_prod_connect()
+```
+
+```{r people}
+
+# see gioseml for examples of creating people resources from scratch
+
+mysql_prod <- mysql_prod_connect()
+
+cameron <- create_role(firstName = "cameron", lastName = "boehme", roleType = "creator")
+chelsea <- create_role(firstName = "chelsea", lastName = "stratton", roleType = "creator")
+fabio <- create_role(giosPersonId = 23857, roleType = "creator")
+
+creators <- list(cameron, chelsea, fabio)
+
+cameron <- create_role(firstName = "cameron", lastName = "boehme", roleType = "metadata")
+metadataProvider <- list(cameron)
+
+```
+
+```{r keywords}
+
+# CAP IRTs for reference (be sure to include these as appropriate):
+# https://sustainability.asu.edu/caplter/research/
+
+write_keywords()
+keywords <- create_keywordSet('keywords.csv')
+
+```
+
+```{r methods}
+
+methods <- set_methods("methods.md")
+```
+
+```{r coverages}
+
+# begindate <- format(min(runoff_chemistry$runoff_datetime), "%Y-%m-%d")
+# enddate <- format(max(runoff_chemistry$runoff_datetime), "%Y-%m-%d")
+geographicDescription <- "CAP LTER study area"
+coverage <- set_coverage(begin = "2014-09-01",
+                         end = "2015-03-30",
+                         geographicDescription = geographicDescription,
+                         west = -112.100, east = -111.877,
+                         north = +33.608, south = +33.328)
+
+```
+
+New approach for taxonomy is to use taxonomyCleanr to build the
+taxonomicCoverage. Note that at the time of this writing and building,
+taxonomyCleanr had not been ported to rOpenSci EML v2. Using
+caplter::taxonomyCleanr/taxonomy-rEML2 until Colin adapts taxonmyCleanr to
+ropensci EML v2.
+
+*Note* that the `taxa_map.csv` built with the `create_taxa_map()` function and
+resolving taxonomic IDs (i.e., `resolve_comm_taxa()`) only needs to be run once
+per version/session -- the taxonomicCoverage can be built as many times as
+needed with `resolve_comm_taxa()` once the `taxa_map.csv` has been generated and
+the taxonomic IDs resolved.
+
+```{r taxonomyCleanr, eval=TRUE}
+
+devtools::load_all('~/localRepos/taxonomyCleanr/')
+library(taxonomyCleanr)
+
+my_path <- getwd() # taxonomyCleanr requires a path (to build the taxa_map)
+
+# plant taxa listed in the om_transpiration_factors file
+plantTaxa <- read_csv('om_transpiration_factors.csv') %>% 
+  filter(attributeName == "species") %>% 
+  as.data.frame()
+
+# create or update map. A taxa_map.csv is the heart of taxonomyCleanr. This
+# function will build the taxa_map.csv and put it in the path identified with
+# my_path.
+create_taxa_map(path = my_path, x = plantTaxa, col = "definition") 
+
+# resolve taxa by attempting to match the taxon's In this case, data.source 3 is
+# ITIS (which, by the way, is the only authority taxonomyCleanr will allow for
+# common names).
+# resolve_comm_taxa(path = my_path, data.sources = 3) # in this case, 3 is ITIS
+resolve_sci_taxa(path = my_path, data.sources = 3) # in this case, 3 is ITIS
+
+# build the EML taxonomomic coverage
+taxaCoverage <- make_taxonomicCoverage(path = my_path)
+
+# add taxonomic to other coverages
+coverage$taxonomicCoverage <- taxaCoverage
+```
+
+```{r construct-dataset}
+
+# from capeml package:
+# address
+# publisher
+# contact
+# rights
+# distribution
+
+# DATASET
+dataset <- EML::eml$dataset(
+  title = title,
+  creator = creators,
+  pubDate = pubDate,
+  metadataProvider = metadataProvider,
+  intellectualRights = capRights,
+  abstract = abstract,
+  keywordSet = keywords,
+  coverage = coverage,
+  contact = capContact, # cap contact
+  publisher = capPublisher, # cap pub
+  # contact = giosContact, # gios contact
+  # publisher = giosPublisher, # gios pub
+  methods = methods,
+  # project = capProject, # cap project
+  distribution = create_distribution(packageIdent))
+
+# add associatedParty if relevant
+# dataset$associatedParty <- list() 
+
+```
+
+```{r dataSet$dataTable}
+
+# add dataTables if relevant
+
+print(ls(pattern = "_DT"))
+
+if (length(ls(pattern = "_DT")) > 0) {
+  
+  listOfDataTables <- lapply(ls(pattern = "_DT"), function(DT) { get(DT) } )
+  
+  dataset$dataTable  <- listOfDataTables  
+  
+}
+
+# or add manually
+# dataset$dataTable <- list(dataTableOne, dataTableTwo)
+
+```
+
+```{r dataSet$otherEntity}
+
+# add other entities if relevant
+
+print(ls(pattern = "_OE"))
+
+if (length(ls(pattern = "_OE")) > 0) {
+  
+  listOfOtherEntities <- lapply(ls(pattern = "_OE"), function(OE) { get(OE) } )
+  
+  dataset$otherEntity <- listOfOtherEntities 
+  
+}
+
+# or add manually
+# dataset$otherEntity <- list(otherEntityOne, otherEntityTwo)
+
+```
+
+```{r dataSet$spatialVector}
+
+# add spatial vectors if relevant
+
+print(ls(pattern = "_SV"))
+
+if (length(ls(pattern = "_SV")) > 0) {
+  
+  listOfSpatialVectors <- lapply(ls(pattern = "_SV"), function(SV) { get(SV) } )
+  
+  dataset$spatialVector  <- listOfSpatialVectors  
+  
+}
+
+# or add manually
+# dataset$spatialVector <- list(spatialVectorOne, spatialVectorTwo)
+
+```
+
+```{r custom-units, eval=FALSE}
+
+custom_units <- rbind(
+  data.frame(id = "milligramPerKilogram",
+             unitType = "massPerMass",
+             parentSI = "gramsPerGram",
+             multiplierToSI = 0.000001,
+             description = "millgram of element per kilogram of material"))
+
+unitList <- set_unitList(custom_units,
+                         as_metadata = TRUE)
+
+```
+
+```{r literature cited, eval=TRUE}
+
+# add literature cited if relevant
+
+dataset$literatureCited <- citationsAll 
+
+```
+
+```{r construct_eml, eval=TRUE}
+
+if(exists('unitList')) {
+  
+  eml <- EML::eml$eml(
+    access = lterAccess,
+    dataset = dataset,
+    additionalMetadata = unitList,
+    packageId = packageIdent,
+    system = "knb",
+    scope = "system"
+  )
+  
+} else {
+  
+  eml <- EML::eml$eml(
+    access = lterAccess,
+    dataset = dataset,
+    packageId = packageIdent,
+    system = "knb",
+    scope = "system"
+  )
+}
+
+```
+
+```{r write_eml}
+
+# write the eml to file
+write_eml(eml, paste0(packageIdent, ".xml"))
+```
+
+```{r preview_data_file_to_upload}
+
+# preview data set files that will be uploaded to S3
+list.files(pattern = paste0(projectid, "_"))
+```
+
+```{r upload_data_S3}
+
+# upload files to S3
+lapply(list.files(pattern = paste0(projectid, "_")), dataToAmz)
+```
+
+```{r clean_up}
+
+# remove data files
+dataFilesToRemove <- dir(pattern = paste0(projectid, "_"))
+file.remove(dataFilesToRemove)
+
+# EML to S3
+if(length(list.files(pattern = "*.xml")) == 1) {
+  emlToAmz(list.files(pattern = "*.xml")) } else {
+    print("more than one xml file found")
+  }
+
+# EML to cap-data-eml and remove file from project
+tryCatch({
+  
+  if(length(list.files(pattern = "*.xml")) == 1) {
+    file.copy(list.files(pattern = "*.xml"), "/home/srearl/localRepos/cap-metadata/cap-data-eml/")
+    file.remove(list.files(pattern = "*.xml")) } else {
+      print("more than one xml file found")
+    }
+},
+warning = function(warn) {
+  print(paste("WARNING: ", warn))
+},
+error = function(err) {
+  print(paste("ERROR: ", err))
+  
+}) # close try catch
+```

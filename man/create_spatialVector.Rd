@@ -4,8 +4,13 @@
 \alias{create_spatialVector}
 \title{create_spatialVector}
 \usage{
-create_spatialVector(svname, description,
-  baseURL = "https://data.gios.asu.edu/datasets/cap/")
+create_spatialVector(
+  svname,
+  description,
+  geoDescription = "CAP LTER study area",
+  baseURL = "https://data.gios.asu.edu/datasets/cap/",
+  projectNaming = TRUE
+)
 }
 \arguments{
 \item{svname}{The unquoted name of the spatial data object in the R
@@ -14,9 +19,17 @@ environment.}
 \item{description}{A quoted description of the spatial object that will
 populate the entityDescription element of the EML document.}
 
+\item{geoDescription}{A textual description of the geographic study area of
+the vector. "CAP LTER study area" is the default.}
+
 \item{baseURL}{(optional) The base path of the web-accessible location of the
 data file; the name of the resulting file will be passed to the base path
 to generate a web-resolvable file path.}
+
+\item{projectNaming}{Logical indicating if the raster file should be renamed
+per the style used by the CAP LTER (default) with the project id + base
+file name + md5sum + file extension. The passed file or directory name will
+be used if this parameter is set to FALSE.}
 }
 \value{
 EML spatialVector object is returned. Additionally, the spatial data
@@ -40,8 +53,9 @@ create_spatialVector creates a EML spatialVector object from a
   attributes, that that file is in the working directory, and that the file
   matches the name of the spatial data entity precisely. In addition to
   generating a EML entity of type spatialVector, create_spatialVector writes
-  the spatial entity in the R environment to file as type kml, renames the
-  file with project id + base file name + file extension (kml in this case).
+  the spatial entity in the R environment to file as type kml. Unless
+  projectNaming is set to false, the output file is renamed with the file
+  with project id + base file name + file extension (kml in this case).
 }
 \note{
 create_spatialVector will look for a project id in the working environment;
@@ -59,12 +73,43 @@ Because file name metadata is incorporated into the kml generated from
 All vector objects are transformed to epsg 4326 (WGS 1984)
 }
 \examples{
-\dontrun{
 
- spatialVectorEntity_SV <- create_spatialVector(
-   svname = data object in R env.,
-   description = "data from the field study")
+# read the vector using the sf package
+# NAIP_grid_map <- read_sf(dsn = 'NAIP_GRID.kml')
 
-}
+# assign Name to the column that is the site identifier (Name in this example);
+# strip irrelevant or unpopulated columns and remove geometry to write
+# attribute tabls
+# NAIP_grid_map <- NAIP_grid_map \%>\%
+#   select(Name) \%>\%
+#   st_drop_geometry()
+
+# write the atttributes to a csv template and add metadata - this file will be
+# read when the EML object is build
+# write_attributes(NAIP_grid_map)
+
+# reimport kml to write spatial vector object
+
+# colsToKeep <- read_sf(dsn = "NAIP_GRID.kml") \%>\%
+#   discard(~all(is.na(.x))) \%>\%
+#   map_df(~.x) \%>\%
+#   colnames()
+
+# NAIP_grid_map <- read_sf(dsn = "NAIP_GRID.kml") \%>\%
+#   dplyr::select(one_of(colsToKeep))
+
+# NAIP_grid_map_desc <- "NAIP NDVI data are presented as a series of tiles each
+# representing a portion of the overall central Arizona coverage area. The
+# relative position of tiles to the entire coverage area is detailed in this
+# file as a kml as well as the files NAIP_GRID.png and NAIP_GRID.pdf included
+# with this data set. Tiles are identified with a 20-digit signature (format:
+# xxxxxxxxxx-xxxxxxxxxx)."
+
+# NAIP_grid_map_SV <- create_spatialVector(svname = NAIP_grid_map,
+#                                          description = NAIP_grid_map_desc,
+#                                          projectNaming = FALSE)
+
+# The resulting spatialVector entity can be added to a EML dataset
+# dataset <- EML::eml$dataset(spatialVector = NAIP_grid_map_SV)
 
 }

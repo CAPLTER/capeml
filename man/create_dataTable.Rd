@@ -4,9 +4,13 @@
 \alias{create_dataTable}
 \title{create_dataTable}
 \usage{
-create_dataTable(dfname, description, dateRangeField,
+create_dataTable(
+  dfname,
+  description,
+  dateRangeField,
   baseURL = "https://data.gios.asu.edu/datasets/cap/",
-  missingValueCode = NULL)
+  missingValueCode = NULL
+)
 }
 \arguments{
 \item{dfname}{The unquoted name of the R data frame or Tibble.}
@@ -66,12 +70,26 @@ create_dataTable currently accepts an argument for a base url path to
   the package defaults to a URL specific to the CAP LTER.
 }
 \examples{
-\dontrun{
+# data_entity <- read("data source") \%>\%
+#   processing \%>\%
+#   processing
 
- dataTableObject <- create_dataTable(
-   dfname = data object in R env.,
-   description = "data from the field study",
-   dateRangeField = "collection_date")
-}
+# write_attributes(data_entity)
+# write_factors(data_entity)
+#
+# data_entity_desc <- "snow leopard data"
+
+# create_dataTable with minimal arguments
+# data_entity_DT <- create_dataTable(dfname = data_entity,
+#                                    description = data_entity_desc)
+
+# create_dataTable with optional arguments dateRangeField and missingValueCode
+# data_entity_DT <- create_dataTable(dfname = data_entity,
+#                                    description = data_entity_desc,
+#                                    dateRangeField = "observation date",
+#                                    missingValueCode = "missing")
+
+# The resulting dataTable entity can be added to a EML dataset
+# dataset <- EML::eml$dataset(dataTable = data_entity_DT)
 
 }

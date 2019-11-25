@@ -28,7 +28,7 @@ Imports:
     tools,
     sf
 Remotes: ropensci/EML
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.1
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr

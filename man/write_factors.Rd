@@ -54,11 +54,11 @@ manual approach that we are encapsulating with the function:
   "urbanized", code = names(urbanized), definition = unname(urbanized) ) )
 }
 \examples{
-\dontrun{
 
- write_factors(R data object)
- write_factors(R data object, overwrite = 'yes')
+ # write_factors(R data object)
 
-}
+ # overwrite existing factors file
+ # write_factors(R data object,
+ #               overwrite = TRUE)
 
 }

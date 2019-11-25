@@ -123,8 +123,13 @@
   spatialVector</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_spatialVector</span>(<span class='no'>svname</span>, <span class='no'>description</span>,
-  <span class='kw'>baseURL</span> <span class='kw'>=</span> <span class='st'>"https://data.gios.asu.edu/datasets/cap/"</span>)</pre>
+    <pre class="usage"><span class='fu'>create_spatialVector</span>(
+  <span class='no'>svname</span>,
+  <span class='no'>description</span>,
+  <span class='kw'>geoDescription</span> <span class='kw'>=</span> <span class='st'>"CAP LTER study area"</span>,
+  <span class='kw'>baseURL</span> <span class='kw'>=</span> <span class='st'>"https://data.gios.asu.edu/datasets/cap/"</span>,
+  <span class='kw'>projectNaming</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -140,10 +145,22 @@ environment.</p></td>
 populate the entityDescription element of the EML document.</p></td>
     </tr>
     <tr>
+      <th>geoDescription</th>
+      <td><p>A textual description of the geographic study area of
+the vector. "CAP LTER study area" is the default.</p></td>
+    </tr>
+    <tr>
       <th>baseURL</th>
       <td><p>(optional) The base path of the web-accessible location of the
 data file; the name of the resulting file will be passed to the base path
 to generate a web-resolvable file path.</p></td>
+    </tr>
+    <tr>
+      <th>projectNaming</th>
+      <td><p>Logical indicating if the raster file should be renamed
+per the style used by the CAP LTER (default) with the project id + base
+file name + md5sum + file extension. The passed file or directory name will
+be used if this parameter is set to FALSE.</p></td>
     </tr>
     </table>
 
@@ -166,8 +183,9 @@ to generate a web-resolvable file path.</p></td>
   attributes, that that file is in the working directory, and that the file
   matches the name of the spatial data entity precisely. In addition to
   generating a EML entity of type spatialVector, create_spatialVector writes
-  the spatial entity in the R environment to file as type kml, renames the
-  file with project id + base file name + file extension (kml in this case).</p>
+  the spatial entity in the R environment to file as type kml. Unless
+  projectNaming is set to false, the output file is renamed with the file
+  with project id + base file name + file extension (kml in this case).</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>create_spatialVector will look for a project id in the working environment;
@@ -182,7 +200,46 @@ to generate a web-resolvable file path.</p></td>
 <p>All vector objects are transformed to epsg 4326 (WGS 1984)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
+    <pre class="examples"><div class='input'>
+# read the vector using the sf package
+# NAIP_grid_map <- read_sf(dsn = 'NAIP_GRID.kml')
+
+# assign Name to the column that is the site identifier (Name in this example);
+# strip irrelevant or unpopulated columns and remove geometry to write
+# attribute tabls
+# NAIP_grid_map <- NAIP_grid_map %>%
+#   select(Name) %>%
+#   st_drop_geometry()
+
+# write the atttributes to a csv template and add metadata - this file will be
+# read when the EML object is build
+# write_attributes(NAIP_grid_map)
+
+# reimport kml to write spatial vector object
+
+# colsToKeep <- read_sf(dsn = "NAIP_GRID.kml") %>%
+#   discard(~all(is.na(.x))) %>%
+#   map_df(~.x) %>%
+#   colnames()
+
+# NAIP_grid_map <- read_sf(dsn = "NAIP_GRID.kml") %>%
+#   dplyr::select(one_of(colsToKeep))
+
+# NAIP_grid_map_desc <- "NAIP NDVI data are presented as a series of tiles each
+# representing a portion of the overall central Arizona coverage area. The
+# relative position of tiles to the entire coverage area is detailed in this
+# file as a kml as well as the files NAIP_GRID.png and NAIP_GRID.pdf included
+# with this data set. Tiles are identified with a 20-digit signature (format:
+# xxxxxxxxxx-xxxxxxxxxx)."
+
+# NAIP_grid_map_SV <- create_spatialVector(svname = NAIP_grid_map,
+#                                          description = NAIP_grid_map_desc,
+#                                          projectNaming = FALSE)
+
+# The resulting spatialVector entity can be added to a EML dataset
+# dataset <- EML::eml$dataset(spatialVector = NAIP_grid_map_SV)
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

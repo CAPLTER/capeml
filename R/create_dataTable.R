@@ -55,13 +55,27 @@
 #'   name + md5sum + file extension (csv in this case).
 #'
 #' @examples
-#' \dontrun{
+#' # data_entity <- read("data source") %>%
+#' #   processing %>%
+#' #   processing
 #'
-#'  dataTableObject <- create_dataTable(
-#'    dfname = data object in R env.,
-#'    description = "data from the field study",
-#'    dateRangeField = "collection_date")
-#' }
+#' # write_attributes(data_entity)
+#' # write_factors(data_entity)
+#' #
+#' # data_entity_desc <- "snow leopard data"
+#'
+#' # create_dataTable with minimal arguments
+#' # data_entity_DT <- create_dataTable(dfname = data_entity,
+#' #                                    description = data_entity_desc)
+#'
+#' # create_dataTable with optional arguments dateRangeField and missingValueCode
+#' # data_entity_DT <- create_dataTable(dfname = data_entity,
+#' #                                    description = data_entity_desc,
+#' #                                    dateRangeField = "observation date",
+#' #                                    missingValueCode = "missing")
+#'
+#' # The resulting dataTable entity can be added to a EML dataset
+#' # dataset <- EML::eml$dataset(dataTable = data_entity_DT)
 #'
 #' @export
 

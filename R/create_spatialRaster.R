@@ -47,17 +47,23 @@
 #'   multiple files are aggregated).
 #'
 #' @examples
-#' \dontrun{
-#' The workflow features harvesting metadata from template files. Most metadata
-#' are documented in a raster-level metadata file (e.g., CAP1985_metadata.csv
-#' below). If raster values are categorical, an addiitonal metadata file is
-#' required to document the categories (e.g., CAP1985_factors.csv below)
 #'
-#'  spatial_entity <- create_spatialRaster(
-#'    pathToRaster = "~/folder/",
-#'    metadataFile = "~/folder/CAP1985_metadata.csv",
-#'    categoricalMetadataFile = "~/folder/CAP1985_factors.csv")
-#' }
+#' # rasterDesc <- 'NDVI for the central Arizona region derived from 2015 NAIP
+#' # imagery. NAIP NDVI data are presented as a series of tiles each representing
+#' # a portion of the overall central Arizona coverage area. The relative position
+#' # of this tile to the entire coverage area is detailed in the files
+#' # NAIP_GRID.kml, NAIP_GRID.pdf, and NAIP_GRID.png included with this data set.'
+#'
+#' # geoDesc <- "one in a series of tiles covering the central-Arizona Phoenix
+#' # region"
+#'
+#' # NAIP_NDVI_2015_SV <- create_spatialRaster(rasterFile = '~/Desktop/NAIP_NDVI_2015.tiff',
+#' #                                           description = rasterDesc,
+#' #                                           epsgProjection = 4326,
+#' #                                           rasterValueDescription = 'Normalized Difference Vegetation Index (NDVI)',
+#' #                                           rasterValueUnits = 'dimensionless',
+#' #                                           geoDescription = geoDesc,
+#' #                                           projectNaming = FALSE)
 #'
 #' @export
 

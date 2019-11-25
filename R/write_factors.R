@@ -44,12 +44,12 @@
 #'   R data object + "_factors.csv" is created in the working directory.
 #'
 #' @examples
-#' \dontrun{
 #'
-#'  write_factors(R data object)
-#'  write_factors(R data object, overwrite = 'yes')
+#'  # write_factors(R data object)
 #'
-#' }
+#'  # overwrite existing factors file
+#'  # write_factors(R data object,
+#'  #               overwrite = TRUE)
 #'
 #' @export
 

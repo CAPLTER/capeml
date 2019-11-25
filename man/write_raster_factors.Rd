@@ -4,8 +4,13 @@
 \alias{write_raster_factors}
 \title{write_raster_factors}
 \usage{
-write_raster_factors(buildFromFile = FALSE, rangeStart, rangeEnd,
-  rasterFile, overwrite = FALSE)
+write_raster_factors(
+  buildFromFile = FALSE,
+  rangeStart,
+  rangeEnd,
+  rasterFile,
+  overwrite = FALSE
+)
 }
 \arguments{
 \item{buildFromFile}{Logical indicating whether the raster categories should
@@ -63,15 +68,24 @@ Constructing the template from raster content (i.e., buildFromFile =
   rasters.
 }
 \examples{
-\dontrun{
 
-write_raster_factors(buildFromFile = TRUE,
-                     rasterFile = '~/Desktop/smaller_raster.tif')
+# example: write raster factors template file, allowing the function to
+# identify the unique raster values:
+# write_raster_factors(buildFromFile = TRUE,
+#                      rasterFile = '~/Desktop/smaller_raster.tif')
 
-write_raster_factors(rangeStart = 1,
-                     rangeEnd = 12,
-                     rasterFile = '~/Desktop/smaller_raster.tif')
+# example: write raster factors template file, with the user setting the
+# starting and ending range of raster values:
+# write_raster_factors(rangeStart = 1,
+#                      rangeEnd = 12,
+#                      rasterFile = '~/Desktop/smaller_raster.tif')
 
-}
+# example: write raster factors template file, with the user setting the
+# starting and ending range of raster values, and overwriting an existing
+# raster factors template file:
+# write_raster_factors(rangeStart = 1,
+#                      rangeEnd = 12,
+#                      rasterFile = '~/Desktop/smaller_raster.tif',
+#                      overwrite = TRUE)
 
 }

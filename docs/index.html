@@ -83,89 +83,102 @@
 <div id="overview" class="section level3">
 <h3 class="hasAnchor">
 <a href="#overview" class="anchor"></a>overview</h3>
-<p>This package contains tools to aid the generation of EML metadata with intent to publish a data set (data + metadata) in the Environmental Data Initiative (EDI) data repository. Functions and a workflow are included that allow for the creation of metadata at the data set level, and individual data entities (e.g., spatial vectors, raster, other entities, data tables).</p>
-<p>Helper functions for the creation of data set metadata and a dataTable entity using the ropensci/eml are currently supported.</p>
+<p>This package contains tools to aid the generation of EML metadata with intent to publish a data set (data + metadata) in the Environmental Data Initiative (EDI) data repository. Functions and a workflow are included that allow for the creation of metadata at the dataset level, and individual data entities (e.g., spatial vectors, raster, other entities, data tables).</p>
+<p>Helper functions for the creation of dataset metadata, and <code>dataTable()</code>, <code>otherEntity()</code>, <code>spatialRaster()</code>, and <code>spatialVector()</code> entities using the <a href="https://ropensci.github.io/EML/">ropensci::eml package</a> are currently supported.</p>
 <p>Note that the creation of people-related entities in EML are specific to functions that rely on Global Institute of Sustainability infrastructure; please see the <a href="https://github.com/CAPLTER/gioseml">gioseml</a> package for these tools.</p>
-<p><strong>navigation</strong></p>
+<p>A template workflow to generating a complete EML record is included with this package: knb-lter-cap.xxx.Rmd.</p>
+<div id="tools-to-generate-metadata" class="section level4">
+<h4 class="hasAnchor">
+<a href="#tools-to-generate-metadata" class="anchor"></a>tools to generate metadata</h4>
+<p><strong>building dataTable metadata</strong></p>
 <ul>
-<li><a href="https://github.com/CAPLTER/capeml#installation">installation</a></li>
-<li><a href="https://github.com/CAPLTER/capeml#project-naming">project-naming</a></li>
-<li><a href="https://github.com/CAPLTER/capeml#keywords">dataSet element: keywords, taxonomic coverage</a></li>
-<li><a href="https://github.com/CAPLTER/capeml#taxonomic%20coverage">dataSet element: taxonomic coverage</a></li>
-<li><a href="https://github.com/CAPLTER/capeml#dataTable">dataTable</a></li>
-<li><a href="https://github.com/CAPLTER/capeml#otherEntity">otherEntity</a></li>
-<li><a href="https://github.com/CAPLTER/capeml#spatialVector">spatialVector</a></li>
-<li><a href="https://github.com/CAPLTER/capeml#spatialraster">spatialRaster</a></li>
+<li>
+<code><a href="reference/write_attributes.html">write_attributes()</a></code> creates a template as a csv file for supplying attribute metadata for a tabular data object that resides in the R environment</li>
+<li>
+<code><a href="reference/write_factors.html">write_factors()</a></code> creates a template as a csv file for supplying code definition metadata for factors in a tabular data object that resides in the R environment</li>
+<li>
+<code><a href="reference/write_raster_factors.html">write_raster_factors()</a></code> creates a template as a csv file for supplying code definition metadata for spatial rasters if raster values are categorical</li>
 </ul>
+<p><strong>building dataset metadata</strong></p>
+<ul>
+<li>
+<code><a href="reference/write_keywords.html">write_keywords()</a></code> creates a template as a csv file for supplying dataset keywords</li>
+</ul>
+</div>
+<div id="tools-to-create-eml-entities" class="section level4">
+<h4 class="hasAnchor">
+<a href="#tools-to-create-eml-entities" class="anchor"></a>tools to create EML entities</h4>
+<p><strong>constructing dataset elements</strong></p>
+<ul>
+<li>
+<code><a href="reference/create_dataTable.html">create_dataTable()</a></code> creates a EML entity of type dataTable</li>
+<li>
+<code><a href="reference/create_otherEntity.html">create_otherEntity()</a></code> creates a EML entity of type otherEntity</li>
+<li>
+<code><a href="reference/create_spatialRaster.html">create_spatialRaster()</a></code> creates a EML entity of type spatialRaster [see vignette for more detail]</li>
+<li>
+<code><a href="reference/create_spatialVector.html">create_spatialVector()</a></code> creates a EML entity of type spatialRaster</li>
+</ul>
+</div>
 </div>
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>installation</h3>
-<p>Install the current version from GitHub (after installing the <code>devtools</code> package from CRAN):</p>
+<p>Install the current version from GitHub (after installing the <a href="https://cran.r-project.org/web/packages/devtools/index.html">devtools</a> package:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"CAPLTER/capeml"</span>)</a></code></pre></div>
 </div>
 <div id="project-naming" class="section level3">
 <h3 class="hasAnchor">
-<a href="#project-naming" class="anchor"></a>project-naming</h3>
-<p>Most EML-generating functions in the capeml package will create both physical objects and EML references to those objects with the format: <code>project-id</code><em><code>object-name</code></em><code>object-hash</code>.<code>file-extension</code> (e.g., 664_site_map_5fb7b8d53d48010eab1a2e73db7f1941.png). The target object (e.g., site_map.png from the previous example) is renamed with the additional metadata and this object name is referenced in the EML metadata. The only exception to this approach are spatialVectors where the hash of the file/object is not included in the new object name. Note that the project-id is not passed to any of the functions, and must exist in the working R environment (as <code>projectid</code>).</p>
-<p>project-naming functionality can be turned off by setting the <code>projectNaming</code> option in <code>create_dataTable</code>, <code>create_spatialRaster</code>, <code>create_spatialVector</code>, and <code>create_otherEntity</code> to FALSE. When set to FALSE, the object name is not changed, and the file name of the object is included in the EML.</p>
+<a href="#project-naming" class="anchor"></a>project naming</h3>
+<p>Most EML-generating functions in the capeml package will create both physical objects and EML references to those objects with the format: <code>project-id</code>_<code>object-name</code>_<code>object-hash</code>.<code>file-extension</code> (e.g., 664_site_map_5fb7b8d53d48010eab1a2e73db7f1941.png). The target object (e.g., site_map.png from the previous example) is renamed with the additional metadata and this object name is referenced in the EML metadata. The only exception to this approach are spatialVectors where the hash of the file/object is not included in the new object name. Note that the project-id is not passed to any of the functions, and must exist in the working R environment (as <code>projectid</code>).</p>
+<p>Project-naming functionality can be turned off by setting the <code>projectNaming</code> option in <code><a href="reference/create_dataTable.html">create_dataTable()</a></code>, <code><a href="reference/create_spatialRaster.html">create_spatialRaster()</a></code>, <code><a href="reference/create_spatialVector.html">create_spatialVector()</a></code>, and <code><a href="reference/create_otherEntity.html">create_otherEntity()</a></code> to FALSE. When set to FALSE, the object name is not changed, and the file name of the object is included in the EML.</p>
 </div>
-<div id="dataset-elements-keywords-taxonomic-coverage" class="section level3">
+<div id="coverages" class="section level3">
 <h3 class="hasAnchor">
-<a href="#dataset-elements-keywords-taxonomic-coverage" class="anchor"></a>dataSet elements: keywords, taxonomic coverage</h3>
-<div id="keywords" class="section level4">
-<h4 class="hasAnchor">
-<a href="#keywords" class="anchor"></a>keywords</h4>
-<p><code><a href="reference/write_keywords.html">write_keywords()</a></code> will generate a template as a csv file titled <code>keywords.csv</code> in the working directory with default CAP LTER keywords, and the appropriate thesaurii for adding and referencing additional keywords.</p>
-<p>Once constructed, keywords can be added to the dataSet by referencing the keyword file with ropensci/EML::create_keywordSet</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">keywords &lt;-<span class="st"> </span><span class="kw"><a href="reference/create_keywordSet.html">create_keywordSet</a></span>(<span class="st">'keywords.csv'</span>)</a></code></pre></div>
-</div>
-<div id="taxonomic-coverage" class="section level4">
-<h4 class="hasAnchor">
-<a href="#taxonomic-coverage" class="anchor"></a>taxonomic coverage</h4>
-<p>New approach for taxonomy is to use EDI’s taxonomyCleanr to build the taxonomicCoverage. Note that at the time of this writing (2019-05-03), taxonomyCleanr had not been ported to rOpenSci EML v2. As such, this workflow employs a forked, feature branch of <a href="https://github.com/CAPLTER/taxonomyCleanr/tree/taxonomy-rEML2">taxonomyCleanr</a> until EDI adapts taxonmyCleanr to ropensci EML v2.</p>
+<a href="#coverages" class="anchor"></a>coverages</h3>
+<p><em>Geographic</em> and <em>temporal</em> coverages are relatively straightfoward and documented in the overall workflow, but creating a <em>taxonomic</em> coverage is more involved.</p>
+<p>A new approach for taxonomy is to use EDI’s taxonomyCleanr to build the taxonomicCoverage. Note that at the time of this writing (2019-05-03), taxonomyCleanr had not been ported to rOpenSci EML v2. As such, this workflow employs a forked, feature branch of <a href="https://github.com/CAPLTER/taxonomyCleanr/tree/taxonomy-rEML2">taxonomyCleanr</a> until EDI adapts taxonmyCleanr to ropensci EML v2.</p>
 <p><em>Note</em> that the <code>taxa_map.csv</code> built with the <code><a href="https://rdrr.io/pkg/taxonomyCleanr/man/create_taxa_map.html">create_taxa_map()</a></code> function and resolving taxonomic IDs (i.e., <code><a href="https://rdrr.io/pkg/taxonomyCleanr/man/resolve_comm_taxa.html">resolve_comm_taxa()</a></code>) only needs to be run once per version/session – the taxonomicCoverage can be built as many times as needed with <code><a href="https://rdrr.io/pkg/taxonomyCleanr/man/resolve_comm_taxa.html">resolve_comm_taxa()</a></code> or <code>resolve_sci_taxa</code> once the <code>taxa_map.csv</code> has been generated and the taxonomic IDs resolved.</p>
 <p>A sample workflow:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># load and call the feature branch of taxonomyCleanr</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/load_all.html">load_all</a></span>(<span class="st">'path-to-repo/taxonomyCleanr/'</span>) </a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(taxonomyCleanr)</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># taxonomyCleanr requires a path to build the taxa_map</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">my_path &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span>() </a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co"># taxonomic data must be in a data frame (load if not already in the environment)</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9">myTaxa &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">'file with taxa'</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>()</a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co"># create or update map. A taxa_map.csv is the heart of taxonomyCleanr. This</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co"># function will build the taxa_map.csv and put it in the path identified with</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co"># my_path.</span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="kw"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/create_taxa_map.html">create_taxa_map</a></span>(<span class="dt">path =</span> my_path,</a>
-<a class="sourceLine" id="cb3-16" data-line-number="16">                <span class="dt">x =</span> myTaxa,</a>
-<a class="sourceLine" id="cb3-17" data-line-number="17">                <span class="dt">col =</span> <span class="st">"myTaxa column with taxonomic names"</span>) </a>
-<a class="sourceLine" id="cb3-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co"># resolve taxa by attempting to match the taxon names. In this case, data.source</span></a>
-<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co"># 3 is ITIS (which, as of 2019-05-03, is the only authority taxonomyCleanr will</span></a>
-<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co"># allow for common names).</span></a>
-<a class="sourceLine" id="cb3-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co"># resolve from common name:</span></a>
-<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="kw"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/resolve_comm_taxa.html">resolve_comm_taxa</a></span>(<span class="dt">path =</span> my_path, <span class="dt">data.sources =</span> <span class="dv">3</span>) <span class="co"># in this case, 3 is ITIS</span></a>
-<a class="sourceLine" id="cb3-25" data-line-number="25"></a>
-<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="op">--</span><span class="st"> </span>OR <span class="op">--</span></a>
-<a class="sourceLine" id="cb3-27" data-line-number="27"></a>
-<a class="sourceLine" id="cb3-28" data-line-number="28"><span class="co"># resolve from scientific name:</span></a>
-<a class="sourceLine" id="cb3-29" data-line-number="29"><span class="kw"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/resolve_sci_taxa.html">resolve_sci_taxa</a></span>(<span class="dt">path =</span> my_path, <span class="dt">data.sources =</span> <span class="dv">3</span>) <span class="co"># in this case, 3 is ITIS</span></a>
-<a class="sourceLine" id="cb3-30" data-line-number="30"></a>
-<a class="sourceLine" id="cb3-31" data-line-number="31"><span class="co"># build the EML taxonomomic coverage</span></a>
-<a class="sourceLine" id="cb3-32" data-line-number="32">taxaCoverage &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/make_taxonomicCoverage.html">make_taxonomicCoverage</a></span>(<span class="dt">path =</span> my_path)</a>
-<a class="sourceLine" id="cb3-33" data-line-number="33"></a>
-<a class="sourceLine" id="cb3-34" data-line-number="34"><span class="co"># add taxonomic to other coverages</span></a>
-<a class="sourceLine" id="cb3-35" data-line-number="35">coverage<span class="op">$</span>taxonomicCoverage &lt;-<span class="st"> </span>taxaCoverage</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># load and call the feature branch of taxonomyCleanr</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/load_all.html">load_all</a></span>(<span class="st">'path-to-repo/taxonomyCleanr/'</span>) </a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(taxonomyCleanr)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co"># taxonomyCleanr requires a path to build the taxa_map</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">my_path &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span>() </a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co"># taxonomic data must be in a data frame (load if not already in the environment)</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">myTaxa &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">'file with taxa'</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>()</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co"># create or update map. A taxa_map.csv is the heart of taxonomyCleanr. This</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co"># function will build the taxa_map.csv and put it in the path identified with</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co"># my_path.</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="kw"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/create_taxa_map.html">create_taxa_map</a></span>(<span class="dt">path =</span> my_path,</a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">                <span class="dt">x =</span> myTaxa,</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">                <span class="dt">col =</span> <span class="st">"myTaxa column with taxonomic names"</span>) </a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co"># resolve taxa by attempting to match the taxon names. In this case, data.source</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co"># 3 is ITIS (which, as of 2019-05-03, is the only authority taxonomyCleanr will</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co"># allow for common names).</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co"># resolve from common name:</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="kw"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/resolve_comm_taxa.html">resolve_comm_taxa</a></span>(<span class="dt">path =</span> my_path, <span class="dt">data.sources =</span> <span class="dv">3</span>) <span class="co"># in this case, 3 is ITIS</span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="op">--</span><span class="st"> </span>OR <span class="op">--</span></a>
+<a class="sourceLine" id="cb2-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co"># resolve from scientific name:</span></a>
+<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="kw"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/resolve_sci_taxa.html">resolve_sci_taxa</a></span>(<span class="dt">path =</span> my_path, <span class="dt">data.sources =</span> <span class="dv">3</span>) <span class="co"># in this case, 3 is ITIS</span></a>
+<a class="sourceLine" id="cb2-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb2-31" data-line-number="31"><span class="co"># build the EML taxonomomic coverage</span></a>
+<a class="sourceLine" id="cb2-32" data-line-number="32">taxaCoverage &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/make_taxonomicCoverage.html">make_taxonomicCoverage</a></span>(<span class="dt">path =</span> my_path)</a>
+<a class="sourceLine" id="cb2-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb2-34" data-line-number="34"><span class="co"># add taxonomic to other coverages</span></a>
+<a class="sourceLine" id="cb2-35" data-line-number="35">coverage<span class="op">$</span>taxonomicCoverage &lt;-<span class="st"> </span>taxaCoverage</a></code></pre></div>
 </div>
-</div>
-<div id="datatable" class="section level3">
+<div id="overview-create-a-datatable" class="section level3">
 <h3 class="hasAnchor">
-<a href="#datatable" class="anchor"></a>dataTable</h3>
+<a href="#overview-create-a-datatable" class="anchor"></a>overview: create a dataTable</h3>
 <p>Given a rectangular data matrix of type dataframe or Tibble in the R envionment:</p>
 <p><code><a href="reference/write_attributes.html">write_attributes(data_entity)</a></code> will generate a template as a csv file in the working directory based on properties of the data entity such that metadata properties (e.g., attributeDefinition, units) can be added via a editor or spreadsheet application.</p>
 <p><code><a href="reference/write_factors.html">write_factors(data_entity)</a></code> will generate a template as a csv file in the working directory based on columns of the data entity that are factors such that details of factor levels can be added via a editor or spreadsheet application.</p>
@@ -178,89 +191,55 @@
 <li>note that the data entity name should be used consistently within the chunk, and the resulting dataTable entity should have the name: <em>data_entity_DT</em>
 </li>
 </ul>
-<p>The <code>create_dataTable</code> function accepts five arguments:</p>
-<ol>
-<li>dfname = dataframe or tibble object name (required)</li>
-<li>description = a description of the data object (required)</li>
-<li>dateRangeField = (optional) The quoted name of the data entity field that is a date field that would reflect the start and end dates of the data reflected in the data entity. The date must be of the format %Y-%m-%d.</li>
-<li>baseURL = The base path of the web-accessible location of the data file; the name of the resulting file will be passed to the base path to generate a web-resolvable file path.</li>
-<li>missingValueCode = (optional) create_dataTable will automatically document the presence of NA and NaN entries as missing values in the EML output. The user has the ability to identify an additional indicator of missing values. Numbers (e.g., -9999 should be unquoted) whereas text values (e.g., “missing”) should be quoted.</li>
-</ol>
-<!-- end list --><div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">data_entity &lt;-<span class="st"> </span><span class="kw">read</span>(<span class="st">"data source"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">  </span>processing <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">  </span>processing</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw"><a href="reference/write_attributes.html">write_attributes</a></span>(data_entity)</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="kw"><a href="reference/write_factors.html">write_factors</a></span>(data_entity)</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">data_entity_desc &lt;-<span class="st"> "snow leopard data"</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co"># create_dataTable with minimal arguments</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11">data_entity_DT &lt;-<span class="st"> </span><span class="kw"><a href="reference/create_dataTable.html">create_dataTable</a></span>(<span class="dt">dfname =</span> data_entity,</a>
-<a class="sourceLine" id="cb4-12" data-line-number="12">                                   <span class="dt">description =</span> data_entity_desc)</a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co"># create_dataTable with optional arguments (sans baseURL)</span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15">data_entity_DT &lt;-<span class="st"> </span><span class="kw"><a href="reference/create_dataTable.html">create_dataTable</a></span>(<span class="dt">dfname =</span> data_entity,</a>
-<a class="sourceLine" id="cb4-16" data-line-number="16">                                   <span class="dt">description =</span> data_entity_desc,</a>
-<a class="sourceLine" id="cb4-17" data-line-number="17">                                   <span class="dt">dateRangeField =</span> <span class="st">"observation date"</span>,</a>
-<a class="sourceLine" id="cb4-18" data-line-number="18">                                   <span class="dt">missingValueCode =</span> <span class="st">"missing"</span>)</a></code></pre></div>
 </div>
-<div id="otherentity" class="section level3">
+<div id="overview-create-a-otherentity" class="section level3">
 <h3 class="hasAnchor">
-<a href="#otherentity" class="anchor"></a>otherEntity</h3>
+<a href="#overview-create-a-otherentity" class="anchor"></a>overview: create a otherEntity</h3>
 <p>A EML object of type otherEntity can be created from a single file or a directory. In the case of generating a otherEntity object from a directory, pass the directory path to the targetFile argument, capeml will recognize the target as a directory, and create a zipped file of the identified directory.</p>
 <p>If the otherEntity object already is a zip file with the desired name, set the overwrite argument to FALSE to prevent overwriting the existing object.</p>
 <p>As with all objects created with the capeml package, the resulting object is named with convention: projectid_object-name_md5sum-hash.file extension by default but this functionality can be turned off by setting projectNaming to FALSE.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># general use</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">other_entity_name &lt;-<span class="st"> </span><span class="kw"><a href="reference/create_otherEntity.html">create_otherEntity</a></span>(</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">targetFile =</span> <span class="st">"file or directory name"</span>,</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="dt">description =</span> <span class="st">"description of entity"</span>)</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co"># example, create otherEntity object from a png file</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">desert_fertilization_sites &lt;-<span class="st"> </span><span class="kw"><a href="reference/create_otherEntity.html">create_otherEntity</a></span>(</a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">  <span class="dt">targetFile =</span> <span class="st">"~/Desktop/desert_fertilization_sampling_sites.png"</span>,</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9">  <span class="dt">description =</span> <span class="st">"map of approximate location of desert fertiliztion long-term study sites"</span>)</a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co"># example, create otherEntity object from a pdf file without project naming</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12">pass_codebook_<span class="dv">2011</span> &lt;-<span class="st"> </span><span class="kw"><a href="reference/create_otherEntity.html">create_otherEntity</a></span>(</a>
-<a class="sourceLine" id="cb5-13" data-line-number="13">  <span class="dt">targetFile =</span> <span class="st">"PASS-2011-Codebook-Feb2016rev.pdf"</span>,</a>
-<a class="sourceLine" id="cb5-14" data-line-number="14">  <span class="dt">description =</span> <span class="st">"PASS 2011 survey codebook"</span>,</a>
-<a class="sourceLine" id="cb5-15" data-line-number="15">  <span class="dt">projectNaming =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co"># example, create otherEntity object from a directory</span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18">pass_codebook_<span class="dv">2011</span> &lt;-<span class="st"> </span><span class="kw"><a href="reference/create_otherEntity.html">create_otherEntity</a></span>(</a>
-<a class="sourceLine" id="cb5-19" data-line-number="19">  <span class="dt">targetFile =</span> <span class="st">"~/Desktop/max_temperature"</span>,</a>
-<a class="sourceLine" id="cb5-20" data-line-number="20">  <span class="dt">description =</span> <span class="st">"rasters of max temperature years 2000-2016"</span>)</a></code></pre></div>
 </div>
-<div id="spatialvector" class="section level3">
+<div id="literature-cited" class="section level3">
 <h3 class="hasAnchor">
-<a href="#spatialvector" class="anchor"></a>spatialVector</h3>
-<p>Given a spatial vector entity in the R envionment:</p>
-<p><code><a href="reference/write_attributes.html">write_attributes(vector_data_entity)</a></code> will generate a template as a csv file in the working directory based on properties of the vector_data_entity such that metadata properties (e.g., attributeDefinition) can be added via a editor or spreadsheet application.</p>
-<p><code><a href="reference/create_spatialVector.html">create_spatialVector(data_entity)</a></code> performs many services:</p>
-<ul>
-<li>the spatial vector data entity is written to file as a kml in the working/project directory with the file name: <em>projectid_data-entity-name.kml</em> or <em>data-entity.kml</em> if projectNaming is set to FALSE. (note all output is as kml with the epsg projection 4326)</li>
-<li>metadata provided in the attributes templates are ingested</li>
-<li>a EML object of type spatialVector is returned</li>
-<li>note that the spatial vector data entity name should be used consistently within the chunk, and the resulting vector_data_entity entity should have the name: <em>data_entity_SV</em>
-</li>
-</ul>
-<p>The <code>create_spatialVector</code> function accepts five arguments:</p>
-<ol>
-<li>
-<code>svname</code>: spatial data entity name (required)</li>
-<li>
-<code>description</code>: a description of the data object (required)</li>
-<li>
-<code>baseURL</code>: is the base path of the web-accessible location of the data file; the name of the resulting file will be passed to the base path to generate a web-resolvable file path.</li>
-<li>
-<code>projectNaming</code>: a logical indicating whether to use the project naming convention of project-id + object name + hash of object + object file extention. This is the default, if set to FALSE, the file/object name is unchanged and included in the EML.</li>
-</ol>
-</div>
-<div id="spatialraster" class="section level3">
-<h3 class="hasAnchor">
-<a href="#spatialraster" class="anchor"></a>spatialRaster</h3>
-<p>Please see the <a href="https://caplter.github.io/capeml/articles/create_spatialRaster.html">create_spatialRaster</a> vignette for more information about creating EML for raster data.</p>
+<a href="#literature-cited" class="anchor"></a>literature cited</h3>
+<p>Though not provided as a function, below is a workflow for adding literature cited elements at the dataset level. The workflow capitalizes on EML version 2.2 that accepts the BibTex format for references.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># libraries</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rcrossref)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(EML)</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co"># references</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co"># datasets: ndvi</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">ndvi2010 &lt;-<span class="st"> </span><span class="kw"><a href="https://docs.ropensci.org/rcrossref/reference/cr_cn.html">cr_cn</a></span>(<span class="dt">dois =</span> <span class="st">'https://doi.org/10.6073/pasta/8a465e9b76035bffeb00f3a6134eb913'</span>, <span class="dt">format =</span> <span class="st">'bibtex'</span>)</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">ndvi2010cit &lt;-<span class="st"> </span>eml<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="dt">id =</span> <span class="st">"https://doi.org/10.6073/pasta/8a465e9b76035bffeb00f3a6134eb913"</span>)</a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">ndvi2010cit<span class="op">$</span>bibtex &lt;-<span class="st"> </span>ndvi2010</a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co"># datasets: savi</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18">savi2010 &lt;-<span class="st"> </span><span class="kw"><a href="https://docs.ropensci.org/rcrossref/reference/cr_cn.html">cr_cn</a></span>(<span class="dt">dois =</span> <span class="st">'https://doi.org/10.6073/pasta/f4988cde318c85b76b0edbaa3219d682'</span>, <span class="dt">format =</span> <span class="st">'bibtex'</span>)</a>
+<a class="sourceLine" id="cb3-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb3-20" data-line-number="20">savi2010cit &lt;-<span class="st"> </span>eml<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="dt">id =</span> <span class="st">"https://doi.org/10.6073/pasta/f4988cde318c85b76b0edbaa3219d682"</span>)</a>
+<a class="sourceLine" id="cb3-21" data-line-number="21">savi2010cit<span class="op">$</span>bibtex &lt;-<span class="st"> </span>savi2010</a>
+<a class="sourceLine" id="cb3-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co"># publications cited in methods</span></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb3-25" data-line-number="25">huete &lt;-<span class="st"> </span><span class="kw"><a href="https://docs.ropensci.org/rcrossref/reference/cr_cn.html">cr_cn</a></span>(<span class="dt">dois =</span> <span class="st">'https://doi.org/10.1016/0034-4257(88)90106-X'</span>, <span class="dt">format =</span> <span class="st">'bibtex'</span>)</a>
+<a class="sourceLine" id="cb3-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb3-27" data-line-number="27">huetecit &lt;-<span class="st"> </span>eml<span class="op">$</span><span class="kw"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="dt">id =</span> <span class="st">"https://doi.org/10.1016/0034-4257(88)90106-X"</span>)</a>
+<a class="sourceLine" id="cb3-28" data-line-number="28">huetecit<span class="op">$</span>bibtex &lt;-<span class="st"> </span>huete</a>
+<a class="sourceLine" id="cb3-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb3-30" data-line-number="30"><span class="co"># build list of citations</span></a>
+<a class="sourceLine" id="cb3-31" data-line-number="31"></a>
+<a class="sourceLine" id="cb3-32" data-line-number="32">citationsAll &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">citation =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(ndvi2010cit,</a>
+<a class="sourceLine" id="cb3-33" data-line-number="33">                                     savi2010cit,</a>
+<a class="sourceLine" id="cb3-34" data-line-number="34">                                     huetecit</a>
+<a class="sourceLine" id="cb3-35" data-line-number="35">) <span class="co"># close list of citations</span></a>
+<a class="sourceLine" id="cb3-36" data-line-number="36">) <span class="co"># close citation</span></a></code></pre></div>
+<p>The citations can then be added to the EML::eml$dataset() entity using: <code>dataset$literatureCited &lt;- citationsAll</code></p>
 </div>
 </div>
   </div>
