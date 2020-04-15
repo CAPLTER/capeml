@@ -55,7 +55,7 @@ this package:
     - see
     [vignette](https://caplter.github.io/capeml/articles/create_spatialRaster.html)
     for more detail
-  - `create_spatialVector()` creates a EML entity of type spatialRaster
+  - `create_spatialVector()` creates a EML entity of type spatialVector
 
 ### installation
 
