@@ -62,7 +62,7 @@ create_keyword <- function(datasetKeyword, keywordAttribute = NA) {
   } else {
 
     # generate keyword with attribute
-    emlKeyword <- eml$keyword(keywordType = keywordAttribute)
+    emlKeyword <- EML::eml$keyword(keywordType = keywordAttribute)
     emlKeyword$keyword <- datasetKeyword
 
   }
