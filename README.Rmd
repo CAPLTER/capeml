@@ -70,6 +70,13 @@ Install the current version from GitHub (after installing the
 devtools::install_github("CAPLTER/capeml")
 ```
 
+### options
+
+#### EML
+
+This package defaults to the current version of EML. If desired, users can
+switch to the previous version with `emld::eml_version("eml-2.1.1")`.
+
 ### project naming
 
 Most EML-generating functions in the capeml package will create both physical
