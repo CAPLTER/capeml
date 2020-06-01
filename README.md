@@ -15,7 +15,7 @@ data tables).
 Helper functions for the creation of dataset metadata, and
 `dataTable()`, `otherEntity()`, `spatialRaster()`, and `spatialVector()`
 entities using the [ropensci::eml
-package](https://ropensci.github.io/EML/) are currently supported.
+package](https://ropensci.github.io/EML/) are supported.
 
 Note that the creation of people-related entities in EML are specific to
 functions that rely on Global Institute of Sustainability
@@ -26,40 +26,9 @@ A template workflow to generating a complete EML record is included with
 this package:
 [knb-lter-cap.xxx.Rmd](https://github.com/CAPLTER/capeml/blob/master/knb-lter-cap.xxx.Rmd).
 
-#### tools to generate metadata
-
-**building dataTable metadata**
-
-  - `write_attributes()` creates a template as a csv file for supplying
-    attribute metadata for a tabular data object that resides in the R
-    environment
-  - `write_factors()` creates a template as a csv file for supplying
-    code definition metadata for factors in a tabular data object that
-    resides in the R environment
-  - `write_raster_factors()` creates a template as a csv file for
-    supplying code definition metadata for spatial rasters if raster
-    values are categorical
-
-**building dataset metadata**
-
-  - `write_keywords()` creates a template as a csv file for supplying
-    dataset keywords
-
-#### tools to create EML entities
-
-**constructing dataset elements**
-
-  - `create_dataTable()` creates a EML entity of type dataTable
-  - `create_otherEntity()` creates a EML entity of type otherEntity
-  - `create_spatialRaster()` creates a EML entity of type spatialRaster
-    - see
-    [vignette](https://caplter.github.io/capeml/articles/create_spatialRaster.html)
-    for more detail
-  - `create_spatialVector()` creates a EML entity of type spatialVector
-
 ### installation
 
-Install the current version from GitHub (after installing the
+Install from GitHub (after installing the
 [devtools](https://cran.r-project.org/web/packages/devtools/index.html)
 package:
 
@@ -67,14 +36,22 @@ package:
 devtools::install_github("CAPLTER/capeml")
 ```
 
-### project naming
+### options
+
+#### EML
+
+This package defaults to the current version of EML. If desired, users
+can switch to the previous version with
+`emld::eml_version("eml-2.1.1")`.
+
+#### project naming
 
 Most EML-generating functions in the capeml package will create both
 physical objects and EML references to those objects with the format:
 `project-id`\_`object-name`\_`object-hash`.`file-extension` (e.g.,
-664\_site\_map\_5fb7b8d53d48010eab1a2e73db7f1941.png). The target object
-(e.g., site\_map.png from the previous example) is renamed with the
-additional metadata and this object name is referenced in the EML
+*664\_site\_map\_5fb7b8d53d48010eab1a2e73db7f1941.png*). The target
+object (e.g., site\_map.png from the previous example) is renamed with
+the additional metadata and this object name is referenced in the EML
 metadata. The only exception to this approach are spatialVectors where
 the hash of the file/object is not included in the new object name. Note
 that the project-id is not passed to any of the functions, and must
@@ -86,70 +63,126 @@ Project-naming functionality can be turned off by setting the
 `create_otherEntity()` to FALSE. When set to FALSE, the object name is
 not changed, and the file name of the object is included in the EML.
 
-### coverages
+### tools to generate entity metadata
 
-*Geographic* and *temporal* coverages are relatively straightfoward and
-documented in the overall workflow, but creating a *taxonomic* coverage
-is more involved.
+**building dataTable, spatialRaster, and spatialVector metadata**
 
-A new approach for taxonomy is to use EDI’s taxonomyCleanr to build the
-taxonomicCoverage. Note that at the time of this writing (2019-05-03),
-taxonomyCleanr had not been ported to rOpenSci EML v2. As such, this
-workflow employs a forked, feature branch of
-[taxonomyCleanr](https://github.com/CAPLTER/taxonomyCleanr/tree/taxonomy-rEML2)
-until EDI adapts taxonmyCleanr to ropensci EML v2.
+  - `write_attributes()` creates a template as a csv file for supplying
+    attribute metadata for a tabular data object that resides in the R
+    environment
+  - `write_factors()` creates a template as a csv file for supplying
+    code definition metadata for factors in a tabular data object that
+    resides in the R environment
+  - `write_raster_factors()` creates a template as a csv file for
+    supplying code definition metadata for spatial rasters if raster
+    values are categorical
 
-*Note* that the `taxa_map.csv` built with the `create_taxa_map()`
-function and resolving taxonomic IDs (i.e., `resolve_comm_taxa()`) only
-needs to be run once per version/session – the taxonomicCoverage can be
-built as many times as needed with `resolve_comm_taxa()` or
-`resolve_sci_taxa` once the `taxa_map.csv` has been generated and the
-taxonomic IDs resolved.
+### tools to create EML entities
 
-A sample workflow:
+**constructing dataset elements**
+
+  - `create_dataTable()` creates a EML entity of type dataTable
+  - `create_otherEntity()` creates a EML entity of type otherEntity
+  - `create_spatialRaster()` creates a EML entity of type spatialRaster
+    - see
+    [vignette](https://caplter.github.io/capeml/articles/create_spatialRaster.html)
+    for more detail
+  - `create_spatialVector()` creates a EML entity of type spatialRaster
+
+### construct a dataset
+
+#### abstract
+
+The `create_dataset` function will look for a `abstract.md` file in the
+working directory or at the path provided if specified. `abstract.md`
+must be a markdown file.
+
+#### keywords
+
+`write_keywords()` creates a template as a csv file for supplying
+dataset keywords. The `create_dataset` function will look for a
+`keywords.csv` file in the working directory or at the path provided if
+specified.
+
+#### methods
+
+The `create_dataset` function will look for a `methods.md` file in the
+working directory or at the path provided if specified (`methods.md`
+must be a markdown file.). Alternatively, the workflow below is an
+enhanced approach of developing methods if provenance data are required
+or there are multiple methods files.
 
 ``` r
-# load and call the feature branch of taxonomyCleanr
-devtools::load_all('path-to-repo/taxonomyCleanr/') 
+library(EDIutils)
+
+# methods from file tagged as markdown
+main <- read_markdown("~/Dropbox/development/knb-lter-cap.683/methods.md")
+
+# provenance: naip
+naip <- emld::as_emld(EDIutils::api_get_provenance_metadata("knb-lter-cap.623.1"))
+naip$`@context` <- NULL
+naip$`@type` <- NULL
+
+# provenance: lst
+lst <- emld::as_emld(EDIutils::api_get_provenance_metadata("knb-lter-cap.677.1"))
+lst$`@context` <- NULL
+lst$`@type` <- NULL
+
+enhancedMethods <- EML::eml$methods(methodStep = list(main, naip, lst))
+```
+
+#### coverages
+
+*Geographic* and *temporal* coverages are straight foward and documented
+in the workflow, but creating a *taxonomic* coverage is more involved.
+*Taxonomic coverage(s)* are constructed using EDI’s
+[taxonomyCleanr](https://github.com/EDIorg/taxonomyCleanr) tool suite.
+
+A sample workflow for creating a taxonomic coverage:
+
+``` r
 library(taxonomyCleanr)
 
-# taxonomyCleanr requires a path to build the taxa_map
-my_path <- getwd() 
+my_path <- getwd() # taxonomyCleanr requires a path (to build the taxa_map)
 
-# taxonomic data must be in a data frame (load if not already in the environment)
-myTaxa <- read_csv('file with taxa') %>% 
+# Example: draw taxonomic information from existing resource:
+
+# plant taxa listed in the om_transpiration_factors file
+plantTaxa <- read_csv('om_transpiration_factors.csv') %>% 
+  filter(attributeName == "species") %>% 
   as.data.frame()
 
 # create or update map. A taxa_map.csv is the heart of taxonomyCleanr. This
 # function will build the taxa_map.csv and put it in the path identified with
 # my_path.
-create_taxa_map(path = my_path,
-                x = myTaxa,
-                col = "myTaxa column with taxonomic names") 
+create_taxa_map(path = my_path, x = plantTaxa, col = "definition") 
 
-# resolve taxa by attempting to match the taxon names. In this case, data.source
-# 3 is ITIS (which, as of 2019-05-03, is the only authority taxonomyCleanr will
-# allow for common names).
+# Example: construct taxonomic resource:
 
-# resolve from common name:
-resolve_comm_taxa(path = my_path, data.sources = 3) # in this case, 3 is ITIS
+gambelQuail <- tibble(taxName = "Callipepla gambelii")
 
--- OR --
+# Create or update map: a taxa_map.csv is the heart of taxonomyCleanr. This
+# function will build the taxa_map.csv in the path identified with my_path.
+create_taxa_map(path = my_path, x = gambelQuail, col = "taxName") 
 
-# resolve from scientific name:
+# Resolve taxa by attempting to match the taxon name (data.source 3 is ITIS but
+# other sources are accessible). Use `resolve_comm_taxa` instead of
+# `resolve_sci_taxa` if taxa names are common names but note that ITIS
+# (data.source 3) is the only authority taxonomyCleanr will allow for common
+# names.
 resolve_sci_taxa(path = my_path, data.sources = 3) # in this case, 3 is ITIS
 
 # build the EML taxonomomic coverage
 taxaCoverage <- make_taxonomicCoverage(path = my_path)
 
-# add taxonomic to other coverages
+# add taxonomic to the other coverages
 coverage$taxonomicCoverage <- taxaCoverage
 ```
 
 ### overview: create a dataTable
 
 Given a rectangular data matrix of type dataframe or Tibble in the R
-envionment:
+environment:
 
 `write_attributes(data_entity)` will generate a template as a csv file
 in the working directory based on properties of the data entity such
@@ -197,43 +230,19 @@ literature cited elements at the dataset level. The workflow capitalizes
 on EML version 2.2 that accepts the BibTex format for references.
 
 ``` r
-# libraries
-
+# add literature cited if relevant
 library(rcrossref)
 library(EML)
 
+mccafferty <- cr_cn(dois = "https://doi.org/10.1186/s40317-015-0075-2", format = "bibtex")
+mccaffertycit <- EML::eml$citation(id = "https://doi.org/10.1186/s40317-015-0075-2")
+mccaffertycit$bibtex <- mccafferty 
 
-# references
-
-# datasets: ndvi
-
-ndvi2010 <- cr_cn(dois = 'https://doi.org/10.6073/pasta/8a465e9b76035bffeb00f3a6134eb913', format = 'bibtex')
-
-ndvi2010cit <- eml$citation(id = "https://doi.org/10.6073/pasta/8a465e9b76035bffeb00f3a6134eb913")
-ndvi2010cit$bibtex <- ndvi2010
-
-# datasets: savi
-
-savi2010 <- cr_cn(dois = 'https://doi.org/10.6073/pasta/f4988cde318c85b76b0edbaa3219d682', format = 'bibtex')
-
-savi2010cit <- eml$citation(id = "https://doi.org/10.6073/pasta/f4988cde318c85b76b0edbaa3219d682")
-savi2010cit$bibtex <- savi2010
-
-# publications cited in methods
-
-huete <- cr_cn(dois = 'https://doi.org/10.1016/0034-4257(88)90106-X', format = 'bibtex')
-
-huetecit <- eml$citation(id = "https://doi.org/10.1016/0034-4257(88)90106-X")
-huetecit$bibtex <- huete
-
-# build list of citations
-
-citationsAll <- list(citation = list(ndvi2010cit,
-                                     savi2010cit,
-                                     huetecit
-) # close list of citations
+citations <- list(
+  citation = list(
+    mccaffertycit
+  ) # close list of citations
 ) # close citation
-```
 
-The citations can then be added to the EML::eml$dataset() entity using:
-`dataset$literatureCited <- citationsAll`
+dataset$literatureCited <- citations 
+```

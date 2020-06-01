@@ -4,7 +4,9 @@
 \name{giosPublisher}
 \alias{giosPublisher}
 \title{default GIOS publisher as EML::publisher}
-\format{An object of class \code{list} of length 11.}
+\format{
+An object of class \code{list} of length 11.
+}
 \usage{
 giosPublisher
 }

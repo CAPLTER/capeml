@@ -12,7 +12,6 @@ params:
 ```{r libraries}
 library(EML)
 library(tidyverse)
-library(tools)
 library(readxl)
 library(capeml)
 library(gioseml)
@@ -21,8 +20,6 @@ library(gioseml)
 ```{r dataset_details}
 projectid <- 
 packageIdent <- 'knb-lter-cap.xxx.x'
-pubDate <- as.character(Sys.Date())
-# projectScope <- "LTER" # LTER, UREx, LTREB
 ```
 
 ```{r connections::postgres::local, eval=FALSE}
@@ -89,19 +86,9 @@ spatialVector_SV <- create_spatialVector(targetFile = spatialVectorEntity,
 title <- ''
 ```
 
-```{r abstract}
-
-abstract <- set_TextType("abstract.md")
-```
-
-```{r connections::mysql::prod redux, eval=T }
-source('~/Documents/localSettings/mysql_prod.R')
-mysql_prod <- mysql_prod_connect()
-```
+See the gioseml package for examples of creating people resources from scratch.
 
 ```{r people}
-
-# see gioseml for examples of creating people resources from scratch
 
 # creator(s) - required
 
@@ -122,10 +109,8 @@ cameron <- create_role(firstName = "cameron",
                        lastName = "boehme",
                        roleType = "metadata")
 
-associatedParty <- list(cameron)
-
-# associated party(ies) - optional - takes the optional arg. projectRole
-# (default ~ former associate...)
+# associated party - optional
+# takes the optional argument `projectRole` (default: "former project associate")
 mark <- create_role(giosPersonId = 132,
                     roleType = "associated")
 nancy <- create_role(giosPersonId = 150,
@@ -142,13 +127,32 @@ associatedParty <- list(mark, nancy)
 # https://sustainability.asu.edu/caplter/research/
 
 write_keywords()
-keywords <- create_keywordSet('keywords.csv')
-
 ```
+
+Use this extended approach of developing methods if provenance data are required
+or there are multiple methods files, otherwise the `create_dateset()` function
+will look for a methods.md file in the working directory (or a file path and
+name can be passed).
 
 ```{r methods}
 
-methods <- set_methods("methods.md")
+library(EDIutils)
+
+# methods from file tagged as markdown
+main <- read_markdown("methods.md")
+
+# provenance: naip
+naip <- emld::as_emld(EDIutils::api_get_provenance_metadata("knb-lter-cap.623.1"))
+naip$`@context` <- NULL
+naip$`@type` <- NULL
+
+# provenance: lst
+lst <- emld::as_emld(EDIutils::api_get_provenance_metadata("knb-lter-cap.677.1"))
+lst$`@context` <- NULL
+lst$`@type` <- NULL
+
+enhancedMethods <- EML::eml$methods(methodStep = list(main, naip, lst))
+
 ```
 
 ```{r coverages}
@@ -214,34 +218,8 @@ coverage$taxonomicCoverage <- taxaCoverage
 
 ```{r construct-dataset}
 
-# from capeml package:
-# address
-# publisher
-# contact
-# rights
-# distribution
-
-# DATASET
-dataset <- EML::eml$dataset(
-  title = title,
-  creator = creators,
-  pubDate = pubDate,
-  metadataProvider = metadataProvider,
-  intellectualRights = capRights,
-  abstract = abstract,
-  keywordSet = keywords,
-  coverage = coverage,
-  contact = capContact, # cap contact
-  publisher = capPublisher, # cap pub
-  # contact = giosContact, # gios contact
-  # publisher = giosPublisher, # gios pub
-  methods = methods,
-  # project = capProject, # cap project
-  distribution = create_distribution(packageIdent))
-
-# add associatedParty if relevant
-# dataset$associatedParty <- list() 
-
+# optionally, provide: scope, abstract, methods, keywords, publication date
+dataset <- create_dataset()
 ```
 
 ```{r dataSet$dataTable}
@@ -318,35 +296,26 @@ unitList <- set_unitList(custom_units,
 ```{r literature cited, eval=TRUE}
 
 # add literature cited if relevant
+library(rcrossref)
+library(EML)
 
-dataset$literatureCited <- citationsAll 
+mccafferty <- cr_cn(dois = "https://doi.org/10.1186/s40317-015-0075-2", format = "bibtex")
+mccaffertycit <- EML::eml$citation(id = "https://doi.org/10.1186/s40317-015-0075-2")
+mccaffertycit$bibtex <- mccafferty 
+
+citations <- list(
+  citation = list(
+    mccaffertycit
+  ) # close list of citations
+) # close citation
+
+dataset$literatureCited <- citations 
 
 ```
 
 ```{r construct_eml, eval=TRUE}
 
-if(exists('unitList')) {
-  
-  eml <- EML::eml$eml(
-    access = lterAccess,
-    dataset = dataset,
-    additionalMetadata = unitList,
-    packageId = packageIdent,
-    system = "knb",
-    scope = "system"
-  )
-  
-} else {
-  
-  eml <- EML::eml$eml(
-    access = lterAccess,
-    dataset = dataset,
-    packageId = packageIdent,
-    system = "knb",
-    scope = "system"
-  )
-}
-
+eml <- create_eml()
 ```
 
 ```{r write_eml}

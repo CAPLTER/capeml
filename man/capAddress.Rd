@@ -4,7 +4,9 @@
 \name{capAddress}
 \alias{capAddress}
 \title{default CAP LTER address}
-\format{An object of class \code{list} of length 8.}
+\format{
+An object of class \code{list} of length 8.
+}
 \usage{
 capAddress
 }

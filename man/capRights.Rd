@@ -4,7 +4,9 @@
 \name{capRights}
 \alias{capRights}
 \title{capRights: default intellectual rights statement passed to EML-generating workflow}
-\format{An object of class \code{character} of length 1.}
+\format{
+An object of class \code{character} of length 1.
+}
 \usage{
 capRights
 }
