@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>configure_caplter — giosAddress • capeml</title>
+<title>create_eml — create_eml • capeml</title>
 
 
 <!-- jquery -->
@@ -39,14 +39,8 @@
 
 
 
-<meta property="og:title" content="configure_caplter — giosAddress" />
-<meta property="og:description" content="configure_caplter establishes several data set elements that are
-  likely to be consistent across all CAP LTER or GIOS data sets, including
-  language, distribution, and access. In addition, address, publisher, and
-  contact are established each specific to CAP LTER or GIOS. The appropriate
-  reference (to CAP LTER or GIOS) should be made for these elements at the
-  time of eml$dataset construction. Note that several elements apply to all
-  projects. These include: giosLanguage, capRights, and lterAccess." />
+<meta property="og:title" content="create_eml — create_eml" />
+<meta property="og:description" content="create_eml generates a EML entity of type eml" />
 
 
 
@@ -121,46 +115,38 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>configure_caplter</h1>
+    <h1>create_eml</h1>
     
-    <div class="hidden name"><code>giosAddress.Rd</code></div>
+    <div class="hidden name"><code>create_eml.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>configure_caplter establishes several data set elements that are
-  likely to be consistent across all CAP LTER or GIOS data sets, including
-  language, distribution, and access. In addition, address, publisher, and
-  contact are established each specific to CAP LTER or GIOS. The appropriate
-  reference (to CAP LTER or GIOS) should be made for these elements at the
-  time of eml$dataset construction. Note that several elements apply to all
-  projects. These include: giosLanguage, capRights, and lterAccess.</p>
+    <p>create_eml generates a EML entity of type eml</p>
     </div>
 
-    <pre class="usage"><span class='no'>giosAddress</span></pre>
+    <pre class="usage"><span class='fu'>create_eml</span>()</pre>
 
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>An object of class <code>list</code> of length 8.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>establishes in the R environment upon package load, eml entities
-  referenced in (or outside) a EML development template.</p>
+    <p>EML eml entity is returned.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>configure_caplter establishes several data set elements that are
-  likely to be consistent across all CAP LTER or GIOS data sets, including
-  language, distribution, and access. In addition, address, publisher, and
-  contact are established each specific to CAP LTER or GIOS. The appropriate
-  reference (to CAP LTER or GIOS) should be made for these elements at the
-  time of eml$dataset construction. Most of these eml entities are
-  established in the R environment when the capeml package is loaded and
-  available for reference in the EML development template. Distribution is
-  the exception as this is a function that requires the data set package
-  identifier as an input.</p>
+    <p>A eml entity is created from objects defined in the user's R
+  environment. The function loA project scope (default is LTER) indicates
+  contact and project details specific to the research. The abstract and
+  methods must be in markdown format - by default the package will look for
+  these files (abstract.md, methods.md) in the project directory but files of
+  different names or locadtions can be passed.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
+    <p>create_eml will look for most inputs used to construct a eml entity,
+  such as access and dataset, in the working environment; these parameters
+  are not passed directly to the function and must exist in the working
+  environment.</p>
+<p>Some parameters, such access, are loaded in the backgroud when the
+  package is loaded and not called directly by the user.</p>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
