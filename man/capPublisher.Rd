@@ -4,7 +4,9 @@
 \name{capPublisher}
 \alias{capPublisher}
 \title{default CAP LTER publisher as EML::publisher}
-\format{An object of class \code{list} of length 11.}
+\format{
+An object of class \code{list} of length 11.
+}
 \usage{
 capPublisher
 }

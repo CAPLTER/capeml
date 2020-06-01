@@ -4,7 +4,9 @@
 \name{giosLanguage}
 \alias{giosLanguage}
 \title{giosLanguage: default language (english) passed to EML-generating workflow}
-\format{An object of class \code{character} of length 1.}
+\format{
+An object of class \code{character} of length 1.
+}
 \usage{
 giosLanguage
 }

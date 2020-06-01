@@ -4,7 +4,9 @@
 \name{emlCoordSystems}
 \alias{emlCoordSystems}
 \title{EML-compliant coordinate system names}
-\format{data frame}
+\format{
+data frame
+}
 \source{
 \url{https://knb.ecoinformatics.org/#external//emlparser/docs/eml-2.1.1/./eml-spatialReference.html}
 }

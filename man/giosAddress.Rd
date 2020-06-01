@@ -4,12 +4,14 @@
 \name{giosAddress}
 \alias{giosAddress}
 \title{configure_caplter}
-\format{An object of class \code{list} of length 8.}
+\format{
+An object of class \code{list} of length 8.
+}
 \usage{
 giosAddress
 }
 \value{
-establishes in the R ennvironment upon package load, eml entities
+establishes in the R environment upon package load, eml entities
   referenced in (or outside) a EML development template.
 }
 \description{
@@ -18,8 +20,8 @@ configure_caplter establishes several data set elements that are
   language, distribution, and access. In addition, address, publisher, and
   contact are established each specific to CAP LTER or GIOS. The appropriate
   reference (to CAP LTER or GIOS) should be made for these elements at the
-  time of eml$dataset construction. Note that at the time of this writing
-  (2019-05-08) there is only a CAP LTER intellectual rights.
+  time of eml$dataset construction. Note that several elements apply to all
+  projects. These include: giosLanguage, capRights, and lterAccess.
 }
 \details{
 configure_caplter establishes several data set elements that are
@@ -27,17 +29,17 @@ configure_caplter establishes several data set elements that are
   language, distribution, and access. In addition, address, publisher, and
   contact are established each specific to CAP LTER or GIOS. The appropriate
   reference (to CAP LTER or GIOS) should be made for these elements at the
-  time of eml$dataset construction. Note that at the time of this writing
-  (2019-05-08) there is only a CAP LTER intellectual rights. Most of these
-  eml entities are established in the R environment when the capeml package
-  is loaded and available for reference in the EML development template.
-  Distribution is the exception as this is a function that requires the data
-  set package identifier as an input.
+  time of eml$dataset construction. Most of these eml entities are
+  established in the R environment when the capeml package is loaded and
+  available for reference in the EML development template. Distribution is
+  the exception as this is a function that requires the data set package
+  identifier as an input.
 }
 \examples{
 \dontrun{
 
-# most entites loaded when the package is loaded, except distrubution.
+# Most entities are simply loaded when the package is loaded without the need
+to call them explicitly. An exception is the create_distribution() function.
 
 create_distribution(packageIdent)
 

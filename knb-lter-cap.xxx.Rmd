@@ -5,26 +5,14 @@ date: Sys.Date()
 output: html_document
 editor_options: 
   chunk_output_type: console
+params:
+  projectScope: "LTER"
 ---
-
-```{r knitr-setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-```{r eml-2.1.1, include=FALSE}
-options("emld_db" = "eml-2.1.1")
-emld::eml_version("eml-2.2.0")
-emld::eml_version("eml-2.1.1")
-```
 
 ```{r libraries}
 library(EML)
-library(RPostgreSQL)
-library(RMySQL)
 library(tidyverse)
-library(tools)
 library(readxl)
-library(aws.s3)
 library(capeml)
 library(gioseml)
 ```
@@ -32,28 +20,22 @@ library(gioseml)
 ```{r dataset_details}
 projectid <- 
 packageIdent <- 'knb-lter-cap.xxx.x'
-pubDate <- as.character(Sys.Date())
-```
-
-```{r helper_functions}
-source('~/localRepos/reml-helper-tools/amazon_file_upload.R')
-```
-
-```{r connections::amazon}
-source('~/Documents/localSettings/aws.s3')
 ```
 
 ```{r connections::postgres::local, eval=FALSE}
+# functions and setting for connecting to postgres
 source('~/Documents/localSettings/pg_local.R')
 pg <- pg_local
 ```
 
 ```{r connections::postgres::prod, eval=T }
+# functions and setting for connecting to postgres
 source('~/Documents/localSettings/pg_prod.R')
 pg <- pg_prod
 ```
 
 ```{r connections::mysql::prod, eval=T }
+# functions and setting for connecting to mysql
 source('~/Documents/localSettings/mysql_prod.R')
 mysql_prod <- mysql_prod_connect()
 ```
@@ -68,23 +50,22 @@ write_factors(tabularDataEntity)
 tabularDataEntity_desc <- "desc"
 
 tabularDataEntity_DT <- create_dataTable(dfname = tabularDataEntity,
-                                              description = tabularDataEntity_desc)
+                                         description = tabularDataEntity_desc)
 
 ```
 
 ```{r otherEntity, eval=TRUE}
 
 otherEntityObject_OE <- create_otherEntity(targetFile = 'kml_pdf_etc',
-                                  description = 'desc')
+                                           description = 'desc')
 
 ```
 
 ```{r spatialVector, eval=TRUE}
 
-# call this library as needed
-library(sf)
+library(sf) # additional library
 
-# note layer name is sans file extention
+# note layer name is sans file extension
 spatialVectorEntity <- read_sf(dsn = "directory/", layer = "layer name")
 
 # assign Name to the column that is the site identifier
@@ -105,30 +86,38 @@ spatialVector_SV <- create_spatialVector(targetFile = spatialVectorEntity,
 title <- ''
 ```
 
-```{r abstract}
-
-abstract <- set_TextType("abstract.md")
-```
-
-```{r connections::mysql::prod redux, eval=T }
-source('~/Documents/localSettings/mysql_prod.R')
-mysql_prod <- mysql_prod_connect()
-```
+See the gioseml package for examples of creating people resources from scratch.
 
 ```{r people}
 
-# see gioseml for examples of creating people resources from scratch
+# creator(s) - required
 
-mysql_prod <- mysql_prod_connect()
-
-cameron <- create_role(firstName = "cameron", lastName = "boehme", roleType = "creator")
-chelsea <- create_role(firstName = "chelsea", lastName = "stratton", roleType = "creator")
-fabio <- create_role(giosPersonId = 23857, roleType = "creator")
+cameron <- create_role(firstName = "cameron",
+                       lastName = "boehme",
+                       roleType = "creator")
+chelsea <- create_role(firstName = "chelsea",
+                       lastName = "stratton",
+                       roleType = "creator")
+fabio <- create_role(giosPersonId = 23857,
+                     roleType = "creator")
 
 creators <- list(cameron, chelsea, fabio)
 
-cameron <- create_role(firstName = "cameron", lastName = "boehme", roleType = "metadata")
-metadataProvider <- list(cameron)
+# metadata provider - required
+
+cameron <- create_role(firstName = "cameron",
+                       lastName = "boehme",
+                       roleType = "metadata")
+
+# associated party - optional
+# takes the optional argument `projectRole` (default: "former project associate")
+mark <- create_role(giosPersonId = 132,
+                    roleType = "associated")
+nancy <- create_role(giosPersonId = 150,
+                     roleType = "associated")
+
+associatedParty <- list(mark, nancy)
+
 
 ```
 
@@ -138,13 +127,32 @@ metadataProvider <- list(cameron)
 # https://sustainability.asu.edu/caplter/research/
 
 write_keywords()
-keywords <- create_keywordSet('keywords.csv')
-
 ```
+
+Use this extended approach of developing methods if provenance data are required
+or there are multiple methods files, otherwise the `create_dateset()` function
+will look for a methods.md file in the working directory (or a file path and
+name can be passed).
 
 ```{r methods}
 
-methods <- set_methods("methods.md")
+library(EDIutils)
+
+# methods from file tagged as markdown
+main <- read_markdown("methods.md")
+
+# provenance: naip
+naip <- emld::as_emld(EDIutils::api_get_provenance_metadata("knb-lter-cap.623.1"))
+naip$`@context` <- NULL
+naip$`@type` <- NULL
+
+# provenance: lst
+lst <- emld::as_emld(EDIutils::api_get_provenance_metadata("knb-lter-cap.677.1"))
+lst$`@context` <- NULL
+lst$`@type` <- NULL
+
+enhancedMethods <- EML::eml$methods(methodStep = list(main, naip, lst))
+
 ```
 
 ```{r coverages}
@@ -160,24 +168,21 @@ coverage <- set_coverage(begin = "2014-09-01",
 
 ```
 
-New approach for taxonomy is to use taxonomyCleanr to build the
-taxonomicCoverage. Note that at the time of this writing and building,
-taxonomyCleanr had not been ported to rOpenSci EML v2. Using
-caplter::taxonomyCleanr/taxonomy-rEML2 until Colin adapts taxonmyCleanr to
-ropensci EML v2.
+Taxonomic coverage(s) are constructed using EDI's taxonomyCleanr tool suite.
 
 *Note* that the `taxa_map.csv` built with the `create_taxa_map()` function and
-resolving taxonomic IDs (i.e., `resolve_comm_taxa()`) only needs to be run once
-per version/session -- the taxonomicCoverage can be built as many times as
-needed with `resolve_comm_taxa()` once the `taxa_map.csv` has been generated and
-the taxonomic IDs resolved.
+resolving taxonomic IDs (i.e., `resolve_comm_taxa()`) only needs to be run once,
+a potentially long process, per version/session -- the taxonomicCoverage can be
+built as many times as needed with `resolve_comm_taxa()` once the `taxa_map.csv`
+has been generated and the taxonomic IDs resolved.
 
 ```{r taxonomyCleanr, eval=TRUE}
 
-devtools::load_all('~/localRepos/taxonomyCleanr/')
 library(taxonomyCleanr)
 
 my_path <- getwd() # taxonomyCleanr requires a path (to build the taxa_map)
+
+# Example: draw taxonomic information from existing resource:
 
 # plant taxa listed in the om_transpiration_factors file
 plantTaxa <- read_csv('om_transpiration_factors.csv') %>% 
@@ -189,49 +194,32 @@ plantTaxa <- read_csv('om_transpiration_factors.csv') %>%
 # my_path.
 create_taxa_map(path = my_path, x = plantTaxa, col = "definition") 
 
-# resolve taxa by attempting to match the taxon's In this case, data.source 3 is
-# ITIS (which, by the way, is the only authority taxonomyCleanr will allow for
-# common names).
-# resolve_comm_taxa(path = my_path, data.sources = 3) # in this case, 3 is ITIS
+# Example: construct taxonomic resource:
+
+gambelQuail <- tibble(taxName = "Callipepla gambelii")
+
+# Create or update map: a taxa_map.csv is the heart of taxonomyCleanr. This
+# function will build the taxa_map.csv in the path identified with my_path.
+create_taxa_map(path = my_path, x = gambelQuail, col = "taxName") 
+
+# Resolve taxa by attempting to match the taxon name (data.source 3 is ITIS but
+# other sources are accessible). Use `resolve_comm_taxa` instead of
+# `resolve_sci_taxa` if taxa names are common names but note that ITIS
+# (data.source 3) is the only authority taxonomyCleanr will allow for common
+# names.
 resolve_sci_taxa(path = my_path, data.sources = 3) # in this case, 3 is ITIS
 
 # build the EML taxonomomic coverage
 taxaCoverage <- make_taxonomicCoverage(path = my_path)
 
-# add taxonomic to other coverages
+# add taxonomic to the other coverages
 coverage$taxonomicCoverage <- taxaCoverage
 ```
 
 ```{r construct-dataset}
 
-# from capeml package:
-# address
-# publisher
-# contact
-# rights
-# distribution
-
-# DATASET
-dataset <- EML::eml$dataset(
-  title = title,
-  creator = creators,
-  pubDate = pubDate,
-  metadataProvider = metadataProvider,
-  intellectualRights = capRights,
-  abstract = abstract,
-  keywordSet = keywords,
-  coverage = coverage,
-  contact = capContact, # cap contact
-  publisher = capPublisher, # cap pub
-  # contact = giosContact, # gios contact
-  # publisher = giosPublisher, # gios pub
-  methods = methods,
-  # project = capProject, # cap project
-  distribution = create_distribution(packageIdent))
-
-# add associatedParty if relevant
-# dataset$associatedParty <- list() 
-
+# optionally, provide: scope, abstract, methods, keywords, publication date
+dataset <- create_dataset()
 ```
 
 ```{r dataSet$dataTable}
@@ -308,35 +296,26 @@ unitList <- set_unitList(custom_units,
 ```{r literature cited, eval=TRUE}
 
 # add literature cited if relevant
+library(rcrossref)
+library(EML)
 
-dataset$literatureCited <- citationsAll 
+mccafferty <- cr_cn(dois = "https://doi.org/10.1186/s40317-015-0075-2", format = "bibtex")
+mccaffertycit <- EML::eml$citation(id = "https://doi.org/10.1186/s40317-015-0075-2")
+mccaffertycit$bibtex <- mccafferty 
+
+citations <- list(
+  citation = list(
+    mccaffertycit
+  ) # close list of citations
+) # close citation
+
+dataset$literatureCited <- citations 
 
 ```
 
 ```{r construct_eml, eval=TRUE}
 
-if(exists('unitList')) {
-  
-  eml <- EML::eml$eml(
-    access = lterAccess,
-    dataset = dataset,
-    additionalMetadata = unitList,
-    packageId = packageIdent,
-    system = "knb",
-    scope = "system"
-  )
-  
-} else {
-  
-  eml <- EML::eml$eml(
-    access = lterAccess,
-    dataset = dataset,
-    packageId = packageIdent,
-    system = "knb",
-    scope = "system"
-  )
-}
-
+eml <- create_eml()
 ```
 
 ```{r write_eml}
@@ -349,6 +328,15 @@ write_eml(eml, paste0(packageIdent, ".xml"))
 
 # preview data set files that will be uploaded to S3
 list.files(pattern = paste0(projectid, "_"))
+```
+
+Move data and final xml files to respective ASU locations.
+
+```{r S3_helper_functions}
+# functions and setting for uploading to S3
+library(aws.s3)
+source('~/Documents/localSettings/aws.s3')
+source('~/localRepos/reml-helper-tools/amazon_file_upload.R')
 ```
 
 ```{r upload_data_S3}
