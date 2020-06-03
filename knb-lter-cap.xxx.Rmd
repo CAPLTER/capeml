@@ -139,7 +139,7 @@ name can be passed).
 library(EDIutils)
 
 # methods from file tagged as markdown
-main <- read_markdown("methods.md")
+main <- list(description = list(read_markdown("methods.md")))
 
 # provenance: naip
 naip <- emld::as_emld(EDIutils::api_get_provenance_metadata("knb-lter-cap.623.1"))
@@ -147,11 +147,11 @@ naip$`@context` <- NULL
 naip$`@type` <- NULL
 
 # provenance: lst
-lst <- emld::as_emld(EDIutils::api_get_provenance_metadata("knb-lter-cap.677.1"))
-lst$`@context` <- NULL
-lst$`@type` <- NULL
+landSurfaceTemp <- emld::as_emld(EDIutils::api_get_provenance_metadata("knb-lter-cap.677.1"))
+landSurfaceTemp$`@context` <- NULL
+landSurfaceTemp$`@type` <- NULL
 
-enhancedMethods <- EML::eml$methods(methodStep = list(main, naip, lst))
+enhancedMethods <- EML::eml$methods(methodStep = list(main, naip, landSurfaceTemp))
 
 ```
 
