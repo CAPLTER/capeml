@@ -9,13 +9,14 @@ This package contains tools to aid the generation of EML metadata with
 intent to publish a data set (data + metadata) in the Environmental Data
 Initiative (EDI) data repository. Functions and a workflow are included
 that allow for the creation of metadata at the dataset level, and
-individual data entities (e.g., spatial vectors, raster, other entities,
-data tables).
+individual data entities (e.g., other entities, data tables).
 
-Helper functions for the creation of dataset metadata, and
-`dataTable()`, `otherEntity()`, `spatialRaster()`, and `spatialVector()`
-entities using the [ropensci::eml
-package](https://ropensci.github.io/EML/) are supported.
+Helper functions for the creation of dataset metadata, `dataTable()`,
+and `otherEntity()` entities using the
+[EML](https://docs.ropensci.org/EML/) package are supported. This
+package can be extended with the
+[capemlGIS](https://github.com/CAPLTER/capemlGIS) package to generate
+metadata for `spatialRaster()` and `spatialVector()` entities.
 
 Note that the creation of people-related entities in EML are specific to
 functions that rely on Global Institute of Sustainability
@@ -36,15 +37,15 @@ package:
 devtools::install_github("CAPLTER/capeml")
 ```
 
-### options
+#### options
 
-#### EML
+##### EML
 
 This package defaults to the current version of EML. If desired, users
 can switch to the previous version with
 `emld::eml_version("eml-2.1.1")`.
 
-#### project naming
+##### project naming
 
 Most EML-generating functions in the capeml package will create both
 physical objects and EML references to those objects with the format:
@@ -63,9 +64,7 @@ Project-naming functionality can be turned off by setting the
 `create_otherEntity()` to FALSE. When set to FALSE, the object name is
 not changed, and the file name of the object is included in the EML.
 
-### tools to generate entity metadata
-
-**building dataTable, spatialRaster, and spatialVector metadata**
+#### tools to generate entity metadata
 
   - `write_attributes()` creates a template as a csv file for supplying
     attribute metadata for a tabular data object that resides in the R
@@ -73,38 +72,28 @@ not changed, and the file name of the object is included in the EML.
   - `write_factors()` creates a template as a csv file for supplying
     code definition metadata for factors in a tabular data object that
     resides in the R environment
-  - `write_raster_factors()` creates a template as a csv file for
-    supplying code definition metadata for spatial rasters if raster
-    values are categorical
 
-### tools to create EML entities
-
-**constructing dataset elements**
+#### tools to create EML entities
 
   - `create_dataTable()` creates a EML entity of type dataTable
   - `create_otherEntity()` creates a EML entity of type otherEntity
-  - `create_spatialRaster()` creates a EML entity of type spatialRaster
-    - see
-    [vignette](https://caplter.github.io/capeml/articles/create_spatialRaster.html)
-    for more detail
-  - `create_spatialVector()` creates a EML entity of type spatialRaster
 
-### construct a dataset
+#### construct a dataset
 
-#### abstract
+##### abstract
 
 The `create_dataset` function will look for a `abstract.md` file in the
 working directory or at the path provided if specified. `abstract.md`
 must be a markdown file.
 
-#### keywords
+##### keywords
 
 `write_keywords()` creates a template as a csv file for supplying
 dataset keywords. The `create_dataset` function will look for a
 `keywords.csv` file in the working directory or at the path provided if
 specified.
 
-#### methods
+##### methods
 
 The `create_dataset` function will look for a `methods.md` file in the
 working directory or at the path provided if specified (`methods.md`
@@ -131,7 +120,7 @@ lst$`@type` <- NULL
 enhancedMethods <- EML::eml$methods(methodStep = list(main, naip, lst))
 ```
 
-#### coverages
+##### coverages
 
 *Geographic* and *temporal* coverages are straight foward and documented
 in the workflow, but creating a *taxonomic* coverage is more involved.
@@ -179,7 +168,7 @@ taxaCoverage <- make_taxonomicCoverage(path = my_path)
 coverage$taxonomicCoverage <- taxaCoverage
 ```
 
-### overview: create a dataTable
+#### overview: create a dataTable
 
 Given a rectangular data matrix of type dataframe or Tibble in the R
 environment:
@@ -206,7 +195,7 @@ spreadsheet application.
     the chunk, and the resulting dataTable entity should have the name:
     *data\_entity\_DT*
 
-### overview: create a otherEntity
+#### overview: create a otherEntity
 
 A EML object of type otherEntity can be created from a single file or a
 directory. In the case of generating a otherEntity object from a
@@ -223,7 +212,7 @@ object is named with convention:
 projectid\_object-name\_md5sum-hash.file extension by default but this
 functionality can be turned off by setting projectNaming to FALSE.
 
-### literature cited
+#### literature cited
 
 Though not provided as a function, below is a workflow for adding
 literature cited elements at the dataset level. The workflow capitalizes
