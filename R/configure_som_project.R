@@ -30,7 +30,6 @@ willOrcid$userId <- "https://orcid.org/0000-0001-7116-1985"
 will <- EML::eml$personnel(
   individualName = EML::eml$individualName(
     givenName = "William",
-    givenName = "R",
     surName = "Wieder"),
   electronicMailAddress = "wwieder@ucar.edu",
   organizationName = "Institute of Arctic and Alpine Research, University of
