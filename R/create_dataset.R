@@ -98,6 +98,12 @@ create_dataset <- function(scope = "LTER",
     dataset$publisher <- giosPublisher # gios pub
     dataset$project <- urexProject # urex project
 
+  } else if (grepl("som", scope, ignore.case = TRUE)) {
+
+    dataset$contact <- capContact # cap contact
+    dataset$publisher <- capPublisher # cap pub
+    dataset$project <- somProject # cap project
+
   } else {
 
     stop("project scope is not recognized")
