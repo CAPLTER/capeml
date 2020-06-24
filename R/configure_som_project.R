@@ -16,8 +16,7 @@
 
 # project title -----------------------------------------------------------
 
-projectTitle <- "Advancing soil organic matter research: Synthesizing
-multi-scale observations, manipulations and models"
+projectTitle <- "Advancing soil organic matter research: Synthesizing multi-scale observations, manipulations and models"
 
 
 # project personnel -------------------------------------------------------
@@ -32,9 +31,7 @@ will <- EML::eml$personnel(
     givenName = "William",
     surName = "Wieder"),
   electronicMailAddress = "wwieder@ucar.edu",
-  organizationName = "Institute of Arctic and Alpine Research, University of
-  Colorado Boulder and the Climate and Global Dynamics Laboratory, National
-  Center for Atmospheric Research",
+  organizationName = "Institute of Arctic and Alpine Research, University of Colorado Boulder and the Climate and Global Dynamics Laboratory, National Center for Atmospheric Research",
   userId = willOrcid,
   id = "personnel.william.wieder",
   role = "Co-Principal Investigator"
@@ -50,8 +47,7 @@ kate <- EML::eml$personnel(
     givenName = "Kate",
     surName = "Lajtha"),
   electronicMailAddress = "lajthak@science.oregonstate.edu",
-  organizationName = "Department of Crop and Soil Sciences, Oregon State
-  University",
+  organizationName = "Department of Crop and Soil Sciences, Oregon State University",
   userId = kateOrcid,
   id = "personnel.kate.lajtha",
   role = "Co-Principal Investigator"
@@ -63,35 +59,17 @@ projectPersonnel <- list(will, kate)
 
 # project abstract --------------------------------------------------------
 
-projectAbstract <- "Soil organic matter is a massive storehouse for carbon, as
-well as a key regulator of nutrient cycling and soil quality in terrestrial
-ecosystems, yet ecology lacks a full understanding of the controls on
-stabilization and breakdown of soil organic matter. Two sets of competing
-theories underlie models that adequately predict site-specific dynamics, but
-result in different sets of predictions about the response of soil organic
-matter to perturbations. Cross-site synthesis of long-term, studies,
-particularly those incorporating experimental perturbations, provides an
-opportunity to evaluate these theories under varying conditions of climate,
-biological community, and topography, among other factors. This working group
-is synthesizing soil organic matter data across 15 LTER sites and also includes
-data and participants from Critical Zone Observatory (CZO) sites, Detrital
-Input and Removal Treatments (DIRT) Network, and Nutrient Network (NutNET). The
-group's goal is to refine and evaluate soil organic matter stabilization
-theories and to produce a dataset that encompasses the impact of experimental
-manipulations on soil organic matter at different sites."
+projectAbstract <- "Soil organic matter is a massive storehouse for carbon, as well as a key regulator of nutrient cycling and soil quality in terrestrial ecosystems, yet ecology lacks a full understanding of the controls on stabilization and breakdown of soil organic matter. Two sets of competing theories underlie models that adequately predict site-specific dynamics, but result in different sets of predictions about the response of soil organic matter to perturbations. Cross-site synthesis of long-term, studies, particularly those incorporating experimental perturbations, provides an opportunity to evaluate these theories under varying conditions of climate, biological community, and topography, among other factors. This working group is synthesizing soil organic matter data across 15 LTER sites and also includes data and participants from Critical Zone Observatory (CZO) sites, Detrital Input and Removal Treatments (DIRT) Network, and Nutrient Network (NutNET). The group's goal is to refine and evaluate soil organic matter stabilization theories and to produce a dataset that encompasses the impact of experimental manipulations on soil organic matter at different sites."
 
 
 # project funding ---------------------------------------------------------
 
-projectFunding <- "Soil Organic Matter Synthesis Group supported through the
-Long Term Ecological Research Network Office (LNO) (NSF award numbers 1545288
-  and 1929393) and the National Center for Ecological Analysis and Synthesis
-(UCSB)"
+projectFunding <- "Soil Organic Matter Synthesis Group supported through the Long Term Ecological Research Network Office (LNO) (NSF award numbers 1545288 and 1929393) and the National Center for Ecological Analysis and Synthesis (UCSB)"
 
 
 # EML::project ------------------------------------------------------------
 
-#' @export capProject
+#' @export somProject
 somProject <- EML::eml$project(
   title = projectTitle,
   personnel = projectPersonnel,
