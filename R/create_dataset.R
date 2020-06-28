@@ -104,6 +104,12 @@ create_dataset <- function(scope = "LTER",
     dataset$publisher <- capPublisher # cap pub
     dataset$project <- somProject # cap project
 
+  } else if (grepl("ltreb", scope, ignore.case = TRUE)) {
+
+    dataset$contact <- capContact # cap contact
+    dataset$publisher <- capPublisher # cap pub
+    dataset$project <- list(capProject, ltrebProject) # cap and ltreb projects
+
   } else {
 
     stop("project scope is not recognized")
