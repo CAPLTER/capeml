@@ -33,7 +33,7 @@ will <- EML::eml$personnel(
   electronicMailAddress = "wwieder@ucar.edu",
   organizationName = "Institute of Arctic and Alpine Research, University of Colorado Boulder and the Climate and Global Dynamics Laboratory, National Center for Atmospheric Research",
   userId = willOrcid,
-  id = "personnel.william.wieder",
+  id = "lter.som.personnel.william.wieder",
   role = "Co-Principal Investigator"
 )
 
@@ -49,7 +49,7 @@ kate <- EML::eml$personnel(
   electronicMailAddress = "lajthak@science.oregonstate.edu",
   organizationName = "Department of Crop and Soil Sciences, Oregon State University",
   userId = kateOrcid,
-  id = "personnel.kate.lajtha",
+  id = "lter.som.personnel.kate.lajtha",
   role = "Co-Principal Investigator"
 )
 
