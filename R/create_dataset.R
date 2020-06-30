@@ -50,7 +50,7 @@ create_dataset <- function(scope = "LTER",
   # methods
   if (!exists("enhancedMethods")) {
     tryCatch({
-      methods <- list(description = read_markdown(methodsFile))
+      methods <- EML::eml$methods(methodStep = list(description = read_markdown(methodsFile)))
     }, error = function(err) {
       print(paste("could not read methods:", err))
     }) # close try catch - methods
