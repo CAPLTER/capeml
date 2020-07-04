@@ -39,7 +39,7 @@ nancy <- EML::eml$personnel(
   role = "Principal Investigator"
 )
 
-# Dan Childers
+# John Sabo
 
 johnOrcid <- EML::eml$userId(directory = "https://orcid.org")
 johnOrcid$userId <- "https://orcid.org/0000-0001-5259-0709"
@@ -91,8 +91,16 @@ projectFunding <- list(
 # EML::project ------------------------------------------------------------
 
 #' @export ltrebProject
-ltrebProject <- EML::eml$project(
+ltrebProject <- list(
   title = projectTitle,
   personnel = projectPersonnel,
   abstract = projectAbstract,
-  funding = projectFunding)
+  funding = projectFunding,
+  award = list(
+    funderName = "National Science Foundation",
+    funderIdentifier = "https://ror.org/021nxhr62",
+    awardNumber = "1457227",
+    title = "LTREB Renewal: Multiscale effects of climate variability and change on hydrologic regimes, ecosystem function, and community structure in a desert stream and its catchment",
+    awardUrl = "https://nsf.gov/awardsearch/showAward?AWD_ID=1457227&HistoricalAwards=false"
+  )
+)

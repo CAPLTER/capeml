@@ -117,12 +117,18 @@ projectAbstract <- "Phase IV of the Central Arizona-Phoenix LTER (CAP) continues
 
 projectFunding <- "NSF Awards: CAP I: DEB-9714833, CAP II: DEB-0423704, CAP III: DEB-1026865, CAP IV: DEB-1832016"
 
-
 # EML::project ------------------------------------------------------------
 
-#' @export capProject
-capProject <- EML::eml$project(
+capProject <- list(
   title = projectTitle,
   personnel = projectPersonnel,
   abstract = projectAbstract,
-  funding = projectFunding)
+  funding = projectFunding,
+  award = list(
+    funderName = "National Science Foundation",
+    funderIdentifier = "https://ror.org/021nxhr62",
+    awardNumber = "1832016",
+    title = "LTER: CAP IV - Investigating urban ecology and sustainability through the lens of Urban Ecological Infrastructure",
+    awardUrl = "https://nsf.gov/awardsearch/showAward?AWD_ID=1832016&HistoricalAwards=false"
+  )
+)
