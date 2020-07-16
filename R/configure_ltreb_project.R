@@ -35,7 +35,6 @@ nancy <- EML::eml$personnel(
   electronicMailAddress = "nbgrimm@asu.edu",
   organizationName = "Arizona State University",
   userId = nancyOrcid,
-  id = "ltreb.personnel.nancy.grimm",
   role = "Principal Investigator"
 )
 
@@ -51,7 +50,6 @@ john <- EML::eml$personnel(
   electronicMailAddress = "john.l.sabo@asu.edu",
   organizationName = "Arizona State University",
   userId = johnOrcid,
-  id = "ltreb.personnel.john.sabo",
   role = "Co-Principal Investigator"
 )
 

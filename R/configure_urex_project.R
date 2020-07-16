@@ -33,7 +33,6 @@ chuck <- EML::eml$personnel(
   electronicMailAddress = "CHARLES.REDMAN@asu.edu",
   organizationName = "Arizona State University",
   userId = chuckOrcid,
-  id = "personnel.charles.redman",
   role = "Principal Investigator"
 )
 
@@ -49,7 +48,6 @@ nancy <- EML::eml$personnel(
   electronicMailAddress = "nbgrimm@asu.edu",
   organizationName = "Arizona State University",
   userId = nancyOrcid,
-  id = "personnel.nancy.grimm",
   role = "Co-principal Investigator"
 )
 
@@ -65,7 +63,6 @@ timon <- EML::eml$personnel(
   electronicMailAddress = "timon.mcphearson@newschool.edu",
   organizationName = "The New School",
   userId = timonOrcid,
-  id = "personnel.timon.mcphearson",
   role = "Co-principal Investigator"
 )
 
@@ -81,7 +78,6 @@ tischa <- EML::eml$personnel(
   electronicMailAddress = "tamunozerickson@fs.fed.us",
   organizationName = "International Institute of Tropical Forestry, USDA Forest Service",
   # userId = tischaOrcid,
-  id = "personnel.tischa.munoz-erickson",
   role = "Co-principal Investigator"
 )
 
@@ -97,7 +93,6 @@ mikhail <- EML::eml$personnel(
   electronicMailAddress = "mchester@asu.edu",
   organizationName = "Arizona State University",
   userId = mikhailOrcid,
-  id = "personnel.mikhail.chester",
   role = "Co-principal Investigator"
 )
 

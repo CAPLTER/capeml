@@ -37,7 +37,6 @@ dan <- EML::eml$personnel(
   electronicMailAddress = "dan.childers@asu.edu",
   organizationName = "Arizona State University",
   userId = danOrcid,
-  id = "caplter.personnel.daniel.childers",
   role = "Principal Investigator"
 )
 
@@ -53,7 +52,6 @@ nancy <- EML::eml$personnel(
   electronicMailAddress = "nbgrimm@asu.edu",
   organizationName = "Arizona State University",
   userId = nancyOrcid,
-  id = "caplter.personnel.nancy.grimm",
   role = "Co-principal Investigator"
 )
 
@@ -69,7 +67,6 @@ sharon <- EML::eml$personnel(
   electronicMailAddress = "sharonjhall@asu.edu",
   organizationName = "Arizona State University",
   userId = sharonOrcid,
-  id = "caplter.personnel.sharon.hall",
   role = "Co-principal Investigator"
 )
 
@@ -85,7 +82,6 @@ billie <- EML::eml$personnel(
   electronicMailAddress = "Billie.L.Turner@asu.edu",
   organizationName = "Arizona State University",
   userId = billieOrcid,
-  id = "caplter.personnel.billie.turner",
   role = "Co-principal Investigator"
 )
 
@@ -101,7 +97,6 @@ abby <- EML::eml$personnel(
   electronicMailAddress = "Abigail.York@asu.edu",
   organizationName = "Arizona State University",
   userId = abbyOrcid,
-  id = "caplter.personnel.abigail.york",
   role = "Co-principal Investigator"
 )
 

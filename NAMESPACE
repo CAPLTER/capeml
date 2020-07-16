@@ -2,7 +2,6 @@
 
 export(capAddress)
 export(capContact)
-export(capProject)
 export(capPublisher)
 export(capRights)
 export(create_dataTable)
