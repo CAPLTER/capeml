@@ -1,18 +1,17 @@
-#' @title Create EML entity of type otherEntity
+#' @title create EML entity of type otherEntity
 #'
 #' @description create_otherEntity generates a EML entity of type otherEntity.
 #'
 #' @details A otherEntity entity is created from a single file (e.g.,
 #'   desert_fertilization_sampling_sites.kml) or a directory. The resulting
-#'   entity is renamed with the project id + base file name + md5sum + file
+#'   entity is renamed with the package number + base file name + md5sum + file
 #'   extension. File extension is always .zip if the otherEntity is being
 #'   created by zipping a directory.
-#' @note create_otherEntity will look for a project id in the working
-#'   environment; this parameter is not passed to the function and it must
-#'   exist.
+#' @note create_otherEntity will look for a package number in config.yaml; this
+#'  parameter is not passed to the function and it must exist.
 #' @note The target data file or directory can be located anywhere on a local
-#'   computer but the renamed file with project id and hash will be written to
-#'   the current working directory.
+#'   computer but the renamed file with package number and hash will be written
+#'   to the current working directory.
 #'
 #' @param targetFile The quoted name and path of the data file or directory.
 #' @param description A description of the data entity.
@@ -23,9 +22,9 @@
 #'   logical indicating whether to overwrite an already existing zip file that
 #'   has the same name and location as the temporary zip object to be created.
 #' @param projectNaming Logical indicating if the file or directory should be
-#'   renamed per the style used by the CAP LTER (default) with the project id +
-#'   base file name + md5sum + file extension. The passed file or directory name
-#'   will be used if this parameter is set to FALSE.
+#'   renamed per the style used by the CAP LTER (default) with the package
+#'   number + base file name + md5sum + file extension. The passed file or
+#'   directory name will be used if this parameter is set to FALSE.
 #'
 #' @import EML
 #' @import dplyr
@@ -34,13 +33,14 @@
 #' @importFrom stringr str_extract
 #' @importFrom tools file_ext
 #' @importFrom utils file_test
+#' @importFrom yaml yaml.load_file
 #'
 #' @return EML entity of type otherEntity is returned. Additionally, the data
-#'   file is renamed with the project id + base file name + md5sum + file
-#'   extension.
+#'  file is renamed with the package number + base file name + md5sum + file
+#'  extension.
 #'
 #' @examples
-#'
+#' \dontrun{
 #'  # using default parameters
 #'  # desert_fertilization_sites <- create_otherEntity(
 #'  #   targetFile = "~/Desktop/desert_fertilization_sampling_sites.kml",
@@ -65,21 +65,23 @@
 #'
 #'  # dataset <- EML::eml$dataset(otherEntity = listOfOtherEntities)
 #'
+#' }
+#'
 #' @export
 
-create_otherEntity <- function(targetFile,
-                               description,
-                               baseURL = "https://data.gios.asu.edu/datasets/cap/",
-                               overwrite = FALSE,
-                               projectNaming = TRUE ) {
+create_otherEntity <- function(
+  targetFile,
+  description,
+  baseURL = "https://data.gios.asu.edu/datasets/cap/",
+  overwrite = FALSE,
+  projectNaming = TRUE) {
 
   # prerequisites -----------------------------------------------------------
 
-  # do not proceed if the project id has not been identified in the working env
-  if (projectNaming == TRUE & !exists('projectid')) { stop("missing project id") }
-
   # do not proceed if the target file or directly has not been provided
-  if (missing('targetFile')) { stop("specify the name of the file or directory") }
+  if (missing("targetFile")) {
+    stop("specify the name of the file or directory")
+  }
 
   # default: targetFile is a file, not a directory
   isDirectory <- FALSE
@@ -102,7 +104,7 @@ create_otherEntity <- function(targetFile,
     # stop if zipping the directory will overwrite an existing object without
     # explicit overwrite - note that this is checking the existence of the
     # temporary object (e.g., dirname.zip), not the ultimate object (e.g.,
-    # projectid_dirname_md5hash.zip)
+    # packagenumber_dirname_md5hash.zip)
     if (file.exists(zippedObject) && overwrite == FALSE) {
       stop("zipped object to be created with that name and location (e.g., targetfile.zip) already exists, change working directory or set overwrite to TRUE")
     }
@@ -143,11 +145,17 @@ create_otherEntity <- function(targetFile,
     # if using project naming, add project-name specific elements to
     # spatialRaster entity
 
-    # rename the existing file with new_file_name that features the project_id,
-    # base name, md5sum hash, and extension
-    new_file_name <- paste0(projectid, "_", str_extract(targetFileBaseName, "^[^\\.]*"), "_", md5sum(pathToFile), ".", fileExtension)
+    # retrieve package number from config.yaml
+    if (!file.exists("config.yaml")) {
+      stop("config.yaml not found")
+    }
+    packageNum <- yaml::yaml.load_file("config.yaml")$packageNum
+
+    # rename the existing file with new_file_name that features the package
+    # number, base name, md5sum hash, and extension
+    new_file_name <- paste0(packageNum, "_", str_extract(targetFileBaseName, "^[^\\.]*"), "_", tools::md5sum(pathToFile), ".", fileExtension)
     file.copy(from = targetFile,
-              to = paste0(directoryNameFull, "/", new_file_name))
+      to = paste0(directoryNameFull, "/", new_file_name))
     # file.rename(targetFile, new_file_name) # previous approach of renaming file instead of creating a copy with the new name
 
     # set distribution
@@ -178,14 +186,6 @@ create_otherEntity <- function(targetFile,
 
     # if not using not project naming, add source-name specific elements to
     # otherEntity object
-
-    # rename the existing file with new_file_name that features the project_id,
-    # base name, md5sum hash, and extension
-    # targetFileBaseName <- basename(targetFile)
-    # pathToFile <- path.expand(targetFile)
-    # new_file_name <- paste0(projectid, "_", str_extract(targetFileBaseName, "^[^\\.]*"), "_", md5sum(pathToFile), ".", fileExtension)
-    # file.copy(targetFile, new_file_name)
-    # file.rename(targetFile, new_file_name) # previous approach of renaming file instead of creating a copy with the new name
 
     # set distribution
     fileDistribution <- EML::eml$distribution(
@@ -220,7 +220,7 @@ create_otherEntity <- function(targetFile,
 
   # return other entity object ----------------------------------------------
 
-  return(newOE )
+  return(newOE)
 
 
 } # close create_otherEntity

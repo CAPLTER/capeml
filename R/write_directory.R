@@ -23,12 +23,13 @@
 #'         \item{\strong{name} Name supplied via \code{packageScopeNumber}}
 #'         \itemize{
 #'             \item{\strong{config.yaml} configuration file}
+#'             \item{\code{packageScopeNumber}.Rmd workflow template}
 #'         }
 #'     }
 #'
 #' @details
-#'     Existing directories named with \code{packageScopeNumber} at \code{path} will not
-#'     be overwritten.
+#'     Existing directories named with \code{packageScopeNumber} at \code{path}
+#'     will not be overwritten.
 #'
 #' @examples
 #' \dontrun{
@@ -100,20 +101,20 @@ write_directory <- function(packageScopeNumber, path = ".") {
 
 # generate capeml processing template ------------------------------------------
 
-  #   value <- file.copy(
-  #     from = system.file(
-  #       "/templates/run_EMLassemblyline.R",
-  #       package = "EMLassemblyline"
-  #     ),
-  #     to = paste0(
-  #       path,
-  #       "/",
-  #       packageScopeNumber,
-  #       "/run_EMLassemblyline_for_",
-  #       packageScopeNumber,
-  #       ".R"
-  #     )
-  #   )
+  file.copy(
+    from = system.file(
+      "/templates/workflow.Rmd",
+      package = "capeml"
+      ),
+    to = paste0(
+      newParent,
+      "/",
+      packageScopeNumber,
+      ".Rmd"
+    )
+  )
+
+#   end ------------------------------------------------------------------------
 
   message("done")
 

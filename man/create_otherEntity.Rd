@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_otherEntity.R
 \name{create_otherEntity}
 \alias{create_otherEntity}
-\title{Create EML entity of type otherEntity}
+\title{create EML entity of type otherEntity}
 \usage{
 create_otherEntity(
   targetFile,
@@ -26,14 +26,14 @@ logical indicating whether to overwrite an already existing zip file that
 has the same name and location as the temporary zip object to be created.}
 
 \item{projectNaming}{Logical indicating if the file or directory should be
-renamed per the style used by the CAP LTER (default) with the project id +
-base file name + md5sum + file extension. The passed file or directory name
-will be used if this parameter is set to FALSE.}
+renamed per the style used by the CAP LTER (default) with the package
+number + base file name + md5sum + file extension. The passed file or
+directory name will be used if this parameter is set to FALSE.}
 }
 \value{
 EML entity of type otherEntity is returned. Additionally, the data
-  file is renamed with the project id + base file name + md5sum + file
-  extension.
+ file is renamed with the package number + base file name + md5sum + file
+ extension.
 }
 \description{
 create_otherEntity generates a EML entity of type otherEntity.
@@ -41,21 +41,20 @@ create_otherEntity generates a EML entity of type otherEntity.
 \details{
 A otherEntity entity is created from a single file (e.g.,
   desert_fertilization_sampling_sites.kml) or a directory. The resulting
-  entity is renamed with the project id + base file name + md5sum + file
+  entity is renamed with the package number + base file name + md5sum + file
   extension. File extension is always .zip if the otherEntity is being
   created by zipping a directory.
 }
 \note{
-create_otherEntity will look for a project id in the working
-  environment; this parameter is not passed to the function and it must
-  exist.
+create_otherEntity will look for a package number in config.yaml; this
+ parameter is not passed to the function and it must exist.
 
 The target data file or directory can be located anywhere on a local
-  computer but the renamed file with project id and hash will be written to
-  the current working directory.
+  computer but the renamed file with package number and hash will be written
+  to the current working directory.
 }
 \examples{
-
+\dontrun{
  # using default parameters
  # desert_fertilization_sites <- create_otherEntity(
  #   targetFile = "~/Desktop/desert_fertilization_sampling_sites.kml",
@@ -79,5 +78,7 @@ The target data file or directory can be located anywhere on a local
  # added to a EML::eml$dataset() entity:
 
  # dataset <- EML::eml$dataset(otherEntity = listOfOtherEntities)
+
+}
 
 }

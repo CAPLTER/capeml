@@ -1,4 +1,4 @@
-#' @title create_dataTable
+#' @title create EML entity of type dataTable
 #'
 #' @description create_dataTable generates a EML entity of type dataTable
 #'
@@ -6,22 +6,22 @@
 #'   Tibble object in the R environment. The function reads the attributes and
 #'   classes contained within a supporting csv file generated from the
 #'   write_attributes function - create_dataTable will look for a file in the
-#'   working directory with a name of type dataframeName_attrs.csv. Factors also
-#'   are read from a supporting csv file - create_dataTable will look for a file
-#'   in the working directory with a name of type dataframeName_factors.csv. If
-#'   that exists, the factor details outlined in that file will be incorporated
-#'   into the EML, else the EML will be built without factor metadata. Note that
-#'   this functionality is predicated on the existence of a file containing
-#'   metadata about any factors in the dataframe, that that file is in the
-#'   working directory, and that the file matches the dataframe name precisely;
-#'   the function does not look for variables of types factor in the dataframe.
-#'   In addition to generating a EML entity of type dataTable, create_dataTable
-#'   writes the R object to file as type csv, renames the file with project id +
-#'   base file name + md5sum + file extension (csv in this case), and deletes
-#'   the original file.
+#'   working directory with a name of type dataframeName_attrs.csv. Factors
+#'   also are read from a supporting csv file - create_dataTable will look for
+#'   a file in the working directory with a name of type
+#'   dataframeName_factors.csv. If that exists, the factor details outlined in
+#'   that file will be incorporated into the EML, else the EML will be built
+#'   without factor metadata. Note that this functionality is predicated on the
+#'   existence of a file containing metadata about any factors in the
+#'   dataframe, that that file is in the working directory, and that the file
+#'   matches the dataframe name precisely; the function does not look for
+#'   variables of types factor in the dataframe. In addition to generating a
+#'   EML entity of type dataTable, create_dataTable writes the R object to file
+#'   as type csv, renames the file with package number + base file name +
+#'   md5sum + file extension (csv in this case), and deletes the original file.
 #'
-#' @note create_dataTable will look for a project id in the working environment;
-#'   this parameter is not passed to the function and it must exist.
+#' @note create_dataTable will look for a package number (packageNum) in
+#'  config.yaml; this parameter is not passed to the function and it must exist.
 #' @note create_dataTable currently accepts an argument for a base url path to
 #'   which the new file name will be appended so as to be a web-resolvable file;
 #'   the package defaults to a URL specific to the CAP LTER.
@@ -37,11 +37,11 @@
 #' @param baseURL (optional) The base path of the web-accessible location of the
 #'   data file; the name of the resulting file will be passed to the base path
 #'   to generate a web-resolvable file path.
-#' @param missingValueCode (optional) create_dataTable will automatically
-#'   document the presence of NA and NaN entries as missing values in the EML
-#'   output. The user has the ability to identify an additional indicator of
-#'   missing values. Numbers (e.g., -9999 should be unquoted) whereas text
-#'   values (e.g., "missing") should be quoted.
+#' @param missingValueCode (optional)
+#'  (character) create_dataTable will automatically document the presence of NA
+#'  and NaN entries as missing values in the EML output. The user has the
+#'  ability to identify an additional indicator of missing values (e.g.,
+#'  "-9999", "missing").
 #'
 #' @import EML
 #' @import dplyr
@@ -49,12 +49,14 @@
 #' @importFrom tools md5sum file_ext
 #' @importFrom purrr map_df
 #' @importFrom tibble tibble add_row
+#' @importFrom yaml yaml.load_file
 #'
 #' @return EML dataTable object is returned. Additionally, the data entity is
-#'   written to file as type csv, and renamed with the project id + base file
-#'   name + md5sum + file extension (csv in this case).
+#'  written to file as type csv, and renamed with the package number + base file
+#'  name + md5sum + file extension (csv in this case).
 #'
 #' @examples
+#' \dontrun{
 #' # data_entity <- read("data source") %>%
 #' #   processing %>%
 #' #   processing
@@ -76,6 +78,7 @@
 #'
 #' # The resulting dataTable entity can be added to a EML dataset
 #' # dataset <- EML::eml$dataset(dataTable = data_entity_DT)
+#' }
 #'
 #' @export
 
@@ -87,13 +90,19 @@ create_dataTable <- function(dfname,
 
   # file-level processing ---------------------------------------------------
 
+  # retrieve package number from config.yaml
+  if (!file.exists("config.yaml")) {
+    stop("config.yaml not found")
+  }
+  packageNum <- yaml::yaml.load_file("config.yaml")$packageNum
+
   # Writes a datframe to file, determines the md5sum of that file, (re)writing
-  # the dataframe with the project id number and m5sum hash in the file name.
+  # the dataframe with the package id number and m5sum hash in the file name.
   # The first file written, that included only the datatframe name as the
   # filename, is removed from the directory.
   namestr <- deparse(substitute(dfname))
   write.csv(dfname, paste0(namestr, ".csv"), row.names = F, eol = "\r\n")
-  fname <- paste0(projectid, "_", namestr, "_", md5sum(paste0(namestr,".csv")), ".csv")
+  fname <- paste0(packageNum, "_", namestr, "_", md5sum(paste0(namestr,".csv")), ".csv")
   write.csv(dfname, fname, row.names = F, eol = "\r\n")
   file.remove(paste0(namestr, ".csv"))
 

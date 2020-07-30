@@ -1,11 +1,15 @@
-#' @title write_config
+#' @title write a project config.yaml file
 #'
 #' @description write_config writes a template config.yaml file to the working
 #'  directory (default) or supplied path.
 #'
 #' @details A template config.yaml file is written to the working directory or
-#'  specified location. The function requires that the package identifier (e.g.,
-#'  "edi.521.1"), including version number is provided.
+#'  specified location. The function requires that the package scope and number
+#'  (e.g., "edi.521") are provided. Package identifiers include a verion
+#'  number; the function uses a default value of version 1 but an alternate
+#'  version number can be specified.
+#'
+#' @note The function requires specifically a 3-digit package number.
 #'
 #' @param packageScopeNumber
 #'  (character) Quoted name of the package scope and number without the version
@@ -56,7 +60,7 @@ write_config <- function(
   fullIdentifier <- paste0(packageScopeNumber, ".", version)
 
   dataset_params <- list(
-    projectid = id,
+    packageNum = id,
     packageIdent = fullIdentifier,
     title = "title"
   )
