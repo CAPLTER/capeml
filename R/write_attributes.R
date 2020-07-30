@@ -25,12 +25,14 @@
 #'   object + "_attrs.csv" is created in the working directory.
 #'
 #' @examples
+#' \dontrun{
 #'
 #'  # write_attributes(R data object)
 #'
 #'  # overwrite existing attributes file
 #'  # write_attributes(R data object,
 #'  #                  overwrite = TRUE)
+#' }
 #'
 #' @export
 

@@ -5,7 +5,7 @@
 \alias{lterAccess}
 \title{default CAP LTER / GIOS access as EML::access}
 \format{
-An object of class \code{list} of length 7.
+An object of class \code{list} of length 8.
 }
 \usage{
 lterAccess
