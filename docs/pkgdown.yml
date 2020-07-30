@@ -1,7 +1,6 @@
-pandoc: 2.7.3
+pandoc: '2.5'
 pkgdown: 1.5.1
 pkgdown_sha: ~
-articles:
-  create_spatialRaster: create_spatialRaster.html
-last_built: 2020-06-01T23:42Z
+articles: []
+last_built: 2020-07-30T16:38Z
 

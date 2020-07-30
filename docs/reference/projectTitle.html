@@ -44,6 +44,12 @@
   elements: (1) personnel (CAP PI and Co-PIs), (2) project abstract (project
   overview from CAP IV proposal), and (3) funding (grant numbers for CAP I,
   II, III, and IV).
+configure_ltreb_project establishes an EML::project with the
+  elements: (1) personnel, (2) project abstract, and (3) funding (grant
+  numbers).
+configure_som_project establishes an EML::project with the
+  elements: (1) personnel, (2) project abstract, and (3) funding (grant
+  numbers)
 configure_urex_project establishes an EML::project with the
   elements: (1) personnel, (2) project abstract, and (3) funding" />
 
@@ -92,18 +98,6 @@ configure_urex_project establishes an EML::project with the
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/create_spatialRaster.html">create_spatialRaster</a>
-    </li>
-  </ul>
-</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -130,11 +124,21 @@ configure_urex_project establishes an EML::project with the
   elements: (1) personnel (CAP PI and Co-PIs), (2) project abstract (project
   overview from CAP IV proposal), and (3) funding (grant numbers for CAP I,
   II, III, and IV).</p>
+<p>configure_ltreb_project establishes an EML::project with the
+  elements: (1) personnel, (2) project abstract, and (3) funding (grant
+  numbers).</p>
+<p>configure_som_project establishes an EML::project with the
+  elements: (1) personnel, (2) project abstract, and (3) funding (grant
+  numbers)</p>
 <p>configure_urex_project establishes an EML::project with the
   elements: (1) personnel, (2) project abstract, and (3) funding</p>
     </div>
 
     <pre class="usage"><span class='no'>projectTitle</span>
+
+<span class='no'>projectTitle</span>
+
+<span class='no'>projectTitle</span>
 
 <span class='no'>projectTitle</span></pre>
 
@@ -143,12 +147,20 @@ configure_urex_project establishes an EML::project with the
 
     <p>An object of class <code>character</code> of length 1.</p>
 <p>An object of class <code>character</code> of length 1.</p>
+<p>An object of class <code>character</code> of length 1.</p>
+<p>An object of class <code>character</code> of length 1.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>establishes in the R environment upon package load a EML::project
   entity specific to the CAP LTER. If appropriate to include in a dataset,
   'capProject' should be referenced with the project argument when
   constructing a EML::dataset.</p>
+<p>establishes in the R environment upon package load a EML::project
+  entity specific to the Sycamore Creek LTREB. If appropriate to include in a
+  dataset, 'ltrebProject' should be referenced with the project argument when
+  constructing a EML::dataset.</p>
+<p>establishes in the R environment upon package load a EML::project
+  entity specific to the LTER SOM Working Group.</p>
 <p>establishes in the R environment upon package load a EML::project
   entity specific to the UREx project. If appropriate to include in a
   dataset, 'urexProject' should be referenced with the project argument when
@@ -159,6 +171,12 @@ configure_urex_project establishes an EML::project with the
   elements: (1) personnel (CAP PI and Co-PIs), (2) project abstract (project
   overview from CAP IV proposal), and (3) funding (grant numbers for CAP I,
   II, III, and IV).</p>
+<p>configure_ltreb_project establishes an EML::project with the
+  elements: (1) personnel, (2) project abstract, and (3) funding (grant
+  numbers).</p>
+<p>configure_som_project establishes an EML::project with the
+  elements: (1) personnel, (2) project abstract, and (3) funding (grant
+  numbers).</p>
 <p>configure_urex_project establishes an EML::project with the
   elements: (1) personnel, (2) project abstract, and (3) funding</p>
 
