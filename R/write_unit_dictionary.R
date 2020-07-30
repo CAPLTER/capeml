@@ -1,4 +1,4 @@
-#' @title create EML standard unit dictionary
+#' @title EML standard unit dictionary data frame
 #'
 #' @description
 #'     A convenience function to easily generate the EML standard unit
