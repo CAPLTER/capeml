@@ -122,7 +122,8 @@ create_dataset <- function(scope = "LTER",
 
     dataset$contact <- capContact # cap contact
     dataset$publisher <- capPublisher # cap pub
-    dataset$project <- list(capProject, ltrebProject) # cap and ltreb projects
+    capProject$relatedProject <- ltrebProject # ltreb as related
+    dataset$project <- capProject # ltreb nested in cap
 
   } else {
 

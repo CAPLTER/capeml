@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>create_dataset — create_dataset • capeml</title>
+<title>create EML entity of type dataset — create_dataset • capeml</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="create_dataset — create_dataset" />
+<meta property="og:title" content="create EML entity of type dataset — create_dataset" />
 <meta property="og:description" content="create_dataset generates a EML entity of type dataset" />
 
 
@@ -103,7 +103,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>create_dataset</h1>
+    <h1>create EML entity of type dataset</h1>
     
     <div class="hidden name"><code>create_dataset.Rd</code></div>
     </div>
@@ -151,18 +151,20 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A dataset entity, the central component of a data package, is
-  created from objects in the user's R environment. A project scope (default
-  is LTER) indicates contact and project details specific to the research.
-  The abstract and methods must be in markdown format - by default the
-  package will look for these files (abstract.md, methods.md) in the project
-  directory but files of different names or locations can be passed.
-  Similarly for keywords, the package will look for a keywords.csv file in
-  the project directory but a different name or location can be passed.</p>
+ created from objects in the user's R environment or as detailed in
+ config.yaml. A project scope (default is LTER) indicates contact and project
+ details specific to the research. The abstract and methods must be in
+ markdown format - by default the package will look for these files
+ (abstract.md, methods.md) in the project directory but files of different
+ names or locations can be passed. Similarly for keywords, the package will
+ look for a keywords.csv file in the project directory but a different name
+ or location can be passed.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>create_dataset will look for most inputs used to construct a dataset,
-  such as a project id, in the working environment; these parameters are not
-  passed directly to the function and must exist in the working environment.</p>
+ such as a package number, in the working environment or from the project
+ config.yaml; these parameters are not passed directly to the function and
+ must exist in the working environment or yaml.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

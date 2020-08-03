@@ -28,7 +28,12 @@ create_eml <- function() {
   # confirm required components exist in R environment
   if (!exists("lterAccess")) { stop("missing access") }
   if (!exists("dataset")) { stop("missing dataset") }
-  if (!exists("packageIdent")) { stop("missing package identifier") }
+
+  # retrieve packageIdent from config.yaml
+  if (!file.exists("config.yaml")) {
+    stop("config.yaml not found")
+  }
+  packageIdent <- yaml::yaml.load_file("config.yaml")$packageIdent
 
   # construct eml
   eml <- EML::eml$eml(
@@ -40,7 +45,7 @@ create_eml <- function() {
   )
 
   # add custom units if relevant
-  if (exists('unitList')) { eml$additionalMetadata  <- unitList }
+  if (exists("unitList")) { eml$additionalMetadata  <- unitList }
 
   return(eml)
 

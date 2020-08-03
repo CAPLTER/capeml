@@ -110,6 +110,8 @@ cameron <- create_role(firstName = "cameron",
                        lastName = "boehme",
                        roleType = "metadata")
 
+metadataProvider <- list(cameron)
+
 # associated party - optional
 # takes the optional argument `projectRole` (default: "former project associate")
 mark <- create_role(giosPersonId = 132,
@@ -145,7 +147,7 @@ path and name can be passed).
 
 ## methods and provenance
 
-```{r methods_provenance}
+```{r methods_provenance, eval=FALSE}
 
 # methods from file tagged as markdown
 main <- list(description = list(read_markdown("methods.md")))
@@ -191,7 +193,7 @@ a potentially long process, per version/session -- the taxonomicCoverage can be
 built as many times as needed with `resolve_comm_taxa()` once the `taxa_map.csv`
 has been generated and the taxonomic IDs resolved.
 
-```{r taxonomyCleanr, eval=TRUE}
+```{r taxonomyCleanr, eval=FALSE}
 
 library(taxonomyCleanr)
 
@@ -379,7 +381,6 @@ Move data and final xml files to respective ASU locations.
 # functions and setting for uploading to S3
 library(aws.s3)
 source("~/Documents/localSettings/aws.s3")
-source("~/localRepos/reml-helper-tools/amazon_file_upload.R")
 ```
 
 ```{r upload_data_S3}
