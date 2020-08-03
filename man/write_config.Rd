@@ -2,7 +2,7 @@
 % Please edit documentation in R/write_config.R
 \name{write_config}
 \alias{write_config}
-\title{write_config}
+\title{write a project config.yaml file}
 \usage{
 write_config(packageScopeNumber, version = 1, path = ".", overwrite = FALSE)
 }
@@ -24,6 +24,11 @@ write_config writes a template config.yaml file to the working
 }
 \details{
 A template config.yaml file is written to the working directory or
- specified location. The function requires that the package identifier (e.g.,
- "edi.521.1"), including version number is provided.
+ specified location. The function requires that the package scope and number
+ (e.g., "edi.521") are provided. Package identifiers include a verion
+ number; the function uses a default value of version 1 but an alternate
+ version number can be specified.
+}
+\note{
+The function requires specifically a 3-digit package number.
 }

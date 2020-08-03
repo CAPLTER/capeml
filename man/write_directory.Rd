@@ -22,6 +22,7 @@ A directory with the following structure and contents:
         \item{\strong{name} Name supplied via \code{packageScopeNumber}}
         \itemize{
             \item{\strong{config.yaml} configuration file}
+            \item{\code{packageScopeNumber}.Rmd workflow template}
         }
     }
 }
@@ -30,8 +31,8 @@ Create a directory structure for data package contents and
     \code{capeml} files.
 }
 \details{
-Existing directories named with \code{packageScopeNumber} at \code{path} will not
-    be overwritten.
+Existing directories named with \code{packageScopeNumber} at \code{path}
+    will not be overwritten.
 }
 \examples{
 \dontrun{

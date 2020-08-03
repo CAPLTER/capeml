@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>zipRelatedFiles — zipRelatedFiles • capeml</title>
+<title>zip related files — zipRelatedFiles • capeml</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,11 @@
 
 
 
-<meta property="og:title" content="zipRelatedFiles — zipRelatedFiles" />
+<meta property="og:title" content="zip related files — zipRelatedFiles" />
 <meta property="og:description" content="Zip files in a common directory that share the same base name
-  (i.e., file name sans path and extension). Zipped file includes all
-  relevant files zipped into a single, compressed file named as: projectid +
-  basefile name + md5sum + extension (zip)." />
+ (i.e., file name sans path and extension). Zipped file includes all relevant
+ files zipped into a single, compressed file named as: package number +
+ basefile name + md5sum + extension (zip)." />
 
 
 
@@ -106,16 +106,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>zipRelatedFiles</h1>
+    <h1>zip related files</h1>
     
     <div class="hidden name"><code>zipRelatedFiles.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Zip files in a common directory that share the same base name
-  (i.e., file name sans path and extension). Zipped file includes all
-  relevant files zipped into a single, compressed file named as: projectid +
-  basefile name + md5sum + extension (zip).</p>
+ (i.e., file name sans path and extension). Zipped file includes all relevant
+ files zipped into a single, compressed file named as: package number +
+ basefile name + md5sum + extension (zip).</p>
     </div>
 
     <pre class="usage"><span class='fu'>zipRelatedFiles</span>(<span class='no'>pathToFile</span>, <span class='no'>targetFile</span>)</pre>
@@ -142,15 +142,15 @@ in the prescribed directory will be evalated directory</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>zipRelatedFiles is a helper function designed primarily to assist
-  the creation of EML spatial data objects. A spatial data entity often
-  consists of more than one file (e.g., shapefiles; raster (*.img, *.xml))
-  that are incorporated into a single zipped file for upload to PASTA. This
-  function zips related files as determined by the same base file name (e.g.,
-  CAP_1985.img and CAP_1985.img.aux.xml share the same base name and would be
-  zipped). In keeping with the CAP LTER workflow for generating EML metadata,
-  the resulting compressed file is named projectid + basefile name + md5sum +
-  extension (zip). Though intended primarily as a helper function,
-  zipRelatedFiles can be run independently.</p>
+ the creation of EML spatial data objects. A spatial data entity often
+ consists of more than one file (e.g., shapefiles; raster (*.img, *.xml))
+ that are incorporated into a single zipped file for upload to PASTA. This
+ function zips related files as determined by the same base file name (e.g.,
+ CAP_1985.img and CAP_1985.img.aux.xml share the same base name and would be
+ zipped). In keeping with the CAP LTER workflow for generating EML metadata,
+ the resulting compressed file is named package number + basefile name +
+ md5sum + extension (zip). Though intended primarily as a helper function,
+ zipRelatedFiles can be run independently.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>zipRelatedFiles is specific to UNIX operating environments.</p>

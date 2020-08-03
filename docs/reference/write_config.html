@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>write_config — write_config • capeml</title>
+<title>write a project config.yaml file — write_config • capeml</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="write_config — write_config" />
+<meta property="og:title" content="write a project config.yaml file — write_config" />
 <meta property="og:description" content="write_config writes a template config.yaml file to the working
  directory (default) or supplied path." />
 
@@ -104,7 +104,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>write_config</h1>
+    <h1>write a project config.yaml file</h1>
     
     <div class="hidden name"><code>write_config.Rd</code></div>
     </div>
@@ -143,8 +143,13 @@ the target directory should be overwritten.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A template config.yaml file is written to the working directory or
- specified location. The function requires that the package identifier (e.g.,
- "edi.521.1"), including version number is provided.</p>
+ specified location. The function requires that the package scope and number
+ (e.g., "edi.521") are provided. Package identifiers include a verion
+ number; the function uses a default value of version 1 but an alternate
+ version number can be specified.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>The function requires specifically a 3-digit package number.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -1,19 +1,21 @@
-#' @title create_dataset
+#' @title create EML entity of type dataset
 #'
 #' @description create_dataset generates a EML entity of type dataset
 #'
 #' @details A dataset entity, the central component of a data package, is
-#'   created from objects in the user's R environment. A project scope (default
-#'   is LTER) indicates contact and project details specific to the research.
-#'   The abstract and methods must be in markdown format - by default the
-#'   package will look for these files (abstract.md, methods.md) in the project
-#'   directory but files of different names or locations can be passed.
-#'   Similarly for keywords, the package will look for a keywords.csv file in
-#'   the project directory but a different name or location can be passed.
+#'  created from objects in the user's R environment or as detailed in
+#'  config.yaml. A project scope (default is LTER) indicates contact and project
+#'  details specific to the research. The abstract and methods must be in
+#'  markdown format - by default the package will look for these files
+#'  (abstract.md, methods.md) in the project directory but files of different
+#'  names or locations can be passed. Similarly for keywords, the package will
+#'  look for a keywords.csv file in the project directory but a different name
+#'  or location can be passed.
 #'
 #' @note create_dataset will look for most inputs used to construct a dataset,
-#'   such as a project id, in the working environment; these parameters are not
-#'   passed directly to the function and must exist in the working environment.
+#'  such as a package number, in the working environment or from the project
+#'  config.yaml; these parameters are not passed directly to the function and
+#'  must exist in the working environment or yaml.
 #'
 #' @param scope Quoted name or acronym of the project.
 #' @param abstractFile Quoted name and path of abstract (in markdown format)
@@ -22,6 +24,7 @@
 #' @param publicationDate Quoted ISO date - defaults to today's date
 #'
 #' @import EML
+#' @importFrom yaml yaml.load_file
 #'
 #' @return EML dataset entity is returned.
 #'
@@ -34,11 +37,22 @@ create_dataset <- function(scope = "LTER",
                            publicationDate = NULL) {
 
   # confirm required components exist in R environment
-  if (!exists("title")) { stop("missing title") }
-  if (!exists("creators")) { stop("missing creator") }
-  if (!exists("metadataProvider")) { stop("missing metadata provider") }
-  if (!exists("coverage")) { stop("missing coverage") }
-  if (!exists("packageIdent")) { stop("missing package identifier") }
+  if (!exists("creators")) {
+    stop("missing creator")
+  }
+  if (!exists("metadataProvider")) {
+    stop("missing metadata provider")
+  }
+  if (!exists("coverage")) {
+    stop("missing coverage")
+  }
+
+  # retrieve title and packageIdent from config.yaml
+  if (!file.exists("config.yaml")) {
+    stop("config.yaml not found")
+  }
+  title <- yaml::yaml.load_file("config.yaml")$title
+  packageIdent <- yaml::yaml.load_file("config.yaml")$packageIdent
 
   # read abstract
   tryCatch({
@@ -108,7 +122,8 @@ create_dataset <- function(scope = "LTER",
 
     dataset$contact <- capContact # cap contact
     dataset$publisher <- capPublisher # cap pub
-    dataset$project <- list(capProject, ltrebProject) # cap and ltreb projects
+    capProject$relatedProject <- ltrebProject # ltreb as related
+    dataset$project <- capProject # ltreb nested in cap
 
   } else {
 

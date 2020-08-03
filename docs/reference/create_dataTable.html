@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>create_dataTable — create_dataTable • capeml</title>
+<title>create EML entity of type dataTable — create_dataTable • capeml</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="create_dataTable — create_dataTable" />
+<meta property="og:title" content="create EML entity of type dataTable — create_dataTable" />
 <meta property="og:description" content="create_dataTable generates a EML entity of type dataTable" />
 
 
@@ -103,7 +103,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>create_dataTable</h1>
+    <h1>create EML entity of type dataTable</h1>
     
     <div class="hidden name"><code>create_dataTable.Rd</code></div>
     </div>
@@ -148,70 +148,70 @@ to generate a web-resolvable file path.</p></td>
     </tr>
     <tr>
       <th>missingValueCode</th>
-      <td><p>(optional) create_dataTable will automatically
-document the presence of NA and NaN entries as missing values in the EML
-output. The user has the ability to identify an additional indicator of
-missing values. Numbers (e.g., -9999 should be unquoted) whereas text
-values (e.g., "missing") should be quoted.</p></td>
+      <td><p>(optional)
+(character) create_dataTable will automatically document the presence of NA
+and NaN entries as missing values in the EML output. The user has the
+ability to identify an additional indicator of missing values (e.g.,
+"-9999", "missing").</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>EML dataTable object is returned. Additionally, the data entity is
-  written to file as type csv, and renamed with the project id + base file
-  name + md5sum + file extension (csv in this case).</p>
+ written to file as type csv, and renamed with the package number + base file
+ name + md5sum + file extension (csv in this case).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>create_dataTable creates a EML dataTable object from a data frame or
   Tibble object in the R environment. The function reads the attributes and
   classes contained within a supporting csv file generated from the
   write_attributes function - create_dataTable will look for a file in the
-  working directory with a name of type dataframeName_attrs.csv. Factors also
-  are read from a supporting csv file - create_dataTable will look for a file
-  in the working directory with a name of type dataframeName_factors.csv. If
-  that exists, the factor details outlined in that file will be incorporated
-  into the EML, else the EML will be built without factor metadata. Note that
-  this functionality is predicated on the existence of a file containing
-  metadata about any factors in the dataframe, that that file is in the
-  working directory, and that the file matches the dataframe name precisely;
-  the function does not look for variables of types factor in the dataframe.
-  In addition to generating a EML entity of type dataTable, create_dataTable
-  writes the R object to file as type csv, renames the file with project id +
-  base file name + md5sum + file extension (csv in this case), and deletes
-  the original file.</p>
+  working directory with a name of type dataframeName_attrs.csv. Factors
+  also are read from a supporting csv file - create_dataTable will look for
+  a file in the working directory with a name of type
+  dataframeName_factors.csv. If that exists, the factor details outlined in
+  that file will be incorporated into the EML, else the EML will be built
+  without factor metadata. Note that this functionality is predicated on the
+  existence of a file containing metadata about any factors in the
+  dataframe, that that file is in the working directory, and that the file
+  matches the dataframe name precisely; the function does not look for
+  variables of types factor in the dataframe. In addition to generating a
+  EML entity of type dataTable, create_dataTable writes the R object to file
+  as type csv, renames the file with package number + base file name +
+  md5sum + file extension (csv in this case), and deletes the original file.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>create_dataTable will look for a project id in the working environment;
-  this parameter is not passed to the function and it must exist.</p>
+    <p>create_dataTable will look for a package number (packageNum) in
+ config.yaml; this parameter is not passed to the function and it must exist.</p>
 <p>create_dataTable currently accepts an argument for a base url path to
   which the new file name will be appended so as to be a web-resolvable file;
   the package defaults to a URL specific to the CAP LTER.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># data_entity &lt;- read("data source") %&gt;%
-#   processing %&gt;%
-#   processing
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># data_entity &lt;- read("data source") %&gt;%</span>
+<span class='co'>#   processing %&gt;%</span>
+<span class='co'>#   processing</span>
 
-# write_attributes(data_entity)
-# write_factors(data_entity)
-#
-# data_entity_desc &lt;- "snow leopard data"
+<span class='co'># write_attributes(data_entity)</span>
+<span class='co'># write_factors(data_entity)</span>
+<span class='co'>#</span>
+<span class='co'># data_entity_desc &lt;- "snow leopard data"</span>
 
-# create_dataTable with minimal arguments
-# data_entity_DT &lt;- create_dataTable(dfname = data_entity,
-#                                    description = data_entity_desc)
+<span class='co'># create_dataTable with minimal arguments</span>
+<span class='co'># data_entity_DT &lt;- create_dataTable(dfname = data_entity,</span>
+<span class='co'>#                                    description = data_entity_desc)</span>
 
-# create_dataTable with optional arguments dateRangeField and missingValueCode
-# data_entity_DT &lt;- create_dataTable(dfname = data_entity,
-#                                    description = data_entity_desc,
-#                                    dateRangeField = "observation date",
-#                                    missingValueCode = "missing")
+<span class='co'># create_dataTable with optional arguments dateRangeField and missingValueCode</span>
+<span class='co'># data_entity_DT &lt;- create_dataTable(dfname = data_entity,</span>
+<span class='co'>#                                    description = data_entity_desc,</span>
+<span class='co'>#                                    dateRangeField = "observation date",</span>
+<span class='co'>#                                    missingValueCode = "missing")</span>
 
-# The resulting dataTable entity can be added to a EML dataset
-# dataset &lt;- EML::eml$dataset(dataTable = data_entity_DT)
-
-</div></pre>
+<span class='co'># The resulting dataTable entity can be added to a EML dataset</span>
+<span class='co'># dataset &lt;- EML::eml$dataset(dataTable = data_entity_DT)</span>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

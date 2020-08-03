@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_dataTable.R
 \name{create_dataTable}
 \alias{create_dataTable}
-\title{create_dataTable}
+\title{create EML entity of type dataTable}
 \usage{
 create_dataTable(
   dfname,
@@ -28,16 +28,16 @@ reflected in the data entity.}
 data file; the name of the resulting file will be passed to the base path
 to generate a web-resolvable file path.}
 
-\item{missingValueCode}{(optional) create_dataTable will automatically
-document the presence of NA and NaN entries as missing values in the EML
-output. The user has the ability to identify an additional indicator of
-missing values. Numbers (e.g., -9999 should be unquoted) whereas text
-values (e.g., "missing") should be quoted.}
+\item{missingValueCode}{(optional)
+(character) create_dataTable will automatically document the presence of NA
+and NaN entries as missing values in the EML output. The user has the
+ability to identify an additional indicator of missing values (e.g.,
+"-9999", "missing").}
 }
 \value{
 EML dataTable object is returned. Additionally, the data entity is
-  written to file as type csv, and renamed with the project id + base file
-  name + md5sum + file extension (csv in this case).
+ written to file as type csv, and renamed with the package number + base file
+ name + md5sum + file extension (csv in this case).
 }
 \description{
 create_dataTable generates a EML entity of type dataTable
@@ -47,29 +47,30 @@ create_dataTable creates a EML dataTable object from a data frame or
   Tibble object in the R environment. The function reads the attributes and
   classes contained within a supporting csv file generated from the
   write_attributes function - create_dataTable will look for a file in the
-  working directory with a name of type dataframeName_attrs.csv. Factors also
-  are read from a supporting csv file - create_dataTable will look for a file
-  in the working directory with a name of type dataframeName_factors.csv. If
-  that exists, the factor details outlined in that file will be incorporated
-  into the EML, else the EML will be built without factor metadata. Note that
-  this functionality is predicated on the existence of a file containing
-  metadata about any factors in the dataframe, that that file is in the
-  working directory, and that the file matches the dataframe name precisely;
-  the function does not look for variables of types factor in the dataframe.
-  In addition to generating a EML entity of type dataTable, create_dataTable
-  writes the R object to file as type csv, renames the file with project id +
-  base file name + md5sum + file extension (csv in this case), and deletes
-  the original file.
+  working directory with a name of type dataframeName_attrs.csv. Factors
+  also are read from a supporting csv file - create_dataTable will look for
+  a file in the working directory with a name of type
+  dataframeName_factors.csv. If that exists, the factor details outlined in
+  that file will be incorporated into the EML, else the EML will be built
+  without factor metadata. Note that this functionality is predicated on the
+  existence of a file containing metadata about any factors in the
+  dataframe, that that file is in the working directory, and that the file
+  matches the dataframe name precisely; the function does not look for
+  variables of types factor in the dataframe. In addition to generating a
+  EML entity of type dataTable, create_dataTable writes the R object to file
+  as type csv, renames the file with package number + base file name +
+  md5sum + file extension (csv in this case), and deletes the original file.
 }
 \note{
-create_dataTable will look for a project id in the working environment;
-  this parameter is not passed to the function and it must exist.
+create_dataTable will look for a package number (packageNum) in
+ config.yaml; this parameter is not passed to the function and it must exist.
 
 create_dataTable currently accepts an argument for a base url path to
   which the new file name will be appended so as to be a web-resolvable file;
   the package defaults to a URL specific to the CAP LTER.
 }
 \examples{
+\dontrun{
 # data_entity <- read("data source") \%>\%
 #   processing \%>\%
 #   processing
@@ -91,5 +92,6 @@ create_dataTable currently accepts an argument for a base url path to
 
 # The resulting dataTable entity can be added to a EML dataset
 # dataset <- EML::eml$dataset(dataTable = data_entity_DT)
+}
 
 }
