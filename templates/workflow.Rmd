@@ -12,30 +12,9 @@ editor_options:
 ```{r libraries}
 library(EML)
 library(tidyverse)
-library(readxl)
 library(capeml)
 library(gioseml)
 library(yaml)
-```
-
-# database connections
-
-```{r connections::postgres::local, eval=FALSE}
-# functions and setting for connecting to postgres
-source('~/Documents/localSettings/pg_local.R')
-pg <- pg_local
-```
-
-```{r connections::postgres::prod, eval=T }
-# functions and setting for connecting to postgres
-source('~/Documents/localSettings/pg_prod.R')
-pg <- pg_prod
-```
-
-```{r connections::mysql::prod, eval=T }
-# functions and setting for connecting to mysql
-source('~/Documents/localSettings/mysql_prod.R')
-mysql_prod <- mysql_prod_connect()
 ```
 
 # dataTable
@@ -93,31 +72,33 @@ See the gioseml package for examples of creating people resources from scratch.
 
 # creator(s) - required
 
-cameron <- create_role(firstName = "cameron",
-                       lastName = "boehme",
-                       roleType = "creator")
-chelsea <- create_role(firstName = "chelsea",
-                       lastName = "stratton",
-                       roleType = "creator")
-fabio <- create_role(giosPersonId = 23857,
-                     roleType = "creator")
+cameron <- create_role(
+  firstName = "cameron",
+  lastName = "boehme",
+  roleType = "creator")
+fabio <- create_role(
+  giosPersonId = 23857,
+  roleType = "creator")
 
-creators <- list(cameron, chelsea, fabio)
+creators <- list(cameron, fabio)
 
 # metadata provider - required
 
-cameron <- create_role(firstName = "cameron",
-                       lastName = "boehme",
-                       roleType = "metadata")
+cameron <- create_role(
+  firstName = "cameron",
+  lastName = "boehme",
+  roleType = "metadata")
 
 metadataProvider <- list(cameron)
 
 # associated party - optional
 # takes the optional argument `projectRole` (default: "former project associate")
-mark <- create_role(giosPersonId = 132,
-                    roleType = "associated")
-nancy <- create_role(giosPersonId = 150,
-                     roleType = "associated")
+mark <- create_role(
+  giosPersonId = 132,
+  roleType = "associated")
+nancy <- create_role(
+  giosPersonId = 150,
+  roleType = "associated")
 
 associatedParty <- list(mark, nancy)
 
@@ -175,11 +156,12 @@ enhancedMethods <- EML::eml$methods(methodStep = list(main, naip, landSurfaceTem
 # begindate <- format(min(runoff_chemistry$runoff_datetime), "%Y-%m-%d")
 # enddate <- format(max(runoff_chemistry$runoff_datetime), "%Y-%m-%d")
 geographicDescription <- "CAP LTER study area"
-coverage <- set_coverage(begin = "2014-09-01",
-                         end = "2015-03-30",
-                         geographicDescription = geographicDescription,
-                         west = -112.100, east = -111.877,
-                         north = +33.608, south = +33.328)
+coverage <- set_coverage(
+  begin = "2014-09-01",
+  end = "2015-03-30",
+  geographicDescription = geographicDescription,
+  west = -112.100, east = -111.877,
+  north = +33.608, south = +33.328)
 
 ```
 
@@ -311,14 +293,17 @@ if (length(ls(pattern = "_SV")) > 0) {
 ```{r custom-units, eval=FALSE}
 
 custom_units <- rbind(
-  data.frame(id = "milligramPerKilogram",
-             unitType = "massPerMass",
-             parentSI = "gramsPerGram",
-             multiplierToSI = 0.000001,
-             description = "millgram of element per kilogram of material"))
+  data.frame(
+    id = "milligramPerKilogram",
+    unitType = "massPerMass",
+    parentSI = "gramsPerGram",
+    multiplierToSI = 0.000001,
+    description = "millgram of element per kilogram of material")
+)
 
-unitList <- set_unitList(custom_units,
-                         as_metadata = TRUE)
+unitList <- set_unitList(
+  custom_units,
+  as_metadata = TRUE)
 
 ```
 
@@ -351,70 +336,13 @@ dataset$literatureCited <- citations
 eml <- create_eml()
 ```
 
-```{r package-details, eval=TRUE}
+```{r validate_eml, eval=TRUE}
 
-# retrieve package details from config.yaml
-if (!file.exists("config.yaml")) {
-  stop("config.yaml not found")
-}
-packageIdent <- yaml::yaml.load_file("config.yaml")$packageIdent
-packageNum <- yaml::yaml.load_file("config.yaml")$packageNum
+eml_validate(eml)
 ```
 
-```{r write_eml}
+```{r eml_to_file, eval=TRUE}
 
 # write the eml to file
-write_eml(eml, paste0(packageIdent, ".xml"))
-```
-
-# file placement
-
-```{r preview_data_file_to_upload}
-
-# preview data set files that will be uploaded to S3
-list.files(pattern = paste0(packageNum, "_"))
-```
-
-Move data and final xml files to respective ASU locations.
-
-```{r S3_helper_functions}
-# functions and setting for uploading to S3
-library(aws.s3)
-source("~/Documents/localSettings/aws.s3")
-```
-
-```{r upload_data_S3}
-
-# upload files to S3
-lapply(list.files(pattern = paste0(packageNum, "_")), data_to_amz)
-```
-
-```{r clean_up}
-
-# remove data files
-dataFilesToRemove <- dir(pattern = paste0(packageNum, "_"))
-file.remove(dataFilesToRemove)
-
-# EML to S3
-if(length(list.files(pattern = "*.xml")) == 1) {
-  eml_to_amz(list.files(pattern = "*.xml")) } else {
-    print("more than one xml file found")
-  }
-
-# EML to cap-data-eml and remove file from project
-tryCatch({
-  
-  if(length(list.files(pattern = "*.xml")) == 1) {
-    file.copy(list.files(pattern = "*.xml"), "/home/srearl/localRepos/cap-metadata/cap-data-eml/")
-    file.remove(list.files(pattern = "*.xml")) } else {
-      print("more than one xml file found")
-    }
-},
-warning = function(warn) {
-  print(paste("WARNING: ", warn))
-},
-error = function(err) {
-  print(paste("ERROR: ", err))
-  
-}) # close try catch
+write_cap_eml()
 ```
