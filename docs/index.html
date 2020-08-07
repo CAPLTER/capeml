@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -69,10 +69,10 @@
 <div id="overview" class="section level3">
 <h3 class="hasAnchor">
 <a href="#overview" class="anchor"></a>overview</h3>
-<p>This package contains tools to aid the generation of eml metadata with intent to publish a dataset (data + metadata) in the environmental data initiative (edi) data repository. Functions and a template work flow are included that allow for the creation of metadata at the dataset level, and individual data entities (e.g., other entities, data tables).</p>
-<p>Helper functions for the creation of dataset metadata, <code>datatable()</code>, and <code>otherentity()</code> entities using the <a href="https://docs.ropensci.org/eml/">EML</a> package are supported. this package can be extended with the <a href="https://github.com/caplter/capemlgis">capemlgis</a> package to generate metadata for <code>spatialraster()</code> and <code>spatialvector()</code> entities.</p>
+<p>This package contains tools to aid the generation of eml metadata with intent to publish a dataset (data + metadata) in the Environmental Data Initiative (edi) data repository. Functions and a template work flow are included that allow for the creation of metadata at the dataset level, and individual data entities (e.g., other entities, data tables).</p>
+<p>Helper functions for the creation of dataset metadata, <code>datatable()</code>, and <code>otherentity()</code> entities using the <a href="https://docs.ropensci.org/eml/">EML</a> package are supported. This package can be extended with the <a href="https://github.com/caplter/capemlgis">capemlGIS</a> package to generate metadata for <code>spatialraster()</code> and <code>spatialvector()</code> entities.</p>
 <p>Note that the creation of people-related entities in the templated work flow (see below) are specific to functions that rely on Global Institute of Sustainability infrastructure; other users should add people using the list structure provided by ROpenSci’s <a href="https://docs.ropensci.org/eml/">EML</a>.</p>
-<p>A template work flow to generating a complete EML record is included with this package. The template is automatically generated if a new project is created with <code>write_directory</code>, which also generates a <code>config.yaml</code> file and new directory, or can be copied from the template directory of the package.</p>
+<p>A template work flow to is included with this package. The template is automatically generated if a new project is created with <code>write_directory</code>, which also generates a <code>config.yaml</code> file and new directory, or with the <code>write_template</code> function. For Vim users, additional resources for templating are available through <a href="https://gitlab.com/caplter/capeml-vim">capeml-vim</a>.</p>
 </div>
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
@@ -86,7 +86,7 @@
 <div id="eml" class="section level4">
 <h4 class="hasAnchor">
 <a href="#eml" class="anchor"></a>EML</h4>
-<p>This package defaults to the current version of EML. If desired, users can switch to the previous version with <code><a href="https://docs.ropensci.org/emld/reference/eml_version.html">emld::eml_version("eml-2.1.1")</a></code>.</p>
+<p>This package defaults to the current version of EML. Users can switch to the previous version with <code><a href="https://docs.ropensci.org/emld/reference/eml_version.html">emld::eml_version("eml-2.1.1")</a></code>.</p>
 </div>
 <div id="project-naming" class="section level4">
 <h4 class="hasAnchor">
@@ -101,12 +101,13 @@
 <div id="new-projects" class="section level4">
 <h4 class="hasAnchor">
 <a href="#new-projects" class="anchor"></a>new projects</h4>
-<p>For new projects, <code>write_directory</code> will create a project directory at the current (default) or specified path. The package scope and dataset number (e.g., knb-lter-cap.652) is passed as an argument, with the package identifier (sans the version number) becoming the directory name. Within the newly created directory, a template work flow with the project directory name is generated and a <code>config.yaml</code>. In <code>config.yaml</code>, the dataset number and dataset package identifier are generated as parameters. New projects assume a version number = 1, from which the package identifier (as <code>packageIdent</code>) is generated in <code>config.yaml</code>.</p>
+<p>For new projects, <code>write_directory</code> will create a project directory at the current (default) or specified path. The package scope and number (e.g., edi.521) is passed as an argument, with the package identifier (sans the version number) becoming the directory name. Within the newly created directory, a template work flow as an Rmarkdown (Rmd) file with the package scope and number is generated and a <code>config.yaml</code>. In <code>config.yaml</code>, the package number and package identifier are generated as parameters. New projects assume a version number = 1, from which the package identifier (as <code>packageIdent</code>) is generated in <code>config.yaml</code>.</p>
 </div>
 <div id="existing-projects" class="section level4">
 <h4 class="hasAnchor">
 <a href="#existing-projects" class="anchor"></a>existing projects</h4>
-<p>For existing projects, if <code>config.yaml</code> does not already exist, <code>write_config</code> will generate <code>config.yaml</code> with the package identifier and dataset number (e.g., knb-lter-cap.652) passed as an argument to the function. A version number (default = 1) can be passed as a separate argument.</p>
+<p>For existing projects, if <code>config.yaml</code> does not already exist, <code>write_config</code> will generate <code>config.yaml</code> with the package scope and number (e.g., edi.521) passed as an argument to the function. A version number (default = 1) can be passed as a separate argument.</p>
+<p>A template work flow as an Rmarkdown (Rmd) file named with the package scope and number can be generated independently with the <code>write_template</code> function.</p>
 </div>
 </div>
 <div id="tools-to-generate-entity-metadata" class="section level3">
@@ -135,7 +136,7 @@
 <div id="project-details-dataset-package-number-and-package-identifier" class="section level4">
 <h4 class="hasAnchor">
 <a href="#project-details-dataset-package-number-and-package-identifier" class="anchor"></a>project details: dataset package number and package identifier</h4>
-<p>The dataset number (e.g., 520) is read from the <code>packageNum</code> parameter of <code>config.yaml</code>. The package identifier (e.g. knb-lter-cap.521.4) is read from the <code>packageIdent</code> parameter of <code>config.yaml</code>.</p>
+<p>The dataset number (e.g., 521) is read from the <code>packageNum</code> parameter of <code>config.yaml</code>. The package identifier (e.g. edi.521.4) is read from the <code>packageIdent</code> parameter of <code>config.yaml</code>.</p>
 </div>
 <div id="title" class="section level4">
 <h4 class="hasAnchor">
@@ -155,7 +156,8 @@
 <div id="methods" class="section level4">
 <h4 class="hasAnchor">
 <a href="#methods" class="anchor"></a>methods</h4>
-<p>The <code>create_dataset</code> function will look for a <code>methods.md</code> file in the working directory or at the path provided if specified (<code>methods.md</code> must be a markdown file). Alternatively, the work flow below is an enhanced approach of developing methods if provenance data are required or there are multiple methods files. If <code>enhancedMethods</code> exists, it will override arguments passed to <code>methodsFile</code> in <code>create_dataset</code>.</p>
+<p>The <code>create_dataset</code> function will look for a <code>methods.md</code> file in the working directory or at the path provided if specified (<code>methods.md</code> must be a markdown file).</p>
+<p>Alternatively, the work flow below is an enhanced approach of developing methods if provenance data are required or there are multiple methods files. If <code>enhancedMethods</code> exists, it will override arguments passed to <code>methodsFile</code> in <code>create_dataset</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">EDIutils</span>)
 
 <span class="co"># methods from file tagged as markdown</span>
@@ -231,6 +233,18 @@
 <li>note that the data entity name should be used consistently within the chunk, and the resulting dataTable entity should have the name: <em>data_entity_DT</em>
 </li>
 </ul>
+<p><em>create_dataTable example: my_table</em></p>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="no">my_table</span> <span class="kw">&lt;-</span> <span class="no">import</span> / <span class="no">generate...process...</span>
+
+<span class="fu"><a href="reference/write_attributes.html">write_attributes</a></span>(<span class="no">my_table</span>)
+<span class="fu"><a href="reference/write_factors.html">write_factors</a></span>(<span class="no">my_table</span>)
+
+<span class="no">my_table_desc</span> <span class="kw">&lt;-</span> <span class="st">"description of table"</span>
+
+<span class="no">my_table_DT</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/create_dataTable.html">create_dataTable</a></span>(
+  <span class="kw">dfname</span> <span class="kw">=</span> <span class="no">my_table</span>,
+  <span class="kw">description</span> <span class="kw">=</span> <span class="no">my_table_desc</span>
+)</pre></div>
 </div>
 <div id="overview-create-a-otherentity" class="section level3">
 <h3 class="hasAnchor">
@@ -243,17 +257,17 @@
 <h3 class="hasAnchor">
 <a href="#literature-cited" class="anchor"></a>literature cited</h3>
 <p>Though not provided as a function, below is a work flow for adding literature cited elements at the dataset level. The work flow capitalizes on EML version 2.2 that accepts the BibTex format for references.</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="co"># add literature cited if relevant</span>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="co"># add literature cited if relevant</span>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rcrossref</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">EML</span>)
 
-<span class="no">mccafferty</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/rcrossref/reference/cr_cn.html">cr_cn</a></span>(<span class="kw">dois</span> <span class="kw">=</span> <span class="st">"https://doi.org/10.1186/s40317-015-0075-2"</span>, <span class="kw">format</span> <span class="kw">=</span> <span class="st">"bibtex"</span>)
-<span class="no">mccaffertycit</span> <span class="kw">&lt;-</span> <span class="kw pkg">EML</span><span class="kw ns">::</span><span class="no"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span>$<span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="kw">id</span> <span class="kw">=</span> <span class="st">"https://doi.org/10.1186/s40317-015-0075-2"</span>)
-<span class="no">mccaffertycit</span>$<span class="no">bibtex</span> <span class="kw">&lt;-</span> <span class="no">mccafferty</span>
+<span class="no">pub</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/rcrossref/reference/cr_cn.html">cr_cn</a></span>(<span class="kw">dois</span> <span class="kw">=</span> <span class="st">"https://doi.org/10.1186/s40317-015-0075-2"</span>, <span class="kw">format</span> <span class="kw">=</span> <span class="st">"bibtex"</span>)
+<span class="no">pub_cit</span> <span class="kw">&lt;-</span> <span class="kw pkg">EML</span><span class="kw ns">::</span><span class="no"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span>$<span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="kw">id</span> <span class="kw">=</span> <span class="st">"https://doi.org/10.1186/s40317-015-0075-2"</span>)
+<span class="no">pub_cit</span>$<span class="no">bibtex</span> <span class="kw">&lt;-</span> <span class="no">mccafferty</span>
 
 <span class="no">citations</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
   <span class="kw">citation</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="no">mccaffertycit</span>
+    <span class="no">pub</span>
   ) <span class="co"># close list of citations</span>
 ) <span class="co"># close citation</span>
 

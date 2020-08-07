@@ -1,6 +1,6 @@
 ---
-title: "remlTemplate"
-author: "SRE"
+title: "capeml template"
+author: "information manager"
 date: Sys.Date()
 output: html_document
 editor_options: 
@@ -17,52 +17,17 @@ library(gioseml)
 library(yaml)
 ```
 
-# dataTable
-
-```{r compiled_data, eval=TRUE}
-
-# tabularDataEntity <- import / generate...process...
-
-write_attributes(tabularDataEntity)
-write_factors(tabularDataEntity)
-
-tabularDataEntity_desc <- "desc"
-
-tabularDataEntity_DT <- create_dataTable(dfname = tabularDataEntity,
-                                         description = tabularDataEntity_desc)
-
-```
 
 # otherEntity
 
 ```{r otherEntity, eval=TRUE}
 
-otherEntityObject_OE <- create_otherEntity(targetFile = 'kml_pdf_etc',
-                                           description = 'desc')
+otherEntityObject_OE <- create_otherEntity(
+  targetFile = "file",
+  description = "description")
 
 ```
 
-# spatialVector
-
-```{r spatialVector, eval=TRUE}
-
-library(sf) # additional library
-
-# note layer name is sans file extension
-spatialVectorEntity <- read_sf(dsn = "directory/", layer = "layer name")
-
-# assign Name to the column that is the site identifier
-spatialVectorEntity <- spatialVectorEntity %>% 
-  mutate(Name = site identifier)
-
-write_attributes(spatialVectorEntity)
-
-spatialVectorEntity_desc <- "desc"
-
-spatialVector_SV <- create_spatialVector(targetFile = spatialVectorEntity,
-                                         description = spatialVectorEntityDesc )
-
-```
 
 # people
 
@@ -184,14 +149,14 @@ my_path <- getwd() # taxonomyCleanr requires a path (to build the taxa_map)
 # Example: draw taxonomic information from existing resource:
 
 # plant taxa listed in the om_transpiration_factors file
-plantTaxa <- read_csv('om_transpiration_factors.csv') %>% 
+plantTaxa <- read_csv('om_transpiration_factors.csv') %>%
   filter(attributeName == "species") %>% 
   as.data.frame()
 
 # create or update map. A taxa_map.csv is the heart of taxonomyCleanr. This
 # function will build the taxa_map.csv and put it in the path identified with
 # my_path.
-create_taxa_map(path = my_path, x = plantTaxa, col = "definition") 
+create_taxa_map(path = my_path, x = plantTaxa, col = "definition")
 
 # Example: construct taxonomic resource:
 
@@ -199,7 +164,7 @@ gambelQuail <- tibble(taxName = "Callipepla gambelii")
 
 # Create or update map: a taxa_map.csv is the heart of taxonomyCleanr. This
 # function will build the taxa_map.csv in the path identified with my_path.
-create_taxa_map(path = my_path, x = gambelQuail, col = "taxName") 
+create_taxa_map(path = my_path, x = gambelQuail, col = "taxName")
 
 # Resolve taxa by attempting to match the taxon name (data.source 3 is ITIS but
 # other sources are accessible). Use `resolve_comm_taxa` instead of
@@ -234,11 +199,11 @@ dataset <- create_dataset()
 print(ls(pattern = "_DT"))
 
 if (length(ls(pattern = "_DT")) > 0) {
-  
+
   listOfDataTables <- lapply(ls(pattern = "_DT"), function(DT) { get(DT) } )
-  
-  dataset$dataTable  <- listOfDataTables  
-  
+
+  dataset$dataTable  <- listOfDataTables
+
 }
 
 # or add manually
@@ -255,11 +220,11 @@ if (length(ls(pattern = "_DT")) > 0) {
 print(ls(pattern = "_OE"))
 
 if (length(ls(pattern = "_OE")) > 0) {
-  
+
   listOfOtherEntities <- lapply(ls(pattern = "_OE"), function(OE) { get(OE) } )
-  
-  dataset$otherEntity <- listOfOtherEntities 
-  
+
+  dataset$otherEntity <- listOfOtherEntities
+
 }
 
 # or add manually
@@ -276,11 +241,11 @@ if (length(ls(pattern = "_OE")) > 0) {
 print(ls(pattern = "_SV"))
 
 if (length(ls(pattern = "_SV")) > 0) {
-  
+
   listOfSpatialVectors <- lapply(ls(pattern = "_SV"), function(SV) { get(SV) } )
-  
-  dataset$spatialVector  <- listOfSpatialVectors  
-  
+
+  dataset$spatialVector  <- listOfSpatialVectors
+
 }
 
 # or add manually
@@ -313,19 +278,21 @@ unitList <- set_unitList(
 
 # add literature cited if relevant
 library(rcrossref)
-library(EML)
 
-mccafferty <- cr_cn(dois = "https://doi.org/10.1186/s40317-015-0075-2", format = "bibtex")
-mccaffertycit <- EML::eml$citation(id = "https://doi.org/10.1186/s40317-015-0075-2")
-mccaffertycit$bibtex <- mccafferty 
+pub <- cr_cn(
+  dois = "https://doi.org/10.1186/s40317-015-0075-2",
+  format = "bibtex"
+)
+pub_cit <- EML::eml$citation(id = "https://doi.org/10.1186/s40317-015-0075-2")
+pub_cit$bibtex <- pub
 
 citations <- list(
   citation = list(
-    mccaffertycit
+    pub
   ) # close list of citations
 ) # close citation
 
-dataset$literatureCited <- citations 
+dataset$literatureCited <- citations
 
 ```
 
