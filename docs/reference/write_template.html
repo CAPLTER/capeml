@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>default CAP LTER / GIOS access as EML::access — lterAccess • capeml</title>
+<title>build a template workflow — write_template • capeml</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="default CAP LTER / GIOS access as EML::access — lterAccess" />
-<meta property="og:description" content="default CAP LTER / GIOS access as EML::access" />
+<meta property="og:title" content="build a template workflow — write_template" />
+<meta property="og:description" content="Write a workflow template Rmd file for the capeml workflow" />
 
 
 
@@ -103,22 +103,62 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>default CAP LTER / GIOS access as EML::access</h1>
+    <h1>build a template workflow</h1>
     
-    <div class="hidden name"><code>lterAccess.Rd</code></div>
+    <div class="hidden name"><code>write_template.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>default CAP LTER / GIOS access as EML::access</p>
+    <p>Write a workflow template Rmd file for the capeml workflow</p>
     </div>
 
-    <pre class="usage"><span class='no'>lterAccess</span></pre>
+    <pre class="usage"><span class='fu'>write_template</span>(
+      <span class='no'>path</span>,
+      <span class='no'>packageScopeNumber</span>
+    )</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>packageScopeNumber</th>
+      <td><p>(character) Quoted name of the package scope and number without the
+version number (e.g., "edi.521").</p></td>
+    </tr>
+    <tr>
+      <th>path</th>
+      <td><p>(character) Path to where the data package directory will be created.
+Defaults to the current directory.</p></td>
+    </tr>
+    <tr>
+      <th>overwrite</th>
+      <td><p>(logical) indicates to overwrite an existing file if one exists;
+default = FALSE</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>list</code> of length 8.</p>
+    <p>A Rmarkdown (Rmd) file named with the project scope and number</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p>Existing files named with <code>packageScopeNumber</code>.Rmd at <code>path</code>
+    will not be overwritten unless overwrite is made explicit.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># Template data package directory "edi.521"</span>
+
+<span class='fu'>write_template</span>(
+  <span class='kw'>packageScopeNumber</span> <span class='kw'>=</span> <span class='st'>"edi.521"</span>,
+  <span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>'~/Desktop'</span>
+)
+
+<span class='fu'>write_template</span>(
+  <span class='kw'>packageScopeNumber</span> <span class='kw'>=</span> <span class='st'>"edi.521"</span>
+)
+
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

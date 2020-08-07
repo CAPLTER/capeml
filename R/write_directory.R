@@ -36,8 +36,8 @@
 #' # Template data package directory "edi.521"
 #'
 #' write_directory(
-#'   path = '~/Desktop',
-#'   packageScopeNumber = "edi.521"
+#'   packageScopeNumber = "edi.521",
+#'   path = '~/Desktop'
 #' )
 #'
 #' write_directory(
@@ -55,7 +55,9 @@
 #' @export
 #'
 
-write_directory <- function(packageScopeNumber, path = ".") {
+write_directory <- function(
+  packageScopeNumber,
+  path = ".") {
 
   # stop if directory exists
 
@@ -101,17 +103,9 @@ write_directory <- function(packageScopeNumber, path = ".") {
 
 # generate capeml processing template ------------------------------------------
 
-  file.copy(
-    from = system.file(
-      "/templates/workflow.Rmd",
-      package = "capeml"
-      ),
-    to = paste0(
-      newParent,
-      "/",
-      packageScopeNumber,
-      ".Rmd"
-    )
+  write_template(
+    packageScopeNumber = packageScopeNumber,
+    path = newParent
   )
 
 #   end ------------------------------------------------------------------------

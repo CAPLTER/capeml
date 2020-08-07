@@ -39,8 +39,8 @@ Existing directories named with \code{packageScopeNumber} at \code{path}
 # Template data package directory "edi.521"
 
 write_directory(
-  path = '~/Desktop',
-  packageScopeNumber = "edi.521"
+  packageScopeNumber = "edi.521",
+  path = '~/Desktop'
 )
 
 write_directory(

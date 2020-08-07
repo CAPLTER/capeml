@@ -604,24 +604,25 @@ body {
 
 <h2 id="capeml-tools-to-aid-the-generation-of-eml-metadata">capeml: tools to aid the generation of eml metadata</h2>
 <h3 id="overview">overview</h3>
-<p>This package contains tools to aid the generation of eml metadata with intent to publish a dataset (data + metadata) in the environmental data initiative (edi) data repository. Functions and a template work flow are included that allow for the creation of metadata at the dataset level, and individual data entities (e.g., other entities, data tables).</p>
-<p>Helper functions for the creation of dataset metadata, <code>datatable()</code>, and <code>otherentity()</code> entities using the <a href="https://docs.ropensci.org/eml/">EML</a> package are supported. this package can be extended with the <a href="https://github.com/caplter/capemlgis">capemlgis</a> package to generate metadata for <code>spatialraster()</code> and <code>spatialvector()</code> entities.</p>
+<p>This package contains tools to aid the generation of eml metadata with intent to publish a dataset (data + metadata) in the Environmental Data Initiative (edi) data repository. Functions and a template work flow are included that allow for the creation of metadata at the dataset level, and individual data entities (e.g., other entities, data tables).</p>
+<p>Helper functions for the creation of dataset metadata, <code>datatable()</code>, and <code>otherentity()</code> entities using the <a href="https://docs.ropensci.org/eml/">EML</a> package are supported. This package can be extended with the <a href="https://github.com/caplter/capemlgis">capemlGIS</a> package to generate metadata for <code>spatialraster()</code> and <code>spatialvector()</code> entities.</p>
 <p>Note that the creation of people-related entities in the templated work flow (see below) are specific to functions that rely on Global Institute of Sustainability infrastructure; other users should add people using the list structure provided by ROpenSci’s <a href="https://docs.ropensci.org/eml/">EML</a>.</p>
-<p>A template work flow to generating a complete EML record is included with this package. The template is automatically generated if a new project is created with <code>write_directory</code>, which also generates a <code>config.yaml</code> file and new directory, or can be copied from the template directory of the package.</p>
+<p>A template work flow to is included with this package. The template is automatically generated if a new project is created with <code>write_directory</code>, which also generates a <code>config.yaml</code> file and new directory, or with the <code>write_template</code> function. For Vim users, additional resources for templating are available through <a href="https://gitlab.com/caplter/capeml-vim">capeml-vim</a>.</p>
 <h3 id="installation">installation</h3>
 <p>Install from GitHub (after installing the <a href="https://cran.r-project.org/web/packages/devtools/index.html">devtools</a> package:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;CAPLTER/capeml&quot;</span>)</a></code></pre></div>
 <h3 id="options">options</h3>
 <h4 id="eml">EML</h4>
-<p>This package defaults to the current version of EML. If desired, users can switch to the previous version with <code>emld::eml_version(&quot;eml-2.1.1&quot;)</code>.</p>
+<p>This package defaults to the current version of EML. Users can switch to the previous version with <code>emld::eml_version(&quot;eml-2.1.1&quot;)</code>.</p>
 <h4 id="project-naming">project naming</h4>
 <p>Most EML-generating functions in the capeml and capemlGIS packages will create both physical objects and EML references to those objects with the format: <code>project-id</code>_<code>object-name</code>_<code>object-hash</code>.<code>file-extension</code> (e.g., <em>664_site_map_5fb7b8d53d48010eab1a2e73db7f1941.png</em>). The target object (e.g., site_map.png from the previous example) is renamed with the additional metadata and this object name is referenced in the EML metadata. The only exception to this approach are spatialVectors (see capemlGIS) where the hash of the file/object is not included in the new object name. Note that the project-id is not passed to any of the functions, and must exist in <code>config.yaml</code> (as <code>projectid</code>).</p>
 <p>Project-naming functionality can be turned off by setting the <code>projectNaming</code> option in <code>create_dataTable()</code> and <code>create_spatialRaster()</code> (also <code>create_spatialVector()</code> and <code>create_otherEntity()</code> from capemlGIS) to FALSE. When set to FALSE, the object name is not changed, and the file name of the object is included in the EML.</p>
 <h3 id="getting-started">getting started</h3>
 <h4 id="new-projects">new projects</h4>
-<p>For new projects, <code>write_directory</code> will create a project directory at the current (default) or specified path. The package scope and dataset number (e.g., knb-lter-cap.652) is passed as an argument, with the package identifier (sans the version number) becoming the directory name. Within the newly created directory, a template work flow with the project directory name is generated and a <code>config.yaml</code>. In <code>config.yaml</code>, the dataset number and dataset package identifier are generated as parameters. New projects assume a version number = 1, from which the package identifier (as <code>packageIdent</code>) is generated in <code>config.yaml</code>.</p>
+<p>For new projects, <code>write_directory</code> will create a project directory at the current (default) or specified path. The package scope and number (e.g., edi.521) is passed as an argument, with the package identifier (sans the version number) becoming the directory name. Within the newly created directory, a template work flow as an Rmarkdown (Rmd) file with the package scope and number is generated and a <code>config.yaml</code>. In <code>config.yaml</code>, the package number and package identifier are generated as parameters. New projects assume a version number = 1, from which the package identifier (as <code>packageIdent</code>) is generated in <code>config.yaml</code>.</p>
 <h4 id="existing-projects">existing projects</h4>
-<p>For existing projects, if <code>config.yaml</code> does not already exist, <code>write_config</code> will generate <code>config.yaml</code> with the package identifier and dataset number (e.g., knb-lter-cap.652) passed as an argument to the function. A version number (default = 1) can be passed as a separate argument.</p>
+<p>For existing projects, if <code>config.yaml</code> does not already exist, <code>write_config</code> will generate <code>config.yaml</code> with the package scope and number (e.g., edi.521) passed as an argument to the function. A version number (default = 1) can be passed as a separate argument.</p>
+<p>A template work flow as an Rmarkdown (Rmd) file named with the package scope and number can be generated independently with the <code>write_template</code> function.</p>
 <h3 id="tools-to-generate-entity-metadata">tools to generate entity metadata</h3>
 <ul>
 <li><code>write_attributes()</code> creates a template as a csv file for supplying attribute metadata for a tabular data object that resides in the R environment</li>
@@ -634,7 +635,7 @@ body {
 </ul>
 <h3 id="construct-a-dataset">construct a dataset</h3>
 <h4 id="project-details-dataset-package-number-and-package-identifier">project details: dataset package number and package identifier</h4>
-<p>The dataset number (e.g., 520) is read from the <code>packageNum</code> parameter of <code>config.yaml</code>. The package identifier (e.g. knb-lter-cap.521.4) is read from the <code>packageIdent</code> parameter of <code>config.yaml</code>.</p>
+<p>The dataset number (e.g., 521) is read from the <code>packageNum</code> parameter of <code>config.yaml</code>. The package identifier (e.g. edi.521.4) is read from the <code>packageIdent</code> parameter of <code>config.yaml</code>.</p>
 <h4 id="title">title</h4>
 <p>The dataset title is read from the <code>title</code> parameter of <code>config.yaml</code>. The title can be quoted or unquoted but must be quoted if the title contains a colon.</p>
 <h4 id="abstract">abstract</h4>
@@ -642,7 +643,8 @@ body {
 <h4 id="keywords">keywords</h4>
 <p><code>write_keywords()</code> creates a template as a csv file for supplying dataset keywords. The <code>create_dataset</code> function will look for a <code>keywords.csv</code> file in the working directory or at the path provided if specified.</p>
 <h4 id="methods">methods</h4>
-<p>The <code>create_dataset</code> function will look for a <code>methods.md</code> file in the working directory or at the path provided if specified (<code>methods.md</code> must be a markdown file). Alternatively, the work flow below is an enhanced approach of developing methods if provenance data are required or there are multiple methods files. If <code>enhancedMethods</code> exists, it will override arguments passed to <code>methodsFile</code> in <code>create_dataset</code>.</p>
+<p>The <code>create_dataset</code> function will look for a <code>methods.md</code> file in the working directory or at the path provided if specified (<code>methods.md</code> must be a markdown file).</p>
+<p>Alternatively, the work flow below is an enhanced approach of developing methods if provenance data are required or there are multiple methods files. If <code>enhancedMethods</code> exists, it will override arguments passed to <code>methodsFile</code> in <code>create_dataset</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">library</span>(EDIutils)</a>
 <a class="sourceLine" id="cb2-2" title="2"></a>
 <a class="sourceLine" id="cb2-3" title="3"><span class="co"># methods from file tagged as markdown</span></a>
@@ -709,27 +711,39 @@ body {
 <li>a EML object of type dataTable is returned</li>
 <li>note that the data entity name should be used consistently within the chunk, and the resulting dataTable entity should have the name: <em>data_entity_DT</em></li>
 </ul>
+<p><em>create_dataTable example: my_table</em></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">my_table &lt;-<span class="st"> </span>import <span class="op">/</span><span class="st"> </span>generate...process...</a>
+<a class="sourceLine" id="cb4-2" title="2"></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="kw">write_attributes</span>(my_table)</a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="kw">write_factors</span>(my_table)</a>
+<a class="sourceLine" id="cb4-5" title="5"></a>
+<a class="sourceLine" id="cb4-6" title="6">my_table_desc &lt;-<span class="st"> &quot;description of table&quot;</span></a>
+<a class="sourceLine" id="cb4-7" title="7"></a>
+<a class="sourceLine" id="cb4-8" title="8">my_table_DT &lt;-<span class="st"> </span><span class="kw">create_dataTable</span>(</a>
+<a class="sourceLine" id="cb4-9" title="9">  <span class="dt">dfname =</span> my_table,</a>
+<a class="sourceLine" id="cb4-10" title="10">  <span class="dt">description =</span> my_table_desc</a>
+<a class="sourceLine" id="cb4-11" title="11">)</a></code></pre></div>
 <h3 id="overview-create-a-otherentity">overview: create a otherEntity</h3>
 <p>A EML object of type otherEntity can be created from a single file or a directory. In the case of generating a otherEntity object from a directory, pass the directory path to the targetFile argument, capeml will recognize the target as a directory, and create a zipped file of the identified directory.</p>
 <p>If the otherEntity object already is a zip file with the desired name, set the overwrite argument to FALSE to prevent overwriting the existing object.</p>
 <p>As with all objects created with the capeml package, the resulting object is named with convention: projectid_object-name_md5sum-hash.file extension by default but this functionality can be turned off by setting projectNaming to FALSE.</p>
 <h3 id="literature-cited">literature cited</h3>
 <p>Though not provided as a function, below is a work flow for adding literature cited elements at the dataset level. The work flow capitalizes on EML version 2.2 that accepts the BibTex format for references.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># add literature cited if relevant</span></a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="kw">library</span>(rcrossref)</a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="kw">library</span>(EML)</a>
-<a class="sourceLine" id="cb4-4" title="4"></a>
-<a class="sourceLine" id="cb4-5" title="5">mccafferty &lt;-<span class="st"> </span><span class="kw">cr_cn</span>(<span class="dt">dois =</span> <span class="st">&quot;https://doi.org/10.1186/s40317-015-0075-2&quot;</span>, <span class="dt">format =</span> <span class="st">&quot;bibtex&quot;</span>)</a>
-<a class="sourceLine" id="cb4-6" title="6">mccaffertycit &lt;-<span class="st"> </span>EML<span class="op">::</span>eml<span class="op">$</span><span class="kw">citation</span>(<span class="dt">id =</span> <span class="st">&quot;https://doi.org/10.1186/s40317-015-0075-2&quot;</span>)</a>
-<a class="sourceLine" id="cb4-7" title="7">mccaffertycit<span class="op">$</span>bibtex &lt;-<span class="st"> </span>mccafferty</a>
-<a class="sourceLine" id="cb4-8" title="8"></a>
-<a class="sourceLine" id="cb4-9" title="9">citations &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb4-10" title="10">  <span class="dt">citation =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb4-11" title="11">    mccaffertycit</a>
-<a class="sourceLine" id="cb4-12" title="12">  ) <span class="co"># close list of citations</span></a>
-<a class="sourceLine" id="cb4-13" title="13">) <span class="co"># close citation</span></a>
-<a class="sourceLine" id="cb4-14" title="14"></a>
-<a class="sourceLine" id="cb4-15" title="15">dataset<span class="op">$</span>literatureCited &lt;-<span class="st"> </span>citations</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># add literature cited if relevant</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="kw">library</span>(rcrossref)</a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="kw">library</span>(EML)</a>
+<a class="sourceLine" id="cb5-4" title="4"></a>
+<a class="sourceLine" id="cb5-5" title="5">pub &lt;-<span class="st"> </span><span class="kw">cr_cn</span>(<span class="dt">dois =</span> <span class="st">&quot;https://doi.org/10.1186/s40317-015-0075-2&quot;</span>, <span class="dt">format =</span> <span class="st">&quot;bibtex&quot;</span>)</a>
+<a class="sourceLine" id="cb5-6" title="6">pub_cit &lt;-<span class="st"> </span>EML<span class="op">::</span>eml<span class="op">$</span><span class="kw">citation</span>(<span class="dt">id =</span> <span class="st">&quot;https://doi.org/10.1186/s40317-015-0075-2&quot;</span>)</a>
+<a class="sourceLine" id="cb5-7" title="7">pub_cit<span class="op">$</span>bibtex &lt;-<span class="st"> </span>mccafferty</a>
+<a class="sourceLine" id="cb5-8" title="8"></a>
+<a class="sourceLine" id="cb5-9" title="9">citations &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb5-10" title="10">  <span class="dt">citation =</span> <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb5-11" title="11">    pub</a>
+<a class="sourceLine" id="cb5-12" title="12">  ) <span class="co"># close list of citations</span></a>
+<a class="sourceLine" id="cb5-13" title="13">) <span class="co"># close citation</span></a>
+<a class="sourceLine" id="cb5-14" title="14"></a>
+<a class="sourceLine" id="cb5-15" title="15">dataset<span class="op">$</span>literatureCited &lt;-<span class="st"> </span>citations</a></code></pre></div>
 
 </body>
 </html>

@@ -2,7 +2,7 @@
 % Please edit documentation in R/write_keywords.R
 \name{write_keywords}
 \alias{write_keywords}
-\title{write_keywords}
+\title{write a keywords template file}
 \usage{
 write_keywords(overwrite = FALSE)
 }

@@ -1,4 +1,4 @@
-#' @title write_keywords
+#' @title write a keywords template file
 #'
 #' @description write_keywords creates a template as a csv file for supplying
 #'   dataset keywords. The template csv file is pre-populated with CAP
@@ -26,10 +26,13 @@
 
 write_keywords <- function(overwrite = FALSE) {
 
-  if(file.exists('keywords.csv') && overwrite == FALSE) { stop("file keywords.csv already exists, use write_keywords(overwrite = TRUE) to overwrite") }
+  if(file.exists("keywords.csv") && overwrite == FALSE) {
+    stop("keywords.csv already exists - set overwrite = TRUE to overwrite")
+  }
 
   tibble(
     thesaurus = c(
+      "LTER controlled vocabulary",
       "LTER controlled vocabulary",
       "LTER core areas",
       "Creator Defined Keyword Set",
@@ -41,6 +44,7 @@ write_keywords <- function(overwrite = FALSE) {
       "CAPLTER Keyword Set List",
       "CAPLTER Keyword Set List"),
     keyword = c(
+      "urban",
       NA,
       NA,
       NA,
@@ -53,6 +57,7 @@ write_keywords <- function(overwrite = FALSE) {
       "arid land"
     ),
     type = c(
+      "theme",
       NA,
       NA,
       NA,
@@ -64,6 +69,6 @@ write_keywords <- function(overwrite = FALSE) {
       "place",
       "theme"
     )
-  ) %>% write_csv('keywords.csv')
+  ) %>% write_csv("keywords.csv")
 
 }
