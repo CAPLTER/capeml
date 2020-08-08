@@ -25,7 +25,7 @@ Note that the creation of people-related entities in the templated work flow
 Sustainability infrastructure; other users should add people using the list
 structure provided by ROpenSci's [EML](https://docs.ropensci.org/eml/). 
 
-A template work flow to is included with this package. The template is
+A template work flow is available as part of this package. The template is
 automatically generated if a new project is created with `write_directory`,
 which also generates a `config.yaml` file and new directory, or with the
 `write_template` function. For Vim users, additional resources for templating
@@ -64,7 +64,7 @@ not passed to any of the functions, and must exist in `config.yaml` (as
 
 Project-naming functionality can be turned off by setting the `projectNaming`
 option in `create_dataTable()` and `create_spatialRaster()` (also
-`create_spatialVector()` and `create_otherEntity()` from capemlGIS) to FALSE.
+`create_spatialVector()` and `create_spatialRaster()` from capemlGIS) to FALSE.
 When set to FALSE, the object name is not changed, and the file name of the
 object is included in the EML.
 
@@ -77,11 +77,19 @@ current (default) or specified path. The package scope and number (e.g.,
 edi.521) is passed as an argument, with the package identifier (sans the
 version number) becoming the directory name. Within the newly created
 directory, a template work flow as an Rmarkdown (Rmd) file with the package
-scope and number is generated and a `config.yaml`. In `config.yaml`, the
-package number and package identifier are generated as parameters. New projects
-assume a version number = 1, from which the package identifier (as
-`packageIdent`) is generated in `config.yaml`.
+scope and number as the file name is generated and a `config.yaml`. In
+`config.yaml`, the package number and package identifier are generated as
+parameters. New projects assume a version number = 1, from which the package
+identifier (as `packageIdent`) is generated in `config.yaml`.
 
+Creating a new project from the command line (*sensu* below) then opening it
+with R is a convenient approach.
+
+*create project from command line*
+
+```{r project-cli, eval=FALSE}
+R --vanilla -e 'capeml::write_directory(packageScopeNumber="edi.521")'
+```
 
 #### existing projects
 
@@ -149,7 +157,7 @@ methods if provenance data are required or there are multiple methods files. If
 library(EDIutils)
 
 # methods from file tagged as markdown
-main <- read_markdown("~/Dropbox/development/knb-lter-cap.683/methods.md")
+main <- read_markdown("methods.md")
 
 # provenance: naip
 naip <- emld::as_emld(EDIutils::api_get_provenance_metadata("knb-lter-cap.623.1"))
@@ -167,9 +175,9 @@ enhancedMethods <- EML::eml$methods(methodStep = list(main, naip, landSurfaceTem
 
 #### coverages
 
-*Geographic* and *temporal* coverages are straight foward and
-documented in the work flow, but creating a *taxonomic* coverage is more
-involved. *Taxonomic coverage(s)* are constructed using EDI's
+*Geographic* and *temporal* coverages are straight foward and documented in the
+work flow, but creating a *taxonomic* coverage is more involved. *Taxonomic
+coverage(s)* are constructed using EDI's
 [taxonomyCleanr](https://github.com/EDIorg/taxonomyCleanr) tool suite.
 
 A sample work flow for creating a taxonomic coverage:
@@ -231,12 +239,12 @@ details of factor levels can be added via a editor or spreadsheet application.
 `create_dataTable(data_entity)` performs many services:
 
 * the data entity is written to file as a csv in the working directory with the
-file name: *projectid_data-entity-name_md5-hash-of-file.csv*
+  file name: *projectid_data-entity-name_md5-hash-of-file.csv*
 * metadata provided in the attributes and factors (if relevant) templates are
 ingested
-* a EML object of type dataTable is returned
-* note that the data entity name should be used consistently within the chunk,
-and the resulting dataTable entity should have the name: *data_entity_DT*
+* a EML object of type dataTable is returned note that the data entity name
+  should be used consistently within the chunk, and the resulting dataTable
+  entity should have the name: *data_entity_DT*
 
 *create_dataTable example: my_table*
 
@@ -282,9 +290,12 @@ cited elements at the dataset level. The work flow capitalizes on EML version
 library(rcrossref)
 library(EML)
 
-pub <- cr_cn(dois = "https://doi.org/10.1186/s40317-015-0075-2", format = "bibtex")
+pub <- cr_cn(
+  dois = "https://doi.org/10.1186/s40317-015-0075-2",
+  format = "bibtex"
+)
 pub_cit <- EML::eml$citation(id = "https://doi.org/10.1186/s40317-015-0075-2")
-pub_cit$bibtex <- mccafferty
+pub_cit$bibtex <- pub
 
 citations <- list(
   citation = list(
