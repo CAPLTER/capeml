@@ -23,7 +23,9 @@ Imports:
     taxize,
     tibble,
     tools,
-    yaml
+    yaml,
+    sf,
+    stats
 RoxygenNote: 7.1.1
 Suggests: knitr,
     rmarkdown
