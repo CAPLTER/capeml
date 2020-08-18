@@ -19,6 +19,9 @@
 #'
 #' @import dplyr
 #' @importFrom purrr map_chr
+#' @importFrom sf st_drop_geometry
+#' @importFrom utils write.csv
+#' @importFrom stats na.omit
 #'
 #' @return The name of the file generated is returned, and a template for
 #'   providing attribute metadata as a csv file with the file name of the R data
@@ -50,6 +53,12 @@ write_attributes <- function(dfname, overwrite = FALSE) {
   # when we write attributes from a spatial file, column classes can be vectors.
   # as such, we need to pull the first entity only
   check_class <- function(x) { class(x)[[1]] }
+
+  # if simple features, do not write include geometry colums
+  if (class(dfname)[[1]] == "sf") {
+    dfname <- dfname %>%
+      sf::st_drop_geometry()
+  }
 
   # set up the data frame for metadata
   rows <- ncol(dfname)

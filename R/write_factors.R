@@ -38,6 +38,7 @@
 #'   directory should be overwritten.
 #'
 #' @import dplyr
+#' @importFrom utils write.csv
 #'
 #' @return The name of the file generated is returned, and a template for
 #'   providing code definition metadata as a csv file with the file name of the

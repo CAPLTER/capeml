@@ -50,6 +50,7 @@
 #' @importFrom purrr map_df
 #' @importFrom tibble tibble add_row
 #' @importFrom yaml yaml.load_file
+#' @importFrom utils write.csv
 #'
 #' @return EML dataTable object is returned. Additionally, the data entity is
 #'  written to file as type csv, and renamed with the package number + base file
