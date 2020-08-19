@@ -46,15 +46,15 @@ write_config <- function(
   id <- regmatches(
     x = packageScopeNumber,
     m = regexpr(
-      pattern = "\\d{3,}",
+      pattern = "\\d{2,}",
       text = packageScopeNumber,
       perl = TRUE)
   )
 
+  id <- as.integer(id)
+
   if (nchar(id) != 3) {
-    stop("3-digit project number not found")
-  } else {
-    id <- as.integer(id)
+    message("caution: project number is not the expected number of digits (3)")
   }
 
   fullIdentifier <- paste0(packageScopeNumber, ".", version)
