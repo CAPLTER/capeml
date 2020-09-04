@@ -24,7 +24,7 @@ projectTitle <- "Advancing soil organic matter research: Synthesizing multi-scal
 # William R. Wieder
 
 willOrcid <- EML::eml$userId(directory = "https://orcid.org")
-willOrcid$userId <- "https://orcid.org/0000-0001-7116-1985"
+willOrcid$userId <- "0000-0001-7116-1985"
 
 will <- EML::eml$personnel(
   individualName = EML::eml$individualName(
@@ -39,7 +39,7 @@ will <- EML::eml$personnel(
 # Kate Lajtha
 
 kateOrcid <- EML::eml$userId(directory = "https://orcid.org")
-kateOrcid$userId <- "https://orcid.org/0000-0002-6430-4818"
+kateOrcid$userId <- "0000-0002-6430-4818"
 
 kate <- EML::eml$personnel(
   individualName = EML::eml$individualName(
