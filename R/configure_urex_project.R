@@ -24,7 +24,7 @@ projectTitle <- 'Urban resilience to extreme weather related events'
 # Charles Redman
 
 chuckOrcid <- EML::eml$userId(directory = "https://orcid.org")
-chuckOrcid$userId <- "https://orcid.org/0000-0001-7193-7368"
+chuckOrcid$userId <- "0000-0001-7193-7368"
 
 chuck <- EML::eml$personnel(
   individualName = EML::eml$individualName(
@@ -39,7 +39,7 @@ chuck <- EML::eml$personnel(
 # Nancy Grimm
 
 nancyOrcid <- EML::eml$userId(directory = "https://orcid.org")
-nancyOrcid$userId <- "https://orcid.org/0000-0001-9374-660X"
+nancyOrcid$userId <- "0000-0001-9374-660X"
 
 nancy <- EML::eml$personnel(
   individualName = EML::eml$individualName(
@@ -54,7 +54,7 @@ nancy <- EML::eml$personnel(
 # P. Timon McPhearson
 
 timonOrcid <- EML::eml$userId(directory = "https://orcid.org")
-timonOrcid$userId <- "https://orcid.org/0000-0002-9499-0791"
+timonOrcid$userId <- "0000-0002-9499-0791"
 
 timon <- EML::eml$personnel(
   individualName = EML::eml$individualName(
@@ -84,7 +84,7 @@ tischa <- EML::eml$personnel(
 # Mikhail Chester
 
 mikhailOrcid <- EML::eml$userId(directory = "https://orcid.org")
-mikhailOrcid$userId <- "https://orcid.org/0000-0002-9354-2102"
+mikhailOrcid$userId <- "0000-0002-9354-2102"
 
 mikhail <- EML::eml$personnel(
   individualName = EML::eml$individualName(

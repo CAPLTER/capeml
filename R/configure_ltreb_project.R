@@ -26,7 +26,7 @@ projectTitle <- "Multiscale effects of climate variability and change on hydrolo
 # Nancy Grimm
 
 nancyOrcid <- EML::eml$userId(directory = "https://orcid.org")
-nancyOrcid$userId <- "https://orcid.org/0000-0001-9374-660X"
+nancyOrcid$userId <- "0000-0001-9374-660X"
 
 nancy <- EML::eml$personnel(
   individualName = EML::eml$individualName(
@@ -41,7 +41,7 @@ nancy <- EML::eml$personnel(
 # John Sabo
 
 johnOrcid <- EML::eml$userId(directory = "https://orcid.org")
-johnOrcid$userId <- "https://orcid.org/0000-0001-5259-0709"
+johnOrcid$userId <- "0000-0001-5259-0709"
 
 john <- EML::eml$personnel(
   individualName = EML::eml$individualName(

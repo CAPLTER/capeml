@@ -28,7 +28,7 @@ projectTitle <- 'Central Arizona\u2013Phoenix Long-Term Ecological Research Proj
 # Dan Childers
 
 danOrcid <- EML::eml$userId(directory = "https://orcid.org")
-danOrcid$userId <- "https://orcid.org/0000-0003-3904-0803"
+danOrcid$userId <- "0000-0003-3904-0803"
 
 dan <- EML::eml$personnel(
   individualName = EML::eml$individualName(
@@ -43,7 +43,7 @@ dan <- EML::eml$personnel(
 # Nancy Grimm
 
 nancyOrcid <- EML::eml$userId(directory = "https://orcid.org")
-nancyOrcid$userId <- "https://orcid.org/0000-0001-9374-660X"
+nancyOrcid$userId <- "0000-0001-9374-660X"
 
 nancy <- EML::eml$personnel(
   individualName = EML::eml$individualName(
@@ -58,7 +58,7 @@ nancy <- EML::eml$personnel(
 # Sharon Hall
 
 sharonOrcid <- EML::eml$userId(directory = "https://orcid.org")
-sharonOrcid$userId <- "https://orcid.org/0000-0002-8859-6691"
+sharonOrcid$userId <- "0000-0002-8859-6691"
 
 sharon <- EML::eml$personnel(
   individualName = EML::eml$individualName(
@@ -73,7 +73,7 @@ sharon <- EML::eml$personnel(
 # Billie Turner
 
 billieOrcid <- EML::eml$userId(directory = "https://orcid.org")
-billieOrcid$userId <- "https://orcid.org/0000-0002-6507-521X"
+billieOrcid$userId <- "0000-0002-6507-521X"
 
 billie <- EML::eml$personnel(
   individualName = EML::eml$individualName(
@@ -88,7 +88,7 @@ billie <- EML::eml$personnel(
 # Abby York
 
 abbyOrcid <- EML::eml$userId(directory = "https://orcid.org")
-abbyOrcid$userId <- "https://orcid.org/0000-0002-2313-9262"
+abbyOrcid$userId <- "0000-0002-2313-9262"
 
 abby <- EML::eml$personnel(
   individualName = EML::eml$individualName(
