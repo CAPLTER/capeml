@@ -25,7 +25,8 @@ Imports:
     tools,
     yaml,
     sf,
-    stats
+    stats,
+    rcrossref
 RoxygenNote: 7.1.1
 Suggests: knitr,
     rmarkdown

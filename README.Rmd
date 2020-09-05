@@ -280,26 +280,20 @@ FALSE.
 
 ### literature cited
 
-Though not provided as a function, below is a work flow for adding literature
-cited elements at the dataset level. The work flow capitalizes on EML version
-2.2 that accepts the BibTex format for references.
+Below is a sample work flow that uses `capeml`'s `create_citation` function to
+generate citations by passing a resource DOI to crossref. Citations can be
+added to EML `literatureCited`. The work flow capitalizes on EML version 2.2
+that accepts the BibTex format for references.
 
 ```{r dataset-level-citations, eval=FALSE}
 
-# add literature cited if relevant
-library(rcrossref)
-library(EML)
-
-pub <- cr_cn(
-  dois = "https://doi.org/10.1186/s40317-015-0075-2",
-  format = "bibtex"
-)
-pub_cit <- EML::eml$citation(id = "https://doi.org/10.1186/s40317-015-0075-2")
-pub_cit$bibtex <- pub
+cook <- create_citation("https://doi.org/10.1016/j.envpol.2018.04.013")
+sartory <- create_citation("https://doi.org/10.1007/BF00031869")
 
 citations <- list(
   citation = list(
-    pub
+    cook,
+    sartory
   ) # close list of citations
 ) # close citation
 
