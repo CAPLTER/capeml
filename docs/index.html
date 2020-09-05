@@ -258,21 +258,14 @@
 <div id="literature-cited" class="section level3">
 <h3 class="hasAnchor">
 <a href="#literature-cited" class="anchor"></a>literature cited</h3>
-<p>Though not provided as a function, below is a work flow for adding literature cited elements at the dataset level. The work flow capitalizes on EML version 2.2 that accepts the BibTex format for references.</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="co"># add literature cited if relevant</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rcrossref</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">EML</span>)
-
-<span class="no">pub</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/rcrossref/reference/cr_cn.html">cr_cn</a></span>(
-  <span class="kw">dois</span> <span class="kw">=</span> <span class="st">"https://doi.org/10.1186/s40317-015-0075-2"</span>,
-  <span class="kw">format</span> <span class="kw">=</span> <span class="st">"bibtex"</span>
-)
-<span class="no">pub_cit</span> <span class="kw">&lt;-</span> <span class="kw pkg">EML</span><span class="kw ns">::</span><span class="no"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span>$<span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="kw">id</span> <span class="kw">=</span> <span class="st">"https://doi.org/10.1186/s40317-015-0075-2"</span>)
-<span class="no">pub_cit</span>$<span class="no">bibtex</span> <span class="kw">&lt;-</span> <span class="no">pub</span>
+<p>Below is a sample work flow that uses <code>capeml</code>’s <code>create_citation</code> function to generate citations by passing a resource DOI to crossref. Citations can be added to EML <code>literatureCited</code>. The work flow capitalizes on EML version 2.2 that accepts the BibTex format for references.</p>
+<div class="sourceCode" id="cb6"><pre class="r"><span class="no">cook</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span>(<span class="st">"https://doi.org/10.1016/j.envpol.2018.04.013"</span>)
+<span class="no">sartory</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span>(<span class="st">"https://doi.org/10.1007/BF00031869"</span>)
 
 <span class="no">citations</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
   <span class="kw">citation</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="no">pub</span>
+    <span class="no">cook</span>,
+    <span class="no">sartory</span>
   ) <span class="co"># close list of citations</span>
 ) <span class="co"># close citation</span>
 
