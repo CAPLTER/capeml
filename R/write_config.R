@@ -62,7 +62,10 @@ write_config <- function(
   dataset_params <- list(
     packageNum = id,
     packageIdent = fullIdentifier,
-    title = "title"
+    title = "title",
+    geographicCoverage = list(
+      geographicDescription = "CAP LTER study area: greater Phoenix, Arizona (USA) metropolitan area and surrounding Sonoran desert region"
+    )
   )
 
   yaml::write_yaml(
