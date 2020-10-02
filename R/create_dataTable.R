@@ -45,12 +45,11 @@
 #'
 #' @import EML
 #' @import dplyr
-#' @importFrom readr read_csv
 #' @importFrom tools md5sum file_ext
 #' @importFrom purrr map_df
 #' @importFrom tibble tibble add_row
 #' @importFrom yaml yaml.load_file
-#' @importFrom utils write.csv
+#' @importFrom utils write.csv read.csv
 #'
 #' @return EML dataTable object is returned. Additionally, the data entity is
 #'  written to file as type csv, and renamed with the package number + base file
@@ -103,7 +102,7 @@ create_dataTable <- function(dfname,
   # filename, is removed from the directory.
   namestr <- deparse(substitute(dfname))
   write.csv(dfname, paste0(namestr, ".csv"), row.names = F, eol = "\r\n")
-  fname <- paste0(packageNum, "_", namestr, "_", md5sum(paste0(namestr,".csv")), ".csv")
+  fname <- paste0(packageNum, "_", namestr, "_", tools::md5sum(paste0(namestr, ".csv")), ".csv")
   write.csv(dfname, fname, row.names = F, eol = "\r\n")
   file.remove(paste0(namestr, ".csv"))
 
@@ -160,7 +159,7 @@ create_dataTable <- function(dfname,
 
   # Read the attributes file and extract classes into its own vector then delete
   # from attrs data frame (as required by rEML)
-  attrs <- read_csv(paste0(namestr, "_attrs.csv"))
+  attrs <- utils::read.csv(paste0(namestr, "_attrs.csv"))
   classes <- attrs %>% pull(columnClasses) # column classes to vector (req'd by set_attributes)
   attrs <- attrs %>% dplyr::select(-columnClasses) # remove col classes from attrs (req'd by set_attributes)
 
@@ -168,16 +167,14 @@ create_dataTable <- function(dfname,
   # condition: factors present, missing values not present
   if (file.exists(paste0(namestr, "_factors.csv")) & nrow(mvframe) == 0) {
 
-    df_factors <- read_csv(paste0(namestr, "_factors.csv"),
-                           col_types = cols()) # to suppress tibble output
+    df_factors <- utils::read.csv(paste0(namestr, "_factors.csv"))
 
     attr_list <- set_attributes(attributes = attrs, factors = df_factors, col_classes = classes)
 
     # condition: factors present, missing values present
   } else if (file.exists(paste0(namestr, "_factors.csv")) & nrow(mvframe) >= 1) {
 
-    df_factors <- read_csv(paste0(namestr, "_factors.csv"),
-                           col_types = cols()) # to suppress tibble output
+    df_factors <- utils::read.csv(paste0(namestr, "_factors.csv"))
 
     attr_list <- set_attributes(attributes = attrs, factors = df_factors, col_classes = classes, missingValues = mvframe)
 

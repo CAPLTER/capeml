@@ -93,7 +93,7 @@ capContact <- EML::eml$contact(
 
 #' @title giosLanguage: default language (english) passed to EML-generating workflow
 #' @export giosLanguage
-giosLanguage <- 'english'
+giosLanguage <- "english"
 
 
 # intellectual rights -----------------------------------------------------
@@ -106,7 +106,7 @@ capRights <- 'This data package is released to the "public domain" under Creativ
 # access ------------------------------------------------------------------
 
 allow_cap <- EML::eml$allow(
-  principal = "uid=CAP,o=LTER,dc=ecoinformatics,dc=org",
+  principal = "uid=CAP,o=EDI,dc=edirepository,dc=org",
   permission = "all")
 
 allow_public <- EML::eml$allow(

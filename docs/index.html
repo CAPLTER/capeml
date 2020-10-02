@@ -78,7 +78,8 @@
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>installation</h3>
 <p>Install from GitHub (after installing the <a href="https://cran.r-project.org/web/packages/devtools/index.html">devtools</a> package:</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"CAPLTER/capeml"</span>)</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"CAPLTER/capeml"</span><span class="op">)</span></pre></div>
 </div>
 <div id="options" class="section level3">
 <h3 class="hasAnchor">
@@ -104,7 +105,7 @@
 <p>For new projects, <code>write_directory</code> will create a project directory at the current (default) or specified path. The package scope and number (e.g., edi.521) is passed as an argument, with the package identifier (sans the version number) becoming the directory name. Within the newly created directory, a template work flow as an Rmarkdown (Rmd) file with the package scope and number as the file name is generated and a <code>config.yaml</code>. In <code>config.yaml</code>, the package number and package identifier are generated as parameters. New projects assume a version number = 1, from which the package identifier (as <code>packageIdent</code>) is generated in <code>config.yaml</code>.</p>
 <p>Creating a new project from the command line (<em>sensu</em> below) then opening it with R is a convenient approach.</p>
 <p><em>create project from command line</em></p>
-<div class="sourceCode" id="cb2"><pre class="r">R --vanilla -e 'capeml::write_directory(packageScopeNumber="edi.521")'</pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">R <span class="op">--</span>vanilla <span class="op">-</span>e <span class="st">'capeml::write_directory(packageScopeNumber="edi.521")'</span></a></code></pre></div>
 </div>
 <div id="existing-projects" class="section level4">
 <h4 class="hasAnchor">
@@ -161,64 +162,66 @@
 <a href="#methods" class="anchor"></a>methods</h4>
 <p>The <code>create_dataset</code> function will look for a <code>methods.md</code> file in the working directory or at the path provided if specified (<code>methods.md</code> must be a markdown file).</p>
 <p>Alternatively, the work flow below is an enhanced approach of developing methods if provenance data are required or there are multiple methods files. If <code>enhancedMethods</code> exists, it will override arguments passed to <code>methodsFile</code> in <code>create_dataset</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">EDIutils</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EDIorg/EDIutils">EDIutils</a></span><span class="op">)</span>
 
 <span class="co"># methods from file tagged as markdown</span>
-<span class="no">main</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/read_markdown.html">read_markdown</a></span>(<span class="st">"methods.md"</span>)
+<span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_markdown.html">read_markdown</a></span><span class="op">(</span><span class="st">"methods.md"</span><span class="op">)</span>
 
 <span class="co"># provenance: naip</span>
-<span class="no">naip</span> <span class="kw">&lt;-</span> <span class="kw pkg">emld</span><span class="kw ns">::</span><span class="fu"><a href="https://docs.ropensci.org/emld/reference/as_emld.html">as_emld</a></span>(<span class="kw pkg">EDIutils</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/EDIutils/man/api_get_provenance_metadata.html">api_get_provenance_metadata</a></span>(<span class="st">"knb-lter-cap.623.1"</span>))
-<span class="no">naip</span>$<span class="no">`@context`</span> <span class="kw">&lt;-</span> <span class="kw">NULL</span>
-<span class="no">naip</span>$<span class="no">`@type`</span> <span class="kw">&lt;-</span> <span class="kw">NULL</span>
+<span class="va">naip</span> <span class="op">&lt;-</span> <span class="fu">emld</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/emld/reference/as_emld.html">as_emld</a></span><span class="op">(</span><span class="fu">EDIutils</span><span class="fu">::</span><span class="fu"><a href="https://ediorg.github.io/EDIutils/reference/api_get_provenance_metadata.html">api_get_provenance_metadata</a></span><span class="op">(</span><span class="st">"knb-lter-cap.623.1"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">naip</span><span class="op">$</span><span class="va">`@context`</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
+<span class="va">naip</span><span class="op">$</span><span class="va">`@type`</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
 
 <span class="co"># provenance: lst</span>
-<span class="no">landSurfaceTemp</span> <span class="kw">&lt;-</span> <span class="kw pkg">emld</span><span class="kw ns">::</span><span class="fu"><a href="https://docs.ropensci.org/emld/reference/as_emld.html">as_emld</a></span>(<span class="kw pkg">EDIutils</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/EDIutils/man/api_get_provenance_metadata.html">api_get_provenance_metadata</a></span>(<span class="st">"knb-lter-cap.677.1"</span>))
-<span class="no">landSurfaceTemp</span>$<span class="no">`@context`</span> <span class="kw">&lt;-</span> <span class="kw">NULL</span>
-<span class="no">landSurfaceTemp</span>$<span class="no">`@type`</span> <span class="kw">&lt;-</span> <span class="kw">NULL</span>
+<span class="va">landSurfaceTemp</span> <span class="op">&lt;-</span> <span class="fu">emld</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/emld/reference/as_emld.html">as_emld</a></span><span class="op">(</span><span class="fu">EDIutils</span><span class="fu">::</span><span class="fu"><a href="https://ediorg.github.io/EDIutils/reference/api_get_provenance_metadata.html">api_get_provenance_metadata</a></span><span class="op">(</span><span class="st">"knb-lter-cap.677.1"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">landSurfaceTemp</span><span class="op">$</span><span class="va">`@context`</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
+<span class="va">landSurfaceTemp</span><span class="op">$</span><span class="va">`@type`</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
 
-<span class="no">enhancedMethods</span> <span class="kw">&lt;-</span> <span class="kw pkg">EML</span><span class="kw ns">::</span><span class="no"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span>$<span class="fu"><a href="https://rdrr.io/r/utils/methods.html">methods</a></span>(<span class="kw">methodStep</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="no">main</span>, <span class="no">naip</span>, <span class="no">landSurfaceTemp</span>))</pre></div>
+<span class="va">enhancedMethods</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">methods</span><span class="op">(</span>methodStep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">main</span>, <span class="va">naip</span>, <span class="va">landSurfaceTemp</span><span class="op">)</span><span class="op">)</span></pre></div>
 </div>
 <div id="coverages" class="section level4">
 <h4 class="hasAnchor">
 <a href="#coverages" class="anchor"></a>coverages</h4>
 <p><em>Geographic</em> and <em>temporal</em> coverages are straight foward and documented in the work flow, but creating a <em>taxonomic</em> coverage is more involved. <em>Taxonomic coverage(s)</em> are constructed using EDI’s <a href="https://github.com/EDIorg/taxonomyCleanr">taxonomyCleanr</a> tool suite.</p>
 <p>A sample work flow for creating a taxonomic coverage:</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">taxonomyCleanr</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EDIorg/taxonomyCleanr">taxonomyCleanr</a></span><span class="op">)</span>
 
-<span class="no">my_path</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span>() <span class="co"># taxonomyCleanr requires a path (to build the taxa_map)</span>
+<span class="va">my_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># taxonomyCleanr requires a path (to build the taxa_map)</span>
 
 <span class="co"># Example: draw taxonomic information from existing resource:</span>
 
 <span class="co"># plant taxa listed in the om_transpiration_factors file</span>
-<span class="no">plantTaxa</span> <span class="kw">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'om_transpiration_factors.csv'</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(<span class="no">attributeName</span> <span class="kw">==</span> <span class="st">"species"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>()
+<span class="va">plantTaxa</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">'om_transpiration_factors.csv'</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">attributeName</span> <span class="op">==</span> <span class="st">"species"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># create or update map. A taxa_map.csv is the heart of taxonomyCleanr. This</span>
 <span class="co"># function will build the taxa_map.csv and put it in the path identified with</span>
 <span class="co"># my_path.</span>
-<span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/create_taxa_map.html">create_taxa_map</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="no">my_path</span>, <span class="kw">x</span> <span class="kw">=</span> <span class="no">plantTaxa</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"definition"</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/create_taxa_map.html">create_taxa_map</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span>, x <span class="op">=</span> <span class="va">plantTaxa</span>, col <span class="op">=</span> <span class="st">"definition"</span><span class="op">)</span> 
 
 <span class="co"># Example: construct taxonomic resource:</span>
 
-<span class="no">gambelQuail</span> <span class="kw">&lt;-</span> <span class="fu">tibble</span>(<span class="kw">taxName</span> <span class="kw">=</span> <span class="st">"Callipepla gambelii"</span>)
+<span class="va">gambelQuail</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>taxName <span class="op">=</span> <span class="st">"Callipepla gambelii"</span><span class="op">)</span>
 
 <span class="co"># Create or update map: a taxa_map.csv is the heart of taxonomyCleanr. This</span>
 <span class="co"># function will build the taxa_map.csv in the path identified with my_path.</span>
-<span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/create_taxa_map.html">create_taxa_map</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="no">my_path</span>, <span class="kw">x</span> <span class="kw">=</span> <span class="no">gambelQuail</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"taxName"</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/create_taxa_map.html">create_taxa_map</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span>, x <span class="op">=</span> <span class="va">gambelQuail</span>, col <span class="op">=</span> <span class="st">"taxName"</span><span class="op">)</span> 
 
 <span class="co"># Resolve taxa by attempting to match the taxon name (data.source 3 is ITIS but</span>
 <span class="co"># other sources are accessible). Use `resolve_comm_taxa` instead of</span>
 <span class="co"># `resolve_sci_taxa` if taxa names are common names but note that ITIS</span>
 <span class="co"># (data.source 3) is the only authority taxonomyCleanr will allow for common</span>
 <span class="co"># names.</span>
-<span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/resolve_sci_taxa.html">resolve_sci_taxa</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="no">my_path</span>, <span class="kw">data.sources</span> <span class="kw">=</span> <span class="fl">3</span>) <span class="co"># in this case, 3 is ITIS</span>
+<span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/resolve_sci_taxa.html">resolve_sci_taxa</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span>, data.sources <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="co"># in this case, 3 is ITIS</span>
 
 <span class="co"># build the EML taxonomomic coverage</span>
-<span class="no">taxaCoverage</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/make_taxonomicCoverage.html">make_taxonomicCoverage</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="no">my_path</span>)
+<span class="va">taxaCoverage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/make_taxonomicCoverage.html">make_taxonomicCoverage</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span><span class="op">)</span>
 
 <span class="co"># add taxonomic to the other coverages</span>
-<span class="no">coverage</span>$<span class="no">taxonomicCoverage</span> <span class="kw">&lt;-</span> <span class="no">taxaCoverage</span></pre></div>
+<span class="va">coverage</span><span class="op">$</span><span class="va">taxonomicCoverage</span> <span class="op">&lt;-</span> <span class="va">taxaCoverage</span></pre></div>
 </div>
 </div>
 <div id="overview-create-a-datatable" class="section level3">
@@ -236,17 +239,18 @@
 </li>
 </ul>
 <p><em>create_dataTable example: my_table</em></p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="no">my_table</span> <span class="kw">&lt;-</span> <span class="no">import</span> / <span class="no">generate...process...</span>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="va">my_table</span> <span class="op">&lt;-</span> <span class="va">import</span> <span class="op">/</span> <span class="va">generate...process...</span>
 
-<span class="fu"><a href="reference/write_attributes.html">write_attributes</a></span>(<span class="no">my_table</span>)
-<span class="fu"><a href="reference/write_factors.html">write_factors</a></span>(<span class="no">my_table</span>)
+<span class="fu"><a href="reference/write_attributes.html">write_attributes</a></span><span class="op">(</span><span class="va">my_table</span><span class="op">)</span>
+<span class="fu"><a href="reference/write_factors.html">write_factors</a></span><span class="op">(</span><span class="va">my_table</span><span class="op">)</span>
 
-<span class="no">my_table_desc</span> <span class="kw">&lt;-</span> <span class="st">"description of table"</span>
+<span class="va">my_table_desc</span> <span class="op">&lt;-</span> <span class="st">"description of table"</span>
 
-<span class="no">my_table_DT</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/create_dataTable.html">create_dataTable</a></span>(
-  <span class="kw">dfname</span> <span class="kw">=</span> <span class="no">my_table</span>,
-  <span class="kw">description</span> <span class="kw">=</span> <span class="no">my_table_desc</span>
-)</pre></div>
+<span class="va">my_table_DT</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_dataTable.html">create_dataTable</a></span><span class="op">(</span>
+  dfname <span class="op">=</span> <span class="va">my_table</span>,
+  description <span class="op">=</span> <span class="va">my_table_desc</span>
+<span class="op">)</span></pre></div>
 </div>
 <div id="overview-create-a-otherentity" class="section level3">
 <h3 class="hasAnchor">
@@ -259,17 +263,18 @@
 <h3 class="hasAnchor">
 <a href="#literature-cited" class="anchor"></a>literature cited</h3>
 <p>Below is a sample work flow that uses <code>capeml</code>’s <code>create_citation</code> function to generate citations by passing a resource DOI to crossref. Citations can be added to EML <code>literatureCited</code>. The work flow capitalizes on EML version 2.2 that accepts the BibTex format for references.</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="no">cook</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span>(<span class="st">"https://doi.org/10.1016/j.envpol.2018.04.013"</span>)
-<span class="no">sartory</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span>(<span class="st">"https://doi.org/10.1007/BF00031869"</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="va">cook</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.envpol.2018.04.013"</span><span class="op">)</span>
+<span class="va">sartory</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1007/BF00031869"</span><span class="op">)</span>
 
-<span class="no">citations</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-  <span class="kw">citation</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="no">cook</span>,
-    <span class="no">sartory</span>
-  ) <span class="co"># close list of citations</span>
-) <span class="co"># close citation</span>
+<span class="va">citations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  citation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    <span class="va">cook</span>,
+    <span class="va">sartory</span>
+  <span class="op">)</span> <span class="co"># close list of citations</span>
+<span class="op">)</span> <span class="co"># close citation</span>
 
-<span class="no">dataset</span>$<span class="no">literatureCited</span> <span class="kw">&lt;-</span> <span class="no">citations</span></pre></div>
+<span class="va">dataset</span><span class="op">$</span><span class="va">literatureCited</span> <span class="op">&lt;-</span> <span class="va">citations</span></pre></div>
 </div>
 </div>
   </div>
@@ -297,7 +302,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -112,13 +112,13 @@
     <p>create_otherEntity generates a EML entity of type otherEntity.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_otherEntity</span>(
-  <span class='no'>targetFile</span>,
-  <span class='no'>description</span>,
-  <span class='kw'>baseURL</span> <span class='kw'>=</span> <span class='st'>"https://data.gios.asu.edu/datasets/cap/"</span>,
-  <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>projectNaming</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>create_otherEntity</span><span class='op'>(</span>
+  <span class='va'>targetFile</span>,
+  <span class='va'>description</span>,
+  baseURL <span class='op'>=</span> <span class='st'>"https://data.gios.asu.edu/datasets/cap/"</span>,
+  overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  projectNaming <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -173,7 +173,7 @@ directory name will be used if this parameter is set to FALSE.</p></td>
   to the current working directory.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
  <span class='co'># using default parameters</span>
  <span class='co'># desert_fertilization_sites &lt;- create_otherEntity(</span>
  <span class='co'>#   targetFile = "~/Desktop/desert_fertilization_sampling_sites.kml",</span>
@@ -198,7 +198,9 @@ directory name will be used if this parameter is set to FALSE.</p></td>
 
  <span class='co'># dataset &lt;- EML::eml$dataset(otherEntity = listOfOtherEntities)</span>
 
-}</div></pre>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -214,7 +216,7 @@ directory name will be used if this parameter is set to FALSE.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
