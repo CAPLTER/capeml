@@ -131,9 +131,19 @@ create_otherEntity <- function(
   fileSize$size <- deparse(file.size(targetFile))
 
   # set file format
-  fileDataFormat <- EML::eml$dataFormat(
-    externallyDefinedFormat = EML::eml$externallyDefinedFormat(formatName = fileExtension)
-  )
+  if (grepl("pdf", tools::file_ext(targetFile), ignore.case = TRUE)) {
+
+    fileDataFormat <- EML::eml$dataFormat(
+      externallyDefinedFormat = EML::eml$externallyDefinedFormat(formatName = "Portable Document Format")
+    )
+
+  } else {
+
+    fileDataFormat <- EML::eml$dataFormat(
+      externallyDefinedFormat = EML::eml$externallyDefinedFormat(formatName = fileExtension)
+    )
+
+  }
 
   targetFileBaseName <- basename(targetFile)
   directoryName <- dirname(targetFile)
