@@ -108,7 +108,8 @@ write_attributes <- function(dfname, overwrite = FALSE) {
 
     variableAttributes <- list(
       attributeName = varName,
-      columnClasses = check_class(variable)
+      columnClasses = check_class(variable),
+      attributeDefinition = ""
     )
 
     if (is.numeric(variable)) {
@@ -116,17 +117,37 @@ write_attributes <- function(dfname, overwrite = FALSE) {
       variableAttributes <- c(
         variableAttributes,
         unit = "",
-        numberType = get_number_type(variable),
-        attributeDefinition = "",
         minimum = min(variable, na.rm = TRUE),
         maximum = max(variable, na.rm = TRUE)
       )
 
-    } else if (is.character(variable) | is.factor(variable)) {
+      if (is.integer(variable)) {
+
+        variableAttributes <- c(
+          variableAttributes,
+          numberType = "numeric"
+        )
+
+      } else {
+
+        variableAttributes <- c(
+          variableAttributes,
+          numberType = get_number_type(variable)
+        )
+
+      }
+
+    } else if (is.character(variable)) {
 
       variableAttributes <- c(
         variableAttributes,
         definition = ""
+      )
+
+    } else if (is.factor(variable)) {
+
+      variableAttributes <- c(
+        variableAttributes
       )
 
     } else if (
@@ -153,11 +174,15 @@ write_attributes <- function(dfname, overwrite = FALSE) {
 
 
   # build attribute yaml file
-  attributeYaml <- yaml::as.yaml(map2(.x = dfname, .y = colnames(dfname), .f = attributes_to_yaml))
+  attributeYaml <- yaml::as.yaml(
+    map2(
+      .x = dfname,
+      .y = colnames(dfname),
+      .f = attributes_to_yaml)
+  )
 
   # write attribute yaml to file
   yaml::write_yaml(attributeYaml, file = fileName)
-  #   write.csv(df_attrs, file = fileName, row.names = FALSE)
 
   message(paste0("constructed attribute yaml: ", fileName))
 

@@ -47,9 +47,10 @@
 #' @import dplyr
 #' @importFrom tools md5sum file_ext
 #' @importFrom purrr map_df
-#' @importFrom tibble tibble add_row
-#' @importFrom yaml yaml.load_file
+#' @importFrom tibble tibble add_row enframe
+#' @importFrom yaml yaml.load_file yaml.load
 #' @importFrom utils write.csv read.csv
+#' @importFrom tidyr unnest_wider
 #'
 #' @return EML dataTable object is returned. Additionally, the data entity is
 #'  written to file as type csv, and renamed with the package number + base file
@@ -57,54 +58,97 @@
 #'
 #' @examples
 #' \dontrun{
-#' # data_entity <- read("data source") %>%
-#' #   processing %>%
-#' #   processing
 #'
-#' # write_attributes(data_entity)
-#' # write_factors(data_entity)
-#' #
-#' # data_entity_desc <- "snow leopard data"
+#' data_entity <- read("data source") %>%
+#'   processing %>%
+#'   processing
 #'
-#' # create_dataTable with minimal arguments
-#' # data_entity_DT <- create_dataTable(dfname = data_entity,
-#' #                                    description = data_entity_desc)
+#' write_attributes(data_entity)
+#' write_factors(data_entity)
 #'
-#' # create_dataTable with optional arguments dateRangeField and missingValueCode
-#' # data_entity_DT <- create_dataTable(dfname = data_entity,
-#' #                                    description = data_entity_desc,
-#' #                                    dateRangeField = "observation date",
-#' #                                    missingValueCode = "missing")
+#' data_entity_desc <- "snow leopard data"
 #'
-#' # The resulting dataTable entity can be added to a EML dataset
-#' # dataset <- EML::eml$dataset(dataTable = data_entity_DT)
+#' create_dataTable with minimal arguments
+#' data_entity_DT <- create_dataTable(dfname = data_entity,
+#'                                    description = data_entity_desc)
+#'
+#' create_dataTable with optional arguments dateRangeField and missingValueCode
+#' data_entity_DT <- create_dataTable(dfname = data_entity,
+#'                                    description = data_entity_desc,
+#'                                    dateRangeField = "observation date",
+#'                                    missingValueCode = "missing")
+#'
+#' The resulting dataTable entity can be added to a EML dataset
+#' dataset <- EML::eml$dataset(dataTable = data_entity_DT)
+#'
 #' }
 #'
 #' @export
 
-create_dataTable <- function(dfname,
-                             description,
-                             dateRangeField,
-                             baseURL = "https://data.gios.asu.edu/datasets/cap/",
-                             missingValueCode = NULL) {
+create_dataTable <- function(
+  dfname,
+  description,
+  dateRangeField,
+  baseURL = "https://data.gios.asu.edu/datasets/cap/",
+  missingValueCode = NULL) {
+
+
+  # get text reference of dataframe name for use throughout -------------------
+
+  namestr <- deparse(substitute(dfname))
+
+
+  # check for required entities -----------------------------------------------
+
+  # config file
+  if (!file.exists("config.yaml")) {
+
+    stop("config.yaml not found")
+
+  }
+
+  # attributes file
+  if (
+      !file.exists(paste0(namestr, "_attrs.csv")) &
+      !file.exists(paste0(namestr, "_attrs.yaml"))
+    ) {
+
+      stop("attributes table not found")
+
+    }
+
 
   # file-level processing ---------------------------------------------------
 
   # retrieve package number from config.yaml
-  if (!file.exists("config.yaml")) {
-    stop("config.yaml not found")
-  }
   packageNum <- yaml::yaml.load_file("config.yaml")$packageNum
 
-  # Writes a datframe to file, determines the md5sum of that file, (re)writing
-  # the dataframe with the package id number and m5sum hash in the file name.
-  # The first file written, that included only the datatframe name as the
-  # filename, is removed from the directory.
-  namestr <- deparse(substitute(dfname))
-  write.csv(dfname, paste0(namestr, ".csv"), row.names = F, eol = "\r\n")
-  fname <- paste0(packageNum, "_", namestr, "_", tools::md5sum(paste0(namestr, ".csv")), ".csv")
-  write.csv(dfname, fname, row.names = F, eol = "\r\n")
+  # writes a dataframe to file; determines the md5sum of that file, rewrites
+  # the dataframe with the package id number + md5sum hash in the file name;
+  # the first file written, that included only the dataframe name as the
+  # filename, is removed from the directory
+  write.csv(
+    x = dfname,
+    file = paste0(namestr, ".csv"),
+    row.names = F, eol = "\r\n"
+  )
+
+  fname <- paste0(
+    packageNum, "_",
+    namestr, "_",
+    tools::md5sum(paste0(namestr, ".csv")),
+    ".csv"
+  )
+
+  write.csv(
+    x = dfname,
+    file = fname,
+    row.names = F,
+    eol = "\r\n"
+  )
+
   file.remove(paste0(namestr, ".csv"))
+
 
   # write_missing_value -----------------------------------------------------
 
@@ -153,50 +197,110 @@ create_dataTable <- function(dfname,
 
   }
 
-  mvframe <- map_df(.x = colnames(dfname), .f = write_missing_values, dataObject = dfname, MVC = missingValueCode)
+  mvframe <- map_df(
+    .x = colnames(dfname),
+    .f = write_missing_values,
+    dataObject = dfname,
+    MVC = missingValueCode
+  )
+
 
   # attributes --------------------------------------------------------------
 
-  # Read the attributes file and extract classes into its own vector then delete
-  # from attrs data frame (as required by rEML)
-  attrs <- utils::read.csv(paste0(namestr, "_attrs.csv"))
-  classes <- attrs %>% pull(columnClasses) # column classes to vector (req'd by set_attributes)
-  attrs <- attrs %>% dplyr::select(-columnClasses) # remove col classes from attrs (req'd by set_attributes)
+  # load attributes from yaml or csv (default to yaml)
+  if (file.exists(paste0(namestr, "_attrs.yaml"))) {
 
-  # Compile components for attributeList of dataTable
-  # condition: factors present, missing values not present
-  if (file.exists(paste0(namestr, "_factors.csv")) & nrow(mvframe) == 0) {
+    attrs <- yaml::yaml.load_file(paste0(namestr, "_attrs.yaml"))
+    attrs <- yaml::yaml.load(attrs)
+    attrs <- tibble::enframe(attrs) %>%
+      tidyr::unnest_wider(value) %>%
+      dplyr::select(-one_of("name"))
 
-    df_factors <- utils::read.csv(paste0(namestr, "_factors.csv"))
-
-    attr_list <- set_attributes(attributes = attrs, factors = df_factors, col_classes = classes)
-
-    # condition: factors present, missing values present
-  } else if (file.exists(paste0(namestr, "_factors.csv")) & nrow(mvframe) >= 1) {
-
-    df_factors <- utils::read.csv(paste0(namestr, "_factors.csv"))
-
-    attr_list <- set_attributes(attributes = attrs, factors = df_factors, col_classes = classes, missingValues = mvframe)
-
-    # condition: factors NOT present, missing values present
-  } else if (!file.exists(paste0(namestr, "_factors.csv")) & nrow(mvframe) >= 1) {
-
-    attr_list <- set_attributes(attributes = attrs, col_classes = classes, missingValues = mvframe)
-
-    # condition: factors NOT present, missing values NOT present
   } else {
 
-    attr_list <- set_attributes(attributes = attrs, col_classes = classes)
+    attrs <- utils::read.csv(paste0(namestr, "_attrs.csv"))
 
   }
 
+  # column classes to vector (req'd by set_attributes)
+  classes <- attrs %>%
+    dplyr::pull(columnClasses)
+
+  # copy attributeDefinition to defintion as appropriate; remove col classes
+  # from attrs (req'd by set_attributes); remove empty columns (real targets
+  # here are maximum and minimum, which can throw an error for data without any numeric
+  # cols)
+
+  # helper function to remove missing columns
+  not_all_na <- function(x) {
+    !all(is.na(x))
+  }
+
+  attrs <- attrs %>%
+    mutate(
+      definition = case_when(
+        grepl("character", columnClasses) & ((is.na(definition) | definition == "")) ~ attributeDefinition,
+        TRUE ~ definition
+      )
+      ) %>%
+  dplyr::select(-columnClasses) %>%
+  dplyr::select_if(not_all_na)
+
+# compile components for attributeList of dataTable
+
+# condition: factors present, missing values not present
+if (file.exists(paste0(namestr, "_factors.csv")) & nrow(mvframe) == 0) {
+
+  df_factors <- utils::read.csv(paste0(namestr, "_factors.csv"))
+
+  attr_list <- EML::set_attributes(
+    attributes = attrs,
+    factors = df_factors,
+    col_classes = classes
+  )
+
+  # condition: factors present, missing values present
+} else if (file.exists(paste0(namestr, "_factors.csv")) & nrow(mvframe) >= 1) {
+
+  df_factors <- utils::read.csv(paste0(namestr, "_factors.csv"))
+
+  attr_list <- EML::set_attributes(
+    attributes = attrs,
+    factors = df_factors,
+    col_classes = classes,
+    missingValues = mvframe
+  )
+
+  # condition: factors NOT present, missing values present
+} else if (!file.exists(paste0(namestr, "_factors.csv")) & nrow(mvframe) >= 1) {
+
+  attr_list <- EML::set_attributes(
+    attributes = attrs,
+    col_classes = classes,
+    missingValues = mvframe
+  )
+
+  # condition: factors NOT present, missing values NOT present
+} else {
+
+  attr_list <- EML::set_attributes(
+    attributes = attrs,
+    col_classes = classes
+  )
+
+}
+
+
   # set physical ------------------------------------------------------------
 
-  dataTablePhysical <- set_physical(objectName = fname,
-                                    numHeaderLines = 1,
-                                    recordDelimiter = "\\r\\n",
-                                    quoteCharacter = "\"",
-                                    url = paste0(baseURL, fname))
+  dataTablePhysical <- EML::set_physical(
+    objectName = fname,
+    numHeaderLines = 1,
+    recordDelimiter = "\\r\\n",
+    quoteCharacter = "\"",
+    url = paste0(baseURL, fname)
+  )
+
 
   # create dataTable entity -------------------------------------------------
 
@@ -206,11 +310,13 @@ create_dataTable <- function(dfname,
     physical = dataTablePhysical,
     attributeList = attr_list,
     numberOfRecords = nrow(dfname),
-    id = fname)
+    id = fname
+  )
+
 
   # add temporalCoverage if appropriate -------------------------------------
 
-  if(!missing(dateRangeField)) {
+  if (!missing(dateRangeField)) {
 
     dataTableTemporalCoverage <- EML::eml$coverage(
       temporalCoverage = EML::eml$temporalCoverage(
@@ -228,6 +334,8 @@ create_dataTable <- function(dfname,
     newDT$coverage <- dataTableTemporalCoverage
 
   } # close temporalCoverage
+
+  message(paste0("created dataTable: ", fname))
 
   return(newDT)
 
