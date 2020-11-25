@@ -135,6 +135,15 @@ create_dataset <- function(scope = "LTER",
   # add associated party if exists
   if (exists('associatedParty')) { dataset$associatedParty <- associatedParty }
 
+  message(
+    paste0(
+      "created EML dataset:\n",
+      " package:", packageIdent, "\n",
+      " title: ", title, "\n",
+      " scope: ", scope
+    )
+  )
+
   return(dataset)
 
 }

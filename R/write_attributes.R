@@ -13,9 +13,11 @@
 #'   create_dataTable function will search for this file will creating a EML
 #'   dataTable entity.
 #'
-#' @param dfname The unquoted name of the R data frame or tibble.
-#' @param overwrite Logical indicating if an existing attributes file in the
-#'   target directory should be overwritten.
+#' @param dfname
+#'  (character) Unquoted name of the R data frame or tibble.
+#' @param overwrite
+#'  (logical) Logical indicating if an existing attributes file in the target
+#'  directory should be overwritten.
 #'
 #' @import dplyr
 #' @import yaml
@@ -33,8 +35,8 @@
 #'
 #'  write_attributes(R data object)
 #'
-#'  overwrite existing attributes file
-#'  write_attributes(R data object,
+#'  # overwrite existing attributes file
+#'  write_attributes(dfname = R data object,
 #'                   overwrite = TRUE)
 #'
 #' }
@@ -108,7 +110,6 @@ write_attributes <- function(dfname, overwrite = FALSE) {
 
     variableAttributes <- list(
       attributeName = varName,
-      columnClasses = check_class(variable),
       attributeDefinition = ""
     )
 
@@ -117,6 +118,7 @@ write_attributes <- function(dfname, overwrite = FALSE) {
       variableAttributes <- c(
         variableAttributes,
         unit = "",
+        numberType = get_number_type(variable),
         minimum = min(variable, na.rm = TRUE),
         maximum = max(variable, na.rm = TRUE)
       )
@@ -125,14 +127,14 @@ write_attributes <- function(dfname, overwrite = FALSE) {
 
         variableAttributes <- c(
           variableAttributes,
-          numberType = "numeric"
+          columnClasses = "numeric"
         )
 
       } else {
 
         variableAttributes <- c(
           variableAttributes,
-          numberType = get_number_type(variable)
+          columnClasses = check_class(variable)
         )
 
       }
@@ -141,13 +143,15 @@ write_attributes <- function(dfname, overwrite = FALSE) {
 
       variableAttributes <- c(
         variableAttributes,
+        columnClasses = check_class(variable),
         definition = ""
       )
 
     } else if (is.factor(variable)) {
 
       variableAttributes <- c(
-        variableAttributes
+        variableAttributes,
+        columnClasses = check_class(variable)
       )
 
     } else if (
@@ -159,6 +163,7 @@ write_attributes <- function(dfname, overwrite = FALSE) {
 
       variableAttributes <- c(
         variableAttributes,
+        columnClasses = check_class(variable),
         formatString = "YYYY-MM-DD"
       )
 
@@ -182,7 +187,10 @@ write_attributes <- function(dfname, overwrite = FALSE) {
   )
 
   # write attribute yaml to file
-  yaml::write_yaml(attributeYaml, file = fileName)
+  yaml::write_yaml(
+    x = attributeYaml,
+    file = fileName
+  )
 
   message(paste0("constructed attribute yaml: ", fileName))
 
