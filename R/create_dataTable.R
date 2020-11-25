@@ -3,22 +3,22 @@
 #' @description create_dataTable generates a EML entity of type dataTable
 #'
 #' @details create_dataTable creates a EML dataTable object from a data frame
-#'   or tibble object in the R environment. The function reads the attributes and
-#'   classes contained within a supporting yaml file generated from the
+#'   or tibble object in the R environment. The function reads the attributes
+#'   and classes contained within a supporting yaml file generated from the
 #'   write_attributes function - create_dataTable will look for a file in the
-#'   working directory with a name of type dataframeName_attrs.yaml. Factors also
-#'   are read from a supporting yaml file - create_dataTable will look for a file
-#'   in the working directory with a name of type dataframeName_factors.yaml. If
-#'   that exists, the factor details outlined in that file will be incorporated
-#'   into the EML, else the EML will be built without factor metadata. Note that
-#'   this functionality is predicated on the existence of a file containing
-#'   metadata about any factors in the dataframe, that the file is in the working
-#'   directory, and that the file matches the dataframe name precisely; the
-#'   function does not look for variables of type factor in the dataframe. In
-#'   addition to generating a EML entity of type dataTable, create_dataTable
-#'   writes the R object to file as type csv, renames the file with package
-#'   number + base file name + md5sum + file extension (csv in this case), and
-#'   deletes the original file.
+#'   working directory with a name of type dataframeName_attrs.yaml. Factors
+#'   also are read from a supporting yaml file - create_dataTable will look for
+#'   a file in the working directory with a name of type
+#'   dataframeName_factors.yaml. If that exists, the factor details outlined in
+#'   that file will be incorporated into the EML, else the EML will be built
+#'   without factor metadata. Note that this functionality is predicated on the
+#'   existence of a file containing metadata about any factors in the
+#'   dataframe, that the file is in the working directory, and that the file
+#'   matches the dataframe name precisely; the function does not look for
+#'   variables of type factor in the dataframe. In addition to generating a EML
+#'   entity of type dataTable, create_dataTable writes the R object to file as
+#'   type csv, renames the file with package number + base file name + md5sum +
+#'   file extension (csv in this case), and deletes the original file.
 #'
 #' @note create_dataTable will look for a package number (packageNum) in
 #'  config.yaml; this parameter is not passed to the function and it must exist.
@@ -35,8 +35,8 @@
 #'   file).
 #' @param dateRangeField (optional)
 #'   (character) The quoted name of the data entity field that is a date field
-#'   that would reflect the start and end dates of the data reflected in the data
-#'   entity.
+#'   that would reflect the start and end dates of the data reflected in the
+#'   data entity.
 #' @param baseURL (optional)
 #'   (character) The quoted base path of the web-accessible location of the data
 #'   file; the name of the resulting file will be passed to the base path to
@@ -127,22 +127,29 @@ create_dataTable <- function(
   # retrieve package number from config.yaml
   packageNum <- yaml::yaml.load_file("config.yaml")$packageNum
 
-  # writes a dataframe to file; determines the md5sum of that file, rewrites
-  # the dataframe with the package id number + md5sum hash in the file name;
-  # the first file written, that included only the dataframe name as the
-  # filename, is removed from the directory
+  # 1. writes dataframe to file (csv) with temporary name;
+  # 2. determines the md5sum of that file;
+  # 3. removes temporary file;
+  # 4. writes dataframe to file (csv) with convention:
+  #    package id number + dataframe name + md5sum hash + csv;
+
+  name_hash <- paste0(namestr, "hash")
+
   write.csv(
     x = dfname,
-    file = paste0(namestr, ".csv"),
-    row.names = F, eol = "\r\n"
+    file = paste0(name_hash, ".csv"),
+    row.names = F,
+    eol = "\r\n"
   )
 
   fname <- paste0(
     packageNum, "_",
     namestr, "_",
-    tools::md5sum(paste0(namestr, ".csv")),
+    tools::md5sum(paste0(name_hash, ".csv")),
     ".csv"
   )
+
+  file.remove(paste0(name_hash, ".csv"))
 
   write.csv(
     x = dfname,
@@ -150,8 +157,6 @@ create_dataTable <- function(
     row.names = F,
     eol = "\r\n"
   )
-
-  file.remove(paste0(namestr, ".csv"))
 
 
   # write_missing_value -----------------------------------------------------
@@ -256,7 +261,7 @@ create_dataTable <- function(
 if (file.exists(paste0(namestr, "_factors.yaml"))) {
 
   df_factors <- yaml.load_file(paste0(namestr, "_factors.yaml")) %>%
-    yaml.load() %>%
+    yaml::yaml.load() %>%
     tibble::enframe() %>%
     tidyr::unnest_wider(value) %>%
     tidyr::unnest_wider(attribute) %>%
