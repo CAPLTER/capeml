@@ -1,3 +1,7 @@
+---
+output: github_document
+---
+
 <!-- readme.md is generated from readme.rmd. please edit the latter. -->
 
 ## capeml: tools to aid the generation of eml metadata
@@ -18,8 +22,9 @@ for `spatialraster()` and `spatialvector()` entities.
 
 Note that the creation of people-related entities in the templated work flow
 (see below) are specific to functions that rely on Global Institute of
-Sustainability infrastructure; other users should add people using the list
-structure provided by ROpenSci's [EML](https://docs.ropensci.org/eml/). 
+Sustainability and Innovation infrastructure; other users should add people
+using the list structure provided by ROpenSci's
+[EML](https://docs.ropensci.org/eml/). 
 
 A template work flow is available as part of this package. The template is
 automatically generated if a new project is created with `write_directory`,
@@ -59,10 +64,10 @@ not passed to any of the functions, and must exist in `config.yaml` (as
 `projectid`).
 
 Project-naming functionality can be turned off by setting the `projectNaming`
-option in `create_dataTable()` and `create_spatialRaster()` (also
-`create_spatialVector()` and `create_spatialRaster()` from capemlGIS) to FALSE.
-When set to FALSE, the object name is not changed, and the file name of the
-object is included in the EML.
+option in `create_dataTable()` (*forthcoming*) and `create_spatialRaster()`
+(also `create_spatialVector()` and `create_spatialRaster()` from capemlGIS) to
+FALSE.  When set to FALSE, the object name is not changed, and the file name of
+the object is included in the EML.
 
 ### getting started
 
@@ -101,9 +106,10 @@ and number can be generated independently with the `write_template` function.
 
 ### tools to generate entity metadata
 
-* `write_attributes()` creates a template as a csv file for supplying attribute
-  metadata for a tabular data object that resides in the R environment
-* `write_factors()` creates a template as a csv file for supplying code
+* `write_attributes()` creates a template as a yaml file for supplying
+  attribute metadata for a tabular data object that resides in the R
+  environment
+* `write_factors()` creates a template as a yaml file for supplying code
   definition metadata for factors in a tabular data object that resides in the
   R environment
 
@@ -220,24 +226,23 @@ coverage$taxonomicCoverage <- taxaCoverage
 
 ### overview: create a dataTable
 
-Given a rectangular data matrix of type dataframe or Tibble in the R
+Given a rectangular data matrix of type dataframe or tibble in the R
 environment:
 
-`write_attributes(data_entity)` will generate a template as a csv file in the
+`write_attributes(data_entity)` will generate a template as a yaml file in the
 working directory based on properties of the data entity such that metadata
-properties (e.g., attributeDefinition, units) can be added via a editor or
-spreadsheet application.
+properties (e.g., attributeDefinition, units) can be added via a editor.
 
-`write_factors(data_entity)` will generate a template as a csv file in the
-working directory based on columns of the data entity that are factors such that
-details of factor levels can be added via a editor or spreadsheet application.
+`write_factors(data_entity)` will generate a template as a yaml file in the
+working directory based on columns of the data entity that are factors such
+that details of factor levels can be added via a editor.
 
 `create_dataTable(data_entity)` performs many services:
 
 * the data entity is written to file as a csv in the working directory with the
   file name: *projectid_data-entity-name_md5-hash-of-file.csv*
 * metadata provided in the attributes and factors (if relevant) templates are
-ingested
+  ingested
 * a EML object of type dataTable is returned note that the data entity name
   should be used consistently within the chunk, and the resulting dataTable
   entity should have the name: *data_entity_DT*

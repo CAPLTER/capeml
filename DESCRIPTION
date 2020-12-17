@@ -1,6 +1,6 @@
 Package: capeml
 Title: CAP LTER package for generating EML
-Version: 1.0.0
+Version: 1.1.0
 Authors@R: person("S", "Earl", email = "stevan.earl@asu.edu",
   role = c("aut", "cre"))
 Description: This package is intented to facilitate the creation of EML
@@ -26,7 +26,9 @@ Imports:
     yaml,
     sf,
     stats,
-    rcrossref
+    rcrossref,
+    tidyr,
+    lubridate
 RoxygenNote: 7.1.1
 Suggests: knitr,
     rmarkdown

@@ -10,11 +10,9 @@ editor_options:
 # libraries
 
 ```{r libraries}
-library(EML)
 library(tidyverse)
 library(capeml)
 library(gioseml)
-library(yaml)
 ```
 
 
