@@ -13,20 +13,22 @@ create_dataTable(
 )
 }
 \arguments{
-\item{dfname}{The unquoted name of the R data frame or Tibble.}
+\item{dfname}{(character) The unquoted name of the R data frame or tibble.}
 
-\item{description}{A quoted description of the data frame or Tibble that will
+\item{description}{(character) A quoted description of the data frame or tibble that will
 populate the entityDescription element of the EML document. name of the
 raster data to be processed is included as a parameter in this metadata
 file).}
 
-\item{dateRangeField}{(optional) The quoted name of the data entity field
-that is a date field that would reflect the start and end dates of the data
-reflected in the data entity.}
+\item{dateRangeField}{(optional)
+(character) The quoted name of the data entity field that is a date field
+that would reflect the start and end dates of the data reflected in the
+data entity.}
 
-\item{baseURL}{(optional) The base path of the web-accessible location of the
-data file; the name of the resulting file will be passed to the base path
-to generate a web-resolvable file path.}
+\item{baseURL}{(optional)
+(character) The quoted base path of the web-accessible location of the data
+file; the name of the resulting file will be passed to the base path to
+generate a web-resolvable file path.}
 
 \item{missingValueCode}{(optional)
 (character) create_dataTable will automatically document the presence of NA
@@ -36,30 +38,30 @@ ability to identify an additional indicator of missing values (e.g.,
 }
 \value{
 EML dataTable object is returned. Additionally, the data entity is
- written to file as type csv, and renamed with the package number + base file
- name + md5sum + file extension (csv in this case).
+ written to file as type csv, and renamed with the package number + base
+ file name + md5sum + file extension (csv in this case).
 }
 \description{
 create_dataTable generates a EML entity of type dataTable
 }
 \details{
-create_dataTable creates a EML dataTable object from a data frame or
-  Tibble object in the R environment. The function reads the attributes and
-  classes contained within a supporting csv file generated from the
+create_dataTable creates a EML dataTable object from a data frame
+  or tibble object in the R environment. The function reads the attributes
+  and classes contained within a supporting yaml file generated from the
   write_attributes function - create_dataTable will look for a file in the
-  working directory with a name of type dataframeName_attrs.csv. Factors
-  also are read from a supporting csv file - create_dataTable will look for
+  working directory with a name of type dataframeName_attrs.yaml. Factors
+  also are read from a supporting yaml file - create_dataTable will look for
   a file in the working directory with a name of type
-  dataframeName_factors.csv. If that exists, the factor details outlined in
+  dataframeName_factors.yaml. If that exists, the factor details outlined in
   that file will be incorporated into the EML, else the EML will be built
   without factor metadata. Note that this functionality is predicated on the
   existence of a file containing metadata about any factors in the
-  dataframe, that that file is in the working directory, and that the file
+  dataframe, that the file is in the working directory, and that the file
   matches the dataframe name precisely; the function does not look for
-  variables of types factor in the dataframe. In addition to generating a
-  EML entity of type dataTable, create_dataTable writes the R object to file
-  as type csv, renames the file with package number + base file name +
-  md5sum + file extension (csv in this case), and deletes the original file.
+  variables of type factor in the dataframe. In addition to generating a EML
+  entity of type dataTable, create_dataTable writes the R object to file as
+  type csv, renames the file with package number + base file name + md5sum +
+  file extension (csv in this case), and deletes the original file.
 }
 \note{
 create_dataTable will look for a package number (packageNum) in
@@ -71,27 +73,29 @@ create_dataTable currently accepts an argument for a base url path to
 }
 \examples{
 \dontrun{
-# data_entity <- read("data source") \%>\%
-#   processing \%>\%
-#   processing
 
-# write_attributes(data_entity)
-# write_factors(data_entity)
-#
-# data_entity_desc <- "snow leopard data"
+data_entity <- read("data source") \%>\%
+  processing \%>\%
+  processing
+
+write_attributes(data_entity)
+write_factors(data_entity)
+
+data_entity_desc <- "snow leopard data"
 
 # create_dataTable with minimal arguments
-# data_entity_DT <- create_dataTable(dfname = data_entity,
-#                                    description = data_entity_desc)
+data_entity_DT <- create_dataTable(dfname = data_entity,
+                                   description = data_entity_desc)
 
 # create_dataTable with optional arguments dateRangeField and missingValueCode
-# data_entity_DT <- create_dataTable(dfname = data_entity,
-#                                    description = data_entity_desc,
-#                                    dateRangeField = "observation date",
-#                                    missingValueCode = "missing")
+data_entity_DT <- create_dataTable(dfname = data_entity,
+                                   description = data_entity_desc,
+                                   dateRangeField = "observation date",
+                                   missingValueCode = "missing")
 
 # The resulting dataTable entity can be added to a EML dataset
-# dataset <- EML::eml$dataset(dataTable = data_entity_DT)
+dataset <- EML::eml$dataset(dataTable = data_entity_DT)
+
 }
 
 }

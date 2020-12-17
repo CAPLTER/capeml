@@ -23,7 +23,7 @@
 #'
 #' @import dplyr
 #' @import yaml
-#' @importFrom purr map
+#' @importFrom purrr map
 #'
 #' @return The name of the file generated is returned, and a template for
 #'   providing code definition metadata as a yaml file with the file name of the

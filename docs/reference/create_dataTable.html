@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -125,26 +125,28 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>dfname</th>
-      <td><p>The unquoted name of the R data frame or Tibble.</p></td>
+      <td><p>(character) The unquoted name of the R data frame or tibble.</p></td>
     </tr>
     <tr>
       <th>description</th>
-      <td><p>A quoted description of the data frame or Tibble that will
+      <td><p>(character) A quoted description of the data frame or tibble that will
 populate the entityDescription element of the EML document. name of the
 raster data to be processed is included as a parameter in this metadata
 file).</p></td>
     </tr>
     <tr>
       <th>dateRangeField</th>
-      <td><p>(optional) The quoted name of the data entity field
-that is a date field that would reflect the start and end dates of the data
-reflected in the data entity.</p></td>
+      <td><p>(optional)
+(character) The quoted name of the data entity field that is a date field
+that would reflect the start and end dates of the data reflected in the
+data entity.</p></td>
     </tr>
     <tr>
       <th>baseURL</th>
-      <td><p>(optional) The base path of the web-accessible location of the
-data file; the name of the resulting file will be passed to the base path
-to generate a web-resolvable file path.</p></td>
+      <td><p>(optional)
+(character) The quoted base path of the web-accessible location of the data
+file; the name of the resulting file will be passed to the base path to
+generate a web-resolvable file path.</p></td>
     </tr>
     <tr>
       <th>missingValueCode</th>
@@ -159,27 +161,27 @@ ability to identify an additional indicator of missing values (e.g.,
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>EML dataTable object is returned. Additionally, the data entity is
- written to file as type csv, and renamed with the package number + base file
- name + md5sum + file extension (csv in this case).</p>
+ written to file as type csv, and renamed with the package number + base
+ file name + md5sum + file extension (csv in this case).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>create_dataTable creates a EML dataTable object from a data frame or
-  Tibble object in the R environment. The function reads the attributes and
-  classes contained within a supporting csv file generated from the
+    <p>create_dataTable creates a EML dataTable object from a data frame
+  or tibble object in the R environment. The function reads the attributes
+  and classes contained within a supporting yaml file generated from the
   write_attributes function - create_dataTable will look for a file in the
-  working directory with a name of type dataframeName_attrs.csv. Factors
-  also are read from a supporting csv file - create_dataTable will look for
+  working directory with a name of type dataframeName_attrs.yaml. Factors
+  also are read from a supporting yaml file - create_dataTable will look for
   a file in the working directory with a name of type
-  dataframeName_factors.csv. If that exists, the factor details outlined in
+  dataframeName_factors.yaml. If that exists, the factor details outlined in
   that file will be incorporated into the EML, else the EML will be built
   without factor metadata. Note that this functionality is predicated on the
   existence of a file containing metadata about any factors in the
-  dataframe, that that file is in the working directory, and that the file
+  dataframe, that the file is in the working directory, and that the file
   matches the dataframe name precisely; the function does not look for
-  variables of types factor in the dataframe. In addition to generating a
-  EML entity of type dataTable, create_dataTable writes the R object to file
-  as type csv, renames the file with package number + base file name +
-  md5sum + file extension (csv in this case), and deletes the original file.</p>
+  variables of type factor in the dataframe. In addition to generating a EML
+  entity of type dataTable, create_dataTable writes the R object to file as
+  type csv, renames the file with package number + base file name + md5sum +
+  file extension (csv in this case), and deletes the original file.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>create_dataTable will look for a package number (packageNum) in
@@ -190,27 +192,29 @@ ability to identify an additional indicator of missing values (e.g.,
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># data_entity &lt;- read("data source") %&gt;%</span>
-<span class='co'>#   processing %&gt;%</span>
-<span class='co'>#   processing</span>
 
-<span class='co'># write_attributes(data_entity)</span>
-<span class='co'># write_factors(data_entity)</span>
-<span class='co'>#</span>
-<span class='co'># data_entity_desc &lt;- "snow leopard data"</span>
+<span class='va'>data_entity</span> <span class='op'>&lt;-</span> <span class='fu'>read</span><span class='op'>(</span><span class='st'>"data source"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='va'>processing</span> <span class='op'>%&gt;%</span>
+  <span class='va'>processing</span>
+
+<span class='fu'><a href='write_attributes.html'>write_attributes</a></span><span class='op'>(</span><span class='va'>data_entity</span><span class='op'>)</span>
+<span class='fu'><a href='write_factors.html'>write_factors</a></span><span class='op'>(</span><span class='va'>data_entity</span><span class='op'>)</span>
+
+<span class='va'>data_entity_desc</span> <span class='op'>&lt;-</span> <span class='st'>"snow leopard data"</span>
 
 <span class='co'># create_dataTable with minimal arguments</span>
-<span class='co'># data_entity_DT &lt;- create_dataTable(dfname = data_entity,</span>
-<span class='co'>#                                    description = data_entity_desc)</span>
+<span class='va'>data_entity_DT</span> <span class='op'>&lt;-</span> <span class='fu'>create_dataTable</span><span class='op'>(</span>dfname <span class='op'>=</span> <span class='va'>data_entity</span>,
+                                   description <span class='op'>=</span> <span class='va'>data_entity_desc</span><span class='op'>)</span>
 
 <span class='co'># create_dataTable with optional arguments dateRangeField and missingValueCode</span>
-<span class='co'># data_entity_DT &lt;- create_dataTable(dfname = data_entity,</span>
-<span class='co'>#                                    description = data_entity_desc,</span>
-<span class='co'>#                                    dateRangeField = "observation date",</span>
-<span class='co'>#                                    missingValueCode = "missing")</span>
+<span class='va'>data_entity_DT</span> <span class='op'>&lt;-</span> <span class='fu'>create_dataTable</span><span class='op'>(</span>dfname <span class='op'>=</span> <span class='va'>data_entity</span>,
+                                   description <span class='op'>=</span> <span class='va'>data_entity_desc</span>,
+                                   dateRangeField <span class='op'>=</span> <span class='st'>"observation date"</span>,
+                                   missingValueCode <span class='op'>=</span> <span class='st'>"missing"</span><span class='op'>)</span>
 
 <span class='co'># The resulting dataTable entity can be added to a EML dataset</span>
-<span class='co'># dataset &lt;- EML::eml$dataset(dataTable = data_entity_DT)</span>
+<span class='va'>dataset</span> <span class='op'>&lt;-</span> <span class='fu'>EML</span><span class='fu'>::</span><span class='va'><a href='https://docs.ropensci.org/EML/reference/eml.html'>eml</a></span><span class='op'>$</span><span class='fu'>dataset</span><span class='op'>(</span>dataTable <span class='op'>=</span> <span class='va'>data_entity_DT</span><span class='op'>)</span>
+
 <span class='op'>}</span>
 
 </div></pre>
