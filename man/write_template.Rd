@@ -6,7 +6,8 @@
 \usage{
 write_template(
       path,
-      packageScopeNumber
+      packageScopeNumber,
+      overwrite
     )
 }
 \arguments{
