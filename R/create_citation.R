@@ -19,6 +19,11 @@
 #' @examples
 #' \dontrun{
 #'
+#' # Sartory, D.P., Grobbelaar, J.U. Extraction of chlorophyll a from
+#' # freshwater phytoplankton for spectrophotometric analysis. Hydrobiologia 114,
+#' # 177–187 (1984). https://doi.org/10.1007/BF00031869
+#'
+#' sartory <- create_citation("https://doi.org/10.1007/BF00031869")
 #'
 #' citations <- list(
 #'   citation = list(
