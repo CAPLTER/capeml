@@ -6,15 +6,16 @@
 #' @usage
 #'     write_template(
 #'       path,
-#'       packageScopeNumber
+#'       packageScopeNumber,
+#'       overwrite
 #'     )
 #'
-#' @param path
-#'     (character) Path to where the data package directory will be created.
-#'     Defaults to the current directory.
 #' @param packageScopeNumber
 #'     (character) Quoted name of the package scope and number without the
 #'     version number (e.g., "edi.521").
+#' @param path
+#'     (character) Path to where the data package directory will be created.
+#'     Defaults to the current directory.
 #' @param overwrite
 #'  (logical) indicates to overwrite an existing file if one exists;
 #'  default = FALSE

@@ -55,7 +55,7 @@ write_cap_eml <- function(emlEntity = eml, filePathName) {
   }
 
   # write the eml to file
-  write_eml(emlEntity, filePathName)
+  EML::write_eml(emlEntity, filePathName)
 
   # end ------------------------------------------------------------------------
 

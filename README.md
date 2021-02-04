@@ -10,7 +10,7 @@ output: github_document
 
 This package contains tools to aid the generation of eml metadata with intent
 to publish a dataset (data + metadata) in the Environmental Data Initiative
-(edi) data repository. Functions and a template work flow are included that
+(EDI) data repository. Functions and a template work flow are included that
 allow for the creation of metadata at the dataset level, and individual data
 entities (e.g., other entities, data tables).
 
@@ -66,7 +66,7 @@ not passed to any of the functions, and must exist in `config.yaml` (as
 Project-naming functionality can be turned off by setting the `projectNaming`
 option in `create_dataTable()` (*forthcoming*) and `create_spatialRaster()`
 (also `create_spatialVector()` and `create_spatialRaster()` from capemlGIS) to
-FALSE.  When set to FALSE, the object name is not changed, and the file name of
+FALSE. When set to FALSE, the object name is not changed, and the file name of
 the object is included in the EML.
 
 ### getting started
@@ -268,8 +268,9 @@ my_table_DT <- create_dataTable(
 
 A EML object of type otherEntity can be created from a single file or a
 directory. In the case of generating a otherEntity object from a directory,
-pass the directory path to the targetFile argument, capeml will recognize the
-target as a directory, and create a zipped file of the identified directory.
+pass the directory path to the target_file_or_directory argument, capeml will
+recognize the target as a directory, and create a zipped file of the identified
+directory.
 
 If the otherEntity object already is a zip file with the desired name, set the
 overwrite argument to FALSE to prevent overwriting the existing object.
@@ -278,6 +279,62 @@ As with all objects created with the capeml package, the resulting object is
 named with convention: projectid_object-name_md5sum-hash.file extension by
 default but this functionality can be turned off by setting projectNaming to
 FALSE.
+
+As with `create_dataTable()`, `create_otherEntity()` can also take advantage of
+the `write_attributes()` and `write_factors()` services of capeml. An example
+of where you might want to use these features would be when documenting a
+spatial resource that cannot be coerced into a type `spatialRaster` or
+`spatialVector` (e.g., because of an undocumented coordinate system). To use
+these services with a directory, create an object in R with the same name as
+the directory that will be zipped, then pass that object to
+`write_attributes()` and `write_factors()` - capeml will look for the resulting
+attribute and factor (if relevant) yaml files and match them to the directory
+name (see following for an example).
+
+*example using create_otherEntity to construct an object of type otherEntity
+from an ESRI shapefile titled UEI_Features_CAPLTER_2010_2017_JAB.shp (plus
+*.dbf, *.prj, and other shapefile files) that is in a directory of the same
+name (sans file extension)*
+
+
+```r
+# Read the data into R, here a shapefile using the sf package being careful to
+# name the resulting object in the R environment with the same name of the
+# directory housing the shapefiles (i.e., UEI_Features_CAPLTER_2010_2017_JAB).
+
+UEI_Features_CAPLTER_2010_2017_JAB <- sf::st_read(
+  dsn = "~/path/UEI_Features_CAPLTER_2010_2017_JAB/",
+  layer = "UEI_Features_CAPLTER_2010_2017_JAB"
+)
+
+# add factors if and as appropriate
+
+UEI_Features_CAPLTER_2010_2017_JAB <- UEI_Features_CAPLTER_2010_2017_JAB %>%
+  mutate(myfactor = as.factor(UEI_type))
+
+# Generate yaml files of both the attributes and factors (if relevant) from the
+# shapefile that we read into R; these will be written to the project directory
+# with the name of the object that we crated in the R environment in the first
+# step - again, this must correspond to the name of directory housing the files
+# to be zipped.
+
+write_attributes(UEI_Features_CAPLTER_2010_2017_JAB, overwrite = TRUE)
+write_factors(UEI_Features_CAPLTER_2010_2017_JAB, overwrite = TRUE)
+
+# Create the otherEntity object (i.e., UEI_other_entity) - the name of this
+# object is irrelevant but should have the `_OE` suffix to identify it as an
+# object of type otherEntity as a convenience when constructing the dataset. If
+# the names were matched appropriately, UEI_other_entity_OE should feature all
+# of the attribute metadata provided in the corresponding attribute and factor
+# (if relevant) yaml files. Additionally, the target directory housing our
+# shapefiles will be zipped and, possibly, renamed depending on whether project
+# naming was invoked.
+
+UEI_other_entity_OE <- create_otherEntity(
+  target_file_or_directory = "UEI_Features_CAPLTER_2010_2017_JAB",
+  description = "urban ecological infrastructure features in the Phoenix area"
+)
+```
 
 ### literature cited
 

@@ -24,6 +24,7 @@
 #' @import dplyr
 #' @import yaml
 #' @importFrom purrr map
+#' @importFrom sf st_drop_geometry
 #'
 #' @return The name of the file generated is returned, and a template for
 #'   providing code definition metadata as a yaml file with the file name of the
@@ -86,10 +87,22 @@ write_factors <- function(dfname, overwrite = FALSE) {
   }
 
 
-  # list of factors in target data entity
-  list_of_factors <- dfname %>%
-    dplyr::select_if(is.factor) %>%
-    names()
+  # list of factors in target data entity (if simple features, do not write
+  # include geometry column(s))
+  if (class(dfname)[[1]] == "sf") {
+
+    list_of_factors <- dfname %>%
+      sf::st_drop_geometry() %>%
+      dplyr::select_if(is.factor) %>%
+      names()
+
+  } else {
+
+    list_of_factors <- dfname %>%
+      dplyr::select_if(is.factor) %>%
+      names()
+
+  }
 
 
   # construct yaml entry for each factor
