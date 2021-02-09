@@ -225,9 +225,13 @@ create_dataTable <- function(
       tidyr::unnest_wider(value) %>%
       dplyr::select(-one_of("name"))
 
-  } else {
+  } else if (!file.exists(paste0(namestr, "_attrs.yaml")) && file.exists(paste0(namestr, "_attrs.csv"))) {
 
     attrs <- utils::read.csv(paste0(namestr, "_attrs.csv"))
+
+  } else {
+
+    stop(paste0("attributes file: ", namestr, "_attrs.yaml ", "not found in ", getwd()))
 
   }
 
@@ -235,142 +239,165 @@ create_dataTable <- function(
   classes <- attrs %>%
     dplyr::pull(columnClasses)
 
-  # copy attributeDefinition to defintion as appropriate; remove col classes
-  # from attrs (req'd by set_attributes); remove empty columns (real targets
-  # here are maximum and minimum, which can throw an error for data without any numeric
-  # cols)
+  # copy attributeDefinition to defintion as appropriate;
+  # remove col classes from attrs (req'd by set_attributes);
+  # remove empty columns (real targets here are maximum and minimum, which can
+  # throw an error for data without any numeric cols);
+  # if character data exist, copy attributeDefinition to definition if a
+  # definition is not provided
 
   # helper function to remove missing columns
   not_all_na <- function(x) {
     !all(is.na(x))
   }
 
-  attrs <- attrs %>%
-    mutate(
-      definition = case_when(
-        grepl("character", columnClasses) & ((is.na(definition) | definition == "")) ~ attributeDefinition,
-        TRUE ~ definition
-      )
-      ) %>%
-  dplyr::select(-columnClasses) %>%
-  dplyr::select_if(not_all_na)
+
+  if (any(grepl("character", attrs$columnClasses, ignore.case = TRUE))) {
+
+    attrs <- attrs %>%
+      mutate(
+        definition = case_when(
+          grepl("character", columnClasses) & ((is.na(definition) | definition == "")) ~ attributeDefinition,
+          TRUE ~ definition
+        )
+        ) %>%
+    dplyr::select(-columnClasses) %>%
+    dplyr::select_if(not_all_na)
+
+  } else {
+
+    attrs <- attrs %>%
+      dplyr::select(-columnClasses) %>%
+      dplyr::select_if(not_all_na)
+
+  }
+
+  #   attrs <- attrs %>%
+  #     mutate(
+  #       definition = case_when(
+  #         grepl("character", columnClasses) & ((is.na(definition) | definition == "")) ~ attributeDefinition,
+  #         TRUE ~ definition
+  #       )
+  #       ) %>%
+  #   dplyr::select(-columnClasses) %>%
+  #   dplyr::select_if(not_all_na)
 
 
-# factors ----------------------------------------------------------------------
+  # factors ----------------------------------------------------------------------
 
-if (file.exists(paste0(namestr, "_factors.yaml"))) {
+  if (file.exists(paste0(namestr, "_factors.yaml"))) {
 
-  df_factors <- yaml.load_file(paste0(namestr, "_factors.yaml")) %>%
-    yaml::yaml.load() %>%
-    tibble::enframe() %>%
-    tidyr::unnest_wider(value) %>%
-    tidyr::unnest_wider(attribute) %>%
-    tidyr::unnest_longer(levels) %>%
-    tidyr::unnest_wider(levels) %>%
-    dplyr::select(-one_of("name"))
+    df_factors <- yaml.load_file(paste0(namestr, "_factors.yaml")) %>%
+      yaml::yaml.load() %>%
+      tibble::enframe() %>%
+      tidyr::unnest_wider(value) %>%
+      tidyr::unnest_wider(attribute) %>%
+      tidyr::unnest_longer(levels) %>%
+      tidyr::unnest_wider(levels) %>%
+      dplyr::select(-one_of("name"))
 
-  has_factors <- TRUE
+    has_factors <- TRUE
 
-} else if (file.exists(paste0(namestr, "_factors.csv"))) {
+  } else if (file.exists(paste0(namestr, "_factors.csv"))) {
 
-  df_factors <- utils::read.csv(paste0(namestr, "_factors.csv"))
+    df_factors <- utils::read.csv(paste0(namestr, "_factors.csv"))
 
-  has_factors <- TRUE
+    has_factors <- TRUE
 
-} else {
+  } else {
 
-  has_factors <- FALSE
+    has_factors <- FALSE
 
-}
+  }
 
 
-# compile components for attributeList of dataTable ----------------------------
+  # compile components for attributeList of dataTable ----------------------------
 
-# condition: factors present, missing values NOT present
-if (has_factors == TRUE & nrow(mvframe) == 0) {
+  # condition: factors present, missing values NOT present
+  if (has_factors == TRUE & nrow(mvframe) == 0) {
 
-  attr_list <- EML::set_attributes(
-    attributes = attrs,
-    factors = df_factors,
-    col_classes = classes
+    attr_list <- EML::set_attributes(
+      attributes = attrs,
+      factors = df_factors,
+      col_classes = classes
+    )
+
+    # condition: factors present, missing values present
+  } else if (has_factors == TRUE & nrow(mvframe) >= 1) {
+
+    attr_list <- EML::set_attributes(
+      attributes = attrs,
+      factors = df_factors,
+      col_classes = classes,
+      missingValues = mvframe
+    )
+
+    # condition: factors NOT present, missing values present
+  } else if (has_factors == FALSE & nrow(mvframe) >= 1) {
+
+    attr_list <- EML::set_attributes(
+      attributes = attrs,
+      col_classes = classes,
+      missingValues = mvframe
+    )
+
+    # condition: factors NOT present, missing values NOT present
+  } else {
+
+    attr_list <- EML::set_attributes(
+      attributes = attrs,
+      col_classes = classes
+    )
+
+  }
+
+
+  # set physical ------------------------------------------------------------
+
+  dataTablePhysical <- EML::set_physical(
+    objectName = fname,
+    numHeaderLines = 1,
+    recordDelimiter = "\\r\\n",
+    quoteCharacter = "\"",
+    url = paste0(baseURL, fname)
   )
 
-  # condition: factors present, missing values present
-} else if (has_factors == TRUE & nrow(mvframe) >= 1) {
 
-  attr_list <- EML::set_attributes(
-    attributes = attrs,
-    factors = df_factors,
-    col_classes = classes,
-    missingValues = mvframe
+  # create dataTable entity -------------------------------------------------
+
+  newDT <- EML::eml$dataTable(
+    entityName = fname,
+    entityDescription = description,
+    physical = dataTablePhysical,
+    attributeList = attr_list,
+    numberOfRecords = nrow(dfname),
+    id = fname
   )
 
-  # condition: factors NOT present, missing values present
-} else if (has_factors == FALSE & nrow(mvframe) >= 1) {
 
-  attr_list <- EML::set_attributes(
-    attributes = attrs,
-    col_classes = classes,
-    missingValues = mvframe
-  )
+  # add temporalCoverage if appropriate -------------------------------------
 
-  # condition: factors NOT present, missing values NOT present
-} else {
+  if (!missing(dateRangeField)) {
 
-  attr_list <- EML::set_attributes(
-    attributes = attrs,
-    col_classes = classes
-  )
-
-}
-
-
-# set physical ------------------------------------------------------------
-
-dataTablePhysical <- EML::set_physical(
-  objectName = fname,
-  numHeaderLines = 1,
-  recordDelimiter = "\\r\\n",
-  quoteCharacter = "\"",
-  url = paste0(baseURL, fname)
-)
-
-
-# create dataTable entity -------------------------------------------------
-
-newDT <- EML::eml$dataTable(
-  entityName = fname,
-  entityDescription = description,
-  physical = dataTablePhysical,
-  attributeList = attr_list,
-  numberOfRecords = nrow(dfname),
-  id = fname
-)
-
-
-# add temporalCoverage if appropriate -------------------------------------
-
-if (!missing(dateRangeField)) {
-
-  dataTableTemporalCoverage <- EML::eml$coverage(
-    temporalCoverage = EML::eml$temporalCoverage(
-      rangeOfDates = EML::eml$rangeOfDates(
-        EML::eml$beginDate(
-          calendarDate = format(min(dfname[[dateRangeField]], na.rm = TRUE), "%Y-%m-%d")
-          ),
-        EML::eml$endDate(
-          calendarDate = format(max(dfname[[dateRangeField]], na.rm = TRUE), "%Y-%m-%d")
+    dataTableTemporalCoverage <- EML::eml$coverage(
+      temporalCoverage = EML::eml$temporalCoverage(
+        rangeOfDates = EML::eml$rangeOfDates(
+          EML::eml$beginDate(
+            calendarDate = format(min(dfname[[dateRangeField]], na.rm = TRUE), "%Y-%m-%d")
+            ),
+          EML::eml$endDate(
+            calendarDate = format(max(dfname[[dateRangeField]], na.rm = TRUE), "%Y-%m-%d")
+          )
         )
       )
     )
-  )
 
-  newDT$coverage <- dataTableTemporalCoverage
+    newDT$coverage <- dataTableTemporalCoverage
 
-} # close temporalCoverage
+  } # close temporalCoverage
 
-message(paste0("created dataTable: ", fname))
+  message(paste0("created dataTable: ", fname))
 
-return(newDT)
+  return(newDT)
 
 } # close create_dataTable
