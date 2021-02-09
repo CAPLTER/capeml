@@ -275,22 +275,20 @@ unitList <- set_unitList(
 ```{r literature cited, eval=FALSE}
 
 # add literature cited if relevant
-library(rcrossref)
-
-pub <- cr_cn(
-  dois = "https://doi.org/10.1186/s40317-015-0075-2",
-  format = "bibtex"
-)
-pub_cit <- EML::eml$citation(id = "https://doi.org/10.1186/s40317-015-0075-2")
-pub_cit$bibtex <- pub
+middel_2019 <- create_citation("https://doi.org/10.1016/j.scitotenv.2019.06.085")
+middel_2016 <- create_citation("https://doi.org/10.1007/s00484-016-1172-5")
+thorsson <- create_citation("https://doi.org/10.1002/joc.1537")
 
 citations <- list(
   citation = list(
-    pub
+    middel_2019,
+    middel_2016,
+    thorsson
   ) # close list of citations
 ) # close citation
 
 dataset$literatureCited <- citations
+
 
 ```
 

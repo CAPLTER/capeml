@@ -163,7 +163,8 @@ write_attributes <- function(dfname, overwrite = FALSE) {
 
       variableAttributes <- c(
         variableAttributes,
-        columnClasses = check_class(variable),
+        # columnClasses = check_class(variable),
+        columnClasses = "Date",
         formatString = "YYYY-MM-DD"
       )
 
