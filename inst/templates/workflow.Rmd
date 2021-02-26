@@ -16,17 +16,6 @@ library(gioseml)
 ```
 
 
-# otherEntity
-
-```{r otherEntity, eval=TRUE}
-
-otherEntityObject_OE <- create_otherEntity(
-  targetFile = "file",
-  description = "description")
-
-```
-
-
 # people
 
 See the gioseml package for examples of creating people resources from scratch.
@@ -120,68 +109,22 @@ enhancedMethods <- EML::eml$methods(methodStep = list(main, naip, landSurfaceTem
 # enddate <- format(max(runoff_chemistry$runoff_datetime), "%Y-%m-%d")
 geographicDescription <- "CAP LTER study area"
 coverage <- set_coverage(
-  begin = "2014-09-01",
-  end = "2015-03-30",
+  begin = "YYYY-MM-DD",
+  end = "YYYY-MM-DD",
   geographicDescription = geographicDescription,
-  west = -112.100, east = -111.877,
-  north = +33.608, south = +33.328)
+  west = -x,
+  east = -x,
+  north = +x,
+  south = +x
+)
 
 ```
 
-## taxonomic coverage
-
-Taxonomic coverage(s) are constructed using EDI's taxonomyCleanr tool suite.
-
-*Note* that the `taxa_map.csv` built with the `create_taxa_map()` function and
-resolving taxonomic IDs (i.e., `resolve_comm_taxa()`) only needs to be run once,
-a potentially long process, per version/session -- the taxonomicCoverage can be
-built as many times as needed with `resolve_comm_taxa()` once the `taxa_map.csv`
-has been generated and the taxonomic IDs resolved.
-
-```{r taxonomyCleanr, eval=FALSE}
-
-library(taxonomyCleanr)
-
-my_path <- getwd() # taxonomyCleanr requires a path (to build the taxa_map)
-
-# Example: draw taxonomic information from existing resource:
-
-# plant taxa listed in the om_transpiration_factors file
-plantTaxa <- read_csv('om_transpiration_factors.csv') %>%
-  filter(attributeName == "species") %>% 
-  as.data.frame()
-
-# create or update map. A taxa_map.csv is the heart of taxonomyCleanr. This
-# function will build the taxa_map.csv and put it in the path identified with
-# my_path.
-create_taxa_map(path = my_path, x = plantTaxa, col = "definition")
-
-# Example: construct taxonomic resource:
-
-gambelQuail <- tibble(taxName = "Callipepla gambelii")
-
-# Create or update map: a taxa_map.csv is the heart of taxonomyCleanr. This
-# function will build the taxa_map.csv in the path identified with my_path.
-create_taxa_map(path = my_path, x = gambelQuail, col = "taxName")
-
-# Resolve taxa by attempting to match the taxon name (data.source 3 is ITIS but
-# other sources are accessible). Use `resolve_comm_taxa` instead of
-# `resolve_sci_taxa` if taxa names are common names but note that ITIS
-# (data.source 3) is the only authority taxonomyCleanr will allow for common
-# names.
-resolve_sci_taxa(path = my_path, data.sources = 3) # in this case, 3 is ITIS
-
-# build the EML taxonomomic coverage
-taxaCoverage <- make_taxonomicCoverage(path = my_path)
-
-# add taxonomic to the other coverages
-coverage$taxonomicCoverage <- taxaCoverage
-```
 
 # dataset
 
 Optionally, provide: scope, abstract, methods, keywords, publication date.
-Projects scopes include lter (default), urex, ltreb, and som.
+Projects scopes include lter (default), gios, urex, ltreb, and som.
 
 ```{r construct-dataset}
 
@@ -289,8 +232,25 @@ citations <- list(
 
 dataset$literatureCited <- citations
 
+```
+
+
+# usage citation
+
+```{r usage citation, eval=FALSE}
+
+library(rcrossref)
+
+brown <- create_citation("https://doi.org/10.3389/fevo.2020.569730")
+
+usages <- list(
+    brown
+) # close usages
+
+dataset$usageCitation <- usages
 
 ```
+
 
 # eml
 
