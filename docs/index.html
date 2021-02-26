@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
       </span>
     </div>
 
@@ -63,13 +63,6 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-
-<hr>
-<div id="output-github_document" class="section level2">
-<h2 class="hasAnchor">
-<a href="#output-github_document" class="anchor"></a>output: github_document</h2>
-<!-- readme.md is generated from readme.rmd. please edit the latter. -->
-</div>
 <div id="capeml-tools-to-aid-the-generation-of-eml-metadata" class="section level2">
 <h2 class="hasAnchor">
 <a href="#capeml-tools-to-aid-the-generation-of-eml-metadata" class="anchor"></a>capeml: tools to aid the generation of eml metadata</h2>
@@ -291,6 +284,21 @@
 <span class="fu"><a href="reference/write_attributes.html">write_attributes</a></span><span class="op">(</span><span class="va">UEI_Features_CAPLTER_2010_2017_JAB</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="reference/write_factors.html">write_factors</a></span><span class="op">(</span><span class="va">UEI_Features_CAPLTER_2010_2017_JAB</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
+<span class="co"># an object description is required</span>
+
+<span class="va">UEI_Features_CAPLTER_2010_2017_JAB_desc</span> <span class="op">&lt;-</span> <span class="st">"compilation of pre-existing data as
+well as data created using expert opinion featuring (1) land-use and land-cover
+data used to classify the amount of agricultural land (classified as inactive
+  cropland and active cropland) as well as standing water, (2) water in canals
+and along the Salt River, (3) vacant lands which were classified as bare soil,
+grass/trees, or scrub, and (4) community parks and desert parks"</span>
+
+<span class="co"># create_otherEntity() accepts additionalInfo but is not required</span>
+
+<span class="va">UEI_Features_CAPLTER_2010_2017_JAB_additional</span> <span class="op">&lt;-</span> <span class="st">"this is a spatial data object
+with a Coordinate Reference System (CRS) of EPSG:2868 - NAD83(HARN) / Arizona
+Central (ft) - Projected"</span>
+
 <span class="co"># Create the otherEntity object (i.e., UEI_other_entity) - the name of this</span>
 <span class="co"># object is irrelevant but should have the `_OE` suffix to identify it as an</span>
 <span class="co"># object of type otherEntity as a convenience when constructing the dataset. If</span>
@@ -300,15 +308,19 @@
 <span class="co"># shapefiles will be zipped and, possibly, renamed depending on whether project</span>
 <span class="co"># naming was invoked.</span>
 
-<span class="va">UEI_other_entity_OE</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_otherEntity.html">create_otherEntity</a></span><span class="op">(</span>
-  target_file_or_directory <span class="op">=</span> <span class="st">"UEI_Features_CAPLTER_2010_2017_JAB"</span>,
-  description <span class="op">=</span> <span class="st">"urban ecological infrastructure features in the Phoenix area"</span>
+<span class="va">uei_features_OE</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_otherEntity.html">create_otherEntity</a></span><span class="op">(</span>
+  target_file_or_directory <span class="op">=</span> <span class="st">"data/UEI_Features_CAPLTER_2010_2017_JAB"</span>,
+  description <span class="op">=</span> <span class="va">UEI_Features_CAPLTER_2010_2017_JAB_desc</span>,
+  additional_information <span class="op">=</span> <span class="va">UEI_Features_CAPLTER_2010_2017_JAB_additional</span>
 <span class="op">)</span></code></pre></div>
 </div>
-<div id="literature-cited" class="section level3">
+<div id="citations" class="section level3">
 <h3 class="hasAnchor">
-<a href="#literature-cited" class="anchor"></a>literature cited</h3>
-<p>Below is a sample work flow that uses <code>capeml</code>’s <code>create_citation</code> function to generate citations by passing a resource DOI to crossref. Citations can be added to EML <code>literatureCited</code>. The work flow capitalizes on EML version 2.2 that accepts the BibTex format for references.</p>
+<a href="#citations" class="anchor"></a>citations</h3>
+<p>Below are sample work flows that use <code>capeml</code>’s <code>create_citation</code> function to generate citations by passing a resource DOI to crossref. Citations can be added to EML <code>literatureCited</code> and <code>usageCitation</code> elements. The work flow capitalizes on EML version 2.2 that accepts the BibTex format for references.</p>
+<div id="literature-cited" class="section level4">
+<h4 class="hasAnchor">
+<a href="#literature-cited" class="anchor"></a>literature cited</h4>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cook</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.envpol.2018.04.013"</span><span class="op">)</span>
 <span class="va">sartory</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1007/BF00031869"</span><span class="op">)</span>
@@ -321,9 +333,22 @@
 <span class="op">)</span> <span class="co"># close citation</span>
 
 <span class="va">dataset</span><span class="op">$</span><span class="va">literatureCited</span> <span class="op">&lt;-</span> <span class="va">citations</span></code></pre></div>
+<p><em>note here that, unlike a <code>literatureCited</code> citation, a <code>usageCitation</code> is not wrapped in a citation tag.</em></p>
 </div>
-</div>
+<div id="usage-citation" class="section level4">
+<h4 class="hasAnchor">
+<a href="#usage-citation" class="anchor"></a>usage citation</h4>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">brown</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.3389/fevo.2020.569730"</span><span class="op">)</span>
 
+<span class="va">usages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    <span class="va">brown</span>
+<span class="op">)</span> <span class="co"># close usages</span>
+
+<span class="va">dataset</span><span class="op">$</span><span class="va">usageCitation</span> <span class="op">&lt;-</span> <span class="va">usages</span></code></pre></div>
+</div>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -1,7 +1,3 @@
----
-output: github_document
----
-
 <!-- readme.md is generated from readme.rmd. please edit the latter. -->
 
 ## capeml: tools to aid the generation of eml metadata
@@ -321,6 +317,21 @@ UEI_Features_CAPLTER_2010_2017_JAB <- UEI_Features_CAPLTER_2010_2017_JAB %>%
 write_attributes(UEI_Features_CAPLTER_2010_2017_JAB, overwrite = TRUE)
 write_factors(UEI_Features_CAPLTER_2010_2017_JAB, overwrite = TRUE)
 
+# an object description is required
+
+UEI_Features_CAPLTER_2010_2017_JAB_desc <- "compilation of pre-existing data as
+well as data created using expert opinion featuring (1) land-use and land-cover
+data used to classify the amount of agricultural land (classified as inactive
+  cropland and active cropland) as well as standing water, (2) water in canals
+and along the Salt River, (3) vacant lands which were classified as bare soil,
+grass/trees, or scrub, and (4) community parks and desert parks"
+
+# create_otherEntity() accepts additionalInfo but is not required
+
+UEI_Features_CAPLTER_2010_2017_JAB_additional <- "this is a spatial data object
+with a Coordinate Reference System (CRS) of EPSG:2868 - NAD83(HARN) / Arizona
+Central (ft) - Projected"
+
 # Create the otherEntity object (i.e., UEI_other_entity) - the name of this
 # object is irrelevant but should have the `_OE` suffix to identify it as an
 # object of type otherEntity as a convenience when constructing the dataset. If
@@ -330,19 +341,23 @@ write_factors(UEI_Features_CAPLTER_2010_2017_JAB, overwrite = TRUE)
 # shapefiles will be zipped and, possibly, renamed depending on whether project
 # naming was invoked.
 
-UEI_other_entity_OE <- create_otherEntity(
-  target_file_or_directory = "UEI_Features_CAPLTER_2010_2017_JAB",
-  description = "urban ecological infrastructure features in the Phoenix area"
+uei_features_OE <- create_otherEntity(
+  target_file_or_directory = "data/UEI_Features_CAPLTER_2010_2017_JAB",
+  description = UEI_Features_CAPLTER_2010_2017_JAB_desc,
+  additional_information = UEI_Features_CAPLTER_2010_2017_JAB_additional
 )
 
 ```
 
-### literature cited
 
-Below is a sample work flow that uses `capeml`'s `create_citation` function to
+### citations
+
+Below are sample work flows that use `capeml`'s `create_citation` function to
 generate citations by passing a resource DOI to crossref. Citations can be
-added to EML `literatureCited`. The work flow capitalizes on EML version 2.2
-that accepts the BibTex format for references.
+added to EML `literatureCited` and `usageCitation` elements. The work flow
+capitalizes on EML version 2.2 that accepts the BibTex format for references.
+
+#### literature cited
 
 ```{r dataset-level-citations, eval=FALSE}
 
@@ -357,5 +372,21 @@ citations <- list(
 ) # close citation
 
 dataset$literatureCited <- citations
+
+```
+*note here that, unlike a `literatureCited` citation, a `usageCitation` is not
+wrapped in a citation tag.*
+
+#### usage citation
+
+```{r usage citation, eval=FALSE}
+
+brown <- create_citation("https://doi.org/10.3389/fevo.2020.569730")
+
+usages <- list(
+    brown
+) # close usages
+
+dataset$usageCitation <- usages
 
 ```

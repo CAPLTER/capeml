@@ -30,6 +30,9 @@
 #'  the style used by the CAP LTER (default) with the package number + base file
 #'  name + md5sum + file extension. The passed file or directory name will be
 #'  used if this parameter is set to FALSE.
+#' @param additional_information
+#'  (character) Additional information about the data object. Should be quoted,
+#'  and accepts (but not required) markdown formatting.
 #'
 #' @import EML
 #' @import dplyr
@@ -84,7 +87,8 @@ create_otherEntity <- function(
   description,
   baseURL = "https://data.gios.asu.edu/datasets/cap/",
   overwrite = FALSE,
-  projectNaming = TRUE) {
+  projectNaming = TRUE,
+  additional_information = NULL) {
 
   # prerequisites -----------------------------------------------------------
 
@@ -350,6 +354,15 @@ print(paste0("LOOKING FOR:", tools::file_path_sans_ext(target_file_or_directory)
   if (has_attributes == TRUE) {
 
     newOE$attributeList <- attr_list
+
+  }
+
+
+  # additional information -------------------------------------------------------
+
+  if (!is.null(additional_information)) {
+
+    newOE$additionalInfo <- additional_information
 
   }
 

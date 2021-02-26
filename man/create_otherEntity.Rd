@@ -9,7 +9,8 @@ create_otherEntity(
   description,
   baseURL = "https://data.gios.asu.edu/datasets/cap/",
   overwrite = FALSE,
-  projectNaming = TRUE
+  projectNaming = TRUE,
+  additional_information = NULL
 )
 }
 \arguments{
@@ -30,6 +31,9 @@ same name and location as the temporary zip object to be created.}
 the style used by the CAP LTER (default) with the package number + base file
 name + md5sum + file extension. The passed file or directory name will be
 used if this parameter is set to FALSE.}
+
+\item{additional_information}{(character) Additional information about the data object. Should be quoted,
+and accepts (but not required) markdown formatting.}
 }
 \value{
 EML entity of type otherEntity is returned. Additionally, the data
