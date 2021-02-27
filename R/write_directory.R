@@ -110,6 +110,6 @@ write_directory <- function(
 
 #   end ------------------------------------------------------------------------
 
-  message("done")
+  message("completed generating directory, template, and config")
 
 }

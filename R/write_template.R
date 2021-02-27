@@ -76,6 +76,6 @@ write_template <- function(
 
   #   end ------------------------------------------------------------------------
 
-  message("done")
+  message(paste0("created ", packageScopeNumber, ".Rmd at ", path))
 
 }

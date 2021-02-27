@@ -73,4 +73,6 @@ write_config <- function(
     file = paste0(path, "/", "config.yaml")
   )
 
+  message(paste0("created config.yaml at ", path))
+
 }

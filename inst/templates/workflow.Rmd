@@ -57,15 +57,14 @@ associatedParty <- list(mark, nancy)
 
 ```
 
+
 # keywords
 
 ```{r keywords}
 
-# CAP IRTs for reference (be sure to include these as appropriate):
-# https://sustainability.asu.edu/caplter/research/
-
 write_keywords()
 ```
+
 
 # methods
 
@@ -73,33 +72,6 @@ Methods are automatically read from a `methods.md` file in the project
 directory. If more elaborate methods are required, e.g., to incorporate
 provenance, use the enhancedMethods approach.
 
-Use this extended approach of developing methods if provenance data are
-required or there are multiple methods files, otherwise the `create_dateset()`
-function will look for a methods.md file in the working directory (or a file
-path and name can be passed).
-
-## methods and provenance
-
-```{r methods_provenance, eval=FALSE}
-
-# methods from file tagged as markdown
-main <- list(description = list(read_markdown("methods.md")))
-
-library(EDIutils)
-
-# provenance: naip
-naip <- emld::as_emld(EDIutils::api_get_provenance_metadata("knb-lter-cap.623.1"))
-naip$`@context` <- NULL
-naip$`@type` <- NULL
-
-# provenance: lst
-landSurfaceTemp <- emld::as_emld(EDIutils::api_get_provenance_metadata("knb-lter-cap.677.1"))
-landSurfaceTemp$`@context` <- NULL
-landSurfaceTemp$`@type` <- NULL
-
-enhancedMethods <- EML::eml$methods(methodStep = list(main, naip, landSurfaceTemp))
-
-```
 
 # coverages
 
@@ -131,6 +103,7 @@ Projects scopes include lter (default), gios, urex, ltreb, and som.
 dataset <- create_dataset()
 ```
 
+
 # add dataTable
 
 ```{r dataSet$dataTable}
@@ -149,8 +122,8 @@ if (length(ls(pattern = "_DT")) > 0) {
 
 # or add manually
 # dataset$dataTable <- list(dataTableOne, dataTableTwo)
-
 ```
+
 
 # add otherEntity
 
@@ -170,8 +143,8 @@ if (length(ls(pattern = "_OE")) > 0) {
 
 # or add manually
 # dataset$otherEntity <- list(otherEntityOne, otherEntityTwo)
-
 ```
+
 
 # add spatialVector
 
@@ -191,81 +164,22 @@ if (length(ls(pattern = "_SV")) > 0) {
 
 # or add manually
 # dataset$spatialVector <- list(spatialVectorOne, spatialVectorTwo)
-
-```
-
-# customUnits
-
-```{r custom-units, eval=FALSE}
-
-custom_units <- rbind(
-  data.frame(
-    id = "milligramPerKilogram",
-    unitType = "massPerMass",
-    parentSI = "gramsPerGram",
-    multiplierToSI = 0.000001,
-    description = "millgram of element per kilogram of material")
-)
-
-unitList <- set_unitList(
-  custom_units,
-  as_metadata = TRUE)
-
-```
-
-# literature cited
-
-```{r literature cited, eval=FALSE}
-
-# add literature cited if relevant
-middel_2019 <- create_citation("https://doi.org/10.1016/j.scitotenv.2019.06.085")
-middel_2016 <- create_citation("https://doi.org/10.1007/s00484-016-1172-5")
-thorsson <- create_citation("https://doi.org/10.1002/joc.1537")
-
-citations <- list(
-  citation = list(
-    middel_2019,
-    middel_2016,
-    thorsson
-  ) # close list of citations
-) # close citation
-
-dataset$literatureCited <- citations
-
-```
-
-
-# usage citation
-
-```{r usage citation, eval=FALSE}
-
-library(rcrossref)
-
-brown <- create_citation("https://doi.org/10.3389/fevo.2020.569730")
-
-usages <- list(
-    brown
-) # close usages
-
-dataset$usageCitation <- usages
-
 ```
 
 
 # eml
 
-```{r construct_eml, eval=TRUE}
+```{r construct-eml, eval=TRUE}
 
-eml <- create_eml()
+eml <- capeml::create_eml()
 ```
 
-```{r validate_eml, eval=TRUE}
+```{r validate-eml, eval=TRUE}
 
-eml_validate(eml)
+EML::eml_validate(eml)
 ```
 
-```{r eml_to_file, eval=TRUE}
+```{r eml-to-file, eval=TRUE}
 
-# write the eml to file
-write_cap_eml()
+capeml::write_cap_eml()
 ```
