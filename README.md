@@ -233,6 +233,11 @@ properties (e.g., attributeDefinition, units) can be added via a editor.
 working directory based on columns of the data entity that are factors such
 that details of factor levels can be added via a editor.
 
+Note that `write_attributes` and `write_factors` are wrapped in a `try` block.
+This allows us to run the chunk or knit the entire document even if the
+attributes and factors yaml files already exist (since they will not be
+overwritten unless the overwrite flag is set, thus aborting the chunk).
+
 `create_dataTable(data_entity)` performs many services:
 
 * the data entity is written to file as a csv in the working directory with the
@@ -249,8 +254,10 @@ that details of factor levels can be added via a editor.
 ```r
 my_table <- import / generate...process...
 
-write_attributes(my_table)
-write_factors(my_table)
+try({
+  write_attributes(my_table)
+  write_factors(my_table)
+})
 
 my_table_desc <- "description of table"
 
