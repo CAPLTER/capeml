@@ -121,7 +121,7 @@ if (length(ls(pattern = "_DT")) > 0) {
 }
 
 # or add manually
-# dataset$dataTable <- list(dataTableOne, dataTableTwo)
+# dataset$dataTable <- list(dataTable..., dataTable...)
 ```
 
 
@@ -142,7 +142,7 @@ if (length(ls(pattern = "_OE")) > 0) {
 }
 
 # or add manually
-# dataset$otherEntity <- list(otherEntityOne, otherEntityTwo)
+# dataset$otherEntity <- list(otherEntity..., otherEntity...)
 ```
 
 
@@ -163,9 +163,29 @@ if (length(ls(pattern = "_SV")) > 0) {
 }
 
 # or add manually
-# dataset$spatialVector <- list(spatialVectorOne, spatialVectorTwo)
+# dataset$spatialVector <- list(spatialVector..., spatialVector...)
 ```
 
+
+# add spatialRaster
+
+```{r dataSet$spatialRaster}
+
+# add spatial vectors if relevant
+
+print(ls(pattern = "_SR"))
+
+if (length(ls(pattern = "_SR")) > 0) {
+
+  listOfSpatialRasters <- lapply(ls(pattern = "_SR"), function(SR) { get(SR) } )
+
+  dataset$spatialRaster  <- listOfSpatialRasters
+
+}
+
+# or add manually
+# dataset$spatialRaster <- list(spatialRaster..., spatialRaster...)
+```
 
 # eml
 

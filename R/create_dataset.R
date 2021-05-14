@@ -17,11 +17,16 @@
 #'  config.yaml; these parameters are not passed directly to the function and
 #'  must exist in the working environment or yaml.
 #'
-#' @param scope Quoted name or acronym of the project.
-#' @param abstractFile Quoted name and path of abstract (in markdown format)
-#' @param methodsFile Quoted name and path of methods (in markdown format)
-#' @param keywordsFile Quoted name and path of keywords (in csv format)
-#' @param publicationDate Quoted ISO date - defaults to today's date
+#' @param scope
+#' (character) Quoted name or acronym of the project.
+#' @param abstractFile
+#' (character) Quoted name and path of abstract (in markdown format)
+#' @param methodsFile
+#' (character) Quoted name and path of methods (in markdown format)
+#' @param keywordsFile
+#' (character) Quoted name and path of keywords (in csv format)
+#' @param publicationDate
+#' (character) Quoted ISO date - defaults to today's date
 #'
 #' @import EML
 #' @importFrom yaml yaml.load_file
@@ -30,11 +35,13 @@
 #'
 #' @export
 #'
-create_dataset <- function(scope = "LTER",
-                           abstractFile = "abstract.md",
-                           methodsFile = "methods.md",
-                           keywordsFile = "keywords.csv",
-                           publicationDate = NULL) {
+create_dataset <- function(
+  scope = "LTER",
+  abstractFile = "abstract.md",
+  methodsFile = "methods.md",
+  keywordsFile = "keywords.csv",
+  publicationDate = NULL
+  ) {
 
   # confirm required components exist in R environment
   if (!exists("creators")) {
@@ -132,18 +139,48 @@ create_dataset <- function(scope = "LTER",
 
   }
 
-  # add associated party if exists
-  if (exists('associatedParty')) { dataset$associatedParty <- associatedParty }
 
+  # add associated party if exists
+  if (exists("associatedParty")) { dataset$associatedParty <- associatedParty }
+
+
+  # add literature citations if exists
+  num_citations <- 0
+
+  if (exists("citations")) {
+
+    dataset$literatureCited <- citations
+    num_citations <- length(citations$citation)
+
+  }
+
+
+  # add usage citations if exists
+  num_usages <- 0
+
+  if (exists("usages")) {
+
+    dataset$usageCitation <- usages
+    num_usages <- length(usages)
+
+  }
+
+
+  # generate summary
   message(
     paste0(
       "created EML dataset:\n",
-      " package:", packageIdent, "\n",
+      " package: ", packageIdent, "\n",
       " title: ", title, "\n",
-      " scope: ", scope
+      " scope: ", scope, "\n",
+      " associated party: ", exists("associatedParty"), "\n",
+      " literature citations: ", num_citations, "\n",
+      " usage citations: ", num_usages, "\n"
     )
   )
 
+
+  # return
   return(dataset)
 
 }

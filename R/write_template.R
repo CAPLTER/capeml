@@ -5,8 +5,8 @@
 #'
 #' @usage
 #'     write_template(
-#'       path,
 #'       packageScopeNumber,
+#'       path,
 #'       overwrite
 #'     )
 #'

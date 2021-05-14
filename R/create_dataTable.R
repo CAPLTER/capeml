@@ -46,6 +46,9 @@
 #'   and NaN entries as missing values in the EML output. The user has the
 #'   ability to identify an additional indicator of missing values (e.g.,
 #'   "-9999", "missing").
+#' @param additional_information
+#'  (character) Additional information about the data object. Should be quoted,
+#'  and accepts (but not required) markdown formatting.
 #'
 #' @import EML
 #' @import dplyr
@@ -94,7 +97,9 @@ create_dataTable <- function(
   description,
   dateRangeField,
   baseURL = "https://data.gios.asu.edu/datasets/cap/",
-  missingValueCode = NULL) {
+  missingValueCode = NULL,
+  additional_information = NULL
+  ) {
 
 
   # get text reference of dataframe name for use throughout -------------------
@@ -396,8 +401,21 @@ create_dataTable <- function(
 
   } # close temporalCoverage
 
+
+  # additional information -------------------------------------------------------
+
+  if (!is.null(additional_information)) {
+
+    newDT$additionalInfo <- additional_information
+
+  }
+
+
+  # summary
   message(paste0("created dataTable: ", fname))
 
+
+  # return object
   return(newDT)
 
 } # close create_dataTable

@@ -6,8 +6,8 @@
 #'
 #' @usage
 #'     write_directory(
-#'       path,
-#'       packageScopeNumber
+#'       packageScopeNumber,
+#'       path
 #'     )
 #'
 #' @param packageScopeNumber
