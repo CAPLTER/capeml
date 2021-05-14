@@ -5,8 +5,8 @@
 \title{create data package directory}
 \usage{
 write_directory(
-      path,
-      packageScopeNumber
+      packageScopeNumber,
+      path
     )
 }
 \arguments{

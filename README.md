@@ -261,9 +261,15 @@ try({
 
 my_table_desc <- "description of table"
 
+# create_dataTable() accepts additionalInfo but is not required
+
+my_additional_info <- "more metadata""
+
 my_table_DT <- create_dataTable(
   dfname = my_table,
-  description = my_table_desc
+  description = my_table_desc,
+  dateRangeField = "my_date_field",
+  additional_information = my_additional_info 
 )
 ```
 
@@ -363,6 +369,11 @@ generate citations by passing a resource DOI to crossref. Citations can be
 added to EML `literatureCited` and `usageCitation` elements. The work flow
 capitalizes on EML version 2.2 that accepts the BibTex format for references.
 
+`create_dataset()` will look for citation entities at the time of dataset
+construction so desired citation entities must exist in the R environment.
+`literatureCited` entities must be in a list named `citations`, and
+`usageCitation` entities must be a list named `usages`.
+
 #### literature cited
 
 
@@ -376,11 +387,9 @@ citations <- list(
     sartory
   ) # close list of citations
 ) # close citation
-
-dataset$literatureCited <- citations
 ```
-*note here that, unlike a `literatureCited` citation, a `usageCitation` is not
-wrapped in a citation tag.*
+Note that, unlike a `literatureCited` citation, a `usageCitation` is **not**
+wrapped in a citation tag.
 
 #### usage citation
 

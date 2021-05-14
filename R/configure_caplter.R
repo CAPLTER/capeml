@@ -40,25 +40,25 @@
 #' @title default GIOS address
 #' @export giosAddress
 giosAddress <- EML::eml$address(
-  deliveryPoint = c('Arizona State University', 'Global Institute of Sustainability'),
-  city = 'Tempe',
-  administrativeArea = 'AZ',
-  postalCode = '85287-5402',
-  country = 'USA')
+  deliveryPoint = c("Arizona State University", "Global Institute of Sustainability and Innovation"),
+  city = "Tempe",
+  administrativeArea = "AZ",
+  postalCode = "85287-5402",
+  country = "USA")
 
 #' @title default GIOS publisher as EML::publisher
 #' @export giosPublisher
 giosPublisher <- EML::eml$publisher(
-  organizationName = 'Arizona State University, Julie Ann Wrigley Global Institute of Sustainability',
+  organizationName = "Arizona State University, Julie Ann Wrigley Global Institute of Sustainability and Innovation",
   address = giosAddress)
 
 #' @title default GIOS contact as EML::contact
 #' @export giosContact
 giosContact <- EML::eml$contact(
-  organizationName = 'Julie Ann Wrigley Global Institute of Sustainability, Arizona State University',
-  positionName = 'Data Manager',
+  organizationName = "Julie Ann Wrigley Global Institute of Sustainability and Innovation, Arizona State University",
+  positionName = "Data Manager",
   electronicMailAddress = "caplter.data@asu.edu",
-  onlineUrl = 'https://researchdata.asu.edu/',
+  onlineUrl = "https://researchdata.asu.edu/",
   address = giosAddress)
 
 
@@ -67,25 +67,25 @@ giosContact <- EML::eml$contact(
 #' @title default CAP LTER address
 #' @export capAddress
 capAddress <- EML::eml$address(
-  deliveryPoint = c('Arizona State University', 'Global Institute of Sustainability'),
-  city = 'Tempe',
-  administrativeArea = 'AZ',
-  postalCode = '85287-5402',
-  country = 'USA')
+  deliveryPoint = c("Arizona State University", "Global Institute of Sustainability and Innovation"),
+  city = "Tempe",
+  administrativeArea = "AZ",
+  postalCode = "85287-5402",
+  country = "USA")
 
 #' @title default CAP LTER publisher as EML::publisher
 #' @export capPublisher
 capPublisher <- EML::eml$publisher(
-  organizationName = 'Central Arizona\u2013Phoenix LTER',
+  organizationName = "Central Arizona\u2013Phoenix LTER",
   address = capAddress)
 
 #' @title default CAP LTER contact as EML::contact
 #' @export capContact
 capContact <- EML::eml$contact(
-  organizationName = 'Central Arizona\u2013Phoenix LTER',
-  positionName = 'Information Manager',
+  organizationName = "Central Arizona\u2013Phoenix LTER",
+  positionName = "Information Manager",
   electronicMailAddress = "caplter.data@asu.edu",
-  onlineUrl = 'https://sustainability.asu.edu/caplter/',
+  onlineUrl = "https://sustainability.asu.edu/caplter/",
   address = capAddress)
 
 

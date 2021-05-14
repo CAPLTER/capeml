@@ -13,15 +13,15 @@ create_dataset(
 )
 }
 \arguments{
-\item{scope}{Quoted name or acronym of the project.}
+\item{scope}{(character) Quoted name or acronym of the project.}
 
-\item{abstractFile}{Quoted name and path of abstract (in markdown format)}
+\item{abstractFile}{(character) Quoted name and path of abstract (in markdown format)}
 
-\item{methodsFile}{Quoted name and path of methods (in markdown format)}
+\item{methodsFile}{(character) Quoted name and path of methods (in markdown format)}
 
-\item{keywordsFile}{Quoted name and path of keywords (in csv format)}
+\item{keywordsFile}{(character) Quoted name and path of keywords (in csv format)}
 
-\item{publicationDate}{Quoted ISO date - defaults to today's date}
+\item{publicationDate}{(character) Quoted ISO date - defaults to today's date}
 }
 \value{
 EML dataset entity is returned.

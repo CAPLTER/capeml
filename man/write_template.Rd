@@ -5,8 +5,8 @@
 \title{build a template workflow}
 \usage{
 write_template(
-      path,
       packageScopeNumber,
+      path,
       overwrite
     )
 }

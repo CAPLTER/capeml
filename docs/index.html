@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
       </span>
     </div>
 
@@ -230,6 +230,7 @@
 <p>Given a rectangular data matrix of type dataframe or tibble in the R environment:</p>
 <p><code><a href="reference/write_attributes.html">write_attributes(data_entity)</a></code> will generate a template as a yaml file in the working directory based on properties of the data entity such that metadata properties (e.g., attributeDefinition, units) can be added via a editor.</p>
 <p><code><a href="reference/write_factors.html">write_factors(data_entity)</a></code> will generate a template as a yaml file in the working directory based on columns of the data entity that are factors such that details of factor levels can be added via a editor.</p>
+<p>Note that <code>write_attributes</code> and <code>write_factors</code> are wrapped in a <code>try</code> block. This allows us to run the chunk or knit the entire document even if the attributes and factors yaml files already exist (since they will not be overwritten unless the overwrite flag is set, thus aborting the chunk).</p>
 <p><code><a href="reference/create_dataTable.html">create_dataTable(data_entity)</a></code> performs many services:</p>
 <ul>
 <li>the data entity is written to file as a csv in the working directory with the file name: <em>projectid_data-entity-name_md5-hash-of-file.csv</em>
@@ -239,18 +240,25 @@
 </li>
 </ul>
 <p><em>create_dataTable example: my_table</em></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">my_table</span> <span class="op">&lt;-</span> <span class="va">import</span> <span class="op">/</span> <span class="va">generate...process...</span>
-
-<span class="fu"><a href="reference/write_attributes.html">write_attributes</a></span><span class="op">(</span><span class="va">my_table</span><span class="op">)</span>
-<span class="fu"><a href="reference/write_factors.html">write_factors</a></span><span class="op">(</span><span class="va">my_table</span><span class="op">)</span>
-
-<span class="va">my_table_desc</span> <span class="op">&lt;-</span> <span class="st">"description of table"</span>
-
-<span class="va">my_table_DT</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_dataTable.html">create_dataTable</a></span><span class="op">(</span>
-  dfname <span class="op">=</span> <span class="va">my_table</span>,
-  description <span class="op">=</span> <span class="va">my_table_desc</span>
-<span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>my_table <span class="ot">&lt;-</span> import <span class="sc">/</span> generate...process...</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>({</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_attributes</span>(my_table)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_factors</span>(my_table)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>my_table_desc <span class="ot">&lt;-</span> <span class="st">"description of table"</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># create_dataTable() accepts additionalInfo but is not required</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>my_additional_info <span class="ot">&lt;-</span> <span class="st">"more metadata""</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="st">my_table_DT &lt;- create_dataTable(</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="st">  dfname = my_table,</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="st">  description = my_table_desc,</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="st">  dateRangeField = "</span>my_date_field<span class="st">",</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="st">  additional_information = my_additional_info </span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="st">)</span></span></code></pre></div>
 </div>
 <div id="overview-create-a-otherentity" class="section level3">
 <h3 class="hasAnchor">
@@ -318,6 +326,7 @@ Central (ft) - Projected"</span>
 <h3 class="hasAnchor">
 <a href="#citations" class="anchor"></a>citations</h3>
 <p>Below are sample work flows that use <code>capeml</code>’s <code>create_citation</code> function to generate citations by passing a resource DOI to crossref. Citations can be added to EML <code>literatureCited</code> and <code>usageCitation</code> elements. The work flow capitalizes on EML version 2.2 that accepts the BibTex format for references.</p>
+<p><code><a href="reference/create_dataset.html">create_dataset()</a></code> will look for citation entities at the time of dataset construction so desired citation entities must exist in the R environment. <code>literatureCited</code> entities must be in a list named <code>citations</code>, and <code>usageCitation</code> entities must be a list named <code>usages</code>.</p>
 <div id="literature-cited" class="section level4">
 <h4 class="hasAnchor">
 <a href="#literature-cited" class="anchor"></a>literature cited</h4>
@@ -330,10 +339,8 @@ Central (ft) - Projected"</span>
     <span class="va">cook</span>,
     <span class="va">sartory</span>
   <span class="op">)</span> <span class="co"># close list of citations</span>
-<span class="op">)</span> <span class="co"># close citation</span>
-
-<span class="va">dataset</span><span class="op">$</span><span class="va">literatureCited</span> <span class="op">&lt;-</span> <span class="va">citations</span></code></pre></div>
-<p><em>note here that, unlike a <code>literatureCited</code> citation, a <code>usageCitation</code> is not wrapped in a citation tag.</em></p>
+<span class="op">)</span> <span class="co"># close citation</span></code></pre></div>
+<p>Note that, unlike a <code>literatureCited</code> citation, a <code>usageCitation</code> is <strong>not</strong> wrapped in a citation tag.</p>
 </div>
 <div id="usage-citation" class="section level4">
 <h4 class="hasAnchor">

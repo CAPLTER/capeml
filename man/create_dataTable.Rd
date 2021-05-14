@@ -9,7 +9,8 @@ create_dataTable(
   description,
   dateRangeField,
   baseURL = "https://data.gios.asu.edu/datasets/cap/",
-  missingValueCode = NULL
+  missingValueCode = NULL,
+  additional_information = NULL
 )
 }
 \arguments{
@@ -35,6 +36,9 @@ generate a web-resolvable file path.}
 and NaN entries as missing values in the EML output. The user has the
 ability to identify an additional indicator of missing values (e.g.,
 "-9999", "missing").}
+
+\item{additional_information}{(character) Additional information about the data object. Should be quoted,
+and accepts (but not required) markdown formatting.}
 }
 \value{
 EML dataTable object is returned. Additionally, the data entity is
