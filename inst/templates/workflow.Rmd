@@ -95,8 +95,7 @@ coverage <- set_coverage(
 
 # dataset
 
-Optionally, provide: scope, abstract, methods, keywords, publication date.
-Projects scopes include lter (default), gios, urex, ltreb, and som.
+Optionally, provide: abstract, methods, keywords, publication date.
 
 ```{r construct-dataset}
 

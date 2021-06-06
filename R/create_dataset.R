@@ -17,8 +17,6 @@
 #'  config.yaml; these parameters are not passed directly to the function and
 #'  must exist in the working environment or yaml.
 #'
-#' @param scope
-#' (character) Quoted name or acronym of the project.
 #' @param abstractFile
 #' (character) Quoted name and path of abstract (in markdown format)
 #' @param methodsFile
@@ -36,7 +34,6 @@
 #' @export
 #'
 create_dataset <- function(
-  scope = "LTER",
   abstractFile = "abstract.md",
   methodsFile = "methods.md",
   keywordsFile = "keywords.csv",
@@ -60,6 +57,7 @@ create_dataset <- function(
   }
   title <- yaml::yaml.load_file("config.yaml")$title
   packageIdent <- yaml::yaml.load_file("config.yaml")$packageIdent
+  scope <- yaml::yaml.load_file("config.yaml")$project
 
   # read abstract
   tryCatch({
