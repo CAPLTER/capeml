@@ -105,7 +105,7 @@ create_dataset <- function(
 
     dataset$contact <- capContact # cap contact
     dataset$publisher <- capPublisher # cap pub
-    dataset$project <- capProject # cap project
+    dataset$project <- configure_cap_project() # cap project
 
   } else if (grepl("gios", scope, ignore.case = TRUE)) {
 
@@ -116,20 +116,20 @@ create_dataset <- function(
 
     dataset$contact <- giosContact # gios contact
     dataset$publisher <- giosPublisher # gios pub
-    dataset$project <- urexProject # urex project
+    dataset$project <- configure_urex_project()  # urex project
 
   } else if (grepl("som", scope, ignore.case = TRUE)) {
 
     dataset$contact <- capContact # cap contact
     dataset$publisher <- capPublisher # cap pub
-    dataset$project <- somProject # cap project
+    dataset$project <- configure_som_project()  # SOM project
 
   } else if (grepl("ltreb", scope, ignore.case = TRUE)) {
 
     dataset$contact <- capContact # cap contact
     dataset$publisher <- capPublisher # cap pub
-    capProject$relatedProject <- ltrebProject # ltreb as related
-    dataset$project <- capProject # ltreb nested in cap
+    capProject$relatedProject <- configure_ltreb_project() # ltreb as related
+    dataset$project <- configure_cap_project() # ltreb nested in cap
 
   } else {
 

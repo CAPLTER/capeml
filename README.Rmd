@@ -53,11 +53,9 @@ both physical objects and EML references to those objects with the format:
 `project-id`\_`object-name`\_`object-hash`\.`file-extension` (e.g.,
 *664_site_map_5fb7b8d53d48010eab1a2e73db7f1941.png*). The target object (e.g.,
 site_map.png from the previous example) is renamed with the additional metadata
-and this object name is referenced in the EML metadata. The only exception to
-this approach are spatialVectors (see capemlGIS) where the hash of the
-file/object is not included in the new object name. Note that the project-id is
-not passed to any of the functions, and must exist in `config.yaml` (as
-`projectid`).
+and this object name is referenced in the EML metadata. Note that the
+project-id is not passed to any of the functions, and must exist in
+`config.yaml` (as `projectid`).
 
 Project-naming functionality can be turned off by setting the `projectNaming`
 option in `create_dataTable()` (*forthcoming*) and `create_spatialRaster()`
@@ -405,5 +403,66 @@ usages <- list(
 ) # close usages
 
 dataset$usageCitation <- usages
+
+```
+
+Though a DOI makes documenting references easy, we can add citations that do
+not have a DOI. There are many ways to address this but likely easiest is to
+get or create a citation for the reference in bibtex format.
+[bibutils](http://sourceforge.net/p/bibutils/home/Bibutils/) is a helfpul
+utility that can convert other citation formats, such as .ris, to bibtex. can
+convert ris to an intermediate xml format and then convert that to bibtex.
+
+```{sh usage citation, eval=FALSE}
+
+wget -O ~/Desktop/tellman_dissertation.ris https://repository.asu.edu/items/53734.ris
+cat tellman_dissertation.ris | ris2xml | xml2bib >> tellman_dissertation.bib
+
+```
+
+Once we have the citation in bibtex format, we can add it along with other
+citaions as in the example below where we added the citation for the Tellman
+dissertation to 
+
+```{r usage citation, eval=FALSE}
+
+tellman_2021 <- create_citation("https://doi.org/10.1016/j.worlddev.2020.105374")
+lerner_2018 <- create_citation("https://doi.org/10.1016/j.cities.2018.06.009")
+eakin_2019 <- create_citation("https://doi.org/10.5751/ES-11030-240315")
+
+tellman_dissertation <- "
+@phdthesis{Tellman_2019,
+author={Tellman, Elizabeth
+and Turner II, Billie L.
+and Eakin, Hallie
+and Janssen, Marco
+and de Alba, Felipe
+and Jain, Meha},
+title={Mapping and Modeling Illicit and Clandestine Drivers of Land Use Change: Urban Expansion in Mexico City and Deforestation in Central America},
+publisher={Arizona State University},
+keywords={Geography; Urban planning; Land use planning; Central America; Clientelism; Institutions; Mexico; Narcotrafficking; Urbanization},
+note={Doctoral Dissertation Geography 2019},
+url={http://hdl.handle.net/2286/R.I.53734}
+}"
+
+
+bib_citation <- function() {
+
+  eml_citation <- EML::eml$citation(id = "http://hdl.handle.net/2286/R.I.53734")
+  eml_citation$bibtex <- tellman_dissertation
+
+  return(eml_citation)
+
+}
+
+tellman_2019 <- bib_citation()
+
+usages <- list(
+  tellman_2021,
+  goldblatt_2018,
+  lerner_2018,
+  eakin_2019,
+  tellman_2019 
+) # close list of usages
 
 ```
