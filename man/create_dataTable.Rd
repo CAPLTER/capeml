@@ -2,13 +2,15 @@
 % Please edit documentation in R/create_dataTable.R
 \name{create_dataTable}
 \alias{create_dataTable}
-\title{create EML entity of type dataTable}
+\title{Construct a csv tabular data file and create metadata of type
+dataTable}
 \usage{
 create_dataTable(
   dfname,
   description,
   dateRangeField,
-  baseURL = "https://data.gios.asu.edu/datasets/cap/",
+  overwrite = FALSE,
+  projectNaming = TRUE,
   missingValueCode = NULL,
   additional_information = NULL
 )
@@ -26,10 +28,13 @@ file).}
 that would reflect the start and end dates of the data reflected in the
 data entity.}
 
-\item{baseURL}{(optional)
-(character) The quoted base path of the web-accessible location of the data
-file; the name of the resulting file will be passed to the base path to
-generate a web-resolvable file path.}
+\item{overwrite}{(logical) A logical indicating whether to overwrite an existing file bearing
+the same name as csv file as it is imported.}
+
+\item{projectNaming}{(logical) Logical indicating if the resulting csv file should be renamed per
+the style used in the capeml ecosystem with the project id + base file name
++ md5sum + file extension. If set to false, the resulting csv will bear the
+name the object is assigned in the R environment.}
 
 \item{missingValueCode}{(optional)
 (character) create_dataTable will automatically document the presence of NA
@@ -46,34 +51,32 @@ EML dataTable object is returned. Additionally, the data entity is
  file name + md5sum + file extension (csv in this case).
 }
 \description{
-create_dataTable generates a EML entity of type dataTable
+create_dataTable writes a tabular data file of type csv and
+generates a EML entity of type dataTable
 }
 \details{
-create_dataTable creates a EML dataTable object from a data frame
-  or tibble object in the R environment. The function reads the attributes
-  and classes contained within a supporting yaml file generated from the
-  write_attributes function - create_dataTable will look for a file in the
-  working directory with a name of type dataframeName_attrs.yaml. Factors
-  also are read from a supporting yaml file - create_dataTable will look for
-  a file in the working directory with a name of type
-  dataframeName_factors.yaml. If that exists, the factor details outlined in
-  that file will be incorporated into the EML, else the EML will be built
-  without factor metadata. Note that this functionality is predicated on the
-  existence of a file containing metadata about any factors in the
-  dataframe, that the file is in the working directory, and that the file
-  matches the dataframe name precisely; the function does not look for
-  variables of type factor in the dataframe. In addition to generating a EML
-  entity of type dataTable, create_dataTable writes the R object to file as
-  type csv, renames the file with package number + base file name + md5sum +
-  file extension (csv in this case), and deletes the original file.
+create_dataTable writes a tabular data file of type csv and creates
+a corresponding EML dataTable object from a data frame or tibble object in
+the R environment. The function reads the attributes and classes contained
+within a supporting yaml file generated from the write_attributes function -
+create_dataTable will look for a file in the working directory with a name
+of type dataframeName_attrs.yaml. Factors also are read from a supporting
+yaml file - create_dataTable will look for a file in the working directory
+with a name of type dataframeName_factors.yaml. If that exists, the factor
+details outlined in that file will be incorporated into the EML, else the
+EML will be built without factor metadata. Note that this functionality is
+predicated on the existence of a file containing metadata about any factors
+in the dataframe, that the file is in the working directory, and that the
+file matches the dataframe name precisely; the function does not look for
+variables of type factor in the dataframe. In addition to generating a EML
+entity of type dataTable, create_dataTable writes the R object to file as
+type csv, and renames the file with package number + base object name +
+md5sum + file extension (csv in this case) if selected.
 }
 \note{
-create_dataTable will look for a package number (packageNum) in
- config.yaml; this parameter is not passed to the function and it must exist.
-
-create_dataTable currently accepts an argument for a base url path to
-  which the new file name will be appended so as to be a web-resolvable file;
-  the package defaults to a URL specific to the CAP LTER.
+If project naming is TRUE then create_vector_kml will look for a
+package number (packageNum) in config.yaml; this parameter is not passed to
+the function and it must exist.
 }
 \examples{
 \dontrun{
@@ -82,14 +85,12 @@ data_entity <- read("data source") \%>\%
   processing \%>\%
   processing
 
-write_attributes(data_entity)
-write_factors(data_entity)
+try({
+  write_attributes(data_entity)
+  write_factors(data_entity)
+})
 
 data_entity_desc <- "snow leopard data"
-
-# create_dataTable with minimal arguments
-data_entity_DT <- create_dataTable(dfname = data_entity,
-                                   description = data_entity_desc)
 
 # create_dataTable with optional arguments dateRangeField and missingValueCode
 data_entity_DT <- create_dataTable(dfname = data_entity,
