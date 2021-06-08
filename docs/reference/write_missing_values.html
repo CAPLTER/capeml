@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>create EML entity of type otherEntity — create_otherEntity • capeml</title>
+<title>Construct table of missing values codes and their meaning — write_missing_values • capeml</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,13 @@
 
 
 
-<meta property="og:title" content="create EML entity of type otherEntity — create_otherEntity" />
-<meta property="og:description" content="create_otherEntity generates a EML entity of type otherEntity." />
+<meta property="og:title" content="Construct table of missing values codes and their meaning — write_missing_values" />
+<meta property="og:description" content="The write_missing_values function reads an entity's attribute
+details from a &quot;entity name&quot;_attrs.yaml or &quot;entity name&quot;_attrs.csv file in
+the working directory - the details of which are incorporated into the EML
+metadata for that entity. If present in the working directory, factor
+metadata in a &quot;entity name&quot;_factors.yaml or &quot;entity name&quot;_factors.csv are
+read and incorporated into attribute metadata." />
 
 
 
@@ -103,111 +108,97 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>create EML entity of type otherEntity</h1>
+    <h1>Construct table of missing values codes and their meaning</h1>
     
-    <div class="hidden name"><code>create_otherEntity.Rd</code></div>
+    <div class="hidden name"><code>write_missing_values.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>create_otherEntity generates a EML entity of type otherEntity.</p>
+    <p>The write_missing_values function reads an entity's attribute
+details from a "entity name"_attrs.yaml or "entity name"_attrs.csv file in
+the working directory - the details of which are incorporated into the EML
+metadata for that entity. If present in the working directory, factor
+metadata in a "entity name"_factors.yaml or "entity name"_factors.csv are
+read and incorporated into attribute metadata.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_otherEntity</span><span class='op'>(</span>
-  <span class='va'>target_file_or_directory</span>,
-  <span class='va'>description</span>,
-  baseURL <span class='op'>=</span> <span class='st'>"https://data.gios.asu.edu/datasets/cap/"</span>,
-  overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  projectNaming <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  additional_information <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>write_missing_values</span><span class='op'>(</span><span class='va'>storage</span>, <span class='va'>dataObject</span>, <span class='va'>field</span>, <span class='va'>MVC</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>target_file_or_directory</th>
-      <td><p>(charater) The quoted name and path of the data file or directory.</p></td>
+      <th>storage</th>
+      <td><p>(charcter) write_missing_values stores output in a tibble or dataframe. The
+object should be emtpy and consist of three columns (attributeName
+(character), code (character), and definition (charcater)). The user should
+create this object prior to running the function and pass the unquoted name
+of the object to write_missing_values via the storage parameter.</p></td>
     </tr>
     <tr>
-      <th>description</th>
-      <td><p>(character) A description of the data entity.</p></td>
+      <th>dataObject</th>
+      <td><p>(character) The unqouted name of the data entity that will be examined for
+missing values.</p></td>
     </tr>
     <tr>
-      <th>baseURL</th>
+      <th>field</th>
+      <td><p>(character) The quoted name of the field within the data entity that will be
+examined for missing values.</p></td>
+    </tr>
+    <tr>
+      <th>MVC</th>
       <td><p>(optional)
-(character) The base path of the web-accessible location of the data file;
-the name of the resulting file will be passed to the base path to generate
-a web-resolvable file path.</p></td>
-    </tr>
-    <tr>
-      <th>overwrite</th>
-      <td><p>(logial)If creating otherEntity by zipping a directory, this is a logical
-indicating whether to overwrite an already existing zip file that has the
-same name and location as the temporary zip object to be created.</p></td>
-    </tr>
-    <tr>
-      <th>projectNaming</th>
-      <td><p>(logical) Logical indicating if the file or directory should be renamed per
-the style used by the CAP LTER (default) with the package number + base file
-name + md5sum + file extension. The passed file or directory name will be
-used if this parameter is set to FALSE.</p></td>
-    </tr>
-    <tr>
-      <th>additional_information</th>
-      <td><p>(character) Additional information about the data object. Should be quoted,
-and accepts (but not required) markdown formatting.</p></td>
+(character) If relevant, the quoted name of a missing value code other than
+NA or NaN that should be documented.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>EML entity of type otherEntity is returned. Additionally, the data
- file is renamed with the package number + base file name + md5sum + file
- extension.</p>
+    <p>A tibble documenting the presence of NA, NaN, or a user-specified
+missing value code for the field of a tibble or dataframe.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A otherEntity entity is created from a single file (e.g.,
-  desert_fertilization_sampling_sites.kml) or a directory. The resulting
-  entity is renamed with the package number + base file name + md5sum + file
-  extension. File extension is always .zip if the otherEntity is being
-  created by zipping a directory.</p>
+    <p>The write_missing_values function reads an entity's attribute
+details from a "entity name"_attrs.yaml or "entity name"_attrs.csv file in
+the working directory - the details of which are incorporated into the EML
+metadata for that entity. If present in the working directory, factor
+metadata in a "entity name"_factors.yaml or "entity name"_factors.csv are
+read and incorporated into attribute metadata.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>create_otherEntity will look for a package number in config.yaml; this
- parameter is not passed to the function and it must exist.</p>
-<p>The target data file or directory can be located anywhere on a local
-  computer but the renamed file with package number and hash will be written
-  to the current working directory.</p>
+    <p>The write_missing_values function is intended primarily as a helper to
+other functions in the capeml ecosystem so is not meant to be called
+directly (but can be).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 
- <span class='co'># using default parameters</span>
+ <span class='va'>missing_value_frame</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>
+   attributeName <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='op'>)</span>,
+   code <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='op'>)</span>,
+   definition <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='op'>)</span>
+ <span class='op'>)</span>
 
- <span class='va'>desert_fertilization_sites</span> <span class='op'>&lt;-</span> <span class='fu'>create_otherEntity</span><span class='op'>(</span>
-   target_file_or_directory <span class='op'>=</span> <span class='st'>"~/Desktop/desert_fertilization_sampling_sites.kml"</span>,
-   description <span class='op'>=</span> <span class='st'>"approximate location of desert fertiliztion long-term study sites"</span><span class='op'>)</span>
+ <span class='fu'>write_missing_values</span><span class='op'>(</span>
+   storage <span class='op'>=</span> <span class='va'>missingValueFrame</span>,
+   dataObject <span class='op'>=</span> <span class='va'>captures</span>,
+   field <span class='op'>=</span> <span class='st'>"weight"</span>,
+   MVC <span class='op'>=</span> <span class='st'>"X"</span>
+ <span class='op'>)</span>
 
- <span class='co'># set overwrite = TRUE - has the effect of overwriting an existing zipped</span>
- <span class='co'># directory of the same name if the otherEntity is being generated by zipping</span>
- <span class='co'># a directory (i.e. as opposed to from a single file)</span>
+ <span class='co'># write_missing_values can be run on a single field (as above) of a data</span>
+ <span class='co'># object but the most common use case, and how it is applied in the capeml</span>
+ <span class='co'># ecosystem, is to loop over all fields in a data entity (sensu with purrr</span>
+ <span class='co'># below).</span>
 
- <span class='va'>pass_codebook_2011</span> <span class='op'>&lt;-</span> <span class='fu'>create_otherEntity</span><span class='op'>(</span>
-   target_file_or_directory <span class='op'>=</span> <span class='st'>"PASS-2011-Codebook-Feb2016rev.pdf"</span>,
-   description <span class='op'>=</span> <span class='st'>"PASS 2011 survey codebook"</span>,
-   overwrite <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
- <span class='co'># example without project naming:</span>
-
- <span class='va'>pass_codebook_2011</span> <span class='op'>&lt;-</span> <span class='fu'>create_otherEntity</span><span class='op'>(</span>
-   target_file_or_directory <span class='op'>=</span> <span class='st'>"~/Desktop/max_temperature"</span>,
-   description <span class='op'>=</span> <span class='st'>"rasters of max temperature years 2000-2016"</span>,
-   projectNaming <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-
- <span class='co'># The EML::eml$otherEntity() can then be</span>
- <span class='co'># added to a EML::eml$dataset() entity:</span>
-
- <span class='va'>dataset</span> <span class='op'>&lt;-</span> <span class='fu'>EML</span><span class='fu'>::</span><span class='va'><a href='https://docs.ropensci.org/EML/reference/eml.html'>eml</a></span><span class='op'>$</span><span class='fu'>dataset</span><span class='op'>(</span>otherEntity <span class='op'>=</span> <span class='va'>listOfOtherEntities</span><span class='op'>)</span>
+ <span class='fu'>purrr</span><span class='fu'>::</span><span class='fu'><a href='https://purrr.tidyverse.org/reference/map.html'>map_df</a></span><span class='op'>(</span>
+   .x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>data_entity</span><span class='op'>)</span>,
+   .f <span class='op'>=</span> <span class='fu'>capeml</span><span class='fu'>::</span><span class='va'>write_missing_values</span>,
+   storage <span class='op'>=</span> <span class='va'>missing_value_frame</span>,
+   dataObject <span class='op'>=</span> <span class='va'>data_entity</span>,
+   MVC <span class='op'>=</span> <span class='st'>"X"</span>
+ <span class='op'>)</span>
 
 <span class='op'>}</span>
 

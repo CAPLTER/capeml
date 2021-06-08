@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>create EML entity of type dataTable — create_dataTable • capeml</title>
+<title>Construct a csv tabular data file and create metadata of type
+dataTable — create_dataTable • capeml</title>
 
 
 <!-- jquery -->
@@ -39,8 +40,10 @@
 
 
 
-<meta property="og:title" content="create EML entity of type dataTable — create_dataTable" />
-<meta property="og:description" content="create_dataTable generates a EML entity of type dataTable" />
+<meta property="og:title" content="Construct a csv tabular data file and create metadata of type
+dataTable — create_dataTable" />
+<meta property="og:description" content="create_dataTable writes a tabular data file of type csv and
+generates a EML entity of type dataTable" />
 
 
 
@@ -72,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
       </span>
     </div>
 
@@ -103,20 +106,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>create EML entity of type dataTable</h1>
+    <h1>Construct a csv tabular data file and create metadata of type
+dataTable</h1>
     
     <div class="hidden name"><code>create_dataTable.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>create_dataTable generates a EML entity of type dataTable</p>
+    <p>create_dataTable writes a tabular data file of type csv and
+generates a EML entity of type dataTable</p>
     </div>
 
     <pre class="usage"><span class='fu'>create_dataTable</span><span class='op'>(</span>
   <span class='va'>dfname</span>,
   <span class='va'>description</span>,
   <span class='va'>dateRangeField</span>,
-  baseURL <span class='op'>=</span> <span class='st'>"https://data.gios.asu.edu/datasets/cap/"</span>,
+  overwrite <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  projectNaming <span class='op'>=</span> <span class='cn'>TRUE</span>,
   missingValueCode <span class='op'>=</span> <span class='cn'>NULL</span>,
   additional_information <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
@@ -143,11 +149,16 @@ that would reflect the start and end dates of the data reflected in the
 data entity.</p></td>
     </tr>
     <tr>
-      <th>baseURL</th>
-      <td><p>(optional)
-(character) The quoted base path of the web-accessible location of the data
-file; the name of the resulting file will be passed to the base path to
-generate a web-resolvable file path.</p></td>
+      <th>overwrite</th>
+      <td><p>(logical) A logical indicating whether to overwrite an existing file bearing
+the same name as csv file as it is imported.</p></td>
+    </tr>
+    <tr>
+      <th>projectNaming</th>
+      <td><p>(logical) Logical indicating if the resulting csv file should be renamed per
+the style used in the capeml ecosystem with the project id + base file name
++ md5sum + file extension. If set to false, the resulting csv will bear the
+name the object is assigned in the R environment.</p></td>
     </tr>
     <tr>
       <th>missingValueCode</th>
@@ -171,30 +182,28 @@ and accepts (but not required) markdown formatting.</p></td>
  file name + md5sum + file extension (csv in this case).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>create_dataTable creates a EML dataTable object from a data frame
-  or tibble object in the R environment. The function reads the attributes
-  and classes contained within a supporting yaml file generated from the
-  write_attributes function - create_dataTable will look for a file in the
-  working directory with a name of type dataframeName_attrs.yaml. Factors
-  also are read from a supporting yaml file - create_dataTable will look for
-  a file in the working directory with a name of type
-  dataframeName_factors.yaml. If that exists, the factor details outlined in
-  that file will be incorporated into the EML, else the EML will be built
-  without factor metadata. Note that this functionality is predicated on the
-  existence of a file containing metadata about any factors in the
-  dataframe, that the file is in the working directory, and that the file
-  matches the dataframe name precisely; the function does not look for
-  variables of type factor in the dataframe. In addition to generating a EML
-  entity of type dataTable, create_dataTable writes the R object to file as
-  type csv, renames the file with package number + base file name + md5sum +
-  file extension (csv in this case), and deletes the original file.</p>
+    <p>create_dataTable writes a tabular data file of type csv and creates
+a corresponding EML dataTable object from a data frame or tibble object in
+the R environment. The function reads the attributes and classes contained
+within a supporting yaml file generated from the write_attributes function -
+create_dataTable will look for a file in the working directory with a name
+of type dataframeName_attrs.yaml. Factors also are read from a supporting
+yaml file - create_dataTable will look for a file in the working directory
+with a name of type dataframeName_factors.yaml. If that exists, the factor
+details outlined in that file will be incorporated into the EML, else the
+EML will be built without factor metadata. Note that this functionality is
+predicated on the existence of a file containing metadata about any factors
+in the dataframe, that the file is in the working directory, and that the
+file matches the dataframe name precisely; the function does not look for
+variables of type factor in the dataframe. In addition to generating a EML
+entity of type dataTable, create_dataTable writes the R object to file as
+type csv, and renames the file with package number + base object name +
+md5sum + file extension (csv in this case) if selected.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>create_dataTable will look for a package number (packageNum) in
- config.yaml; this parameter is not passed to the function and it must exist.</p>
-<p>create_dataTable currently accepts an argument for a base url path to
-  which the new file name will be appended so as to be a web-resolvable file;
-  the package defaults to a URL specific to the CAP LTER.</p>
+    <p>If project naming is TRUE then create_vector_kml will look for a
+package number (packageNum) in config.yaml; this parameter is not passed to
+the function and it must exist.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
@@ -203,14 +212,12 @@ and accepts (but not required) markdown formatting.</p></td>
   <span class='va'>processing</span> <span class='op'>%&gt;%</span>
   <span class='va'>processing</span>
 
-<span class='fu'><a href='write_attributes.html'>write_attributes</a></span><span class='op'>(</span><span class='va'>data_entity</span><span class='op'>)</span>
-<span class='fu'><a href='write_factors.html'>write_factors</a></span><span class='op'>(</span><span class='va'>data_entity</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/try.html'>try</a></span><span class='op'>(</span><span class='op'>{</span>
+  <span class='fu'><a href='write_attributes.html'>write_attributes</a></span><span class='op'>(</span><span class='va'>data_entity</span><span class='op'>)</span>
+  <span class='fu'><a href='write_factors.html'>write_factors</a></span><span class='op'>(</span><span class='va'>data_entity</span><span class='op'>)</span>
+<span class='op'>}</span><span class='op'>)</span>
 
 <span class='va'>data_entity_desc</span> <span class='op'>&lt;-</span> <span class='st'>"snow leopard data"</span>
-
-<span class='co'># create_dataTable with minimal arguments</span>
-<span class='va'>data_entity_DT</span> <span class='op'>&lt;-</span> <span class='fu'>create_dataTable</span><span class='op'>(</span>dfname <span class='op'>=</span> <span class='va'>data_entity</span>,
-                                   description <span class='op'>=</span> <span class='va'>data_entity_desc</span><span class='op'>)</span>
 
 <span class='co'># create_dataTable with optional arguments dateRangeField and missingValueCode</span>
 <span class='va'>data_entity_DT</span> <span class='op'>&lt;-</span> <span class='fu'>create_dataTable</span><span class='op'>(</span>dfname <span class='op'>=</span> <span class='va'>data_entity</span>,

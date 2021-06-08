@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>capRights: default intellectual rights statement passed to EML-generating workflow — capRights • capeml</title>
+<title>Read information from attributes and factors metadata files, and
+document missing value codes — read_attributes • capeml</title>
 
 
 <!-- jquery -->
@@ -39,8 +40,15 @@
 
 
 
-<meta property="og:title" content="capRights: default intellectual rights statement passed to EML-generating workflow — capRights" />
-<meta property="og:description" content="capRights: default intellectual rights statement passed to EML-generating workflow" />
+<meta property="og:title" content="Read information from attributes and factors metadata files, and
+document missing value codes — read_attributes" />
+<meta property="og:description" content="The read_attributes function reads an entity's attribute
+details from a &quot;entity name&quot;_attrs.yaml or &quot;entity name&quot;_attrs.csv file in
+the working directory - the details of which are incorporated into the EML
+metadata for that entity. If present in the working directory, factor
+metadata in a &quot;entity name&quot;_factors.yaml or &quot;entity name&quot;_factors.csv are
+read and incorporated into attribute metadata. NA, NaN, and user-provided
+missing value codes are documented for each variable if they exist." />
 
 
 
@@ -103,21 +111,63 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>capRights: default intellectual rights statement passed to EML-generating workflow</h1>
+    <h1>Read information from attributes and factors metadata files, and
+document missing value codes</h1>
     
-    <div class="hidden name"><code>capRights.Rd</code></div>
+    <div class="hidden name"><code>read_attributes.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>capRights: default intellectual rights statement passed to EML-generating workflow</p>
+    <p>The read_attributes function reads an entity's attribute
+details from a "entity name"_attrs.yaml or "entity name"_attrs.csv file in
+the working directory - the details of which are incorporated into the EML
+metadata for that entity. If present in the working directory, factor
+metadata in a "entity name"_factors.yaml or "entity name"_factors.csv are
+read and incorporated into attribute metadata. NA, NaN, and user-provided
+missing value codes are documented for each variable if they exist.</p>
     </div>
 
-    <pre class="usage"><span class='va'>capRights</span></pre>
+    <pre class="usage"><span class='fu'>read_attributes</span><span class='op'>(</span><span class='va'>entity_name</span>, missing_value_code <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>entity_name</th>
+      <td><p>(character) The quoted name of the data entity.</p></td>
+    </tr>
+    <tr>
+      <th>missing_value_code</th>
+      <td><p>(optional)
+(character) read_attributes will automatically document the presence of NA
+and NaN entries as missing values in the EML output. The user has the
+ability to identify an additional indicator of missing values (e.g.,
+"-9999", "missing") if present.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>character</code> of length 1.</p>
+    <p>A entity of type EML attributes</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The read_attributes function reads an entity's attribute
+details from a "entity name"_attrs.yaml or "entity name"_attrs.csv file in
+the working directory - the details of which are incorporated into the EML
+metadata for that entity. If present in the working directory, factor
+metadata in a "entity name"_factors.yaml or "entity name"_factors.csv are
+read and incorporated into attribute metadata. NA, NaN, and user-provided
+missing value codes are documented for each variable if they exist.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>Recent versions of the capeml package generate attribute and factor
+metadata files in yaml format; the read_attributes function will look also
+for attributes files in csv format to accommodate older projects.</p>
+<p>The read_attributes function is intended primarily as a helper to
+other functions in the capeml ecosystem so is not meant to be called
+directly (but can be).</p>
+<p>Missing value codes are not documented for geometry columns of spatial
+(sf) objects.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
