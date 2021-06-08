@@ -49,21 +49,17 @@ previous version with `emld::eml_version("eml-2.1.1")`.
 #### project naming
 
 Most EML-generating functions in the capeml and capemlGIS packages will create
-both physical objects and EML references to those objects with the format:
+both physical objects and EML references to those objects. By default, the
+package will name output files with the format
 `project-id`\_`object-name`\_`object-hash`\.`file-extension` (e.g.,
 *664_site_map_5fb7b8d53d48010eab1a2e73db7f1941.png*). The target object (e.g.,
 site_map.png from the previous example) is renamed with the additional metadata
-and this object name is referenced in the EML metadata. The only exception to
-this approach are spatialVectors (see capemlGIS) where the hash of the
-file/object is not included in the new object name. Note that the project-id is
-not passed to any of the functions, and must exist in `config.yaml` (as
-`projectid`).
-
-Project-naming functionality can be turned off by setting the `projectNaming`
-option in `create_dataTable()` (*forthcoming*) and `create_spatialRaster()`
-(also `create_spatialVector()` and `create_spatialRaster()` from capemlGIS) to
-FALSE. When set to FALSE, the object name is not changed, and the file name of
-the object is included in the EML.
+and this object name is referenced in the EML metadata. Project naming can be
+disabled by setting the `projectNaming` flag to `FALSE`. When set to FALSE, the
+object name is not changed, and the name of the data object as read into the R
+environment is written to file and referenced in the EML. Note that the
+project-id is not passed as an argument, and must exist in `config.yaml` (as
+`projectid`). 
 
 ### getting started
 
@@ -376,9 +372,13 @@ construction so desired citation entities must exist in the R environment.
 `literatureCited` entities must be in a list named `citations`, and
 `usageCitation` entities must be a list named `usages`.
 
+Note that, unlike a `literatureCited` citation, a `usageCitation` is **not**
+wrapped in a citation tag.
+
+
 #### literature cited
 
-```{r dataset-level-citations, eval=FALSE}
+```{r literature-cited, eval=FALSE}
 
 cook <- create_citation("https://doi.org/10.1016/j.envpol.2018.04.013")
 sartory <- create_citation("https://doi.org/10.1007/BF00031869")
@@ -391,12 +391,11 @@ citations <- list(
 ) # close citation
 
 ```
-Note that, unlike a `literatureCited` citation, a `usageCitation` is **not**
-wrapped in a citation tag.
 
-#### usage citation
+#### usage citations
 
-```{r usage citation, eval=FALSE}
+
+```{r usage-citation, eval=FALSE}
 
 brown <- create_citation("https://doi.org/10.3389/fevo.2020.569730")
 
@@ -405,5 +404,69 @@ usages <- list(
 ) # close usages
 
 dataset$usageCitation <- usages
+
+```
+
+#### citations that do no have a DOI
+
+Though a DOI makes documenting references easy, we can add citations that do
+not have a DOI. There are many ways to address this but likely easiest is to
+get or create a citation for the reference in bibtex format.
+[bibutils](http://sourceforge.net/p/bibutils/home/Bibutils/) is a helfpul
+utility that can convert other citation formats, such as .ris, to bibtex. With
+bibutils, we can convert ris to an intermediate xml format and then to bibtex.
+
+```{sh bibutils, eval=FALSE}
+
+wget -O ~/Desktop/tellman_dissertation.ris https://repository.asu.edu/items/53734.ris
+cat tellman_dissertation.ris | ris2xml | xml2bib >> tellman_dissertation.bib
+
+```
+
+Once we have the citation in bibtex format, we can add it along with other
+citations as in the example below where we added the citation for the Tellman
+dissertation to a suite of citations generated with capeml's create_citiation
+function.
+
+```{r custom-citations, eval=FALSE}
+
+tellman_2021 <- create_citation("https://doi.org/10.1016/j.worlddev.2020.105374")
+lerner_2018 <- create_citation("https://doi.org/10.1016/j.cities.2018.06.009")
+eakin_2019 <- create_citation("https://doi.org/10.5751/ES-11030-240315")
+
+tellman_dissertation <- "
+@phdthesis{Tellman_2019,
+author={Tellman, Elizabeth
+and Turner II, Billie L.
+and Eakin, Hallie
+and Janssen, Marco
+and de Alba, Felipe
+and Jain, Meha},
+title={Mapping and Modeling Illicit and Clandestine Drivers of Land Use Change: Urban Expansion in Mexico City and Deforestation in Central America},
+publisher={Arizona State University},
+keywords={Geography; Urban planning; Land use planning; Central America; Clientelism; Institutions; Mexico; Narcotrafficking; Urbanization},
+note={Doctoral Dissertation Geography 2019},
+url={http://hdl.handle.net/2286/R.I.53734}
+}"
+
+
+bib_citation <- function() {
+
+  eml_citation <- EML::eml$citation(id = "http://hdl.handle.net/2286/R.I.53734")
+  eml_citation$bibtex <- tellman_dissertation
+
+  return(eml_citation)
+
+}
+
+tellman_2019 <- bib_citation()
+
+usages <- list(
+  tellman_2021,
+  goldblatt_2018,
+  lerner_2018,
+  eakin_2019,
+  tellman_2019 
+) # close list of usages
 
 ```

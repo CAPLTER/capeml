@@ -50,7 +50,7 @@ create_citation <- function(doi) {
 
   if (!is.null(bibtex_citation)) {
 
-    eml_citation <- EML::eml$citation(id = doi)
+    eml_citation <- EML::eml$citation()
     eml_citation$bibtex <- bibtex_citation
 
     message("citation created")

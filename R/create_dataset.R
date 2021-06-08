@@ -17,8 +17,6 @@
 #'  config.yaml; these parameters are not passed directly to the function and
 #'  must exist in the working environment or yaml.
 #'
-#' @param scope
-#' (character) Quoted name or acronym of the project.
 #' @param abstractFile
 #' (character) Quoted name and path of abstract (in markdown format)
 #' @param methodsFile
@@ -36,7 +34,6 @@
 #' @export
 #'
 create_dataset <- function(
-  scope = "LTER",
   abstractFile = "abstract.md",
   methodsFile = "methods.md",
   keywordsFile = "keywords.csv",
@@ -60,6 +57,7 @@ create_dataset <- function(
   }
   title <- yaml::yaml.load_file("config.yaml")$title
   packageIdent <- yaml::yaml.load_file("config.yaml")$packageIdent
+  scope <- yaml::yaml.load_file("config.yaml")$project
 
   # read abstract
   tryCatch({
@@ -107,7 +105,7 @@ create_dataset <- function(
 
     dataset$contact <- capContact # cap contact
     dataset$publisher <- capPublisher # cap pub
-    dataset$project <- capProject # cap project
+    dataset$project <- configure_cap_project() # cap project
 
   } else if (grepl("gios", scope, ignore.case = TRUE)) {
 
@@ -118,20 +116,20 @@ create_dataset <- function(
 
     dataset$contact <- giosContact # gios contact
     dataset$publisher <- giosPublisher # gios pub
-    dataset$project <- urexProject # urex project
+    dataset$project <- configure_urex_project()  # urex project
 
   } else if (grepl("som", scope, ignore.case = TRUE)) {
 
     dataset$contact <- capContact # cap contact
     dataset$publisher <- capPublisher # cap pub
-    dataset$project <- somProject # cap project
+    dataset$project <- configure_som_project()  # SOM project
 
   } else if (grepl("ltreb", scope, ignore.case = TRUE)) {
 
     dataset$contact <- capContact # cap contact
     dataset$publisher <- capPublisher # cap pub
-    capProject$relatedProject <- ltrebProject # ltreb as related
-    dataset$project <- capProject # ltreb nested in cap
+    capProject$relatedProject <- configure_ltreb_project() # ltreb as related
+    dataset$project <- configure_cap_project() # ltreb nested in cap
 
   } else {
 

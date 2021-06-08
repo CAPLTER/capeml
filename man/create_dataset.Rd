@@ -5,7 +5,6 @@
 \title{create EML entity of type dataset}
 \usage{
 create_dataset(
-  scope = "LTER",
   abstractFile = "abstract.md",
   methodsFile = "methods.md",
   keywordsFile = "keywords.csv",
@@ -13,8 +12,6 @@ create_dataset(
 )
 }
 \arguments{
-\item{scope}{(character) Quoted name or acronym of the project.}
-
 \item{abstractFile}{(character) Quoted name and path of abstract (in markdown format)}
 
 \item{methodsFile}{(character) Quoted name and path of methods (in markdown format)}
