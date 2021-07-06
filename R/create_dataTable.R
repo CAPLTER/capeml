@@ -139,7 +139,7 @@ create_dataTable <- function(
 
   attributes <- capeml::read_attributes(
     entity_name = namestr,
-    missing_value_code = missing_value_code 
+    missing_value_code = missingValueCode 
   )
 
 

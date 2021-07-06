@@ -105,7 +105,7 @@ create_dataset <- function(
 
     dataset$contact <- capContact # cap contact
     dataset$publisher <- capPublisher # cap pub
-    dataset$project <- configure_cap_project() # cap project
+    dataset$project <- configure_caplter_project() # cap project
 
   } else if (grepl("gios", scope, ignore.case = TRUE)) {
 
@@ -128,8 +128,11 @@ create_dataset <- function(
 
     dataset$contact <- capContact # cap contact
     dataset$publisher <- capPublisher # cap pub
-    capProject$relatedProject <- configure_ltreb_project() # ltreb as related
-    dataset$project <- configure_cap_project() # ltreb nested in cap
+
+    # nest LTREB under CAP
+    cap_project <- configure_caplter_project()
+    cap_project$relatedProject <- configure_ltreb_project()
+    dataset$project <- cap_project
 
   } else {
 

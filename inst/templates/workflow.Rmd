@@ -80,7 +80,7 @@ provenance, use the enhancedMethods approach.
 # begindate <- format(min(runoff_chemistry$runoff_datetime), "%Y-%m-%d")
 # enddate <- format(max(runoff_chemistry$runoff_datetime), "%Y-%m-%d")
 geographicDescription <- "CAP LTER study area"
-coverage <- set_coverage(
+coverage <- EML::set_coverage(
   begin = "YYYY-MM-DD",
   end = "YYYY-MM-DD",
   geographicDescription = geographicDescription,

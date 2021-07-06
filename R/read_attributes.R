@@ -90,7 +90,8 @@ read_attributes <- function(
   }
 
   attrs <- attrs %>%
-    mutate(
+    dplyr::mutate(
+      definition = NA_character_,
       definition = case_when(
         grepl("character", columnClasses) & ((is.na(definition) | definition == "")) ~ attributeDefinition,
         TRUE ~ definition
