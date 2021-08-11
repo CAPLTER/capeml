@@ -10,17 +10,30 @@ editor_options:
 # libraries
 
 ```{r libraries}
-library(tidyverse)
+
 library(capeml)
-library(gioseml)
 ```
 
 
 # people
 
-See the gioseml package for examples of creating people resources from scratch.
+See the `gioseml` package provides a convenience function (`gioseml::create_role`) for generating CAP LTER investigators from an ASU Global Institute of Sustainability and Innovation database. The first example in the `people` chunk (Sharon Hall) demonstrates how to generate an EML type `creator` without use of the `gioseml` tool suite - simply change `creator` to the desired role type (e.g., `metadataProvider`, `associatedParty`).
 
 ```{r people}
+
+# if the person has an orcid, generate that first
+
+sharonOrcid <- EML::eml$userId(directory = "https://orcid.org")
+sharonOrcid$userId <- "https://orcid.org/0000-0002-8859-6691"
+
+sharon <- EML::eml$creator(
+  individualName = EML::eml$individualName(
+    givenName = "Sharon",
+    surName = "Hall"),
+  electronicMailAddress = "sharonjhall@asu.edu",
+  organizationName = "Arizona State University",
+  userId = sharonOrcid
+)
 
 # creator(s) - required
 
@@ -53,7 +66,6 @@ nancy <- create_role(
   roleType = "associated")
 
 associatedParty <- list(mark, nancy)
-
 
 ```
 
