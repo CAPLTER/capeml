@@ -3,15 +3,16 @@
 #' @description create_otherEntity generates a EML entity of type otherEntity.
 #'
 #' @details A otherEntity entity is created from a single file (e.g.,
-#'   desert_fertilization_sampling_sites.kml) or a directory. The resulting
-#'   entity is renamed with the package number + base file name + md5sum + file
-#'   extension. File extension is always .zip if the otherEntity is being
-#'   created by zipping a directory.
-#' @note create_otherEntity will look for a package number in config.yaml; this
-#'  parameter is not passed to the function and it must exist.
+#' desert_fertilization_sampling_sites.kml) or a directory. The resulting
+#' entity is renamed with the package number + base file name + md5sum + file
+#' extension. File extension is always .zip if the otherEntity is being created
+#' by zipping a directory.
+#' @note create_otherEntity will look for a package number and baseURL in
+#' config.yaml; these parameters are not passed to the function and it must
+#' exist.
 #' @note The target data file or directory can be located anywhere on a local
-#'   computer but the renamed file with package number and hash will be written
-#'   to the current working directory.
+#' computer but the renamed file with package number and hash will be written
+#' to the current working directory.
 #'
 #' @param target_file_or_directory
 #'  (charater) The quoted name and path of the data file or directory.
@@ -85,19 +86,36 @@
 create_otherEntity <- function(
   target_file_or_directory,
   description,
-  baseURL = "https://data.gios.asu.edu/datasets/cap/",
   overwrite = FALSE,
   projectNaming = TRUE,
   additional_information = NULL) {
 
-  # prerequisites -----------------------------------------------------------
+  # required parameters -------------------------------------------------------
+
+  # do not proceed if a description is not provided
+
+  if (missing("description")) {
+
+    stop("please provide a description for this object")
+
+  }
+
+  # do not proceed if config.yaml is not present
+
+  if (!file.exists("config.yaml")) {
+
+    stop("config.yaml not found")
+
+  }
 
   # do not proceed if the target file or directly has not been provided
+
   if (missing("target_file_or_directory")) {
 
     stop("specify the name of the file or directory")
 
   }
+
 
   # defaults ---------------------------------------------------------------------
 
@@ -133,6 +151,7 @@ create_otherEntity <- function(
     if (file.exists(zippedObject) && overwrite == FALSE) {
 
       stop("zipped object to be created with that name and location (e.g., targetfile.zip) already exists, change working directory or set overwrite to TRUE")
+
     }
 
     # zip the target directory
@@ -185,9 +204,9 @@ create_otherEntity <- function(
   }
 
   targetFileBaseName <- basename(target_file_or_directory)
-  directoryName <- dirname(target_file_or_directory)
-  directoryNameFull <- sub("/$", "", path.expand(directoryName))
-  pathToFile <- path.expand(target_file_or_directory)
+  directoryName      <- dirname(target_file_or_directory)
+  directoryNameFull  <- sub("/$", "", path.expand(directoryName))
+  pathToFile         <- path.expand(target_file_or_directory)
 
 
   # project naming ---------------------------------------------------------------
@@ -197,21 +216,20 @@ create_otherEntity <- function(
 
   if (projectNaming == TRUE) {
 
-    # retrieve package number from config.yaml
-    if (!file.exists("config.yaml")) {
-
-      stop("config.yaml not found")
-
-    }
-
     packageNum <- yaml::yaml.load_file("config.yaml")$packageNum
 
     targetFileBaseName <- paste0(
       packageNum, "_",
       str_extract(targetFileBaseName, "^[^\\.]*"),
-      "_", tools::md5sum(pathToFile),
       ".",
       fileExtension)
+
+    # targetFileBaseName <- paste0(
+    #   packageNum, "_",
+    #   str_extract(targetFileBaseName, "^[^\\.]*"),
+    #   "_", tools::md5sum(pathToFile),
+    #   ".",
+    #   fileExtension)
 
     file.copy(
       from = target_file_or_directory,
@@ -221,14 +239,15 @@ create_otherEntity <- function(
   } # close projectNaming == TRUE
 
 
-  # set distribution -------------------------------------------------------------
+  # construct physical -----------------------------------------------------------
+
+  # distribution
+
+  fileURL <- yaml::yaml.load_file("config.yaml")$baseURL
 
   fileDistribution <- EML::eml$distribution(
-    EML::eml$online(url = paste0(baseURL, targetFileBaseName))
+    EML::eml$online(url = paste0(fileURL, targetFileBaseName))
   )
-
-
-  # set physical ------------------------------------------------------------
 
   filePhysical <- EML::eml$physical(
     objectName = targetFileBaseName,
@@ -252,8 +271,7 @@ create_otherEntity <- function(
 
   # attributes -------------------------------------------------------------------
 
-
-print(paste0("LOOKING FOR:", tools::file_path_sans_ext(target_file_or_directory), "_attrs.yaml"))
+  print(paste0("LOOKING FOR:", tools::file_path_sans_ext(target_file_or_directory), "_attrs.yaml"))
 
   # use attributes if exist
 
@@ -289,7 +307,7 @@ print(paste0("LOOKING FOR:", tools::file_path_sans_ext(target_file_or_directory)
     dplyr::select(-columnClasses) %>%
     dplyr::select_if(not_all_na)
 
-  has_attributes <- TRUE
+    has_attributes <- TRUE
 
   } else {
 
