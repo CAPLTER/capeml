@@ -33,11 +33,12 @@
 #' @examples
 #' \dontrun{
 #'
-#'  write_attributes(R data object)
-#'
 #'  # overwrite existing attributes file
-#'  write_attributes(dfname = R data object,
-#'                   overwrite = TRUE)
+#'
+#'  capeml::write_attributes(
+#'    dfname = data_object,
+#'    overwrite = TRUE
+#'  )
 #'
 #' }
 #'

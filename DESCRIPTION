@@ -29,7 +29,10 @@ Imports:
     rcrossref,
     tidyr,
     lubridate
-RoxygenNote: 7.1.1
-Suggests: knitr,
+RoxygenNote: 7.1.2
+Suggests: 
+    testthat (>= 3.0.0),
+    knitr,
     rmarkdown
 VignetteBuilder: knitr
+Config/testthat/edition: 3

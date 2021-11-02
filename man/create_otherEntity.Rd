@@ -7,7 +7,6 @@
 create_otherEntity(
   target_file_or_directory,
   description,
-  baseURL = "https://data.gios.asu.edu/datasets/cap/",
   overwrite = FALSE,
   projectNaming = TRUE,
   additional_information = NULL
@@ -17,11 +16,6 @@ create_otherEntity(
 \item{target_file_or_directory}{(charater) The quoted name and path of the data file or directory.}
 
 \item{description}{(character) A description of the data entity.}
-
-\item{baseURL}{(optional)
-(character) The base path of the web-accessible location of the data file;
-the name of the resulting file will be passed to the base path to generate
-a web-resolvable file path.}
 
 \item{overwrite}{(logial)If creating otherEntity by zipping a directory, this is a logical
 indicating whether to overwrite an already existing zip file that has the
@@ -34,6 +28,11 @@ used if this parameter is set to FALSE.}
 
 \item{additional_information}{(character) Additional information about the data object. Should be quoted,
 and accepts (but not required) markdown formatting.}
+
+\item{baseURL}{(optional)
+(character) The base path of the web-accessible location of the data file;
+the name of the resulting file will be passed to the base path to generate
+a web-resolvable file path.}
 }
 \value{
 EML entity of type otherEntity is returned. Additionally, the data
@@ -45,18 +44,19 @@ create_otherEntity generates a EML entity of type otherEntity.
 }
 \details{
 A otherEntity entity is created from a single file (e.g.,
-  desert_fertilization_sampling_sites.kml) or a directory. The resulting
-  entity is renamed with the package number + base file name + md5sum + file
-  extension. File extension is always .zip if the otherEntity is being
-  created by zipping a directory.
+desert_fertilization_sampling_sites.kml) or a directory. The resulting
+entity is renamed with the package number + base file name + md5sum + file
+extension. File extension is always .zip if the otherEntity is being created
+by zipping a directory.
 }
 \note{
-create_otherEntity will look for a package number in config.yaml; this
- parameter is not passed to the function and it must exist.
+create_otherEntity will look for a package number and baseURL in
+config.yaml; these parameters are not passed to the function and it must
+exist.
 
 The target data file or directory can be located anywhere on a local
-  computer but the renamed file with package number and hash will be written
-  to the current working directory.
+computer but the renamed file with package number and hash will be written
+to the current working directory.
 }
 \examples{
 \dontrun{

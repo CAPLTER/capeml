@@ -103,37 +103,40 @@ create_dataset <- function(
   # add project-specific elements
   if (grepl("lter", scope, ignore.case = TRUE)) {
 
-    dataset$contact <- capContact # cap contact
+    dataset$contact   <- capContact # cap contact
     dataset$publisher <- capPublisher # cap pub
-    dataset$project <- configure_cap_project() # cap project
+    dataset$project   <- configure_caplter_project() # cap project
 
   } else if (grepl("gios", scope, ignore.case = TRUE)) {
 
-    dataset$contact <- giosContact # gios contact
+    dataset$contact   <- giosContact # gios contact
     dataset$publisher <- giosPublisher # gios pub
 
   } else if (grepl("urex", scope, ignore.case = TRUE)) {
 
-    dataset$contact <- giosContact # gios contact
+    dataset$contact   <- giosContact # gios contact
     dataset$publisher <- giosPublisher # gios pub
-    dataset$project <- configure_urex_project()  # urex project
+    dataset$project   <- configure_urex_project()  # urex project
 
   } else if (grepl("som", scope, ignore.case = TRUE)) {
 
-    dataset$contact <- capContact # cap contact
+    dataset$contact   <- capContact # cap contact
     dataset$publisher <- capPublisher # cap pub
-    dataset$project <- configure_som_project()  # SOM project
+    dataset$project   <- configure_som_project()  # SOM project
 
   } else if (grepl("ltreb", scope, ignore.case = TRUE)) {
 
-    dataset$contact <- capContact # cap contact
+    dataset$contact   <- capContact # cap contact
     dataset$publisher <- capPublisher # cap pub
-    capProject$relatedProject <- configure_ltreb_project() # ltreb as related
-    dataset$project <- configure_cap_project() # ltreb nested in cap
+
+    # nest LTREB under CAP
+    cap_project                <- configure_caplter_project()
+    cap_project$relatedProject <- configure_ltreb_project()
+    dataset$project            <- cap_project
 
   } else {
 
-    stop("project scope is not recognized")
+    scope <- "none"
 
   }
 

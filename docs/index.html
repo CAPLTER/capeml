@@ -87,12 +87,12 @@
 <div id="eml" class="section level4">
 <h4 class="hasAnchor">
 <a href="#eml" class="anchor"></a>EML</h4>
-<p>This package defaults to the current version of EML. Users can switch to the previous version with <code><a href="https://docs.ropensci.org/emld/reference/eml_version.html">emld::eml_version("eml-2.1.1")</a></code>.</p>
+<p>This package defaults to the current version of EML. Users can switch to the previous version with <code>emld::eml_version("eml-2.1.1")</code>.</p>
 </div>
 <div id="project-naming" class="section level4">
 <h4 class="hasAnchor">
 <a href="#project-naming" class="anchor"></a>project naming</h4>
-<p>Most EML-generating functions in the capeml and capemlGIS packages will create both physical objects and EML references to those objects. By default, the package will name output files with the format <code>project-id</code>_<code>object-name</code>_<code>object-hash</code>.<code>file-extension</code> (e.g., <em>664_site_map_5fb7b8d53d48010eab1a2e73db7f1941.png</em>). The target object (e.g., site_map.png from the previous example) is renamed with the additional metadata and this object name is referenced in the EML metadata. Project naming can be disabled by setting the <code>projectNaming</code> flag to <code>FALSE</code>. When set to FALSE, the object name is not changed, and the name of the data object as read into the R environment is written to file and referenced in the EML. Note that the project-id is not passed as an argument, and must exist in <code>config.yaml</code> (as <code>projectid</code>).</p>
+<p>Most EML-generating functions in the capeml and capemlGIS packages will create both physical objects and EML references to those objects. By default, the package will name output files with the format <code>project-id</code>_<code>object-name</code>.<code>file-extension</code> (e.g., <em>664_site_map.png</em>). The target object (e.g., site_map.png from the previous example) is renamed with the additional metadata and this object name is referenced in the EML metadata. Project naming can be disabled by setting the <code>projectNaming</code> flag to <code>FALSE</code>. When set to FALSE, the object name is not changed, and the name of the data object as read into the R environment is written to file and referenced in the EML. Note that the project-id is not passed as an argument, and must exist in <code>config.yaml</code> (as <code>projectid</code>).</p>
 </div>
 </div>
 <div id="getting-started" class="section level3">
@@ -185,7 +185,7 @@
 <p><em>Geographic</em> and <em>temporal</em> coverages are straight foward and documented in the work flow, but creating a <em>taxonomic</em> coverage is more involved. <em>Taxonomic coverage(s)</em> are constructed using EDI’s <a href="https://github.com/EDIorg/taxonomyCleanr">taxonomyCleanr</a> tool suite.</p>
 <p>A sample work flow for creating a taxonomic coverage:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">taxonomyCleanr</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EDIorg/taxonomyCleanr">taxonomyCleanr</a></span><span class="op">)</span>
 
 <span class="va">my_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># taxonomyCleanr requires a path (to build the taxa_map)</span>
 
@@ -199,7 +199,7 @@
 <span class="co"># create or update map. A taxa_map.csv is the heart of taxonomyCleanr. This</span>
 <span class="co"># function will build the taxa_map.csv and put it in the path identified with</span>
 <span class="co"># my_path.</span>
-<span class="fu">create_taxa_map</span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span>, x <span class="op">=</span> <span class="va">plantTaxa</span>, col <span class="op">=</span> <span class="st">"definition"</span><span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/create_taxa_map.html">create_taxa_map</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span>, x <span class="op">=</span> <span class="va">plantTaxa</span>, col <span class="op">=</span> <span class="st">"definition"</span><span class="op">)</span> 
 
 <span class="co"># Example: construct taxonomic resource:</span>
 
@@ -207,67 +207,120 @@
 
 <span class="co"># Create or update map: a taxa_map.csv is the heart of taxonomyCleanr. This</span>
 <span class="co"># function will build the taxa_map.csv in the path identified with my_path.</span>
-<span class="fu">create_taxa_map</span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span>, x <span class="op">=</span> <span class="va">gambelQuail</span>, col <span class="op">=</span> <span class="st">"taxName"</span><span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/create_taxa_map.html">create_taxa_map</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span>, x <span class="op">=</span> <span class="va">gambelQuail</span>, col <span class="op">=</span> <span class="st">"taxName"</span><span class="op">)</span> 
 
 <span class="co"># Resolve taxa by attempting to match the taxon name (data.source 3 is ITIS but</span>
 <span class="co"># other sources are accessible). Use `resolve_comm_taxa` instead of</span>
 <span class="co"># `resolve_sci_taxa` if taxa names are common names but note that ITIS</span>
 <span class="co"># (data.source 3) is the only authority taxonomyCleanr will allow for common</span>
 <span class="co"># names.</span>
-<span class="fu">resolve_sci_taxa</span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span>, data.sources <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="co"># in this case, 3 is ITIS</span>
+<span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/resolve_sci_taxa.html">resolve_sci_taxa</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span>, data.sources <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="co"># in this case, 3 is ITIS</span>
 
 <span class="co"># build the EML taxonomomic coverage</span>
-<span class="va">taxaCoverage</span> <span class="op">&lt;-</span> <span class="fu">make_taxonomicCoverage</span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span><span class="op">)</span>
+<span class="va">taxaCoverage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/make_taxonomicCoverage.html">make_taxonomicCoverage</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span><span class="op">)</span>
 
 <span class="co"># add taxonomic to the other coverages</span>
 <span class="va">coverage</span><span class="op">$</span><span class="va">taxonomicCoverage</span> <span class="op">&lt;-</span> <span class="va">taxaCoverage</span></code></pre></div>
 </div>
 </div>
+<div id="people" class="section level3">
+<h3 class="hasAnchor">
+<a href="#people" class="anchor"></a>people</h3>
+<p>For CAP LTER datasets, we can use the <code>gioseml</code> package to harvest person details from the Global Institute of Sustainability and Innovation database. For dataset parties not associated with the CAP LTER (or parties not in the GIOSI database), we can construct <code>creator</code>, <code>metadataProvider</code>, and <code>associatedParty</code> elements using the list structure provided by ROpenSci’s <a href="https://docs.ropensci.org/eml/">EML</a></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># creator(s) - required</span>
+
+<span class="va">mike</span> <span class="op">&lt;-</span> <span class="fu">gioseml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gioseml/man/create_role.html">create_role</a></span><span class="op">(</span>
+  firstName <span class="op">=</span> <span class="st">"Mike"</span>,
+  lastName <span class="op">=</span> <span class="st">"Tomlin"</span>,
+  roleType <span class="op">=</span> <span class="st">"creator"</span>
+<span class="op">)</span>
+
+<span class="co"># if the person has an ORCiD, generate that first</span>
+
+<span class="va">sean_orcid</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">userId</span><span class="op">(</span>directory <span class="op">=</span> <span class="st">"https://orcid.org"</span><span class="op">)</span>
+<span class="va">sean_orcid</span><span class="op">$</span><span class="va">userId</span> <span class="op">&lt;-</span> <span class="st">"https://orcid.org/1111-1111-1111-1111"</span>
+
+<span class="va">sean</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">creator</span><span class="op">(</span>
+  individualName <span class="op">=</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">individualName</span><span class="op">(</span>
+    givenName <span class="op">=</span> <span class="st">"Sean"</span>,
+    surName <span class="op">=</span> <span class="st">"Payton"</span><span class="op">)</span>,
+  electronicMailAddress <span class="op">=</span> <span class="st">"spayton@saints.com"</span>,
+  organizationName <span class="op">=</span> <span class="st">"Saints"</span>,
+  userId <span class="op">=</span> <span class="va">sean_orcid</span>
+<span class="op">)</span>
+
+<span class="co"># sans ORCiD</span>
+
+<span class="va">kliff</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">creator</span><span class="op">(</span>
+  individualName <span class="op">=</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">individualName</span><span class="op">(</span>
+    givenName <span class="op">=</span> <span class="st">"Kliff"</span>,
+    surName <span class="op">=</span> <span class="st">"Kingsbury"</span><span class="op">)</span>,
+  electronicMailAddress <span class="op">=</span> <span class="st">"kkingsbury@cardinals.com"</span>,
+  organizationName <span class="op">=</span> <span class="st">"Cardinals"</span>
+<span class="op">)</span>
+
+<span class="va">creators</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  <span class="va">mike</span>,
+  <span class="va">sean</span>,
+  <span class="va">kliff</span>
+<span class="op">)</span>
+
+<span class="co"># metadata provider - required</span>
+
+<span class="va">mike</span> <span class="op">&lt;-</span> <span class="fu">gioseml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gioseml/man/create_role.html">create_role</a></span><span class="op">(</span>
+  firstName <span class="op">=</span> <span class="st">"Mike"</span>,
+  lastName <span class="op">=</span> <span class="st">"Tomlin"</span>,
+  roleType <span class="op">=</span> <span class="st">"metadata"</span>
+<span class="op">)</span>
+
+<span class="va">metadataProvider</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">mike</span><span class="op">)</span></code></pre></div>
+</div>
 <div id="overview-create-a-datatable" class="section level3">
 <h3 class="hasAnchor">
 <a href="#overview-create-a-datatable" class="anchor"></a>overview: create a dataTable</h3>
 <p>Given a rectangular data matrix of type dataframe or tibble in the R environment:</p>
-<p><code><a href="reference/write_attributes.html">write_attributes(data_entity)</a></code> will generate a template as a yaml file in the working directory based on properties of the data entity such that metadata properties (e.g., attributeDefinition, units) can be added via a editor.</p>
-<p><code><a href="reference/write_factors.html">write_factors(data_entity)</a></code> will generate a template as a yaml file in the working directory based on columns of the data entity that are factors such that details of factor levels can be added via a editor.</p>
+<p><code>write_attributes(data_entity)</code> will generate a template as a yaml file in the working directory based on properties of the data entity such that metadata properties (e.g., attributeDefinition, units) can be added via a editor.</p>
+<p><code>write_factors(data_entity)</code> will generate a template as a yaml file in the working directory based on columns of the data entity that are factors such that details of factor levels can be added via a editor.</p>
 <p>Note that <code>write_attributes</code> and <code>write_factors</code> are wrapped in a <code>try</code> block. This allows us to run the chunk or knit the entire document even if the attributes and factors yaml files already exist (since they will not be overwritten unless the overwrite flag is set, thus aborting the chunk).</p>
-<p><code><a href="reference/create_dataTable.html">create_dataTable(data_entity)</a></code> performs many services:</p>
+<p><code>create_dataTable(data_entity)</code> performs many services:</p>
 <ul>
-<li>the data entity is written to file as a csv in the working directory with the file name: <em>projectid_data-entity-name_md5-hash-of-file.csv</em>
+<li>the data entity is written to file as a csv in the working directory with the file name: <em>projectid_data-entity-name.csv</em>
 </li>
 <li>metadata provided in the attributes and factors (if relevant) templates are ingested</li>
 <li>a EML object of type dataTable is returned note that the data entity name should be used consistently within the chunk, and the resulting dataTable entity should have the name: <em>data_entity_DT</em>
 </li>
 </ul>
 <p><em>create_dataTable example: my_table</em></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>my_table <span class="ot">&lt;-</span> import <span class="sc">/</span> generate...process...</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>({</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_attributes</span>(my_table)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_factors</span>(my_table)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>my_table_desc <span class="ot">&lt;-</span> <span class="st">"description of table"</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># create_dataTable() accepts additionalInfo but is not required</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>my_additional_info <span class="ot">&lt;-</span> <span class="st">"more metadata""</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="st">my_table_DT &lt;- create_dataTable(</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="st">  dfname = my_table,</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="st">  description = my_table_desc,</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="st">  dateRangeField = "</span>my_date_field<span class="st">",</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="st">  additional_information = my_additional_info </span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="st">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>my_table <span class="ot">&lt;-</span> import <span class="sc">/</span> generate...process...</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>({</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_attributes</span>(my_table)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_factors</span>(my_table)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>my_table_desc <span class="ot">&lt;-</span> <span class="st">"description of table"</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># create_dataTable() accepts additionalInfo but is not required</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>my_additional_info <span class="ot">&lt;-</span> <span class="st">"more metadata""</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="st">my_table_DT &lt;- create_dataTable(</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="st">  dfname = my_table,</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="st">  description = my_table_desc,</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="st">  dateRangeField = "</span>my_date_field<span class="st">",</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="st">  additional_information = my_additional_info </span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="st">)</span></span></code></pre></div>
 </div>
 <div id="overview-create-a-otherentity" class="section level3">
 <h3 class="hasAnchor">
 <a href="#overview-create-a-otherentity" class="anchor"></a>overview: create a otherEntity</h3>
 <p>A EML object of type otherEntity can be created from a single file or a directory. In the case of generating a otherEntity object from a directory, pass the directory path to the target_file_or_directory argument, capeml will recognize the target as a directory, and create a zipped file of the identified directory.</p>
 <p>If the otherEntity object already is a zip file with the desired name, set the overwrite argument to FALSE to prevent overwriting the existing object.</p>
-<p>As with all objects created with the capeml package, the resulting object is named with convention: projectid_object-name_md5sum-hash.file extension by default but this functionality can be turned off by setting projectNaming to FALSE.</p>
+<p>As with all objects created with the capeml package, the resulting object is named with convention: projectid_object-name.file extension by default but this functionality can be turned off by setting projectNaming to FALSE.</p>
 <p>As with <code><a href="reference/create_dataTable.html">create_dataTable()</a></code>, <code><a href="reference/create_otherEntity.html">create_otherEntity()</a></code> can also take advantage of the <code><a href="reference/write_attributes.html">write_attributes()</a></code> and <code><a href="reference/write_factors.html">write_factors()</a></code> services of capeml. An example of where you might want to use these features would be when documenting a spatial resource that cannot be coerced into a type <code>spatialRaster</code> or <code>spatialVector</code> (e.g., because of an undocumented coordinate system). To use these services with a directory, create an object in R with the same name as the directory that will be zipped, then pass that object to <code><a href="reference/write_attributes.html">write_attributes()</a></code> and <code><a href="reference/write_factors.html">write_factors()</a></code> - capeml will look for the resulting attribute and factor (if relevant) yaml files and match them to the directory name (see following for an example).</p>
 <p><em>example using create_otherEntity to construct an object of type otherEntity from an ESRI shapefile titled UEI_Features_CAPLTER_2010_2017_JAB.shp (plus </em>.dbf, <em>.prj, and other shapefile files) that is in a directory of the same name (sans file extension)</em></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Read the data into R, here a shapefile using the sf package being careful to</span>
 <span class="co"># name the resulting object in the R environment with the same name of the</span>
 <span class="co"># directory housing the shapefiles (i.e., UEI_Features_CAPLTER_2010_2017_JAB).</span>
@@ -330,7 +383,7 @@ Central (ft) - Projected"</span>
 <div id="literature-cited" class="section level4">
 <h4 class="hasAnchor">
 <a href="#literature-cited" class="anchor"></a>literature cited</h4>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cook</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.envpol.2018.04.013"</span><span class="op">)</span>
 <span class="va">sartory</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1007/BF00031869"</span><span class="op">)</span>
 
@@ -344,7 +397,7 @@ Central (ft) - Projected"</span>
 <div id="usage-citations" class="section level4">
 <h4 class="hasAnchor">
 <a href="#usage-citations" class="anchor"></a>usage citations</h4>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">brown</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.3389/fevo.2020.569730"</span><span class="op">)</span>
 
 <span class="va">usages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
@@ -357,11 +410,11 @@ Central (ft) - Projected"</span>
 <h4 class="hasAnchor">
 <a href="#citations-that-do-no-have-a-doi" class="anchor"></a>citations that do no have a DOI</h4>
 <p>Though a DOI makes documenting references easy, we can add citations that do not have a DOI. There are many ways to address this but likely easiest is to get or create a citation for the reference in bibtex format. <a href="http://sourceforge.net/p/bibutils/home/Bibutils/">bibutils</a> is a helfpul utility that can convert other citation formats, such as .ris, to bibtex. With bibutils, we can convert ris to an intermediate xml format and then to bibtex.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> -O ~/Desktop/tellman_dissertation.ris https://repository.asu.edu/items/53734.ris</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> tellman_dissertation.ris <span class="kw">|</span> <span class="ex">ris2xml</span> <span class="kw">|</span> <span class="ex">xml2bib</span> <span class="op">&gt;&gt;</span> tellman_dissertation.bib</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> -O ~/Desktop/tellman_dissertation.ris https://repository.asu.edu/items/53734.ris</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> tellman_dissertation.ris <span class="kw">|</span> <span class="ex">ris2xml</span> <span class="kw">|</span> <span class="ex">xml2bib</span> <span class="op">&gt;&gt;</span> tellman_dissertation.bib</span></code></pre></div>
 <p>Once we have the citation in bibtex format, we can add it along with other citations as in the example below where we added the citation for the Tellman dissertation to a suite of citations generated with capeml’s create_citiation function.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tellman_2021</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.worlddev.2020.105374"</span><span class="op">)</span>
 <span class="va">lerner_2018</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.cities.2018.06.009"</span><span class="op">)</span>
 <span class="va">eakin_2019</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.5751/ES-11030-240315"</span><span class="op">)</span>

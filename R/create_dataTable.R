@@ -111,7 +111,7 @@ create_dataTable <- function(
 
   if (missing("description")) {
 
-    stop("please provide a description for this vector")
+    stop("please provide a description for this table")
 
   }
 
@@ -130,7 +130,7 @@ create_dataTable <- function(
       !file.exists(paste0(namestr, "_attrs.yaml"))
     ) {
 
-    stop("attributes table not found")
+    stop("attributes file not found")
 
   }
 
@@ -139,7 +139,7 @@ create_dataTable <- function(
 
   attributes <- capeml::read_attributes(
     entity_name = namestr,
-    missing_value_code = missing_value_code 
+    missing_value_code = missingValueCode 
   )
 
 
@@ -165,7 +165,8 @@ create_dataTable <- function(
 
     packageNum <- yaml::yaml.load_file("config.yaml")$packageNum
 
-    project_name <- paste0(packageNum, "_", namestr, "_", tools::md5sum(paste0(namestr, ".csv")), ".csv")
+    # project_name <- paste0(packageNum, "_", namestr, "_", tools::md5sum(paste0(namestr, ".csv")), ".csv")
+    project_name <- paste0(packageNum, "_", namestr, ".csv")
 
     system(
       paste0(
@@ -208,7 +209,7 @@ create_dataTable <- function(
   # authentication
 
   fileAuthentication <- EML::eml$authentication(method = "MD5")
-  fileAuthentication$authentication <- md5sum(project_name)
+  fileAuthentication$authentication <- tools::md5sum(project_name)
 
   # construct physical
 

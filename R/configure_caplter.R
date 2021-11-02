@@ -85,7 +85,7 @@ capContact <- EML::eml$contact(
   organizationName = "Central Arizona\u2013Phoenix LTER",
   positionName = "Information Manager",
   electronicMailAddress = "caplter.data@asu.edu",
-  onlineUrl = "https://sustainability.asu.edu/caplter/",
+  onlineUrl = "https://sustainability-innovation.asu.edu/caplter/",
   address = capAddress)
 
 
