@@ -38,11 +38,13 @@ The user must follow yaml convention to ensure that input is formatted
 \examples{
 \dontrun{
 
- write_factors(R data object)
-
  # overwrite existing factors file
- write_factors(dfname = R data object,
-               overwrite = TRUE)
+
+ capeml::write_factors(
+   dfname = data_object,
+   overwrite = TRUE
+ )
+
 }
 
 }

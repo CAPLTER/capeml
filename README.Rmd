@@ -28,7 +28,6 @@ which also generates a `config.yaml` file and new directory, or with the
 `write_template` function. For Vim users, additional resources for templating
 are available through [capeml-vim](https://gitlab.com/caplter/capeml-vim).
 
-
 ### installation
 
 Install from GitHub (after installing the
@@ -38,7 +37,6 @@ Install from GitHub (after installing the
 
 devtools::install_github("CAPLTER/capeml")
 ```
-
 ### options
 
 #### EML
@@ -51,15 +49,14 @@ previous version with `emld::eml_version("eml-2.1.1")`.
 Most EML-generating functions in the capeml and capemlGIS packages will create
 both physical objects and EML references to those objects. By default, the
 package will name output files with the format
-`project-id`\_`object-name`\_`object-hash`\.`file-extension` (e.g.,
-*664_site_map_5fb7b8d53d48010eab1a2e73db7f1941.png*). The target object (e.g.,
-site_map.png from the previous example) is renamed with the additional metadata
-and this object name is referenced in the EML metadata. Project naming can be
-disabled by setting the `projectNaming` flag to `FALSE`. When set to FALSE, the
-object name is not changed, and the name of the data object as read into the R
-environment is written to file and referenced in the EML. Note that the
-project-id is not passed as an argument, and must exist in `config.yaml` (as
-`projectid`). 
+`project-id`\_`object-name`\.`file-extension` (e.g., *664_site_map.png*). The
+target object (e.g., site_map.png from the previous example) is renamed with
+the additional metadata and this object name is referenced in the EML metadata.
+Project naming can be disabled by setting the `projectNaming` flag to `FALSE`.
+When set to FALSE, the object name is not changed, and the name of the data
+object as read into the R environment is written to file and referenced in the
+EML. Note that the project-id is not passed as an argument, and must exist in
+`config.yaml` (as `projectid`). 
 
 ### getting started
 
@@ -93,7 +90,6 @@ passed as a separate argument.
 
 A template work flow as an Rmarkdown (Rmd) file named with the package scope
 and number can be generated independently with the `write_template` function.
-
 
 ### tools to generate entity metadata
 
@@ -216,6 +212,67 @@ taxaCoverage <- make_taxonomicCoverage(path = my_path)
 coverage$taxonomicCoverage <- taxaCoverage
 ```
 
+### people
+
+For CAP LTER datasets, we can use the `gioseml` package to harvest person
+details from the Global Institute of Sustainability and Innovation database.
+For dataset parties not associated with the CAP LTER (or parties not in the
+GIOSI database), we can construct `creator`, `metadataProvider`, and
+`associatedParty` elements using the list structure provided by ROpenSci's
+[EML](https://docs.ropensci.org/eml/)
+
+```{r people, eval = FALSE}
+
+# creator(s) - required
+
+mike <- gioseml::create_role(
+  firstName = "Mike",
+  lastName = "Tomlin",
+  roleType = "creator"
+)
+
+# if the person has an ORCiD, generate that first
+
+sean_orcid <- EML::eml$userId(directory = "https://orcid.org")
+sean_orcid$userId <- "https://orcid.org/1111-1111-1111-1111"
+
+sean <- EML::eml$creator(
+  individualName = EML::eml$individualName(
+    givenName = "Sean",
+    surName = "Payton"),
+  electronicMailAddress = "spayton@saints.com",
+  organizationName = "Saints",
+  userId = sean_orcid
+)
+
+# sans ORCiD
+
+kliff <- EML::eml$creator(
+  individualName = EML::eml$individualName(
+    givenName = "Kliff",
+    surName = "Kingsbury"),
+  electronicMailAddress = "kkingsbury@cardinals.com",
+  organizationName = "Cardinals"
+)
+
+creators <- list(
+  mike,
+  sean,
+  kliff
+)
+
+# metadata provider - required
+
+mike <- gioseml::create_role(
+  firstName = "Mike",
+  lastName = "Tomlin",
+  roleType = "metadata"
+)
+
+metadataProvider <- list(mike)
+
+```
+
 ### overview: create a dataTable
 
 Given a rectangular data matrix of type dataframe or tibble in the R
@@ -237,7 +294,7 @@ overwritten unless the overwrite flag is set, thus aborting the chunk).
 `create_dataTable(data_entity)` performs many services:
 
 * the data entity is written to file as a csv in the working directory with the
-  file name: *projectid_data-entity-name_md5-hash-of-file.csv*
+  file name: *projectid_data-entity-name.csv*
 * metadata provided in the attributes and factors (if relevant) templates are
   ingested
 * a EML object of type dataTable is returned note that the data entity name
@@ -282,9 +339,8 @@ If the otherEntity object already is a zip file with the desired name, set the
 overwrite argument to FALSE to prevent overwriting the existing object.
 
 As with all objects created with the capeml package, the resulting object is
-named with convention: projectid_object-name_md5sum-hash.file extension by
-default but this functionality can be turned off by setting projectNaming to
-FALSE.
+named with convention: projectid_object-name.file extension by default but this
+functionality can be turned off by setting projectNaming to FALSE.
 
 As with `create_dataTable()`, `create_otherEntity()` can also take advantage of
 the `write_attributes()` and `write_factors()` services of capeml. An example
