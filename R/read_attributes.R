@@ -142,10 +142,10 @@ read_attributes <- function(
   )
 
   mvframe <- purrr::map_df(
-    .x = colnames(entity_name),
+    .x = colnames(get(entity_name)),
     .f = write_missing_values,
     storage = missing_value_frame,
-    dataObject = entity_name,
+    dataObject = get(entity_name),
     MVC = missing_value_code
   )
 
