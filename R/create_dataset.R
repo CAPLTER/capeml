@@ -141,6 +141,15 @@ create_dataset <- function(
   }
 
 
+  # add dataTable(s) if exist(s)
+  if (length(ls(envir = .GlobalEnv, pattern = "_DT")) > 0) {
+
+    listOfDataTables  <- lapply(ls(envir = .GlobalEnv, pattern = "_DT"), function(DT) { get(DT, envir = .GlobalEnv) } )
+    dataset$dataTable <- listOfDataTables
+
+  }
+
+
   # add associated party if exists
   if (exists("associatedParty")) { dataset$associatedParty <- associatedParty }
 
@@ -174,6 +183,7 @@ create_dataset <- function(
       " package: ", packageIdent, "\n",
       " title: ", title, "\n",
       " scope: ", scope, "\n",
+      " datatable(s): ", ls(envir = .GlobalEnv, pattern = "_DT"), "\n",
       " associated party: ", exists("associatedParty"), "\n",
       " literature citations: ", num_citations, "\n",
       " usage citations: ", num_usages, "\n"
