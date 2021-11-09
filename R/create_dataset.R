@@ -44,20 +44,24 @@ create_dataset <- function(
   if (!exists("creators")) {
     stop("missing creator")
   }
+
   if (!exists("metadataProvider")) {
     stop("missing metadata provider")
   }
+
   if (!exists("coverage")) {
     stop("missing coverage")
   }
 
-  # retrieve title and packageIdent from config.yaml
+  # retrieve dataset details from config.yaml
   if (!file.exists("config.yaml")) {
     stop("config.yaml not found")
   }
-  title <- yaml::yaml.load_file("config.yaml")$title
+
+  title        <- yaml::yaml.load_file("config.yaml")$title
   packageIdent <- yaml::yaml.load_file("config.yaml")$packageIdent
-  scope <- yaml::yaml.load_file("config.yaml")$project
+  scope        <- yaml::yaml.load_file("config.yaml")$project
+  maintenance  <- yaml::yaml.load_file("config.yaml")$maintenance
 
   # read abstract
   tryCatch({
@@ -85,19 +89,44 @@ create_dataset <- function(
   }) # close try catch - keywords
 
 
+  # maintenance
+
+  if (maintenance == "regular") {
+
+    dataset_maintenance <- EML::eml$maintenance(
+      description = "it is expected that dataset will receive regular updates (approximately annually or as needed)",
+      maintenanceUpdateFrequency = "asNeeded"
+    )
+
+  } else if (maintenance == "none") {
+
+    dataset_maintenance <- EML::eml$maintenance(
+      description = "this dataset is complete and or updates are not anticipated",
+      maintenanceUpdateFrequency = "notPlanned"
+    )
+
+  } else {
+
+    dataset_maintenance <- NULL
+    maintenance <- "not specified (none, regular)"
+
+  }
+
+
   # construct base dataset with required components
   dataset <- EML::eml$dataset(
-    title = title,
-    creator = creators,
-    pubDate = if (!is.null(publicationDate)) { publicationDate } else { as.character(Sys.Date()) },
-    metadataProvider = metadataProvider,
-    language = "english",
+    title              = title,
+    creator            = creators,
+    pubDate            = if (!is.null(publicationDate)) { publicationDate } else { as.character(Sys.Date()) },
+    metadataProvider   = metadataProvider,
+    language           = "english",
     intellectualRights = capRights,
-    abstract = abstract,
-    keywordSet = keywords,
-    coverage = coverage,
-    methods = methods,
-    distribution = create_distribution(packageIdent)
+    abstract           = abstract,
+    keywordSet         = keywords,
+    coverage           = coverage,
+    maintenance        = dataset_maintenance,
+    methods            = methods,
+    distribution       = create_distribution(packageIdent)
   )
 
   # add project-specific elements
@@ -141,6 +170,15 @@ create_dataset <- function(
   }
 
 
+  # add dataTable(s) if exist(s)
+  if (length(ls(envir = .GlobalEnv, pattern = "_DT")) > 0) {
+
+    listOfDataTables  <- lapply(ls(envir = .GlobalEnv, pattern = "_DT"), function(DT) { get(DT, envir = .GlobalEnv) } )
+    dataset$dataTable <- listOfDataTables
+
+  }
+
+
   # add associated party if exists
   if (exists("associatedParty")) { dataset$associatedParty <- associatedParty }
 
@@ -174,6 +212,8 @@ create_dataset <- function(
       " package: ", packageIdent, "\n",
       " title: ", title, "\n",
       " scope: ", scope, "\n",
+      " maintenance: ", maintenance, "\n",
+      " datatable(s): ", ls(envir = .GlobalEnv, pattern = "_DT"), "\n",
       " associated party: ", exists("associatedParty"), "\n",
       " literature citations: ", num_citations, "\n",
       " usage citations: ", num_usages, "\n"

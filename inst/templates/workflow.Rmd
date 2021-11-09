@@ -10,7 +10,6 @@ editor_options:
 # libraries
 
 ```{r libraries}
-
 library(capeml)
 ```
 
@@ -138,26 +137,6 @@ Optionally, provide: abstract, methods, keywords, publication date.
 dataset <- create_dataset()
 ```
 
-
-# add dataTable
-
-```{r dataSet$dataTable}
-
-# add dataTables if relevant
-
-print(ls(pattern = "_DT"))
-
-if (length(ls(pattern = "_DT")) > 0) {
-
-  listOfDataTables <- lapply(ls(pattern = "_DT"), function(DT) { get(DT) } )
-
-  dataset$dataTable  <- listOfDataTables
-
-}
-
-# or add manually
-# dataset$dataTable <- list(dataTable..., dataTable...)
-```
 
 
 # add otherEntity

@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.0</span>
       </span>
     </div>
 
@@ -146,6 +146,11 @@
 <a href="#title" class="anchor"></a>title</h4>
 <p>The dataset title is read from the <code>title</code> parameter of <code>config.yaml</code>. The title can be quoted or unquoted but must be quoted if the title contains a colon.</p>
 </div>
+<div id="maintenance" class="section level4">
+<h4 class="hasAnchor">
+<a href="#maintenance" class="anchor"></a>maintenance</h4>
+<p>The maintenance status of a project is read from the <code>maintenance</code> parameter of <code>config.yaml</code>. Standardized language is provided for either <code>none</code> (updates not anticipated) or <code>regular</code> (approximately annual updates are anticipated) maintenance regimes. <code>NULL</code> or text other than <code>none</code> or <code>regular</code> will omit the <code>maintenance</code> element from the resulting EML.</p>
+</div>
 <div id="abstract" class="section level4">
 <h4 class="hasAnchor">
 <a href="#abstract" class="anchor"></a>abstract</h4>
@@ -192,8 +197,8 @@
 <span class="co"># Example: draw taxonomic information from existing resource:</span>
 
 <span class="co"># plant taxa listed in the om_transpiration_factors file</span>
-<span class="va">plantTaxa</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">'om_transpiration_factors.csv'</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">attributeName</span> <span class="op">==</span> <span class="st">"species"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<span class="va">plantTaxa</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">'om_transpiration_factors.csv'</span><span class="op">)</span> |&gt; 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">attributeName</span> <span class="op">==</span> <span class="st">"species"</span><span class="op">)</span> |&gt; 
   <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># create or update map. A taxa_map.csv is the heart of taxonomyCleanr. This</span>
@@ -203,7 +208,7 @@
 
 <span class="co"># Example: construct taxonomic resource:</span>
 
-<span class="va">gambelQuail</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>taxName <span class="op">=</span> <span class="st">"Callipepla gambelii"</span><span class="op">)</span>
+<span class="va">gambelQuail</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>taxName <span class="op">=</span> <span class="st">"Callipepla gambelii"</span><span class="op">)</span>
 
 <span class="co"># Create or update map: a taxa_map.csv is the heart of taxonomyCleanr. This</span>
 <span class="co"># function will build the taxa_map.csv in the path identified with my_path.</span>
@@ -222,10 +227,9 @@
 <span class="co"># add taxonomic to the other coverages</span>
 <span class="va">coverage</span><span class="op">$</span><span class="va">taxonomicCoverage</span> <span class="op">&lt;-</span> <span class="va">taxaCoverage</span></code></pre></div>
 </div>
-</div>
-<div id="people" class="section level3">
-<h3 class="hasAnchor">
-<a href="#people" class="anchor"></a>people</h3>
+<div id="people" class="section level4">
+<h4 class="hasAnchor">
+<a href="#people" class="anchor"></a>people</h4>
 <p>For CAP LTER datasets, we can use the <code>gioseml</code> package to harvest person details from the Global Institute of Sustainability and Innovation database. For dataset parties not associated with the CAP LTER (or parties not in the GIOSI database), we can construct <code>creator</code>, <code>metadataProvider</code>, and <code>associatedParty</code> elements using the list structure provided by ROpenSci’s <a href="https://docs.ropensci.org/eml/">EML</a></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># creator(s) - required</span>
@@ -244,7 +248,8 @@
 <span class="va">sean</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">creator</span><span class="op">(</span>
   individualName <span class="op">=</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">individualName</span><span class="op">(</span>
     givenName <span class="op">=</span> <span class="st">"Sean"</span>,
-    surName <span class="op">=</span> <span class="st">"Payton"</span><span class="op">)</span>,
+    surName <span class="op">=</span> <span class="st">"Payton"</span>
+    <span class="op">)</span>,
   electronicMailAddress <span class="op">=</span> <span class="st">"spayton@saints.com"</span>,
   organizationName <span class="op">=</span> <span class="st">"Saints"</span>,
   userId <span class="op">=</span> <span class="va">sean_orcid</span>
@@ -255,7 +260,8 @@
 <span class="va">kliff</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">creator</span><span class="op">(</span>
   individualName <span class="op">=</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">individualName</span><span class="op">(</span>
     givenName <span class="op">=</span> <span class="st">"Kliff"</span>,
-    surName <span class="op">=</span> <span class="st">"Kingsbury"</span><span class="op">)</span>,
+    surName <span class="op">=</span> <span class="st">"Kingsbury"</span>
+    <span class="op">)</span>,
   electronicMailAddress <span class="op">=</span> <span class="st">"kkingsbury@cardinals.com"</span>,
   organizationName <span class="op">=</span> <span class="st">"Cardinals"</span>
 <span class="op">)</span>
@@ -276,6 +282,13 @@
 
 <span class="va">metadataProvider</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">mike</span><span class="op">)</span></code></pre></div>
 </div>
+<div id="data-objects" class="section level4">
+<h4 class="hasAnchor">
+<a href="#data-objects" class="anchor"></a>data objects</h4>
+<p><em>data tables</em></p>
+<p>The <code>create_dataset</code> function will look for objects in the R environment with a trailing <code>_DT</code> in the object name (e.g. <code>my_table_DT</code>), e.g., see section on creating a dataTable below. All objects with that naming convention will be added to the dataset.</p>
+</div>
+</div>
 <div id="overview-create-a-datatable" class="section level3">
 <h3 class="hasAnchor">
 <a href="#overview-create-a-datatable" class="anchor"></a>overview: create a dataTable</h3>
@@ -295,8 +308,8 @@
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>my_table <span class="ot">&lt;-</span> import <span class="sc">/</span> generate...process...</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>({</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_attributes</span>(my_table)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_factors</span>(my_table)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  capeml<span class="sc">::</span><span class="fu">write_attributes</span>(my_table)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  capeml<span class="sc">::</span><span class="fu">write_factors</span>(my_table)</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>my_table_desc <span class="ot">&lt;-</span> <span class="st">"description of table"</span></span>
@@ -305,7 +318,7 @@
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>my_additional_info <span class="ot">&lt;-</span> <span class="st">"more metadata""</span></span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="st">my_table_DT &lt;- create_dataTable(</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="st">my_table_DT &lt;- capeml::create_dataTable(</span></span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="st">  dfname = my_table,</span></span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="st">  description = my_table_desc,</span></span>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="st">  dateRangeField = "</span>my_date_field<span class="st">",</span></span>
@@ -332,8 +345,8 @@
 
 <span class="co"># add factors if and as appropriate</span>
 
-<span class="va">UEI_Features_CAPLTER_2010_2017_JAB</span> <span class="op">&lt;-</span> <span class="va">UEI_Features_CAPLTER_2010_2017_JAB</span> <span class="op">%&gt;%</span>
-  <span class="fu">mutate</span><span class="op">(</span>myfactor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">UEI_type</span><span class="op">)</span><span class="op">)</span>
+<span class="va">UEI_Features_CAPLTER_2010_2017_JAB</span> <span class="op">&lt;-</span> <span class="va">UEI_Features_CAPLTER_2010_2017_JAB</span> |&gt;
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>myfactor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">UEI_type</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Generate yaml files of both the attributes and factors (if relevant) from the</span>
 <span class="co"># shapefile that we read into R; these will be written to the project directory</span>
@@ -341,8 +354,8 @@
 <span class="co"># step - again, this must correspond to the name of directory housing the files</span>
 <span class="co"># to be zipped.</span>
 
-<span class="fu"><a href="reference/write_attributes.html">write_attributes</a></span><span class="op">(</span><span class="va">UEI_Features_CAPLTER_2010_2017_JAB</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="reference/write_factors.html">write_factors</a></span><span class="op">(</span><span class="va">UEI_Features_CAPLTER_2010_2017_JAB</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/write_attributes.html">write_attributes</a></span><span class="op">(</span><span class="va">UEI_Features_CAPLTER_2010_2017_JAB</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/write_factors.html">write_factors</a></span><span class="op">(</span><span class="va">UEI_Features_CAPLTER_2010_2017_JAB</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="co"># an object description is required</span>
 
@@ -368,7 +381,7 @@ Central (ft) - Projected"</span>
 <span class="co"># shapefiles will be zipped and, possibly, renamed depending on whether project</span>
 <span class="co"># naming was invoked.</span>
 
-<span class="va">uei_features_OE</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_otherEntity.html">create_otherEntity</a></span><span class="op">(</span>
+<span class="va">uei_features_OE</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_otherEntity.html">create_otherEntity</a></span><span class="op">(</span>
   target_file_or_directory <span class="op">=</span> <span class="st">"data/UEI_Features_CAPLTER_2010_2017_JAB"</span>,
   description <span class="op">=</span> <span class="va">UEI_Features_CAPLTER_2010_2017_JAB_desc</span>,
   additional_information <span class="op">=</span> <span class="va">UEI_Features_CAPLTER_2010_2017_JAB_additional</span>
@@ -384,8 +397,8 @@ Central (ft) - Projected"</span>
 <h4 class="hasAnchor">
 <a href="#literature-cited" class="anchor"></a>literature cited</h4>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cook</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.envpol.2018.04.013"</span><span class="op">)</span>
-<span class="va">sartory</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1007/BF00031869"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">cook</span>    <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.envpol.2018.04.013"</span><span class="op">)</span>
+<span class="va">sartory</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1007/BF00031869"</span><span class="op">)</span>
 
 <span class="va">citations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
   citation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
@@ -398,7 +411,7 @@ Central (ft) - Projected"</span>
 <h4 class="hasAnchor">
 <a href="#usage-citations" class="anchor"></a>usage citations</h4>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">brown</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.3389/fevo.2020.569730"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">brown</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.3389/fevo.2020.569730"</span><span class="op">)</span>
 
 <span class="va">usages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
     <span class="va">brown</span>
@@ -415,9 +428,9 @@ Central (ft) - Projected"</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> tellman_dissertation.ris <span class="kw">|</span> <span class="ex">ris2xml</span> <span class="kw">|</span> <span class="ex">xml2bib</span> <span class="op">&gt;&gt;</span> tellman_dissertation.bib</span></code></pre></div>
 <p>Once we have the citation in bibtex format, we can add it along with other citations as in the example below where we added the citation for the Tellman dissertation to a suite of citations generated with capeml’s create_citiation function.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">tellman_2021</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.worlddev.2020.105374"</span><span class="op">)</span>
-<span class="va">lerner_2018</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.cities.2018.06.009"</span><span class="op">)</span>
-<span class="va">eakin_2019</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.5751/ES-11030-240315"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">tellman_2021</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.worlddev.2020.105374"</span><span class="op">)</span>
+<span class="va">lerner_2018</span>  <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.cities.2018.06.009"</span><span class="op">)</span>
+<span class="va">eakin_2019</span>   <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.5751/ES-11030-240315"</span><span class="op">)</span>
 
 <span class="va">tellman_dissertation</span> <span class="op">&lt;-</span> <span class="st">"
 @phdthesis{Tellman_2019,

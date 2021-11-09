@@ -120,6 +120,14 @@ The dataset title is read from the `title` parameter of `config.yaml`. The
 title can be quoted or unquoted but must be quoted if the title contains a
 colon.
 
+#### maintenance
+
+The maintenance status of a project is read from the `maintenance` parameter of
+`config.yaml`. Standardized language is provided for either `none` (updates not
+anticipated) or `regular` (approximately annual updates are anticipated)
+maintenance regimes. `NULL` or text other than `none` or `regular` will omit
+the `maintenance` element from the resulting EML.
+
 #### abstract
 
 The `create_dataset` function will look for a `abstract.md` file in the working
@@ -181,8 +189,8 @@ my_path <- getwd() # taxonomyCleanr requires a path (to build the taxa_map)
 # Example: draw taxonomic information from existing resource:
 
 # plant taxa listed in the om_transpiration_factors file
-plantTaxa <- read_csv('om_transpiration_factors.csv') %>% 
-  filter(attributeName == "species") %>% 
+plantTaxa <- readr::read_csv('om_transpiration_factors.csv') |> 
+  dplyr::filter(attributeName == "species") |> 
   as.data.frame()
 
 # create or update map. A taxa_map.csv is the heart of taxonomyCleanr. This
@@ -192,7 +200,7 @@ create_taxa_map(path = my_path, x = plantTaxa, col = "definition")
 
 # Example: construct taxonomic resource:
 
-gambelQuail <- tibble(taxName = "Callipepla gambelii")
+gambelQuail <- tibble::tibble(taxName = "Callipepla gambelii")
 
 # Create or update map: a taxa_map.csv is the heart of taxonomyCleanr. This
 # function will build the taxa_map.csv in the path identified with my_path.
@@ -212,7 +220,7 @@ taxaCoverage <- make_taxonomicCoverage(path = my_path)
 coverage$taxonomicCoverage <- taxaCoverage
 ```
 
-### people
+#### people
 
 For CAP LTER datasets, we can use the `gioseml` package to harvest person
 details from the Global Institute of Sustainability and Innovation database.
@@ -239,7 +247,8 @@ sean_orcid$userId <- "https://orcid.org/1111-1111-1111-1111"
 sean <- EML::eml$creator(
   individualName = EML::eml$individualName(
     givenName = "Sean",
-    surName = "Payton"),
+    surName = "Payton"
+    ),
   electronicMailAddress = "spayton@saints.com",
   organizationName = "Saints",
   userId = sean_orcid
@@ -250,7 +259,8 @@ sean <- EML::eml$creator(
 kliff <- EML::eml$creator(
   individualName = EML::eml$individualName(
     givenName = "Kliff",
-    surName = "Kingsbury"),
+    surName = "Kingsbury"
+    ),
   electronicMailAddress = "kkingsbury@cardinals.com",
   organizationName = "Cardinals"
 )
@@ -271,6 +281,15 @@ mike <- gioseml::create_role(
 
 metadataProvider <- list(mike)
 ```
+
+#### data objects
+
+*data tables*
+
+The `create_dataset` function will look for objects in the R environment with a
+trailing `_DT` in the object name (e.g. `my_table_DT`), e.g., see section on
+creating a dataTable below. All objects with that naming convention will be
+added to the dataset. 
 
 ### overview: create a dataTable
 
@@ -307,8 +326,8 @@ overwritten unless the overwrite flag is set, thus aborting the chunk).
 my_table <- import / generate...process...
 
 try({
-  write_attributes(my_table)
-  write_factors(my_table)
+  capeml::write_attributes(my_table)
+  capeml::write_factors(my_table)
 })
 
 my_table_desc <- "description of table"
@@ -317,7 +336,7 @@ my_table_desc <- "description of table"
 
 my_additional_info <- "more metadata""
 
-my_table_DT <- create_dataTable(
+my_table_DT <- capeml::create_dataTable(
   dfname = my_table,
   description = my_table_desc,
   dateRangeField = "my_date_field",
@@ -369,8 +388,8 @@ UEI_Features_CAPLTER_2010_2017_JAB <- sf::st_read(
 
 # add factors if and as appropriate
 
-UEI_Features_CAPLTER_2010_2017_JAB <- UEI_Features_CAPLTER_2010_2017_JAB %>%
-  mutate(myfactor = as.factor(UEI_type))
+UEI_Features_CAPLTER_2010_2017_JAB <- UEI_Features_CAPLTER_2010_2017_JAB |>
+  dplyr::mutate(myfactor = as.factor(UEI_type))
 
 # Generate yaml files of both the attributes and factors (if relevant) from the
 # shapefile that we read into R; these will be written to the project directory
@@ -378,8 +397,8 @@ UEI_Features_CAPLTER_2010_2017_JAB <- UEI_Features_CAPLTER_2010_2017_JAB %>%
 # step - again, this must correspond to the name of directory housing the files
 # to be zipped.
 
-write_attributes(UEI_Features_CAPLTER_2010_2017_JAB, overwrite = TRUE)
-write_factors(UEI_Features_CAPLTER_2010_2017_JAB, overwrite = TRUE)
+capeml::write_attributes(UEI_Features_CAPLTER_2010_2017_JAB, overwrite = TRUE)
+capeml::write_factors(UEI_Features_CAPLTER_2010_2017_JAB, overwrite = TRUE)
 
 # an object description is required
 
@@ -405,7 +424,7 @@ Central (ft) - Projected"
 # shapefiles will be zipped and, possibly, renamed depending on whether project
 # naming was invoked.
 
-uei_features_OE <- create_otherEntity(
+uei_features_OE <- capeml::create_otherEntity(
   target_file_or_directory = "data/UEI_Features_CAPLTER_2010_2017_JAB",
   description = UEI_Features_CAPLTER_2010_2017_JAB_desc,
   additional_information = UEI_Features_CAPLTER_2010_2017_JAB_additional
@@ -433,8 +452,8 @@ wrapped in a citation tag.
 
 
 ```r
-cook <- create_citation("https://doi.org/10.1016/j.envpol.2018.04.013")
-sartory <- create_citation("https://doi.org/10.1007/BF00031869")
+cook    <- capeml::create_citation("https://doi.org/10.1016/j.envpol.2018.04.013")
+sartory <- capeml::create_citation("https://doi.org/10.1007/BF00031869")
 
 citations <- list(
   citation = list(
@@ -447,9 +466,8 @@ citations <- list(
 #### usage citations
 
 
-
 ```r
-brown <- create_citation("https://doi.org/10.3389/fevo.2020.569730")
+brown <- capeml::create_citation("https://doi.org/10.3389/fevo.2020.569730")
 
 usages <- list(
     brown
@@ -482,9 +500,9 @@ function.
 
 
 ```r
-tellman_2021 <- create_citation("https://doi.org/10.1016/j.worlddev.2020.105374")
-lerner_2018 <- create_citation("https://doi.org/10.1016/j.cities.2018.06.009")
-eakin_2019 <- create_citation("https://doi.org/10.5751/ES-11030-240315")
+tellman_2021 <- capeml::create_citation("https://doi.org/10.1016/j.worlddev.2020.105374")
+lerner_2018  <- capeml::create_citation("https://doi.org/10.1016/j.cities.2018.06.009")
+eakin_2019   <- capeml::create_citation("https://doi.org/10.5751/ES-11030-240315")
 
 tellman_dissertation <- "
 @phdthesis{Tellman_2019,

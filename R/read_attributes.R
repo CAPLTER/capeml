@@ -127,10 +127,13 @@ read_attributes <- function(
 
   # missing value coding ------------------------------------------------------
 
-  # drop geometry columns from consideration if simple features
-  if (class(entity_name)[[1]] == "sf") {
+  # use the R object for these operations
+  r_object <- get(entity_name)
 
-    entity_name <- entity_name %>%
+  # drop geometry columns from consideration if simple features
+  if (class(r_object)[[1]] == "sf") {
+
+    r_object <- r_object %>%
       sf::st_drop_geometry()
 
   }
@@ -142,10 +145,10 @@ read_attributes <- function(
   )
 
   mvframe <- purrr::map_df(
-    .x = colnames(entity_name),
+    .x = colnames(r_object),
     .f = write_missing_values,
     storage = missing_value_frame,
-    dataObject = entity_name,
+    dataObject = r_object,
     MVC = missing_value_code
   )
 

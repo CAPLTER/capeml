@@ -65,6 +65,7 @@ write_config <- function(
     baseURL = "https://data.gios.asu.edu/datasets/cap/",
     project = "lter",
     title = "title",
+    maintenance = "none",
     geographicCoverage = list(
       geographicDescription = "CAP LTER study area: greater Phoenix, Arizona (USA) metropolitan area and surrounding Sonoran desert region"
     )
