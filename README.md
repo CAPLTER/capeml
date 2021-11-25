@@ -14,7 +14,7 @@ Helper functions for the creation of dataset metadata, `datatable()`, and
 `otherentity()` entities using the [EML](https://docs.ropensci.org/eml/)
 package are supported. This package can be extended with the
 [capemlGIS](https://github.com/caplter/capemlgis) package to generate metadata
-for `spatialraster()` and `spatialvector()` entities.
+for `spatialRaster()` and `spatialvector()` entities.
 
 Note that the creation of people-related entities in the templated work flow
 (see below) are specific to functions that rely on Global Institute of
@@ -101,7 +101,7 @@ and number can be generated independently with the `write_template` function.
   definition metadata for factors in a tabular data object that resides in the
   R environment
 
-### tools to create EML entities
+#### tools to create EML entities
 
 * `create_dataTable()` creates a EML entity of type dataTable
 * `create_otherEntity()` creates a EML entity of type otherEntity
@@ -153,10 +153,8 @@ methods if provenance data are required or there are multiple methods files. If
 
 
 ```r
-library(EDIutils)
-
 # methods from file tagged as markdown
-main <- read_markdown("methods.md")
+main <- list(description = read_markdown("methods.md"))
 
 # provenance: naip
 naip <- emld::as_emld(EDIutils::api_get_provenance_metadata("knb-lter-cap.623.1"))
@@ -182,13 +180,12 @@ A sample work flow for creating a taxonomic coverage:
 
 
 ```r
-library(taxonomyCleanr)
-
 my_path <- getwd() # taxonomyCleanr requires a path (to build the taxa_map)
 
 # Example: draw taxonomic information from existing resource:
 
 # plant taxa listed in the om_transpiration_factors file
+
 plantTaxa <- readr::read_csv('om_transpiration_factors.csv') |> 
   dplyr::filter(attributeName == "species") |> 
   as.data.frame()
@@ -196,7 +193,12 @@ plantTaxa <- readr::read_csv('om_transpiration_factors.csv') |>
 # create or update map. A taxa_map.csv is the heart of taxonomyCleanr. This
 # function will build the taxa_map.csv and put it in the path identified with
 # my_path.
-create_taxa_map(path = my_path, x = plantTaxa, col = "definition") 
+
+taxonomyCleanr::create_taxa_map(
+  path = my_path,
+  x    = plantTaxa,
+  col  = "definition"
+) 
 
 # Example: construct taxonomic resource:
 
@@ -204,19 +206,30 @@ gambelQuail <- tibble::tibble(taxName = "Callipepla gambelii")
 
 # Create or update map: a taxa_map.csv is the heart of taxonomyCleanr. This
 # function will build the taxa_map.csv in the path identified with my_path.
-create_taxa_map(path = my_path, x = gambelQuail, col = "taxName") 
+
+taxonomyCleanr::create_taxa_map(
+  path = my_path,
+  x    = gambelQuail,
+  col  = "taxName"
+) 
 
 # Resolve taxa by attempting to match the taxon name (data.source 3 is ITIS but
 # other sources are accessible). Use `resolve_comm_taxa` instead of
 # `resolve_sci_taxa` if taxa names are common names but note that ITIS
 # (data.source 3) is the only authority taxonomyCleanr will allow for common
 # names.
-resolve_sci_taxa(path = my_path, data.sources = 3) # in this case, 3 is ITIS
+
+taxonomyCleanr::resolve_sci_taxa(
+  path         = my_path,
+  data.sources = 3 # ITIS
+) 
 
 # build the EML taxonomomic coverage
-taxaCoverage <- make_taxonomicCoverage(path = my_path)
+
+taxaCoverage <- taxonomyCleanr::make_taxonomicCoverage(path = my_path)
 
 # add taxonomic to the other coverages
+
 coverage$taxonomicCoverage <- taxaCoverage
 ```
 
@@ -242,15 +255,15 @@ mike <- gioseml::create_role(
 # if the person has an ORCiD, generate that first
 
 sean_orcid <- EML::eml$userId(directory = "https://orcid.org")
-sean_orcid$userId <- "https://orcid.org/1111-1111-1111-1111"
+sean_orcid$userId <- "1111-1111-1111-1111"
 
 sean <- EML::eml$creator(
   individualName = EML::eml$individualName(
     givenName = "Sean",
-    surName = "Payton"
+    surName   = "Payton"
     ),
   electronicMailAddress = "spayton@saints.com",
-  organizationName = "Saints",
+  organizationName      = "Saints",
   userId = sean_orcid
 )
 
@@ -259,10 +272,10 @@ sean <- EML::eml$creator(
 kliff <- EML::eml$creator(
   individualName = EML::eml$individualName(
     givenName = "Kliff",
-    surName = "Kingsbury"
+    surName   = "Kingsbury"
     ),
   electronicMailAddress = "kkingsbury@cardinals.com",
-  organizationName = "Cardinals"
+  organizationName      = "Cardinals"
 )
 
 creators <- list(
@@ -275,8 +288,8 @@ creators <- list(
 
 mike <- gioseml::create_role(
   firstName = "Mike",
-  lastName = "Tomlin",
-  roleType = "metadata"
+  lastName  = "Tomlin",
+  roleType  = "metadata"
 )
 
 metadataProvider <- list(mike)
@@ -337,10 +350,10 @@ my_table_desc <- "description of table"
 my_additional_info <- "more metadata""
 
 my_table_DT <- capeml::create_dataTable(
-  dfname = my_table,
-  description = my_table_desc,
-  dateRangeField = "my_date_field",
-  additional_information = my_additional_info 
+  dfname                  = my_table,
+  description             = my_table_desc,
+  dateRangeField          = "my_date_field",
+  additional_information  = my_additional_info 
 )
 ```
 
@@ -382,7 +395,7 @@ name (sans file extension)*
 # directory housing the shapefiles (i.e., UEI_Features_CAPLTER_2010_2017_JAB).
 
 UEI_Features_CAPLTER_2010_2017_JAB <- sf::st_read(
-  dsn = "~/path/UEI_Features_CAPLTER_2010_2017_JAB/",
+  dsn   = "~/path/UEI_Features_CAPLTER_2010_2017_JAB/",
   layer = "UEI_Features_CAPLTER_2010_2017_JAB"
 )
 
@@ -426,8 +439,8 @@ Central (ft) - Projected"
 
 uei_features_OE <- capeml::create_otherEntity(
   target_file_or_directory = "data/UEI_Features_CAPLTER_2010_2017_JAB",
-  description = UEI_Features_CAPLTER_2010_2017_JAB_desc,
-  additional_information = UEI_Features_CAPLTER_2010_2017_JAB_additional
+  description              = UEI_Features_CAPLTER_2010_2017_JAB_desc,
+  additional_information   = UEI_Features_CAPLTER_2010_2017_JAB_additional
 )
 ```
 
@@ -522,7 +535,7 @@ url={http://hdl.handle.net/2286/R.I.53734}
 
 bib_citation <- function() {
 
-  eml_citation <- EML::eml$citation(id = "http://hdl.handle.net/2286/R.I.53734")
+  eml_citation        <- EML::eml$citation(id = "http://hdl.handle.net/2286/R.I.53734")
   eml_citation$bibtex <- tellman_dissertation
 
   return(eml_citation)

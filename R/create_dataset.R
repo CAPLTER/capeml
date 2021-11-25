@@ -34,9 +34,9 @@
 #' @export
 #'
 create_dataset <- function(
-  abstractFile = "abstract.md",
-  methodsFile = "methods.md",
-  keywordsFile = "keywords.csv",
+  abstractFile    = "abstract.md",
+  methodsFile     = "methods.md",
+  keywordsFile    = "keywords.csv",
   publicationDate = NULL
   ) {
 
@@ -179,6 +179,15 @@ create_dataset <- function(
   }
 
 
+  # add spatialVector(s) if exist(s)
+  if (length(ls(envir = .GlobalEnv, pattern = "_SV")) > 0) {
+
+    list_of_spatialVectors <- lapply(ls(envir = .GlobalEnv, pattern = "_SV"), function(SV) { get(SV, envir = .GlobalEnv) } )
+    dataset$spatialVector  <- list_of_spatialVectors
+
+  }
+
+
   # add associated party if exists
   if (exists("associatedParty")) { dataset$associatedParty <- associatedParty }
 
@@ -209,14 +218,15 @@ create_dataset <- function(
   message(
     paste0(
       "created EML dataset:\n",
-      " package: ", packageIdent, "\n",
-      " title: ", title, "\n",
-      " scope: ", scope, "\n",
-      " maintenance: ", maintenance, "\n",
-      " datatable(s): ", ls(envir = .GlobalEnv, pattern = "_DT"), "\n",
-      " associated party: ", exists("associatedParty"), "\n",
+      " package: ",              packageIdent, "\n",
+      " title: ",                title, "\n",
+      " scope: ",                scope, "\n",
+      " maintenance: ",          maintenance, "\n",
+      " dataTables: ",           paste0(c(ls(envir = .GlobalEnv, pattern = "_DT")), collapse = ", "), "\n",
+      " spatialVectorss: ",      paste0(c(ls(envir = .GlobalEnv, pattern = "_SV")), collapse = ", "), "\n",
+      " associated party: ",     exists("associatedParty"), "\n",
       " literature citations: ", num_citations, "\n",
-      " usage citations: ", num_usages, "\n"
+      " usage citations: ",      num_usages, "\n"
     )
   )
 

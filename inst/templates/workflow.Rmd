@@ -7,16 +7,14 @@ editor_options:
   chunk_output_type: console
 ---
 
-# libraries
-
-```{r libraries}
-library(capeml)
-```
-
-
 # people
 
-See the `gioseml` package provides a convenience function (`gioseml::create_role`) for generating CAP LTER investigators from an ASU Global Institute of Sustainability and Innovation database. The first example in the `people` chunk (Sean Payton) demonstrates how to generate an EML type `creator` without use of the `gioseml` tool suite - simply change `creator` to the desired role type (e.g., `metadataProvider`, `associatedParty`).
+See the `gioseml` package provides a convenience function
+(`gioseml::create_role`) for generating CAP LTER investigators from an ASU
+Global Institute of Sustainability and Innovation database. The first example
+in the `people` chunk (Sean Payton) demonstrates how to generate an EML type
+`creator` without use of the `gioseml` tool suite - simply change `creator` to
+the desired role type (e.g., `metadataProvider`, `associatedParty`).
 
 ```{r people}
 
@@ -27,15 +25,16 @@ See the `gioseml` package provides a convenience function (`gioseml::create_role
 # construct a party using list-style construction
 
 sean_orcid <- EML::eml$userId(directory = "https://orcid.org")
-sean_orcid$userId <- "https://orcid.org/1111-1111-1111-1111"
+sean_orcid$userId <- "1111-1111-1111-1111"
 
 sean <- EML::eml$creator(
   individualName = EML::eml$individualName(
     givenName = "Sean",
-    surName = "Payton"),
+    surName   = "Payton"
+    ),
   electronicMailAddress = "spayton@saints.com",
-  organizationName = "Saints",
-  userId = sean_orcid
+  organizationName      = "Saints",
+  userId                = sean_orcid
 )
 
 # we can use the gioseml package for CAP LTER/GIOSI parties
@@ -44,15 +43,15 @@ sean <- EML::eml$creator(
 
 mike <- gioseml::create_role(
   firstName = "Mike",
-  lastName = "Tomlin",
-  roleType = "creator"
+  lastName  = "Tomlin",
+  roleType  = "creator"
 )
 
 # call by ID in the database
 
 john <- gioseml::create_role(
   giosPersonId = 23857,
-  roleType = "creator"
+  roleType     = "creator"
 )
 
 creators <- list(
@@ -65,8 +64,8 @@ creators <- list(
 
 mike <- gioseml::create_role(
   firstName = "Mike",
-  lastName = "Tomlin",
-  roleType = "metadata"
+  lastName  = "Tomlin",
+  roleType  = "metadata"
 )
 
 metadataProvider <- list(mike)
@@ -97,7 +96,7 @@ associatedParty <- list(
 
 ```{r keywords}
 
-write_keywords()
+capeml::write_keywords()
 ```
 
 
@@ -114,13 +113,15 @@ provenance, use the enhancedMethods approach.
 
 # begindate <- format(min(runoff_chemistry$runoff_datetime), "%Y-%m-%d")
 # enddate <- format(max(runoff_chemistry$runoff_datetime), "%Y-%m-%d")
+
 geographicDescription <- "CAP LTER study area"
+
 coverage <- EML::set_coverage(
   begin = "YYYY-MM-DD",
-  end = "YYYY-MM-DD",
+  end   = "YYYY-MM-DD",
   geographicDescription = geographicDescription,
-  west = -x,
-  east = -x,
+  west  = -x,
+  east  = -x,
   north = +x,
   south = +x
 )
@@ -134,9 +135,8 @@ Optionally, provide: abstract, methods, keywords, publication date.
 
 ```{r construct-dataset}
 
-dataset <- create_dataset()
+dataset <- capeml::create_dataset()
 ```
-
 
 
 # add otherEntity
@@ -157,27 +157,6 @@ if (length(ls(pattern = "_OE")) > 0) {
 
 # or add manually
 # dataset$otherEntity <- list(otherEntity..., otherEntity...)
-```
-
-
-# add spatialVector
-
-```{r dataSet$spatialVector}
-
-# add spatial vectors if relevant
-
-print(ls(pattern = "_SV"))
-
-if (length(ls(pattern = "_SV")) > 0) {
-
-  listOfSpatialVectors <- lapply(ls(pattern = "_SV"), function(SV) { get(SV) } )
-
-  dataset$spatialVector  <- listOfSpatialVectors
-
-}
-
-# or add manually
-# dataset$spatialVector <- list(spatialVector..., spatialVector...)
 ```
 
 
