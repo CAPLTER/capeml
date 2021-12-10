@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.10.0</span>
       </span>
     </div>
 
@@ -79,7 +79,7 @@
 <a href="#installation" class="anchor"></a>installation</h3>
 <p>Install from GitHub (after installing the <a href="https://cran.r-project.org/web/packages/devtools/index.html">devtools</a> package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"CAPLTER/capeml"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"CAPLTER/capeml"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="options" class="section level3">
 <h3 class="hasAnchor">
@@ -293,7 +293,23 @@
   roleType  <span class="op">=</span> <span class="st">"metadata"</span>
 <span class="op">)</span>
 
-<span class="va">metadataProvider</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">mike</span><span class="op">)</span></code></pre></div>
+<span class="va">metadataProvider</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">mike</span><span class="op">)</span>
+
+<span class="co"># associated party (optional)</span>
+
+<span class="co"># requires the additional argument `role`</span>
+
+<span class="va">brandon</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">associatedParty</span><span class="op">(</span>
+  individualName <span class="op">=</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">individualName</span><span class="op">(</span>
+    givenName <span class="op">=</span> <span class="st">"Brandon"</span>,
+    surName   <span class="op">=</span> <span class="st">"Staley"</span>
+    <span class="op">)</span>,
+  electronicMailAddress <span class="op">=</span> <span class="st">"bstaley@chargers.com"</span>,
+  organizationName      <span class="op">=</span> <span class="st">"Chargers"</span>,
+  role                  <span class="op">=</span> <span class="st">"head coach"</span>
+<span class="op">)</span>
+
+<span class="va">associatedParty</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">brandon</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="data-objects" class="section level4">
 <h4 class="hasAnchor">
@@ -352,7 +368,7 @@
 <span class="co"># directory housing the shapefiles (i.e., UEI_Features_CAPLTER_2010_2017_JAB).</span>
 
 <span class="va">UEI_Features_CAPLTER_2010_2017_JAB</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span>
-  dsn   <span class="op">=</span> <span class="st">"~/path/UEI_Features_CAPLTER_2010_2017_JAB/"</span>,
+  dsn   <span class="op">=</span> <span class="st">"/path/UEI_Features_CAPLTER_2010_2017_JAB/"</span>,
   layer <span class="op">=</span> <span class="st">"UEI_Features_CAPLTER_2010_2017_JAB"</span>
 <span class="op">)</span>
 

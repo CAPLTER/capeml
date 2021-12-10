@@ -179,11 +179,29 @@ create_dataset <- function(
   }
 
 
+  # add otherEntity(ies) if exist(s)
+  if (length(ls(envir = .GlobalEnv, pattern = "_OE")) > 0) {
+
+    list_of_otherEntities  <- lapply(ls(envir = .GlobalEnv, pattern = "_OE"), function(DT) { get(OE, envir = .GlobalEnv) } )
+    dataset$otherEntity <- list_of_otherEntities
+
+  }
+
+
   # add spatialVector(s) if exist(s)
   if (length(ls(envir = .GlobalEnv, pattern = "_SV")) > 0) {
 
     list_of_spatialVectors <- lapply(ls(envir = .GlobalEnv, pattern = "_SV"), function(SV) { get(SV, envir = .GlobalEnv) } )
     dataset$spatialVector  <- list_of_spatialVectors
+
+  }
+
+
+  # add spatialRaster(s) if exist(s)
+  if (length(ls(envir = .GlobalEnv, pattern = "_SR")) > 0) {
+
+    list_of_spatialRasters <- lapply(ls(envir = .GlobalEnv, pattern = "_SR"), function(SR) { get(SR, envir = .GlobalEnv) } )
+    dataset$spatialRaster  <- list_of_spatialRasters
 
   }
 
@@ -223,7 +241,9 @@ create_dataset <- function(
       " scope: ",                scope, "\n",
       " maintenance: ",          maintenance, "\n",
       " dataTables: ",           paste0(c(ls(envir = .GlobalEnv, pattern = "_DT")), collapse = ", "), "\n",
-      " spatialVectorss: ",      paste0(c(ls(envir = .GlobalEnv, pattern = "_SV")), collapse = ", "), "\n",
+      " otherEntities: ",        paste0(c(ls(envir = .GlobalEnv, pattern = "_OE")), collapse = ", "), "\n",
+      " spatialVectors: ",       paste0(c(ls(envir = .GlobalEnv, pattern = "_SV")), collapse = ", "), "\n",
+      " spatialRasters: ",       paste0(c(ls(envir = .GlobalEnv, pattern = "_SR")), collapse = ", "), "\n",
       " associated party: ",     exists("associatedParty"), "\n",
       " literature citations: ", num_citations, "\n",
       " usage citations: ",      num_usages, "\n"

@@ -7,87 +7,21 @@ editor_options:
   chunk_output_type: console
 ---
 
-# people
 
-See the `gioseml` package provides a convenience function
-(`gioseml::create_role`) for generating CAP LTER investigators from an ASU
-Global Institute of Sustainability and Innovation database. The first example
-in the `people` chunk (Sean Payton) demonstrates how to generate an EML type
-`creator` without use of the `gioseml` tool suite - simply change `creator` to
-the desired role type (e.g., `metadataProvider`, `associatedParty`).
+# people
 
 ```{r people}
 
 # creator(s) (required)
 
-# if the person has an orcid, generate that first
-
-# construct a party using list-style construction
-
-sean_orcid <- EML::eml$userId(directory = "https://orcid.org")
-sean_orcid$userId <- "1111-1111-1111-1111"
-
-sean <- EML::eml$creator(
-  individualName = EML::eml$individualName(
-    givenName = "Sean",
-    surName   = "Payton"
-    ),
-  electronicMailAddress = "spayton@saints.com",
-  organizationName      = "Saints",
-  userId                = sean_orcid
-)
-
-# we can use the gioseml package for CAP LTER/GIOSI parties
-
-# call by name
-
-mike <- gioseml::create_role(
-  firstName = "Mike",
-  lastName  = "Tomlin",
-  roleType  = "creator"
-)
-
-# call by ID in the database
-
-john <- gioseml::create_role(
-  giosPersonId = 23857,
-  roleType     = "creator"
-)
-
-creators <- list(
-  sean,
-  mike,
-  john 
-)
+creators <- list()
 
 # metadata provider (required)
 
-mike <- gioseml::create_role(
-  firstName = "Mike",
-  lastName  = "Tomlin",
-  roleType  = "metadata"
-)
-
-metadataProvider <- list(mike)
+metadataProvider <- list()
 
 # associated party (optional)
-
-# takes the optional argument `projectRole` (default: "former project associate")
-
-mark <- gioseml::create_role(
-  giosPersonId = 132,
-  roleType = "associated"
-)
-
-nancy <- gioseml::create_role(
-  giosPersonId = 150,
-  roleType = "associated"
-)
-
-associatedParty <- list(
-  mark,
-  nancy
-)
+# associatedParty <- list()
 
 ```
 
@@ -111,8 +45,8 @@ provenance, use the enhancedMethods approach.
 
 ```{r coverages}
 
-# begindate <- format(min(runoff_chemistry$runoff_datetime), "%Y-%m-%d")
-# enddate <- format(max(runoff_chemistry$runoff_datetime), "%Y-%m-%d")
+# begindate <- format(min(data_frame$date_col), "%Y-%m-%d")
+# enddate   <- format(max(data_frame$date_col), "%Y-%m-%d")
 
 geographicDescription <- "CAP LTER study area"
 
@@ -138,47 +72,6 @@ Optionally, provide: abstract, methods, keywords, publication date.
 dataset <- capeml::create_dataset()
 ```
 
-
-# add otherEntity
-
-```{r dataSet$otherEntity}
-
-# add other entities if relevant
-
-print(ls(pattern = "_OE"))
-
-if (length(ls(pattern = "_OE")) > 0) {
-
-  listOfOtherEntities <- lapply(ls(pattern = "_OE"), function(OE) { get(OE) } )
-
-  dataset$otherEntity <- listOfOtherEntities
-
-}
-
-# or add manually
-# dataset$otherEntity <- list(otherEntity..., otherEntity...)
-```
-
-
-# add spatialRaster
-
-```{r dataSet$spatialRaster}
-
-# add spatial vectors if relevant
-
-print(ls(pattern = "_SR"))
-
-if (length(ls(pattern = "_SR")) > 0) {
-
-  listOfSpatialRasters <- lapply(ls(pattern = "_SR"), function(SR) { get(SR) } )
-
-  dataset$spatialRaster  <- listOfSpatialRasters
-
-}
-
-# or add manually
-# dataset$spatialRaster <- list(spatialRaster..., spatialRaster...)
-```
 
 # eml
 

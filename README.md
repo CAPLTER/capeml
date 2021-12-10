@@ -293,6 +293,22 @@ mike <- gioseml::create_role(
 )
 
 metadataProvider <- list(mike)
+
+# associated party (optional)
+
+# requires the additional argument `role`
+
+brandon <- EML::eml$associatedParty(
+  individualName = EML::eml$individualName(
+    givenName = "Brandon",
+    surName   = "Staley"
+    ),
+  electronicMailAddress = "bstaley@chargers.com",
+  organizationName      = "Chargers",
+  role                  = "head coach"
+)
+
+associatedParty <- list(brandon)
 ```
 
 #### data objects
@@ -395,7 +411,7 @@ name (sans file extension)*
 # directory housing the shapefiles (i.e., UEI_Features_CAPLTER_2010_2017_JAB).
 
 UEI_Features_CAPLTER_2010_2017_JAB <- sf::st_read(
-  dsn   = "~/path/UEI_Features_CAPLTER_2010_2017_JAB/",
+  dsn   = "/path/UEI_Features_CAPLTER_2010_2017_JAB/",
   layer = "UEI_Features_CAPLTER_2010_2017_JAB"
 )
 
