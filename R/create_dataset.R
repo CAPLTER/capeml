@@ -182,7 +182,7 @@ create_dataset <- function(
   # add otherEntity(ies) if exist(s)
   if (length(ls(envir = .GlobalEnv, pattern = "_OE")) > 0) {
 
-    list_of_otherEntities  <- lapply(ls(envir = .GlobalEnv, pattern = "_OE"), function(DT) { get(OE, envir = .GlobalEnv) } )
+    list_of_otherEntities  <- lapply(ls(envir = .GlobalEnv, pattern = "_OE"), function(OE) { get(OE, envir = .GlobalEnv) } )
     dataset$otherEntity <- list_of_otherEntities
 
   }

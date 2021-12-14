@@ -71,17 +71,19 @@
 #'   processing
 #'
 #' try({
-#'   write_attributes(data_entity)
-#'   write_factors(data_entity)
+#'   capeml::write_attributes(data_entity)
+#'   capeml::write_factors(data_entity)
 #' })
 #'
 #' data_entity_desc <- "snow leopard data"
 #'
 #' # create_dataTable with optional arguments dateRangeField and missingValueCode
-#' data_entity_DT <- create_dataTable(dfname = data_entity,
-#'                                    description = data_entity_desc,
-#'                                    dateRangeField = "observation date",
-#'                                    missingValueCode = "missing")
+#' data_entity_DT <- capeml::create_dataTable(
+#'        dfname = data_entity,
+#'        description = data_entity_desc,
+#'        dateRangeField = "observation date",
+#'        missingValueCode = "missing"
+#'        )
 #'
 #' # The resulting dataTable entity can be added to a EML dataset
 #' dataset <- EML::eml$dataset(dataTable = data_entity_DT)
@@ -94,9 +96,9 @@ create_dataTable <- function(
   dfname,
   description,
   dateRangeField,
-  overwrite = FALSE,
-  projectNaming = TRUE,
-  missingValueCode = NULL,
+  overwrite              = FALSE,
+  projectNaming          = TRUE,
+  missingValueCode       = NULL,
   additional_information = NULL
   ) {
 
@@ -127,7 +129,7 @@ create_dataTable <- function(
 
   if (
     !file.exists(paste0(namestr, "_attrs.csv")) &
-      !file.exists(paste0(namestr, "_attrs.yaml"))
+    !file.exists(paste0(namestr, "_attrs.yaml"))
     ) {
 
     stop("attributes file not found")
@@ -138,24 +140,8 @@ create_dataTable <- function(
   # attributes ---------------------------------------------------------------
 
   attributes <- capeml::read_attributes(
-    entity_name = namestr,
-    missing_value_code = missingValueCode 
-  )
-
-
-  # write file ----------------------------------------------------------------
-
-  if (file.exists(paste0(namestr, ".csv")) && overwrite == FALSE) {
-
-    stop("csv file to be created (", paste0(namestr, ".csv"), ") already exists in working directory (set overwrite to TRUE)")
-
-  }
-
-  write.csv(
-    x = dfname,
-    file = paste0(namestr, ".csv"),
-    row.names = F,
-    eol = "\r\n"
+    entity_name        = namestr,
+    missing_value_code = missingValueCode
   )
 
 
@@ -165,23 +151,28 @@ create_dataTable <- function(
 
     packageNum <- yaml::yaml.load_file("config.yaml")$packageNum
 
-    # project_name <- paste0(packageNum, "_", namestr, "_", tools::md5sum(paste0(namestr, ".csv")), ".csv")
     project_name <- paste0(packageNum, "_", namestr, ".csv")
-
-    system(
-      paste0(
-        "mv ",
-        paste0(shQuote(namestr, type = "sh"), ".csv"),
-        " ",
-        shQuote(project_name, type = "sh")
-      )
-    )
 
   } else {
 
     project_name <- paste0(namestr, ".csv")
 
   }
+
+  # write file ----------------------------------------------------------------
+
+  if (file.exists(project_name) && overwrite == FALSE) {
+
+    stop("csv file to be created (", paste0(project_name), ") already exists in working directory (set overwrite to TRUE)")
+
+  }
+
+  write.csv(
+    x = dfname,
+    file = project_name,
+    row.names = F,
+    eol = "\r\n"
+  )
 
 
   # set physical ----------------------------------------------------------------
@@ -211,40 +202,26 @@ create_dataTable <- function(
   fileAuthentication <- EML::eml$authentication(method = "MD5")
   fileAuthentication$authentication <- tools::md5sum(project_name)
 
-  # construct physical
-
-#   dataTablePhysical <- EML::eml$physical(
-#     objectName = project_name,
-#     numHeaderLines = 1,
-#     recordDelimiter = "\\r\\n",
-#     quoteCharacter = "\"",
-#     authentication = fileAuthentication,
-#     size = fileSize,
-#     dataFormat = fileDataFormat,
-#     distribution = fileDistribution
-#   )
-
-
   # set physical ------------------------------------------------------------
 
   dataTablePhysical <- EML::set_physical(
-    objectName = project_name,
-    numHeaderLines = 1,
+    objectName      = project_name,
+    numHeaderLines  = 1,
     recordDelimiter = "\\r\\n",
-    quoteCharacter = "\"",
-    url = paste0(fileURL, project_name)
+    quoteCharacter  = "\"",
+    url             = paste0(fileURL, project_name)
   )
 
 
   # create dataTable entity -------------------------------------------------
 
   newDT <- EML::eml$dataTable(
-    entityName = project_name,
+    entityName        = project_name,
     entityDescription = description,
-    physical = dataTablePhysical,
-    attributeList = attributes,
-    numberOfRecords = nrow(dfname),
-    id = project_name
+    physical          = dataTablePhysical,
+    attributeList     = attributes,
+    numberOfRecords   = nrow(dfname),
+    id                = project_name
   )
 
 
