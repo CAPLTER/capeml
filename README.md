@@ -246,12 +246,6 @@ GIOSI database), we can construct `creator`, `metadataProvider`, and
 ```r
 # creator(s) - required
 
-mike <- gioseml::create_role(
-  firstName = "Mike",
-  lastName = "Tomlin",
-  roleType = "creator"
-)
-
 # if the person has an ORCiD, generate that first
 
 sean_orcid <- EML::eml$userId(directory = "https://orcid.org")
@@ -279,20 +273,26 @@ kliff <- EML::eml$creator(
 )
 
 creators <- list(
-  mike,
   sean,
   kliff
 )
 
 # metadata provider - required
 
-mike <- gioseml::create_role(
-  firstName = "Mike",
-  lastName  = "Tomlin",
-  roleType  = "metadata"
+pete_orcid <- EML::eml$userId(directory = "https://orcid.org")
+pete_orcid$userId <- "3333-3333-3333-3333"
+
+pete <- EML::eml$metadataProvider(
+  individualName = EML::eml$individualName(
+    givenName = "Pete",
+    surName   = "Carrol"
+    ),
+  electronicMailAddress = "pcarroll@seahawks.com",
+  organizationName      = "Seahawks",
+  userId = pete_orcid
 )
 
-metadataProvider <- list(mike)
+metadataProvider <- list(pete)
 
 # associated party (optional)
 

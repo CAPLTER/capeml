@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.10.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.0</span>
       </span>
     </div>
 
@@ -247,12 +247,6 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># creator(s) - required</span>
 
-<span class="va">mike</span> <span class="op">&lt;-</span> <span class="fu">gioseml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gioseml/man/create_role.html">create_role</a></span><span class="op">(</span>
-  firstName <span class="op">=</span> <span class="st">"Mike"</span>,
-  lastName <span class="op">=</span> <span class="st">"Tomlin"</span>,
-  roleType <span class="op">=</span> <span class="st">"creator"</span>
-<span class="op">)</span>
-
 <span class="co"># if the person has an ORCiD, generate that first</span>
 
 <span class="va">sean_orcid</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">userId</span><span class="op">(</span>directory <span class="op">=</span> <span class="st">"https://orcid.org"</span><span class="op">)</span>
@@ -280,20 +274,26 @@
 <span class="op">)</span>
 
 <span class="va">creators</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-  <span class="va">mike</span>,
   <span class="va">sean</span>,
   <span class="va">kliff</span>
 <span class="op">)</span>
 
 <span class="co"># metadata provider - required</span>
 
-<span class="va">mike</span> <span class="op">&lt;-</span> <span class="fu">gioseml</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gioseml/man/create_role.html">create_role</a></span><span class="op">(</span>
-  firstName <span class="op">=</span> <span class="st">"Mike"</span>,
-  lastName  <span class="op">=</span> <span class="st">"Tomlin"</span>,
-  roleType  <span class="op">=</span> <span class="st">"metadata"</span>
+<span class="va">pete_orcid</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">userId</span><span class="op">(</span>directory <span class="op">=</span> <span class="st">"https://orcid.org"</span><span class="op">)</span>
+<span class="va">pete_orcid</span><span class="op">$</span><span class="va">userId</span> <span class="op">&lt;-</span> <span class="st">"3333-3333-3333-3333"</span>
+
+<span class="va">pete</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">metadataProvider</span><span class="op">(</span>
+  individualName <span class="op">=</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">individualName</span><span class="op">(</span>
+    givenName <span class="op">=</span> <span class="st">"Pete"</span>,
+    surName   <span class="op">=</span> <span class="st">"Carrol"</span>
+    <span class="op">)</span>,
+  electronicMailAddress <span class="op">=</span> <span class="st">"pcarroll@seahawks.com"</span>,
+  organizationName      <span class="op">=</span> <span class="st">"Seahawks"</span>,
+  userId <span class="op">=</span> <span class="va">pete_orcid</span>
 <span class="op">)</span>
 
-<span class="va">metadataProvider</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">mike</span><span class="op">)</span>
+<span class="va">metadataProvider</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">pete</span><span class="op">)</span>
 
 <span class="co"># associated party (optional)</span>
 

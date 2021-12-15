@@ -86,17 +86,19 @@ data_entity <- read("data source") \%>\%
   processing
 
 try({
-  write_attributes(data_entity)
-  write_factors(data_entity)
+  capeml::write_attributes(data_entity)
+  capeml::write_factors(data_entity)
 })
 
 data_entity_desc <- "snow leopard data"
 
 # create_dataTable with optional arguments dateRangeField and missingValueCode
-data_entity_DT <- create_dataTable(dfname = data_entity,
-                                   description = data_entity_desc,
-                                   dateRangeField = "observation date",
-                                   missingValueCode = "missing")
+data_entity_DT <- capeml::create_dataTable(
+       dfname = data_entity,
+       description = data_entity_desc,
+       dateRangeField = "observation date",
+       missingValueCode = "missing"
+       )
 
 # The resulting dataTable entity can be added to a EML dataset
 dataset <- EML::eml$dataset(dataTable = data_entity_DT)
