@@ -1,4 +1,5 @@
-#' @title read_markdown
+#' @title Read a markdown file with proper formatting for inclusion in a EML
+#' document
 #'
 #' @description read_markdown reads a markdown file and adds an appropriate tag
 #'   and formatting for proper display in a EML document.
@@ -11,7 +12,8 @@
 #'   are on their own lines to avoid misinterpretation.
 #'   leading and trailing new line markers.
 #'
-#' @param mdFile  Quoted name and path of markdown file to be read.
+#' @param mdFile
+#' (character) Quoted name and path of markdown file to be read.
 #'
 #' @importFrom readr read_file
 #'
@@ -22,7 +24,7 @@
 #'
 read_markdown <- function(mdFile) {
 
-  text <- read_file(mdFile)
+  text <- readr::read_file(mdFile)
 
   if (!grepl("^\r|^\n", text)) { text <- paste0("\n", text) }
   if (!grepl("\r$|\n$", text)) { text <- paste0(text, "\n") }
