@@ -2,12 +2,13 @@
 % Please edit documentation in R/read_markdown.R
 \name{read_markdown}
 \alias{read_markdown}
-\title{read_markdown}
+\title{Read a markdown file with proper formatting for inclusion in a EML
+document}
 \usage{
 read_markdown(mdFile)
 }
 \arguments{
-\item{mdFile}{Quoted name and path of markdown file to be read.}
+\item{mdFile}{(character) Quoted name and path of markdown file to be read.}
 }
 \value{
 A named (markdown) list object where the list item is text with

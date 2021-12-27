@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.11.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.12.0</span>
       </span>
     </div>
 
@@ -149,13 +149,6 @@ used if this parameter is set to FALSE.</p></td>
       <td><p>(character) Additional information about the data object. Should be quoted,
 and accepts (but not required) markdown formatting.</p></td>
     </tr>
-    <tr>
-      <th>baseURL</th>
-      <td><p>(optional)
-(character) The base path of the web-accessible location of the data file;
-the name of the resulting file will be passed to the base path to generate
-a web-resolvable file path.</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -173,8 +166,7 @@ by zipping a directory.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>create_otherEntity will look for a package number and baseURL in
-config.yaml; these parameters are not passed to the function and it must
-exist.</p>
+config.yaml; these parameters are not passed to the function and must exist.</p>
 <p>The target data file or directory can be located anywhere on a local
 computer but the renamed file with package number and hash will be written
 to the current working directory.</p>

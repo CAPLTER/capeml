@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_eml.R
 \name{create_eml}
 \alias{create_eml}
-\title{create_eml}
+\title{generate a EML entity of type eml}
 \usage{
 create_eml()
 }

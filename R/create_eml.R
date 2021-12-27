@@ -1,4 +1,4 @@
-#' @title create_eml
+#' @title generate a EML entity of type eml
 #'
 #' @description create_eml generates a EML entity of type eml
 #'

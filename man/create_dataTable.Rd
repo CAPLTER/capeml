@@ -74,7 +74,7 @@ type csv, and renames the file with package number + base object name +
 md5sum + file extension (csv in this case) if selected.
 }
 \note{
-If project naming is TRUE then create_vector_kml will look for a
+If project naming is TRUE then create_dataTable will look for a
 package number (packageNum) in config.yaml; this parameter is not passed to
 the function and it must exist.
 }

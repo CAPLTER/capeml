@@ -1,0 +1,181 @@
+|
+  ID:
+    attributeName: ID
+    attributeDefinition: 'individual spider identification code'
+    columnClasses: character
+    definition: ''
+  3rd Leg:
+    attributeName: 3rd Leg
+    attributeDefinition: 'spider third leg measurement'
+    unit: 'millimeter'
+    numberType: real
+    minimum: 2.255
+    maximum: 5.621
+    columnClasses: numeric
+  Habitat:
+    attributeName: Habitat
+    attributeDefinition: 'habitat classification'
+    columnClasses: factor
+  Site:
+    attributeName: Site
+    attributeDefinition: 'site location'
+    columnClasses: factor
+  Collection Date:
+    attributeName: Collection Date
+    attributeDefinition: 'date spiders were collected from the field'
+    columnClasses: Date
+    formatString: YYYY-MM-DD
+  Web Length:
+    attributeName: Web Length
+    attributeDefinition: 'web length'
+    unit: 'centimeter'
+    numberType: natural
+    minimum: 30.0
+    maximum: 155.0
+    columnClasses: numeric
+  Web Width:
+    attributeName: Web Width
+    attributeDefinition: 'web width'
+    unit: 'centimeter'
+    numberType: natural
+    minimum: 20.0
+    maximum: 150.0
+    columnClasses: numeric
+  Web Height:
+    attributeName: Web Height
+    attributeDefinition: 'web height'
+    unit: 'centimeter'
+    numberType: natural
+    minimum: 20.0
+    maximum: 190.0
+    columnClasses: numeric
+  First Field Assay Date:
+    attributeName: First Field Assay Date
+    attributeDefinition: 'date of first observation'
+    columnClasses: Date
+    formatString: YYYY-MM-DD
+  First Field Voracity:
+    attributeName: First Field Voracity
+    attributeDefinition: 'latency to attack artificial prey in the field (seconds)'
+    columnClasses: character
+    definition: ''
+  First Field Boldness:
+    attributeName: First Field Boldness
+    attributeDefinition: 'latency to emerge from refuge following disturbance in the field (seconds)'
+    columnClasses: character
+    definition: ''
+  Second Field Assay Date:
+    attributeName: Second Field Assay Date
+    attributeDefinition: 'date of second observation'
+    columnClasses: Date
+    formatString: YYYY-MM-DD
+  Second Field Voracity:
+    attributeName: Second Field Voracity
+    attributeDefinition: 'latency to attack artificial prey in the field (seconds)'
+    columnClasses: character
+    definition: ''
+  Second Field Boldness:
+    attributeName: Second Field Boldness
+    attributeDefinition: 'latency to emerge from refuge following disturbance in the field (seconds)'
+    columnClasses: character
+    definition: ''
+  Third Field Assay Date:
+    attributeName: Third Field Assay Date
+    attributeDefinition: 'date of third observation'
+    columnClasses: Date
+    formatString: YYYY-MM-DD
+  Third Field Voracity:
+    attributeName: Third Field Voracity
+    attributeDefinition: 'latency to attack artificial prey in the field (seconds)'
+    columnClasses: character
+    definition: ''
+  Third Field Boldness:
+    attributeName: Third Field Boldness
+    attributeDefinition: 'latency to emerge from refuge following disturbance in the field (seconds)'
+    columnClasses: character
+    definition: ''
+  First Lab Assay Date:
+    attributeName: First Lab Assay Date
+    attributeDefinition: 'date of first observation'
+    columnClasses: Date
+    formatString: YYYY-MM-DD
+  First Lab Voracity:
+    attributeName: First Lab Voracity
+    attributeDefinition: 'latency to attack artificial prey in the laboratory (seconds)'
+    columnClasses: character
+    definition: ''
+  First Lab Boldness:
+    attributeName: First Lab Boldness
+    attributeDefinition: 'latency to emerge from refuge following disturbance in the laboratory (seconds)'
+    columnClasses: character
+    definition: ''
+  Second Lab Assay Date:
+    attributeName: Second Lab Assay Date
+    attributeDefinition: 'date of second observation'
+    columnClasses: Date
+    formatString: YYYY-MM-DD
+  Secon Lab Voracity:
+    attributeName: Secon Lab Voracity
+    attributeDefinition: 'latency to attack artificial prey in the laboratory (seconds)'
+    columnClasses: character
+    definition: ''
+  Second Lab Boldness:
+    attributeName: Second Lab Boldness
+    attributeDefinition: 'latency to emerge from refuge following disturbance in the laboratory (seconds)'
+    columnClasses: character
+    definition: ''
+  Third Lab Assay Date:
+    attributeName: Third Lab Assay Date
+    attributeDefinition: 'date of third observation'
+    columnClasses: Date
+    formatString: YYYY-MM-DD
+  Third Lab Voracity:
+    attributeName: Third Lab Voracity
+    attributeDefinition: 'latency to attack artificial prey in the laboratory (seconds)'
+    columnClasses: character
+    definition: ''
+  Third Lab Boldness:
+    attributeName: Third Lab Boldness
+    attributeDefinition: 'latency to emerge from refuge following disturbance in the laboratory (seconds)'
+    columnClasses: character
+    definition: ''
+  Field Collection Temperature:
+    attributeName: Field Collection Temperature
+    attributeDefinition: 'temperature in the field at the time of collection'
+    unit: 'celsius'
+    numberType: real
+    minimum: 24.6
+    maximum: 31.4
+    columnClasses: numeric
+  Field Mass:
+    attributeName: Field Mass
+    attributeDefinition: 'spider mass at the time of collection'
+    unit: 'gram'
+    numberType: real
+    minimum: 0.1063
+    maximum: 0.6167
+    columnClasses: numeric
+  First Lab Assay Mass:
+    attributeName: First Lab Assay Mass
+    attributeDefinition: 'spider mass at first assay in the laboratory'
+    unit: 'gram'
+    numberType: real
+    minimum: 0.225
+    maximum: 0.578
+    columnClasses: numeric
+  Second Lab Assay Mass:
+    attributeName: Second Lab Assay Mass
+    attributeDefinition: 'spider mass at second assay in the laboratory'
+    unit: 'gram'
+    numberType: real
+    minimum: 0.173
+    maximum: 0.546
+    columnClasses: numeric
+  Third Lab Assay Mass:
+    attributeName: Third Lab Assay Mass
+    attributeDefinition: 'spider mass at third assay in the laboratory'
+    unit: 'gram'
+    numberType: real
+    minimum: 0.268
+    maximum: 0.698
+    columnClasses: numeric

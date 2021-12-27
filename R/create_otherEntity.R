@@ -8,8 +8,7 @@
 #' extension. File extension is always .zip if the otherEntity is being created
 #' by zipping a directory.
 #' @note create_otherEntity will look for a package number and baseURL in
-#' config.yaml; these parameters are not passed to the function and it must
-#' exist.
+#' config.yaml; these parameters are not passed to the function and must exist.
 #' @note The target data file or directory can be located anywhere on a local
 #' computer but the renamed file with package number and hash will be written
 #' to the current working directory.
@@ -18,10 +17,6 @@
 #'  (charater) The quoted name and path of the data file or directory.
 #' @param description
 #'  (character) A description of the data entity.
-#' @param baseURL (optional)
-#'  (character) The base path of the web-accessible location of the data file;
-#'  the name of the resulting file will be passed to the base path to generate
-#'  a web-resolvable file path.
 #' @param overwrite
 #'  (logial)If creating otherEntity by zipping a directory, this is a logical
 #'  indicating whether to overwrite an already existing zip file that has the
@@ -86,9 +81,10 @@
 create_otherEntity <- function(
   target_file_or_directory,
   description,
-  overwrite = FALSE,
-  projectNaming = TRUE,
-  additional_information = NULL) {
+  overwrite              = FALSE,
+  projectNaming          = TRUE,
+  additional_information = NULL
+  ) {
 
   # required parameters -------------------------------------------------------
 

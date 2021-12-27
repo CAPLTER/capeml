@@ -38,7 +38,6 @@
 #'   targetFile = "CAP_1985.img")
 #' }
 #'
-#' @export
 
 zipRelatedFiles <- function(pathToFile, targetFile) {
 

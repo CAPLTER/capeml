@@ -28,11 +28,6 @@ used if this parameter is set to FALSE.}
 
 \item{additional_information}{(character) Additional information about the data object. Should be quoted,
 and accepts (but not required) markdown formatting.}
-
-\item{baseURL}{(optional)
-(character) The base path of the web-accessible location of the data file;
-the name of the resulting file will be passed to the base path to generate
-a web-resolvable file path.}
 }
 \value{
 EML entity of type otherEntity is returned. Additionally, the data
@@ -51,8 +46,7 @@ by zipping a directory.
 }
 \note{
 create_otherEntity will look for a package number and baseURL in
-config.yaml; these parameters are not passed to the function and it must
-exist.
+config.yaml; these parameters are not passed to the function and must exist.
 
 The target data file or directory can be located anywhere on a local
 computer but the renamed file with package number and hash will be written

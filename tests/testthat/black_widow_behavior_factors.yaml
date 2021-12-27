@@ -1,0 +1,27 @@
+|
+  - attribute:
+      attributeName: Habitat
+      levels:
+      - code: desert
+        definition: 'Sonoran desert habitat'
+      - code: urban
+        definition: 'urban habitat'
+  - attribute:
+      attributeName: Site
+      levels:
+      - code: Calvary
+        definition: 'Calvary'
+      - code: Moores Gulch
+        definition: 'Moores Gulch'
+      - code: New River Road
+        definition: 'New River Road'
+      - code: Olive
+        definition: 'Olive'
+      - code: Sunburst Farms
+        definition: 'Sunburst Farms'
+      - code: Sunnyside Drive
+        definition: 'Sunnyside Drive'
+      - code: Table Mesa East
+        definition: 'Table Mesa East'
+      - code: Table Mesa West
+        definition: 'Table Mesa West'

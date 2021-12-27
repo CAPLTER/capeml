@@ -128,7 +128,7 @@ read_attributes <- function(
   # missing value coding ------------------------------------------------------
 
   # use the R object for these operations
-  r_object <- get(entity_name)
+  r_object <- eval(entity_name)
 
   # drop geometry columns from consideration if simple features
   if (class(r_object)[[1]] == "sf") {
@@ -140,16 +140,16 @@ read_attributes <- function(
 
   missing_value_frame <- tibble::tibble(
     attributeName = as.character(),
-    code = as.character(),
-    definition = as.character()
+    code          = as.character(),
+    definition    = as.character()
   )
 
   mvframe <- purrr::map_df(
-    .x = colnames(r_object),
-    .f = write_missing_values,
-    storage = missing_value_frame,
+    .x         = colnames(r_object),
+    .f         = write_missing_values,
+    storage    = missing_value_frame,
     dataObject = r_object,
-    MVC = missing_value_code
+    MVC        = missing_value_code
   )
 
   if (nrow(mvframe) == 0) {
@@ -162,9 +162,9 @@ read_attributes <- function(
   # attribute list ------------------------------------------------------------
 
   attr_list <- EML::set_attributes(
-    attributes = attrs,
-    factors = fcts,
-    col_classes = classes,
+    attributes    = attrs,
+    factors       = fcts,
+    col_classes   = classes,
     missingValues = mvframe
   )
 

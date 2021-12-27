@@ -1,0 +1,9 @@
+packageNum: 693
+packageIdent: knb-lter-cap.693.1
+baseURL: https://data.gios.asu.edu/datasets/cap/
+project: lter
+title: 'Spiders in a Desert City: What the Behavior and Microclimate of Western Black Widows Can Teach Us About the Impacts of Urbanization'
+maintenance: none
+geographicCoverage:
+  geographicDescription: 'CAP LTER study area: greater Phoenix, Arizona (USA) metropolitan
+    area and surrounding Sonoran desert region'
