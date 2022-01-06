@@ -128,7 +128,7 @@ read_attributes <- function(
   # missing value coding ------------------------------------------------------
 
   # use the R object for these operations
-  r_object <- eval(entity_name)
+  r_object <- get(entity_name)
 
   # drop geometry columns from consideration if simple features
   if (class(r_object)[[1]] == "sf") {
