@@ -23,6 +23,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -35,18 +37,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.12.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -63,68 +59,68 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="capeml-tools-to-aid-the-generation-of-eml-metadata" class="section level2">
-<h2 class="hasAnchor">
-<a href="#capeml-tools-to-aid-the-generation-of-eml-metadata" class="anchor"></a>capeml: tools to aid the generation of eml metadata</h2>
-<div id="overview" class="section level3">
-<h3 class="hasAnchor">
-<a href="#overview" class="anchor"></a>overview</h3>
+<div class="section level2">
+<h2 id="capeml-tools-to-aid-the-generation-of-eml-metadata">capeml: tools to aid the generation of eml metadata<a class="anchor" aria-label="anchor" href="#capeml-tools-to-aid-the-generation-of-eml-metadata"></a>
+</h2>
+<div class="section level3">
+<h3 id="overview">overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h3>
 <p>This package contains tools to aid the generation of eml metadata with intent to publish a dataset (data + metadata) in the Environmental Data Initiative (EDI) data repository. Functions and a template work flow are included that allow for the creation of metadata at the dataset level, and individual data entities (e.g., other entities, data tables).</p>
-<p>Helper functions for the creation of dataset metadata, <code>datatable()</code>, and <code>otherentity()</code> entities using the <a href="https://docs.ropensci.org/eml/">EML</a> package are supported. This package can be extended with the <a href="https://github.com/caplter/capemlgis">capemlGIS</a> package to generate metadata for <code>spatialRaster()</code> and <code>spatialvector()</code> entities.</p>
-<p>Note that the creation of people-related entities in the templated work flow (see below) are specific to functions that rely on Global Institute of Sustainability and Innovation infrastructure; other users should add people using the list structure provided by ROpenSci’s <a href="https://docs.ropensci.org/eml/">EML</a>.</p>
-<p>A template work flow is available as part of this package. The template is automatically generated if a new project is created with <code>write_directory</code>, which also generates a <code>config.yaml</code> file and new directory, or with the <code>write_template</code> function. For Vim users, additional resources for templating are available through <a href="https://gitlab.com/caplter/capeml-vim">capeml-vim</a>.</p>
+<p>Helper functions for the creation of dataset metadata, <code>datatable()</code>, and <code>otherentity()</code> entities using the <a href="https://docs.ropensci.org/eml/" class="external-link">EML</a> package are supported. This package can be extended with the <a href="https://github.com/caplter/capemlgis" class="external-link">capemlGIS</a> package to generate metadata for <code>spatialRaster()</code> and <code>spatialvector()</code> entities.</p>
+<p>Note that the creation of people-related entities in the templated work flow (see below) are specific to functions that rely on Global Institute of Sustainability and Innovation infrastructure; other users should add people using the list structure provided by ROpenSci’s <a href="https://docs.ropensci.org/eml/" class="external-link">EML</a>.</p>
+<p>A template work flow is available as part of this package. The template is automatically generated if a new project is created with <code>write_directory</code>, which also generates a <code>config.yaml</code> file and new directory, or with the <code>write_template</code> function. For Vim users, additional resources for templating are available through <a href="https://gitlab.com/caplter/capeml-vim" class="external-link">capeml-vim</a>.</p>
 </div>
-<div id="installation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#installation" class="anchor"></a>installation</h3>
-<p>Install from GitHub (after installing the <a href="https://cran.r-project.org/web/packages/devtools/index.html">devtools</a> package:</p>
+<div class="section level3">
+<h3 id="installation">installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h3>
+<p>Install from GitHub (after installing the <a href="https://cran.r-project.org/web/packages/devtools/index.html" class="external-link">devtools</a> package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"CAPLTER/capeml"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"CAPLTER/capeml"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="options" class="section level3">
-<h3 class="hasAnchor">
-<a href="#options" class="anchor"></a>options</h3>
-<div id="eml" class="section level4">
-<h4 class="hasAnchor">
-<a href="#eml" class="anchor"></a>EML</h4>
+<div class="section level3">
+<h3 id="options">options<a class="anchor" aria-label="anchor" href="#options"></a>
+</h3>
+<div class="section level4">
+<h4 id="eml">EML<a class="anchor" aria-label="anchor" href="#eml"></a>
+</h4>
 <p>This package defaults to the current version of EML. Users can switch to the previous version with <code>emld::eml_version("eml-2.1.1")</code>.</p>
 </div>
-<div id="project-naming" class="section level4">
-<h4 class="hasAnchor">
-<a href="#project-naming" class="anchor"></a>project naming</h4>
+<div class="section level4">
+<h4 id="project-naming">project naming<a class="anchor" aria-label="anchor" href="#project-naming"></a>
+</h4>
 <p>Most EML-generating functions in the capeml and capemlGIS packages will create both physical objects and EML references to those objects. By default, the package will name output files with the format <code>project-id</code>_<code>object-name</code>.<code>file-extension</code> (e.g., <em>664_site_map.png</em>). The target object (e.g., site_map.png from the previous example) is renamed with the additional metadata and this object name is referenced in the EML metadata. Project naming can be disabled by setting the <code>projectNaming</code> flag to <code>FALSE</code>. When set to FALSE, the object name is not changed, and the name of the data object as read into the R environment is written to file and referenced in the EML. Note that the project-id is not passed as an argument, and must exist in <code>config.yaml</code> (as <code>projectid</code>).</p>
 </div>
 </div>
-<div id="getting-started" class="section level3">
-<h3 class="hasAnchor">
-<a href="#getting-started" class="anchor"></a>getting started</h3>
-<div id="new-projects" class="section level4">
-<h4 class="hasAnchor">
-<a href="#new-projects" class="anchor"></a>new projects</h4>
+<div class="section level3">
+<h3 id="getting-started">getting started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
+</h3>
+<div class="section level4">
+<h4 id="new-projects">new projects<a class="anchor" aria-label="anchor" href="#new-projects"></a>
+</h4>
 <p>For new projects, <code>write_directory</code> will create a project directory at the current (default) or specified path. The package scope and number (e.g., edi.521) is passed as an argument, with the package identifier (sans the version number) becoming the directory name. Within the newly created directory, a template work flow as an Rmarkdown (Rmd) file with the package scope and number as the file name is generated and a <code>config.yaml</code>. In <code>config.yaml</code>, the package number and package identifier are generated as parameters. New projects assume a version number = 1, from which the package identifier (as <code>packageIdent</code>) is generated in <code>config.yaml</code>.</p>
 <p>Creating a new project from the command line (<em>sensu</em> below) then opening it with R is a convenient approach.</p>
 <p><em>create project from command line</em></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>R <span class="sc">--</span>vanilla <span class="sc">-</span>e <span class="st">'capeml::write_directory(packageScopeNumber="edi.521")'</span></span></code></pre></div>
 </div>
-<div id="existing-projects" class="section level4">
-<h4 class="hasAnchor">
-<a href="#existing-projects" class="anchor"></a>existing projects</h4>
+<div class="section level4">
+<h4 id="existing-projects">existing projects<a class="anchor" aria-label="anchor" href="#existing-projects"></a>
+</h4>
 <p>For existing projects, if <code>config.yaml</code> does not already exist, <code>write_config</code> will generate <code>config.yaml</code> with the package scope and number (e.g., edi.521) passed as an argument to the function. A version number (default = 1) can be passed as a separate argument.</p>
 <p>A template work flow as an Rmarkdown (Rmd) file named with the package scope and number can be generated independently with the <code>write_template</code> function.</p>
 </div>
 </div>
-<div id="tools-to-generate-entity-metadata" class="section level3">
-<h3 class="hasAnchor">
-<a href="#tools-to-generate-entity-metadata" class="anchor"></a>tools to generate entity metadata</h3>
+<div class="section level3">
+<h3 id="tools-to-generate-entity-metadata">tools to generate entity metadata<a class="anchor" aria-label="anchor" href="#tools-to-generate-entity-metadata"></a>
+</h3>
 <ul>
 <li>
 <code><a href="reference/write_attributes.html">write_attributes()</a></code> creates a template as a yaml file for supplying attribute metadata for a tabular data object that resides in the R environment</li>
 <li>
 <code><a href="reference/write_factors.html">write_factors()</a></code> creates a template as a yaml file for supplying code definition metadata for factors in a tabular data object that resides in the R environment</li>
 </ul>
-<div id="tools-to-create-eml-entities" class="section level4">
-<h4 class="hasAnchor">
-<a href="#tools-to-create-eml-entities" class="anchor"></a>tools to create EML entities</h4>
+<div class="section level4">
+<h4 id="tools-to-create-eml-entities">tools to create EML entities<a class="anchor" aria-label="anchor" href="#tools-to-create-eml-entities"></a>
+</h4>
 <ul>
 <li>
 <code><a href="reference/create_dataTable.html">create_dataTable()</a></code> creates a EML entity of type dataTable</li>
@@ -133,76 +129,76 @@
 </ul>
 </div>
 </div>
-<div id="construct-a-dataset" class="section level3">
-<h3 class="hasAnchor">
-<a href="#construct-a-dataset" class="anchor"></a>construct a dataset</h3>
-<div id="project-details-dataset-package-number-and-package-identifier" class="section level4">
-<h4 class="hasAnchor">
-<a href="#project-details-dataset-package-number-and-package-identifier" class="anchor"></a>project details: dataset package number and package identifier</h4>
+<div class="section level3">
+<h3 id="construct-a-dataset">construct a dataset<a class="anchor" aria-label="anchor" href="#construct-a-dataset"></a>
+</h3>
+<div class="section level4">
+<h4 id="project-details-dataset-package-number-and-package-identifier">project details: dataset package number and package identifier<a class="anchor" aria-label="anchor" href="#project-details-dataset-package-number-and-package-identifier"></a>
+</h4>
 <p>The dataset number (e.g., 521) is read from the <code>packageNum</code> parameter of <code>config.yaml</code>. The package identifier (e.g. edi.521.4) is read from the <code>packageIdent</code> parameter of <code>config.yaml</code>.</p>
 </div>
-<div id="title" class="section level4">
-<h4 class="hasAnchor">
-<a href="#title" class="anchor"></a>title</h4>
+<div class="section level4">
+<h4 id="title">title<a class="anchor" aria-label="anchor" href="#title"></a>
+</h4>
 <p>The dataset title is read from the <code>title</code> parameter of <code>config.yaml</code>. The title can be quoted or unquoted but must be quoted if the title contains a colon.</p>
 </div>
-<div id="maintenance" class="section level4">
-<h4 class="hasAnchor">
-<a href="#maintenance" class="anchor"></a>maintenance</h4>
+<div class="section level4">
+<h4 id="maintenance">maintenance<a class="anchor" aria-label="anchor" href="#maintenance"></a>
+</h4>
 <p>The maintenance status of a project is read from the <code>maintenance</code> parameter of <code>config.yaml</code>. Standardized language is provided for either <code>none</code> (updates not anticipated) or <code>regular</code> (approximately annual updates are anticipated) maintenance regimes. <code>NULL</code> or text other than <code>none</code> or <code>regular</code> will omit the <code>maintenance</code> element from the resulting EML.</p>
 </div>
-<div id="abstract" class="section level4">
-<h4 class="hasAnchor">
-<a href="#abstract" class="anchor"></a>abstract</h4>
+<div class="section level4">
+<h4 id="abstract">abstract<a class="anchor" aria-label="anchor" href="#abstract"></a>
+</h4>
 <p>The <code>create_dataset</code> function will look for a <code>abstract.md</code> file in the working directory or at the path provided if specified. <code>abstract.md</code> must be a markdown file.</p>
 </div>
-<div id="keywords" class="section level4">
-<h4 class="hasAnchor">
-<a href="#keywords" class="anchor"></a>keywords</h4>
+<div class="section level4">
+<h4 id="keywords">keywords<a class="anchor" aria-label="anchor" href="#keywords"></a>
+</h4>
 <p><code><a href="reference/write_keywords.html">write_keywords()</a></code> creates a template as a csv file for supplying dataset keywords. The <code>create_dataset</code> function will look for a <code>keywords.csv</code> file in the working directory or at the path provided if specified.</p>
 </div>
-<div id="methods" class="section level4">
-<h4 class="hasAnchor">
-<a href="#methods" class="anchor"></a>methods</h4>
+<div class="section level4">
+<h4 id="methods">methods<a class="anchor" aria-label="anchor" href="#methods"></a>
+</h4>
 <p>The <code>create_dataset</code> function will look for a <code>methods.md</code> file in the working directory or at the path provided if specified (<code>methods.md</code> must be a markdown file).</p>
 <p>Alternatively, the work flow below is an enhanced approach of developing methods if provenance data are required or there are multiple methods files. If <code>enhancedMethods</code> exists, it will override arguments passed to <code>methodsFile</code> in <code>create_dataset</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># methods from file tagged as markdown</span>
-<span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>description <span class="op">=</span> <span class="fu"><a href="reference/read_markdown.html">read_markdown</a></span><span class="op">(</span><span class="st">"methods.md"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>description <span class="op">=</span> <span class="fu"><a href="reference/read_markdown.html">read_markdown</a></span><span class="op">(</span><span class="st">"methods.md"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># provenance: naip</span>
-<span class="va">naip</span> <span class="op">&lt;-</span> <span class="fu">emld</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/emld/reference/as_emld.html">as_emld</a></span><span class="op">(</span><span class="fu">EDIutils</span><span class="fu">::</span><span class="fu"><a href="https://ediorg.github.io/EDIutils/reference/api_get_provenance_metadata.html">api_get_provenance_metadata</a></span><span class="op">(</span><span class="st">"knb-lter-cap.623.1"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">naip</span> <span class="op">&lt;-</span> <span class="fu">emld</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/emld/reference/as_emld.html" class="external-link">as_emld</a></span><span class="op">(</span><span class="fu">EDIutils</span><span class="fu">::</span><span class="fu">api_get_provenance_metadata</span><span class="op">(</span><span class="st">"knb-lter-cap.623.1"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">naip</span><span class="op">$</span><span class="va">`@context`</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
 <span class="va">naip</span><span class="op">$</span><span class="va">`@type`</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
 
 <span class="co"># provenance: lst</span>
-<span class="va">landSurfaceTemp</span> <span class="op">&lt;-</span> <span class="fu">emld</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/emld/reference/as_emld.html">as_emld</a></span><span class="op">(</span><span class="fu">EDIutils</span><span class="fu">::</span><span class="fu"><a href="https://ediorg.github.io/EDIutils/reference/api_get_provenance_metadata.html">api_get_provenance_metadata</a></span><span class="op">(</span><span class="st">"knb-lter-cap.677.1"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">landSurfaceTemp</span> <span class="op">&lt;-</span> <span class="fu">emld</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/emld/reference/as_emld.html" class="external-link">as_emld</a></span><span class="op">(</span><span class="fu">EDIutils</span><span class="fu">::</span><span class="fu">api_get_provenance_metadata</span><span class="op">(</span><span class="st">"knb-lter-cap.677.1"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">landSurfaceTemp</span><span class="op">$</span><span class="va">`@context`</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
 <span class="va">landSurfaceTemp</span><span class="op">$</span><span class="va">`@type`</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
 
-<span class="va">enhancedMethods</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">methods</span><span class="op">(</span>methodStep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">main</span>, <span class="va">naip</span>, <span class="va">landSurfaceTemp</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="va">enhancedMethods</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html" class="external-link">eml</a></span><span class="op">$</span><span class="fu">methods</span><span class="op">(</span>methodStep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">main</span>, <span class="va">naip</span>, <span class="va">landSurfaceTemp</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="coverages" class="section level4">
-<h4 class="hasAnchor">
-<a href="#coverages" class="anchor"></a>coverages</h4>
-<p><em>Geographic</em> and <em>temporal</em> coverages are straight foward and documented in the work flow, but creating a <em>taxonomic</em> coverage is more involved. <em>Taxonomic coverage(s)</em> are constructed using EDI’s <a href="https://github.com/EDIorg/taxonomyCleanr">taxonomyCleanr</a> tool suite.</p>
+<div class="section level4">
+<h4 id="coverages">coverages<a class="anchor" aria-label="anchor" href="#coverages"></a>
+</h4>
+<p><em>Geographic</em> and <em>temporal</em> coverages are straight foward and documented in the work flow, but creating a <em>taxonomic</em> coverage is more involved. <em>Taxonomic coverage(s)</em> are constructed using EDI’s <a href="https://github.com/EDIorg/taxonomyCleanr" class="external-link">taxonomyCleanr</a> tool suite.</p>
 <p>A sample work flow for creating a taxonomic coverage:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">my_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># taxonomyCleanr requires a path (to build the taxa_map)</span>
+<code class="sourceCode R"><span class="va">my_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># taxonomyCleanr requires a path (to build the taxa_map)</span>
 
 <span class="co"># Example: draw taxonomic information from existing resource:</span>
 
 <span class="co"># plant taxa listed in the om_transpiration_factors file</span>
 
-<span class="va">plantTaxa</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">'om_transpiration_factors.csv'</span><span class="op">)</span> |&gt; 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">attributeName</span> <span class="op">==</span> <span class="st">"species"</span><span class="op">)</span> |&gt; 
-  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">plantTaxa</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="st">'om_transpiration_factors.csv'</span><span class="op">)</span> |&gt; 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">attributeName</span> <span class="op">==</span> <span class="st">"species"</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># create or update map. A taxa_map.csv is the heart of taxonomyCleanr. This</span>
 <span class="co"># function will build the taxa_map.csv and put it in the path identified with</span>
 <span class="co"># my_path.</span>
 
-<span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/create_taxa_map.html">create_taxa_map</a></span><span class="op">(</span>
+<span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/create_taxa_map.html" class="external-link">create_taxa_map</a></span><span class="op">(</span>
   path <span class="op">=</span> <span class="va">my_path</span>,
   x    <span class="op">=</span> <span class="va">plantTaxa</span>,
   col  <span class="op">=</span> <span class="st">"definition"</span>
@@ -210,12 +206,12 @@
 
 <span class="co"># Example: construct taxonomic resource:</span>
 
-<span class="va">gambelQuail</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>taxName <span class="op">=</span> <span class="st">"Callipepla gambelii"</span><span class="op">)</span>
+<span class="va">gambelQuail</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>taxName <span class="op">=</span> <span class="st">"Callipepla gambelii"</span><span class="op">)</span>
 
 <span class="co"># Create or update map: a taxa_map.csv is the heart of taxonomyCleanr. This</span>
 <span class="co"># function will build the taxa_map.csv in the path identified with my_path.</span>
 
-<span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/create_taxa_map.html">create_taxa_map</a></span><span class="op">(</span>
+<span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/create_taxa_map.html" class="external-link">create_taxa_map</a></span><span class="op">(</span>
   path <span class="op">=</span> <span class="va">my_path</span>,
   x    <span class="op">=</span> <span class="va">gambelQuail</span>,
   col  <span class="op">=</span> <span class="st">"taxName"</span>
@@ -227,33 +223,33 @@
 <span class="co"># (data.source 3) is the only authority taxonomyCleanr will allow for common</span>
 <span class="co"># names.</span>
 
-<span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/resolve_sci_taxa.html">resolve_sci_taxa</a></span><span class="op">(</span>
+<span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/resolve_sci_taxa.html" class="external-link">resolve_sci_taxa</a></span><span class="op">(</span>
   path         <span class="op">=</span> <span class="va">my_path</span>,
   data.sources <span class="op">=</span> <span class="fl">3</span> <span class="co"># ITIS</span>
 <span class="op">)</span> 
 
 <span class="co"># build the EML taxonomomic coverage</span>
 
-<span class="va">taxaCoverage</span> <span class="op">&lt;-</span> <span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/make_taxonomicCoverage.html">make_taxonomicCoverage</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span><span class="op">)</span>
+<span class="va">taxaCoverage</span> <span class="op">&lt;-</span> <span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/make_taxonomicCoverage.html" class="external-link">make_taxonomicCoverage</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span><span class="op">)</span>
 
 <span class="co"># add taxonomic to the other coverages</span>
 
 <span class="va">coverage</span><span class="op">$</span><span class="va">taxonomicCoverage</span> <span class="op">&lt;-</span> <span class="va">taxaCoverage</span></code></pre></div>
 </div>
-<div id="people" class="section level4">
-<h4 class="hasAnchor">
-<a href="#people" class="anchor"></a>people</h4>
-<p>For CAP LTER datasets, we can use the <code>gioseml</code> package to harvest person details from the Global Institute of Sustainability and Innovation database. For dataset parties not associated with the CAP LTER (or parties not in the GIOSI database), we can construct <code>creator</code>, <code>metadataProvider</code>, and <code>associatedParty</code> elements using the list structure provided by ROpenSci’s <a href="https://docs.ropensci.org/eml/">EML</a></p>
+<div class="section level4">
+<h4 id="people">people<a class="anchor" aria-label="anchor" href="#people"></a>
+</h4>
+<p>For CAP LTER datasets, we can use the <code>gioseml</code> package to harvest person details from the Global Institute of Sustainability and Innovation database. For dataset parties not associated with the CAP LTER (or parties not in the GIOSI database), we can construct <code>creator</code>, <code>metadataProvider</code>, and <code>associatedParty</code> elements using the list structure provided by ROpenSci’s <a href="https://docs.ropensci.org/eml/" class="external-link">EML</a></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># creator(s) - required</span>
 
 <span class="co"># if the person has an ORCiD, generate that first</span>
 
-<span class="va">sean_orcid</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">userId</span><span class="op">(</span>directory <span class="op">=</span> <span class="st">"https://orcid.org"</span><span class="op">)</span>
+<span class="va">sean_orcid</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html" class="external-link">eml</a></span><span class="op">$</span><span class="fu">userId</span><span class="op">(</span>directory <span class="op">=</span> <span class="st">"https://orcid.org"</span><span class="op">)</span>
 <span class="va">sean_orcid</span><span class="op">$</span><span class="va">userId</span> <span class="op">&lt;-</span> <span class="st">"1111-1111-1111-1111"</span>
 
-<span class="va">sean</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">creator</span><span class="op">(</span>
-  individualName <span class="op">=</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">individualName</span><span class="op">(</span>
+<span class="va">sean</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html" class="external-link">eml</a></span><span class="op">$</span><span class="fu">creator</span><span class="op">(</span>
+  individualName <span class="op">=</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html" class="external-link">eml</a></span><span class="op">$</span><span class="fu">individualName</span><span class="op">(</span>
     givenName <span class="op">=</span> <span class="st">"Sean"</span>,
     surName   <span class="op">=</span> <span class="st">"Payton"</span>
     <span class="op">)</span>,
@@ -264,8 +260,8 @@
 
 <span class="co"># sans ORCiD</span>
 
-<span class="va">kliff</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">creator</span><span class="op">(</span>
-  individualName <span class="op">=</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">individualName</span><span class="op">(</span>
+<span class="va">kliff</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html" class="external-link">eml</a></span><span class="op">$</span><span class="fu">creator</span><span class="op">(</span>
+  individualName <span class="op">=</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html" class="external-link">eml</a></span><span class="op">$</span><span class="fu">individualName</span><span class="op">(</span>
     givenName <span class="op">=</span> <span class="st">"Kliff"</span>,
     surName   <span class="op">=</span> <span class="st">"Kingsbury"</span>
     <span class="op">)</span>,
@@ -273,18 +269,18 @@
   organizationName      <span class="op">=</span> <span class="st">"Cardinals"</span>
 <span class="op">)</span>
 
-<span class="va">creators</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+<span class="va">creators</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
   <span class="va">sean</span>,
   <span class="va">kliff</span>
 <span class="op">)</span>
 
 <span class="co"># metadata provider - required</span>
 
-<span class="va">pete_orcid</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">userId</span><span class="op">(</span>directory <span class="op">=</span> <span class="st">"https://orcid.org"</span><span class="op">)</span>
+<span class="va">pete_orcid</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html" class="external-link">eml</a></span><span class="op">$</span><span class="fu">userId</span><span class="op">(</span>directory <span class="op">=</span> <span class="st">"https://orcid.org"</span><span class="op">)</span>
 <span class="va">pete_orcid</span><span class="op">$</span><span class="va">userId</span> <span class="op">&lt;-</span> <span class="st">"3333-3333-3333-3333"</span>
 
-<span class="va">pete</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">metadataProvider</span><span class="op">(</span>
-  individualName <span class="op">=</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">individualName</span><span class="op">(</span>
+<span class="va">pete</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html" class="external-link">eml</a></span><span class="op">$</span><span class="fu">metadataProvider</span><span class="op">(</span>
+  individualName <span class="op">=</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html" class="external-link">eml</a></span><span class="op">$</span><span class="fu">individualName</span><span class="op">(</span>
     givenName <span class="op">=</span> <span class="st">"Pete"</span>,
     surName   <span class="op">=</span> <span class="st">"Carrol"</span>
     <span class="op">)</span>,
@@ -293,14 +289,14 @@
   userId <span class="op">=</span> <span class="va">pete_orcid</span>
 <span class="op">)</span>
 
-<span class="va">metadataProvider</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">pete</span><span class="op">)</span>
+<span class="va">metadataProvider</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">pete</span><span class="op">)</span>
 
 <span class="co"># associated party (optional)</span>
 
 <span class="co"># requires the additional argument `role`</span>
 
-<span class="va">brandon</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">associatedParty</span><span class="op">(</span>
-  individualName <span class="op">=</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">individualName</span><span class="op">(</span>
+<span class="va">brandon</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html" class="external-link">eml</a></span><span class="op">$</span><span class="fu">associatedParty</span><span class="op">(</span>
+  individualName <span class="op">=</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html" class="external-link">eml</a></span><span class="op">$</span><span class="fu">individualName</span><span class="op">(</span>
     givenName <span class="op">=</span> <span class="st">"Brandon"</span>,
     surName   <span class="op">=</span> <span class="st">"Staley"</span>
     <span class="op">)</span>,
@@ -309,18 +305,18 @@
   role                  <span class="op">=</span> <span class="st">"head coach"</span>
 <span class="op">)</span>
 
-<span class="va">associatedParty</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">brandon</span><span class="op">)</span></code></pre></div>
+<span class="va">associatedParty</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">brandon</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="data-objects" class="section level4">
-<h4 class="hasAnchor">
-<a href="#data-objects" class="anchor"></a>data objects</h4>
+<div class="section level4">
+<h4 id="data-objects">data objects<a class="anchor" aria-label="anchor" href="#data-objects"></a>
+</h4>
 <p><em>data tables</em></p>
 <p>The <code>create_dataset</code> function will look for objects in the R environment with a trailing <code>_DT</code> in the object name (e.g. <code>my_table_DT</code>), e.g., see section on creating a dataTable below. All objects with that naming convention will be added to the dataset.</p>
 </div>
 </div>
-<div id="overview-create-a-datatable" class="section level3">
-<h3 class="hasAnchor">
-<a href="#overview-create-a-datatable" class="anchor"></a>overview: create a dataTable</h3>
+<div class="section level3">
+<h3 id="overview-create-a-datatable">overview: create a dataTable<a class="anchor" aria-label="anchor" href="#overview-create-a-datatable"></a>
+</h3>
 <p>Given a rectangular data matrix of type dataframe or tibble in the R environment:</p>
 <p><code>write_attributes(data_entity)</code> will generate a template as a yaml file in the working directory based on properties of the data entity such that metadata properties (e.g., attributeDefinition, units) can be added via a editor.</p>
 <p><code>write_factors(data_entity)</code> will generate a template as a yaml file in the working directory based on columns of the data entity that are factors such that details of factor levels can be added via a editor.</p>
@@ -354,9 +350,9 @@
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="st">  additional_information  = my_additional_info </span></span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="st">)</span></span></code></pre></div>
 </div>
-<div id="overview-create-a-otherentity" class="section level3">
-<h3 class="hasAnchor">
-<a href="#overview-create-a-otherentity" class="anchor"></a>overview: create a otherEntity</h3>
+<div class="section level3">
+<h3 id="overview-create-a-otherentity">overview: create a otherEntity<a class="anchor" aria-label="anchor" href="#overview-create-a-otherentity"></a>
+</h3>
 <p>A EML object of type otherEntity can be created from a single file or a directory. In the case of generating a otherEntity object from a directory, pass the directory path to the target_file_or_directory argument, capeml will recognize the target as a directory, and create a zipped file of the identified directory.</p>
 <p>If the otherEntity object already is a zip file with the desired name, set the overwrite argument to FALSE to prevent overwriting the existing object.</p>
 <p>As with all objects created with the capeml package, the resulting object is named with convention: projectid_object-name.file extension by default but this functionality can be turned off by setting projectNaming to FALSE.</p>
@@ -367,7 +363,7 @@
 <span class="co"># name the resulting object in the R environment with the same name of the</span>
 <span class="co"># directory housing the shapefiles (i.e., UEI_Features_CAPLTER_2010_2017_JAB).</span>
 
-<span class="va">UEI_Features_CAPLTER_2010_2017_JAB</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span>
+<span class="va">UEI_Features_CAPLTER_2010_2017_JAB</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span>
   dsn   <span class="op">=</span> <span class="st">"/path/UEI_Features_CAPLTER_2010_2017_JAB/"</span>,
   layer <span class="op">=</span> <span class="st">"UEI_Features_CAPLTER_2010_2017_JAB"</span>
 <span class="op">)</span>
@@ -375,7 +371,7 @@
 <span class="co"># add factors if and as appropriate</span>
 
 <span class="va">UEI_Features_CAPLTER_2010_2017_JAB</span> <span class="op">&lt;-</span> <span class="va">UEI_Features_CAPLTER_2010_2017_JAB</span> |&gt;
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>myfactor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">UEI_type</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>myfactor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">UEI_type</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Generate yaml files of both the attributes and factors (if relevant) from the</span>
 <span class="co"># shapefile that we read into R; these will be written to the project directory</span>
@@ -416,42 +412,42 @@ Central (ft) - Projected"</span>
   additional_information   <span class="op">=</span> <span class="va">UEI_Features_CAPLTER_2010_2017_JAB_additional</span>
 <span class="op">)</span></code></pre></div>
 </div>
-<div id="citations" class="section level3">
-<h3 class="hasAnchor">
-<a href="#citations" class="anchor"></a>citations</h3>
+<div class="section level3">
+<h3 id="citations">citations<a class="anchor" aria-label="anchor" href="#citations"></a>
+</h3>
 <p>Below are sample work flows that use <code>capeml</code>’s <code>create_citation</code> function to generate citations by passing a resource DOI to crossref. Citations can be added to EML <code>literatureCited</code> and <code>usageCitation</code> elements. The work flow capitalizes on EML version 2.2 that accepts the BibTex format for references.</p>
 <p><code><a href="reference/create_dataset.html">create_dataset()</a></code> will look for citation entities at the time of dataset construction so desired citation entities must exist in the R environment. <code>literatureCited</code> entities must be in a list named <code>citations</code>, and <code>usageCitation</code> entities must be a list named <code>usages</code>.</p>
 <p>Note that, unlike a <code>literatureCited</code> citation, a <code>usageCitation</code> is <strong>not</strong> wrapped in a citation tag.</p>
-<div id="literature-cited" class="section level4">
-<h4 class="hasAnchor">
-<a href="#literature-cited" class="anchor"></a>literature cited</h4>
+<div class="section level4">
+<h4 id="literature-cited">literature cited<a class="anchor" aria-label="anchor" href="#literature-cited"></a>
+</h4>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cook</span>    <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.envpol.2018.04.013"</span><span class="op">)</span>
 <span class="va">sartory</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1007/BF00031869"</span><span class="op">)</span>
 
-<span class="va">citations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-  citation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+<span class="va">citations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
+  citation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
     <span class="va">cook</span>,
     <span class="va">sartory</span>
   <span class="op">)</span> <span class="co"># close list of citations</span>
 <span class="op">)</span> <span class="co"># close citation</span></code></pre></div>
 </div>
-<div id="usage-citations" class="section level4">
-<h4 class="hasAnchor">
-<a href="#usage-citations" class="anchor"></a>usage citations</h4>
+<div class="section level4">
+<h4 id="usage-citations">usage citations<a class="anchor" aria-label="anchor" href="#usage-citations"></a>
+</h4>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">brown</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.3389/fevo.2020.569730"</span><span class="op">)</span>
 
-<span class="va">usages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+<span class="va">usages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
     <span class="va">brown</span>
 <span class="op">)</span> <span class="co"># close usages</span>
 
 <span class="va">dataset</span><span class="op">$</span><span class="va">usageCitation</span> <span class="op">&lt;-</span> <span class="va">usages</span></code></pre></div>
 </div>
-<div id="citations-that-do-no-have-a-doi" class="section level4">
-<h4 class="hasAnchor">
-<a href="#citations-that-do-no-have-a-doi" class="anchor"></a>citations that do no have a DOI</h4>
-<p>Though a DOI makes documenting references easy, we can add citations that do not have a DOI. There are many ways to address this but likely easiest is to get or create a citation for the reference in bibtex format. <a href="http://sourceforge.net/p/bibutils/home/Bibutils/">bibutils</a> is a helfpul utility that can convert other citation formats, such as .ris, to bibtex. With bibutils, we can convert ris to an intermediate xml format and then to bibtex.</p>
+<div class="section level4">
+<h4 id="citations-that-do-no-have-a-doi">citations that do no have a DOI<a class="anchor" aria-label="anchor" href="#citations-that-do-no-have-a-doi"></a>
+</h4>
+<p>Though a DOI makes documenting references easy, we can add citations that do not have a DOI. There are many ways to address this but likely easiest is to get or create a citation for the reference in bibtex format. <a href="http://sourceforge.net/p/bibutils/home/Bibutils/" class="external-link">bibutils</a> is a helfpul utility that can convert other citation formats, such as .ris, to bibtex. With bibutils, we can convert ris to an intermediate xml format and then to bibtex.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> -O ~/Desktop/tellman_dissertation.ris https://repository.asu.edu/items/53734.ris</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> tellman_dissertation.ris <span class="kw">|</span> <span class="ex">ris2xml</span> <span class="kw">|</span> <span class="ex">xml2bib</span> <span class="op">&gt;&gt;</span> tellman_dissertation.bib</span></code></pre></div>
@@ -479,16 +475,16 @@ url={http://hdl.handle.net/2286/R.I.53734}
 
 <span class="va">bib_citation</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
 
-  <span class="va">eml_citation</span>        <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html">eml</a></span><span class="op">$</span><span class="fu">citation</span><span class="op">(</span>id <span class="op">=</span> <span class="st">"http://hdl.handle.net/2286/R.I.53734"</span><span class="op">)</span>
+  <span class="va">eml_citation</span>        <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html" class="external-link">eml</a></span><span class="op">$</span><span class="fu">citation</span><span class="op">(</span>id <span class="op">=</span> <span class="st">"http://hdl.handle.net/2286/R.I.53734"</span><span class="op">)</span>
   <span class="va">eml_citation</span><span class="op">$</span><span class="va">bibtex</span> <span class="op">&lt;-</span> <span class="va">tellman_dissertation</span>
 
-  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">eml_citation</span><span class="op">)</span>
+  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">eml_citation</span><span class="op">)</span>
 
 <span class="op">}</span>
 
 <span class="va">tellman_2019</span> <span class="op">&lt;-</span> <span class="fu">bib_citation</span><span class="op">(</span><span class="op">)</span>
 
-<span class="va">usages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+<span class="va">usages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
   <span class="va">tellman_2021</span>,
   <span class="va">goldblatt_2018</span>,
   <span class="va">lerner_2018</span>,
@@ -502,28 +498,41 @@ url={http://hdl.handle.net/2286/R.I.53734}
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>CC0</li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing capeml</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>S Earl <br><small class="roles"> Author, maintainer </small>  </li>
 </ul>
 </div>
+
+
 
   </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by S Earl.</p>
+  <p></p>
+<p>Developed by S Earl.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -531,6 +540,8 @@ url={http://hdl.handle.net/2286/R.I.53734}
 
   
 
+
+  
 
   </body>
 </html>
