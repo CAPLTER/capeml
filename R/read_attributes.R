@@ -128,7 +128,10 @@ read_attributes <- function(
   # missing value coding ------------------------------------------------------
 
   # use the R object for these operations
-  r_object <- get(entity_name)
+  r_object <- get(
+    x = entity_name,
+    envir = globalenv()
+  )
 
   # drop geometry columns from consideration if simple features
   if (class(r_object)[[1]] == "sf") {
