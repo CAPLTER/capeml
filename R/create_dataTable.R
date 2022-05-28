@@ -58,6 +58,7 @@
 #' @importFrom tools md5sum
 #' @importFrom yaml yaml.load_file yaml.load
 #' @importFrom utils write.csv
+#' @importFrom stringr str_extract
 #'
 #' @return EML dataTable object is returned. Additionally, the data entity is
 #'  written to file as type csv, and renamed with the package number + base
@@ -145,13 +146,35 @@ create_dataTable <- function(
   )
 
 
+  # retrieve dataset details from config.yaml
+
+    configurations <- yaml::yaml.load_file("config.yaml")
+
+
   # project naming ------------------------------------------------------------
 
   if (projectNaming == TRUE) {
 
-    packageNum <- yaml::yaml.load_file("config.yaml")$packageNum
+    if (exists("packageNum", configurations)) {
 
-    project_name <- paste0(packageNum, "_", namestr, ".csv")
+      this_identifier <- stringr::str_extract(
+        string  = configurations[["packageNum"]],
+        pattern = "[0-9]+"
+      )
+
+    } else if (exists("identifier", configurations)) {
+
+      this_identifier <- configurations[["identifier"]]
+
+    } else {
+
+      stop("could not resolve package identifier (number)")
+
+    }
+
+    this_identifier <- as.integer(this_identifier)
+
+    project_name <- paste0(this_identifier , "_", namestr, ".csv")
 
   } else {
 
@@ -179,7 +202,7 @@ create_dataTable <- function(
 
   # distribution
 
-  fileURL <- yaml::yaml.load_file("config.yaml")$baseURL
+  fileURL <- configurations[["baseURL"]]
 
   fileDistribution <- EML::eml$distribution(
     EML::eml$online(url = paste0(fileURL, project_name))
@@ -194,12 +217,12 @@ create_dataTable <- function(
 
   # file size
 
-  fileSize <- EML::eml$size(unit = "byte")
+  fileSize      <- EML::eml$size(unit = "byte")
   fileSize$size <- deparse(file.size(project_name))
 
   # authentication
 
-  fileAuthentication <- EML::eml$authentication(method = "MD5")
+  fileAuthentication                <- EML::eml$authentication(method = "MD5")
   fileAuthentication$authentication <- tools::md5sum(project_name)
 
   # set physical ------------------------------------------------------------

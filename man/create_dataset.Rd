@@ -28,18 +28,18 @@ create_dataset generates a EML entity of type dataset
 }
 \details{
 A dataset entity, the central component of a data package, is
- created from objects in the user's R environment or as detailed in
- config.yaml. A project scope (default is LTER) indicates contact and project
- details specific to the research. The abstract and methods must be in
- markdown format - by default the package will look for these files
- (abstract.md, methods.md) in the project directory but files of different
- names or locations can be passed. Similarly for keywords, the package will
- look for a keywords.csv file in the project directory but a different name
- or location can be passed.
+created from objects in the user's R environment or as detailed in
+config.yaml. A project name (default is LTER) indicates contact and project
+details specific to the research. The abstract and methods must be in
+markdown format - by default the package will look for these files
+(abstract.md, methods.md) in the project directory but files of different
+names or locations can be passed. Similarly for keywords, the package will
+look for a keywords.csv file in the project directory but a different name
+or location can be passed.
 }
 \note{
 create_dataset will look for most inputs used to construct a dataset,
- such as a package number, in the working environment or from the project
- config.yaml; these parameters are not passed directly to the function and
- must exist in the working environment or yaml.
+such as a package number, in the working environment or from the project
+config.yaml; these parameters are not passed directly to the function and
+must exist in the working environment or configuration file.
 }
