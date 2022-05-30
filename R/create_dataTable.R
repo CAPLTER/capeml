@@ -118,13 +118,6 @@ create_dataTable <- function(
 
   }
 
-  # do not proceed if config.yaml is not present
-
-  if (!file.exists("config.yaml")) {
-
-    stop("config.yaml not found")
-
-  }
 
   # dataTables must have an attributes file
 
@@ -148,33 +141,14 @@ create_dataTable <- function(
 
   # retrieve dataset details from config.yaml
 
-    configurations <- yaml::yaml.load_file("config.yaml")
+  configurations <- read_package_configuration()
 
 
   # project naming ------------------------------------------------------------
 
   if (projectNaming == TRUE) {
 
-    if (exists("packageNum", configurations)) {
-
-      this_identifier <- stringr::str_extract(
-        string  = configurations[["packageNum"]],
-        pattern = "[0-9]+"
-      )
-
-    } else if (exists("identifier", configurations)) {
-
-      this_identifier <- configurations[["identifier"]]
-
-    } else {
-
-      stop("could not resolve package identifier (number)")
-
-    }
-
-    this_identifier <- as.integer(this_identifier)
-
-    project_name <- paste0(this_identifier , "_", namestr, ".csv")
+    project_name <- paste0(configurations$identifier, "_", namestr, ".csv")
 
   } else {
 
@@ -202,7 +176,7 @@ create_dataTable <- function(
 
   # distribution
 
-  fileURL <- configurations[["baseURL"]]
+  fileURL <- configurations$fileURL
 
   fileDistribution <- EML::eml$distribution(
     EML::eml$online(url = paste0(fileURL, project_name))

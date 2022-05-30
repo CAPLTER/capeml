@@ -4,19 +4,20 @@
 \alias{write_config}
 \title{write a project config.yaml file}
 \usage{
-write_config(packageScopeNumber, version = 1, path = ".", overwrite = FALSE)
+write_config(scope = "knb-lter-cap", identifier, path = ".", overwrite = FALSE)
 }
 \arguments{
-\item{packageScopeNumber}{(character) Quoted name of the package scope and number without the version
-number (e.g., "edi.521").}
+\item{scope}{(character) Quoted name of the package scope (e.g., "edi"). The default is
+"knb-lter-cap".}
 
-\item{version}{(integer) Data package version (default = 1).}
+\item{identifier}{(integer) Data package identifier (number).}
 
-\item{path}{(character) Path to where the config file will be written
-Defaults to the current directory.}
+\item{path}{(character) Path to where the config file will be written. Defaults to the
+current directory.}
 
-\item{overwrite}{(logical) Logical indicating if an existing config file in
-the target directory should be overwritten.}
+\item{overwrite}{(logical)
+Logical indicating if an existing config file in the target directory should
+be overwritten.}
 }
 \description{
 write_config writes a template config.yaml file to the working
@@ -24,11 +25,11 @@ write_config writes a template config.yaml file to the working
 }
 \details{
 A template config.yaml file is written to the working directory or
- specified location. The function requires that the package scope and number
- (e.g., "edi.521") are provided. Package identifiers include a verion
- number; the function uses a default value of version 1 but an alternate
- version number can be specified.
+specified location. The function requires that the package scope and number
+(e.g., "edi", 521) are provided. Package identifiers include a verion
+number; the function uses a default value of version 1 but an alternate
+version number can be specified.
 }
 \note{
-The function requires specifically a 3-digit package number.
+The function expects specifically a 3-digit package identifier (number).
 }

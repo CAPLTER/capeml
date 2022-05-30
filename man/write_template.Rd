@@ -2,45 +2,46 @@
 % Please edit documentation in R/write_template.R
 \name{write_template}
 \alias{write_template}
-\title{build a template workflow}
+\title{Construct a template capeml workflow}
 \usage{
 write_template(
-      packageScopeNumber,
+      scope,
+      identifier,
       path,
       overwrite
     )
 }
 \arguments{
-\item{packageScopeNumber}{(character) Quoted name of the package scope and number without the
-version number (e.g., "edi.521").}
+\item{scope}{(character) Quoted name of the package scope (e.g., "edi"). The default is
+"knb-lter-cap".}
 
-\item{path}{(character) Path to where the data package directory will be created.
-Defaults to the current directory.}
+\item{identifier}{(integer) Data package identifier (number).}
 
-\item{overwrite}{(logical) indicates to overwrite an existing file if one exists;
-default = FALSE}
+\item{path}{(character) Path to where the config file will be written. Defaults to the
+current directory.}
+
+\item{overwrite}{(logical) indicates to overwrite an existing file if one exists (default =
+FALSE).}
 }
 \value{
-A Rmarkdown (Rmd) file named with the project scope and number
+A Rmarkdown (Rmd) file named with the project scope and identifier
+(number).
 }
 \description{
 Write a workflow template Rmd file for the capeml workflow
 }
 \details{
-Existing files named with \code{packageScopeNumber}.Rmd at \code{path}
-    will not be overwritten unless overwrite is made explicit.
+Existing files with the package name and .Rmd extension at
+\code{path} will not be overwritten unless overwrite is made explicit.
 }
 \examples{
 \dontrun{
 # Template data package directory "edi.521"
 
 write_template(
-  packageScopeNumber = "edi.521",
-  path = '~/Desktop'
-)
-
-write_template(
-  packageScopeNumber = "edi.521"
+  scope      = "edi",
+  identifier = 521,
+  path       = '~/Desktop'
 )
 
 }

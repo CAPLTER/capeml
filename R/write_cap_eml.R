@@ -44,18 +44,37 @@ write_cap_eml <- function(emlEntity = eml, filePathName) {
 
   if (missing(filePathName)) {
 
-    # retrieve package identity from config.yaml
-    if (!file.exists("config.yaml")) {
-      stop("config.yaml not found")
-    }
+    # retrieve dataset details from config.yaml
 
-    packageIdent <- yaml::yaml.load_file("config.yaml")$packageIdent
-    filePathName <- paste0(packageIdent, ".xml")
+    configurations <- read_package_configuration()
+
+
+    # package version
+
+    this_version <- capeml::get_next_version(
+      provided_scope      = configurations$scope,
+      provided_identifier = configurations$identifier
+    )
+
+
+    # package name (scope + identifier +  version)
+
+    package_name <- paste(
+      configurations$scope,
+      configurations$identifier,
+      this_version,
+      sep = "."
+    )
+
+
+    filePathName <- paste0(package_name, ".xml")
 
   }
 
   # write the eml to file
+
   EML::write_eml(emlEntity, filePathName)
+
 
   # end ------------------------------------------------------------------------
 

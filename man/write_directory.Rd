@@ -2,56 +2,50 @@
 % Please edit documentation in R/write_directory.R
 \name{write_directory}
 \alias{write_directory}
-\title{create data package directory}
+\title{Construct campel supporting files in a data package directory}
 \usage{
 write_directory(
-      packageScopeNumber,
+      scope,
+      identifier,
       path
     )
 }
 \arguments{
-\item{packageScopeNumber}{(character) Quoted name of the package scope and number without the
-version number (e.g., "edi.521").}
+\item{scope}{(character) Quoted name of the package scope (e.g., "edi"). The default is
+"knb-lter-cap".}
 
-\item{path}{(character) Path to where the data package directory will be created.
-Defaults to the current directory.}
+\item{identifier}{(integer) Data package identifier (number).}
+
+\item{path}{(character) Path to where the config file will be written. Defaults to the
+current directory.}
 }
 \value{
 A directory with the following structure and contents:
     \itemize{
-        \item{\strong{name} Name supplied via \code{packageScopeNumber}}
+        \item{\strong{name} Name supplied via \code{scope} and \code{identifier}}
         \itemize{
             \item{\strong{config.yaml} configuration file}
-            \item{\code{packageScopeNumber}.Rmd workflow template}
+            \item{\code{data package name}.Rmd workflow template}
         }
     }
 }
 \description{
 Create a directory structure for data package contents and
-    \code{capeml} files.
+\code{capeml} files.
 }
 \details{
-Existing directories named with \code{packageScopeNumber} at \code{path}
-    will not be overwritten.
+Existing directories named with \code{data package name} at
+\code{path} will not be overwritten.
 }
 \examples{
 \dontrun{
 # Template data package directory "edi.521"
 
-write_directory(
-  packageScopeNumber = "edi.521",
-  path = '~/Desktop'
+capeml::write_directory(
+  scope      = "edi",
+  identifier = 521,
+  path       = '~/Desktop'
 )
-
-write_directory(
-  packageScopeNumber = "edi.521"
-)
-
-# View directory contents
-dir("edi.521")
-
-# Clean up
-unlink("edi.521", recursive = TRUE)
 
 }
 

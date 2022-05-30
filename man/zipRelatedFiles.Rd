@@ -2,7 +2,7 @@
 % Please edit documentation in R/zipRelatedFiles.R
 \name{zipRelatedFiles}
 \alias{zipRelatedFiles}
-\title{zip related files}
+\title{zip related files (deprecated)}
 \usage{
 zipRelatedFiles(pathToFile, targetFile)
 }

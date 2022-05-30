@@ -28,7 +28,6 @@
 #'
 #' @import EML
 #' @importFrom yaml yaml.load_file
-#' @importFrom stringr str_extract
 #'
 #' @return EML dataset entity is returned.
 #'
@@ -55,72 +54,28 @@ create_dataset <- function(
     stop("missing coverage")
   }
 
-  if (!file.exists("config.yaml")) {
-    stop("config.yaml not found")
-  }
-
 
   # retrieve dataset details from config.yaml
 
-  configurations <- yaml::yaml.load_file("config.yaml")
-  project        <- configurations[["project"]]
-  maintenance    <- configurations[["maintenance"]]
-
-
-  # package scope
-
-  if (exists("packageIdent", configurations)) {
-
-    this_scope <- stringr::str_extract(
-      string  = configurations[["packageIdent"]],
-      pattern = "^[^\\.]*"
-    )
-
-  } else if (exists("scope", configurations)) {
-
-    this_scope <- configurations[["scope"]]
-
-  } else {
-
-    stop("could not resolve package scope")
-
-  }
-
-
-  # package identifier (number)
-
-  if (exists("packageNum", configurations)) {
-
-    this_identifier <- stringr::str_extract(
-      string  = configurations[["packageNum"]],
-      pattern = "[0-9]+"
-    )
-
-  } else if (exists("identifier", configurations)) {
-
-    this_identifier <- configurations[["identifier"]]
-
-  } else {
-
-    stop("could not resolve package identifier (number)")
-
-  }
-
-
-  this_identifier <- as.integer(this_identifier)
+  configurations <- read_package_configuration()
 
 
   # package version
 
   this_version <- capeml::get_next_version(
-    provided_scope      = this_scope,
-    provided_identifier = this_identifier
+    provided_scope      = configurations$scope,
+    provided_identifier = configurations$identifier
   )
 
 
   # package name (scope + identifier +  version)
 
-  package_name <- paste(this_scope, this_identifier, this_version, sep = ".")
+  package_name <- paste(
+    configurations$scope,
+    configurations$identifier,
+    this_version,
+    sep = "."
+  )
 
 
   # abstract
@@ -172,6 +127,8 @@ create_dataset <- function(
 
   # maintenance
 
+  maintenance <- configurations$maintenance
+
   if (maintenance == "regular") {
 
     dataset_maintenance <- EML::eml$maintenance(
@@ -197,7 +154,7 @@ create_dataset <- function(
   # construct base dataset with required components
 
   dataset <- EML::eml$dataset(
-    title              = configurations[["title"]],
+    title              = configurations$title,
     creator            = creators,
     pubDate            = if (!is.null(publicationDate)) { publicationDate } else { as.character(Sys.Date()) },
     metadataProvider   = metadataProvider,
@@ -213,6 +170,8 @@ create_dataset <- function(
 
 
   # add project-specific elements
+
+  project <- configurations$project
 
   if (grepl("lter", project, ignore.case = TRUE)) {
 

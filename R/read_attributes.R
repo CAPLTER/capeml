@@ -61,8 +61,8 @@ read_attributes <- function(
 
     attrs <- yaml::yaml.load_file(paste0(entity_name, "_attrs.yaml"))
     attrs <- yaml::yaml.load(attrs)
-    attrs <- tibble::enframe(attrs) %>%
-      tidyr::unnest_wider(value) %>%
+    attrs <- tibble::enframe(attrs) |>
+      tidyr::unnest_wider(value) |>
       dplyr::select(-one_of("name"))
 
   } else if (!file.exists(paste0(entity_name, "_attrs.yaml")) && file.exists(paste0(entity_name, "_attrs.csv"))) {
@@ -76,7 +76,7 @@ read_attributes <- function(
   }
 
   # column classes to vector (req'd by set_attributes)
-  classes <- attrs %>%
+  classes <- attrs |>
     dplyr::pull(columnClasses)
 
   # copy attributeDefinition to defintion as appropriate;
@@ -89,16 +89,16 @@ read_attributes <- function(
     !all(is.na(x))
   }
 
-  attrs <- attrs %>%
+  attrs <- attrs |>
     dplyr::mutate(
       definition = NA_character_,
       definition = case_when(
         grepl("character", columnClasses) & ((is.na(definition) | definition == "")) ~ attributeDefinition,
         TRUE ~ definition
       )
-      ) %>%
-  dplyr::select(-columnClasses) %>%
-  dplyr::select_if(not_all_na)
+      ) |>
+    dplyr::select(-columnClasses) |>
+    dplyr::select_if(not_all_na)
 
 
   # factors -------------------------------------------------------------------
@@ -109,13 +109,13 @@ read_attributes <- function(
 
   if (file.exists(paste0(entity_name, "_factors.yaml"))) {
 
-    fcts <- yaml.load_file(paste0(entity_name, "_factors.yaml")) %>%
-      yaml::yaml.load() %>%
-      tibble::enframe() %>%
-      tidyr::unnest_wider(value) %>%
-      tidyr::unnest_wider(attribute) %>%
-      tidyr::unnest_longer(levels) %>%
-      tidyr::unnest_wider(levels) %>%
+    fcts <- yaml.load_file(paste0(entity_name, "_factors.yaml")) |>
+      yaml::yaml.load() |>
+      tibble::enframe() |>
+      tidyr::unnest_wider(value) |>
+      tidyr::unnest_wider(attribute) |>
+      tidyr::unnest_longer(levels) |>
+      tidyr::unnest_wider(levels) |>
       dplyr::select(-one_of("name"))
 
   } else if (file.exists(paste0(entity_name, "_factors.csv"))) {
@@ -136,7 +136,7 @@ read_attributes <- function(
   # drop geometry columns from consideration if simple features
   if (class(r_object)[[1]] == "sf") {
 
-    r_object <- r_object %>%
+    r_object <- r_object |>
       sf::st_drop_geometry()
 
   }

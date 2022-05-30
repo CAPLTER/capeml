@@ -1,4 +1,4 @@
-#' @title zip related files
+#' @title zip related files (deprecated)
 #'
 #' @description Zip files in a common directory that share the same base name
 #'  (i.e., file name sans path and extension). Zipped file includes all relevant
@@ -40,6 +40,16 @@
 #'
 
 zipRelatedFiles <- function(pathToFile, targetFile) {
+
+  # deprecation ---------------------------------------------------------------
+
+  .Deprecated(
+    new = "none",
+    package="capemlGIS",
+    old = as.character(sys.call(sys.parent()))[1L]
+  )
+
+  stop()
 
   # check for requisite environment variables, function arguments, and that the target file exists in the
   # specified location

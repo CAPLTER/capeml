@@ -4,33 +4,35 @@
 #'  directory (default) or supplied path.
 #'
 #' @details A template config.yaml file is written to the working directory or
-#'  specified location. The function requires that the package scope and number
-#'  (e.g., "edi.521") are provided. Package identifiers include a verion
-#'  number; the function uses a default value of version 1 but an alternate
-#'  version number can be specified.
+#' specified location. The function requires that the package scope and number
+#' (e.g., "edi", 521) are provided. Package identifiers include a verion
+#' number; the function uses a default value of version 1 but an alternate
+#' version number can be specified.
 #'
-#' @note The function requires specifically a 3-digit package number.
+#' @note The function expects specifically a 3-digit package identifier (number).
 #'
-#' @param packageScopeNumber
-#'  (character) Quoted name of the package scope and number without the version
-#'  number (e.g., "edi.521").
-#' @param version
-#'  (integer) Data package version (default = 1).
+#' @param scope
+#'  (character) Quoted name of the package scope (e.g., "edi"). The default is
+#'  "knb-lter-cap".
+#' @param identifier
+#'  (integer) Data package identifier (number).
 #' @param path
-#'  (character) Path to where the config file will be written
-#'  Defaults to the current directory.
-#' @param overwrite (logical) Logical indicating if an existing config file in
-#'  the target directory should be overwritten.
+#'  (character) Path to where the config file will be written. Defaults to the
+#'  current directory.
+#' @param overwrite (logical)
+#' Logical indicating if an existing config file in the target directory should
+#' be overwritten.
 #'
 #' @importFrom yaml write_yaml
 #'
 #' @export
 #'
 write_config <- function(
-  packageScopeNumber,
-  version = 1,
-  path = ".",
-  overwrite = FALSE) {
+  scope      = "knb-lter-cap",
+  identifier,
+  path       = ".",
+  overwrite  = FALSE
+  ) {
 
   # check if config.yaml already exists
 
@@ -38,43 +40,47 @@ write_config <- function(
     stop("config.yaml already exists, use `overwrite = TRUE` to overwrite")
   }
 
-  # confirm packageScopeNumber is provided
-  if (!exists("packageScopeNumber")) {
-    stop("missing package id")
+
+  # do not proceed if a identifier is not provided
+
+  if (missing("identifier")) {
+
+    stop("write_config missing package identifier (number)")
+
   }
 
-  id <- regmatches(
-    x = packageScopeNumber,
-    m = regexpr(
-      pattern = "\\d{2,}",
-      text = packageScopeNumber,
-      perl = TRUE)
-  )
 
-  id <- as.integer(id)
+  # check that package identifier (name) is a expected length
 
-  if (nchar(id) != 3) {
-    message("caution: project number is not the expected number of digits (3)")
+  if (nchar(identifier) != 3) {
+
+    message("caution: project identifier (number) is not the expected number of digits (3)")
+
   }
 
-  fullIdentifier <- paste0(packageScopeNumber, ".", version)
+
+  # construct parameters
 
   dataset_params <- list(
-    packageNum = id,
-    packageIdent = fullIdentifier,
-    baseURL = "https://data.gios.asu.edu/datasets/cap/",
-    project = "lter",
-    title = "title",
-    maintenance = "none",
-    geographicCoverage = list(
-      geographicDescription = "CAP LTER study area: greater Phoenix, Arizona (USA) metropolitan area and surrounding Sonoran desert region"
-    )
+    scope                  = scope,
+    identifier             = as.integer(identifier),
+    baseURL                = "https://data.gios.asu.edu/datasets/cap/",
+    project                = "lter",
+    title                  = "title with subject time place",
+    maintenance            = "none",
+    geographic_description = "CAP LTER study area: greater Phoenix, Arizona (USA) metropolitan area and surrounding Sonoran desert region"
   )
 
+
+  # write parameters to config.yaml
+
   yaml::write_yaml(
-    x = dataset_params,
+    x    = dataset_params,
     file = paste0(path, "/", "config.yaml")
   )
+
+
+  # messaging
 
   message(paste0("created config.yaml at ", path))
 

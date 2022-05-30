@@ -15,12 +15,10 @@ LazyData: true
 Imports:
     stringr,
     dplyr,
-    magrittr,
     readr,
     utils,
     EML,
     purrr,
-    taxize,
     tibble,
     tools,
     yaml,
@@ -29,7 +27,8 @@ Imports:
     rcrossref,
     tidyr,
     lubridate,
-    xml2
+    xml2,
+    EDIutils
 RoxygenNote: 7.2.0
 Suggests: 
     testthat (>= 3.0.0),

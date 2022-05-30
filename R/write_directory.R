@@ -1,71 +1,79 @@
-#' @title create data package directory
+#' @title Construct campel supporting files in a data package directory
 #'
-#' @description
-#'     Create a directory structure for data package contents and
-#'     \code{capeml} files.
+#' @description Create a directory structure for data package contents and
+#' \code{capeml} files.
 #'
 #' @usage
 #'     write_directory(
-#'       packageScopeNumber,
+#'       scope,
+#'       identifier,
 #'       path
 #'     )
 #'
-#' @param packageScopeNumber
-#'     (character) Quoted name of the package scope and number without the
-#'     version number (e.g., "edi.521").
+#' @param scope
+#'  (character) Quoted name of the package scope (e.g., "edi"). The default is
+#'  "knb-lter-cap".
+#' @param identifier
+#'  (integer) Data package identifier (number).
 #' @param path
-#'     (character) Path to where the data package directory will be created.
-#'     Defaults to the current directory.
+#'  (character) Path to where the config file will be written. Defaults to the
+#'  current directory.
 #'
 #' @return
 #'     A directory with the following structure and contents:
 #'     \itemize{
-#'         \item{\strong{name} Name supplied via \code{packageScopeNumber}}
+#'         \item{\strong{name} Name supplied via \code{scope} and \code{identifier}}
 #'         \itemize{
 #'             \item{\strong{config.yaml} configuration file}
-#'             \item{\code{packageScopeNumber}.Rmd workflow template}
+#'             \item{\code{data package name}.Rmd workflow template}
 #'         }
 #'     }
 #'
-#' @details
-#'     Existing directories named with \code{packageScopeNumber} at \code{path}
-#'     will not be overwritten.
+#' @details Existing directories named with \code{data package name} at
+#' \code{path} will not be overwritten.
 #'
 #' @examples
 #' \dontrun{
 #' # Template data package directory "edi.521"
 #'
-#' write_directory(
-#'   packageScopeNumber = "edi.521",
-#'   path = '~/Desktop'
+#' capeml::write_directory(
+#'   scope      = "edi",
+#'   identifier = 521,
+#'   path       = '~/Desktop'
 #' )
-#'
-#' write_directory(
-#'   packageScopeNumber = "edi.521"
-#' )
-#'
-#' # View directory contents
-#' dir("edi.521")
-#'
-#' # Clean up
-#' unlink("edi.521", recursive = TRUE)
 #'
 #' }
 #'
 #' @export
 #'
-
 write_directory <- function(
-  packageScopeNumber,
-  path = ".") {
+  scope      = "knb-lter-cap",
+  identifier,
+  path       = "."
+  ) {
+
+  # do not proceed if a identifier is not provided
+
+  if (missing("identifier")) {
+
+    stop("write_directory missing package identifier (number)")
+
+  }
+
+
+  # package name
+
+  package_name <- paste0(scope, ".", identifier)
+
 
   # stop if directory exists
 
-  if (dir.exists(paste0(path, "/", packageScopeNumber))) {
+  if (dir.exists(paste0(path, "/", package_name))) {
     stop(
-      paste0(path, "/", packageScopeNumber, " already exists")
+      paste0(path, "/", package_name, " already exists")
     )
   }
+
 
 # create parent dir ------------------------------------------------------------
 
@@ -74,7 +82,7 @@ write_directory <- function(
       "generating ",
       path,
       "/",
-      packageScopeNumber
+      package_name
     )
   )
 
@@ -82,34 +90,40 @@ write_directory <- function(
     path = paste0(
       path,
       "/",
-      packageScopeNumber
+      package_name
     )
+  )
+
+
+# set directory to newly created -----------------------------------------------
+
+  newParent <- paste0(
+    path,
+    "/",
+    package_name
   )
 
 
 # write config.yaml ------------------------------------------------------------
 
-  newParent <- paste0(
-    path,
-    "/",
-    packageScopeNumber
-  )
-
   write_config(
-    packageScopeNumber = packageScopeNumber,
-    path = newParent
+    scope      = scope,
+    identifier = identifier,
+    path       = newParent
   )
 
 
 # generate capeml processing template ------------------------------------------
 
   write_template(
-    packageScopeNumber = packageScopeNumber,
-    path = newParent
+    scope      = scope,
+    identifier = identifier,
+    path       = newParent
   )
 
-#   end ------------------------------------------------------------------------
 
-  message("completed generating directory, template, and config")
+# end --------------------------------------------------------------------------
+
+  message("completed generating directory, template, and config for ", package_name)
 
 }

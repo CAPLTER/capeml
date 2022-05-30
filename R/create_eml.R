@@ -29,20 +29,40 @@ create_eml <- function() {
   if (!exists("lterAccess")) { stop("missing access") }
   if (!exists("dataset")) { stop("missing dataset") }
 
-  # retrieve packageIdent from config.yaml
-  if (!file.exists("config.yaml")) {
-    stop("config.yaml not found")
-  }
-  packageIdent <- yaml::yaml.load_file("config.yaml")$packageIdent
+
+  # retrieve dataset details from config.yaml
+
+  configurations <- read_package_configuration()
+
+
+  # package version
+
+  this_version <- capeml::get_next_version(
+    provided_scope      = configurations$scope,
+    provided_identifier = configurations$identifier
+  )
+
+
+  # package name (scope + identifier +  version)
+
+  package_name <- paste(
+    configurations$scope,
+    configurations$identifier,
+    this_version,
+    sep = "."
+  )
+
 
   # construct eml
+
   eml <- EML::eml$eml(
-    access = lterAccess,
-    dataset = dataset,
-    packageId = packageIdent,
-    system = "knb",
-    scope = "system"
+    access    = lterAccess,
+    dataset   = dataset,
+    packageId = package_name,
+    system    = "knb",
+    scope     = "system"
   )
+
 
   # add custom units if relevant
   if (exists("unitList")) { eml$additionalMetadata  <- unitList }

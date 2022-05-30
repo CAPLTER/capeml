@@ -1,32 +1,25 @@
 <!-- readme.md is generated from readme.rmd. please edit the latter. -->
 
-## capeml: tools to aid the generation of eml metadata
+## capeml: tools to aid the generation of EML metadata
 
 ### overview
 
-This package contains tools to aid the generation of eml metadata with intent
+This package contains tools to aid the generation of EML metadata with intent
 to publish a dataset (data + metadata) in the Environmental Data Initiative
 (EDI) data repository. Functions and a template work flow are included that
 allow for the creation of metadata at the dataset level, and individual data
 entities (e.g., other entities, data tables).
 
-Helper functions for the creation of dataset metadata, `datatable()`, and
-`otherentity()` entities using the [EML](https://docs.ropensci.org/eml/)
-package are supported. This package can be extended with the
+Helper functions for the creation of dataset metadata for dataTable and
+otherEntity objects using the [EML](https://docs.ropensci.org/EML/) package are
+supported. This package can be extended with the
 [capemlGIS](https://github.com/caplter/capemlgis) package to generate metadata
-for `spatialRaster()` and `spatialvector()` entities.
-
-Note that the creation of people-related entities in the templated work flow
-(see below) are specific to functions that rely on Global Institute of
-Sustainability and Innovation infrastructure; other users should add people
-using the list structure provided by ROpenSci's
-[EML](https://docs.ropensci.org/eml/). 
+for spatialRaster and spatialvector objects.
 
 A template work flow is available as part of this package. The template is
 automatically generated if a new project is created with `write_directory`,
 which also generates a `config.yaml` file and new directory, or with the
-`write_template` function. For Vim users, additional resources for templating
-are available through [capeml-vim](https://gitlab.com/caplter/capeml-vim).
+`write_template` function.
 
 ### installation
 
@@ -49,28 +42,26 @@ previous version with `emld::eml_version("eml-2.1.1")`.
 Most EML-generating functions in the capeml and capemlGIS packages will create
 both physical objects and EML references to those objects. By default, the
 package will name output files with the format
-`project-id`\_`object-name`\.`file-extension` (e.g., *664_site_map.png*). The
+`identifier`\_`object-name`\.`file-extension` (e.g., *664_site_map.png*). The
 target object (e.g., site_map.png from the previous example) is renamed with
 the additional metadata and this object name is referenced in the EML metadata.
 Project naming can be disabled by setting the `projectNaming` flag to `FALSE`.
 When set to FALSE, the object name is not changed, and the name of the data
 object as read into the R environment is written to file and referenced in the
-EML. Note that the project-id is not passed as an argument, and must exist in
-`config.yaml` (as `projectid`). 
+EML. Note that the package identifier (number) is not passed as an argument,
+and must exist in `config.yaml` (as `identifier`). 
 
 ### getting started
 
 #### new projects
 
 For new projects, `write_directory` will create a project directory at the
-current (default) or specified path. The package scope and number (e.g.,
-edi.521) is passed as an argument, with the package identifier (sans the
-version number) becoming the directory name. Within the newly created
-directory, a template work flow as an Rmarkdown (Rmd) file with the package
-scope and number as the file name is generated and a `config.yaml`. In
-`config.yaml`, the package number and package identifier are generated as
-parameters. New projects assume a version number = 1, from which the package
-identifier (as `packageIdent`) is generated in `config.yaml`.
+current (default) or specified path. The package scope and number (e.g., "edi",
+521) are passed as arguments, with the package name (i.e., scope + identifier)
+becoming the directory name. Within the newly created directory, a template
+work flow as an Rmarkdown (Rmd) file with the package scope and number as the
+file name is generated and a `config.yaml`. In `config.yaml`, the scope and
+package identifier are generated as parameters. 
 
 Creating a new project from the command line (*sensu* below) then opening it
 with R is a convenient approach.
@@ -79,18 +70,19 @@ with R is a convenient approach.
 
 
 ```r
-R --vanilla -e 'capeml::write_directory(packageScopeNumber="edi.521")'
+R --vanilla -e 'capeml::write_directory(scope = "edi", identifier = 521)'
 ```
 
 #### existing projects
 
 For existing projects, if `config.yaml` does not already exist, `write_config`
-will generate `config.yaml` with the package scope and number (e.g., edi.521)
-passed as an argument to the function. A version number (default = 1) can be
-passed as a separate argument.
+will generate `config.yaml` with the package scope and identifier (e.g., "edi",
+521) passed as an argument to the function. A version number (default = 1) can
+be passed as a separate argument.
 
 A template work flow as an Rmarkdown (Rmd) file named with the package scope
-and number can be generated independently with the `write_template` function.
+and identifier can be generated independently with the `write_template`
+function.
 
 ### tools to generate entity metadata
 
@@ -110,9 +102,9 @@ and number can be generated independently with the `write_template` function.
 
 #### project details: dataset package number and package identifier
 
-The dataset number (e.g., 521) is read from the `packageNum` parameter of
-`config.yaml`. The package identifier (e.g. edi.521.4) is read from the
-`packageIdent` parameter of `config.yaml`.
+Package details, including scope and identifier are read from config.yaml. The
+appropriate version is determined by identifying the highest version currently
+in the production environment of the EDI repository (1 for new packagees).
 
 #### title
 
@@ -240,7 +232,7 @@ details from the Global Institute of Sustainability and Innovation database.
 For dataset parties not associated with the CAP LTER (or parties not in the
 GIOSI database), we can construct `creator`, `metadataProvider`, and
 `associatedParty` elements using the list structure provided by ROpenSci's
-[EML](https://docs.ropensci.org/eml/)
+[EML](https://docs.ropensci.org/eml/).
 
 
 ```r
@@ -341,7 +333,7 @@ overwritten unless the overwrite flag is set, thus aborting the chunk).
 `create_dataTable(data_entity)` performs many services:
 
 * the data entity is written to file as a csv in the working directory with the
-  file name: *projectid_data-entity-name.csv*
+  file name: *identifier_data-entity-name.csv*
 * metadata provided in the attributes and factors (if relevant) templates are
   ingested
 * a EML object of type dataTable is returned note that the data entity name

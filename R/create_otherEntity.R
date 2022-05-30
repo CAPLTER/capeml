@@ -96,14 +96,6 @@ create_otherEntity <- function(
 
   }
 
-  # do not proceed if config.yaml is not present
-
-  if (!file.exists("config.yaml")) {
-
-    stop("config.yaml not found")
-
-  }
-
   # do not proceed if the target file or directly has not been provided
 
   if (missing("target_file_or_directory")) {
@@ -116,7 +108,7 @@ create_otherEntity <- function(
   # defaults ---------------------------------------------------------------------
 
   is_directory <- FALSE
-  is_shape <- FALSE
+  is_shape     <- FALSE
 
 
   # zip if targetfile is a directory ----------------------------------------
@@ -171,7 +163,7 @@ create_otherEntity <- function(
   fileExtension <- tools::file_ext(target_file_or_directory)
 
   # set authentication (md5)
-  fileAuthentication <- EML::eml$authentication(method = "MD5")
+  fileAuthentication                <- EML::eml$authentication(method = "MD5")
   fileAuthentication$authentication <- tools::md5sum(target_file_or_directory)
 
   # set file size
@@ -205,6 +197,11 @@ create_otherEntity <- function(
   pathToFile         <- path.expand(target_file_or_directory)
 
 
+  # retrieve dataset details from config.yaml
+
+  configurations <- read_package_configuration()
+
+
   # project naming ---------------------------------------------------------------
 
   # rename the existing file with targetFileBaseName that features the
@@ -212,24 +209,17 @@ create_otherEntity <- function(
 
   if (projectNaming == TRUE) {
 
-    packageNum <- yaml::yaml.load_file("config.yaml")$packageNum
+    identifier <- configurations$identifier
 
     targetFileBaseName <- paste0(
-      packageNum, "_",
+      identifier, "_",
       str_extract(targetFileBaseName, "^[^\\.]*"),
       ".",
       fileExtension)
 
-    # targetFileBaseName <- paste0(
-    #   packageNum, "_",
-    #   str_extract(targetFileBaseName, "^[^\\.]*"),
-    #   "_", tools::md5sum(pathToFile),
-    #   ".",
-    #   fileExtension)
-
     file.copy(
       from = target_file_or_directory,
-      to = paste0(directoryNameFull, "/", targetFileBaseName)
+      to   = paste0(directoryNameFull, "/", targetFileBaseName)
     )
 
   } # close projectNaming == TRUE
@@ -239,29 +229,29 @@ create_otherEntity <- function(
 
   # distribution
 
-  fileURL <- yaml::yaml.load_file("config.yaml")$baseURL
+  fileURL <- configurations$fileURL
 
   fileDistribution <- EML::eml$distribution(
     EML::eml$online(url = paste0(fileURL, targetFileBaseName))
   )
 
   filePhysical <- EML::eml$physical(
-    objectName = targetFileBaseName,
+    objectName     = targetFileBaseName,
     authentication = fileAuthentication,
-    size = fileSize,
-    dataFormat = fileDataFormat,
-    distribution = fileDistribution
+    size           = fileSize,
+    dataFormat     = fileDataFormat,
+    distribution   = fileDistribution
   )
 
 
   # create otherEntity -----------------------------------------------------------
 
   newOE <- EML::eml$otherEntity(
-    entityName = targetFileBaseName,
+    entityName        = targetFileBaseName,
     entityDescription = description,
-    physical = filePhysical,
-    entityType = fileExtension,
-    id = targetFileBaseName
+    physical          = filePhysical,
+    entityType        = fileExtension,
+    id                = targetFileBaseName
   )
 
 
@@ -280,27 +270,27 @@ create_otherEntity <- function(
 
     attrs <- yaml::yaml.load_file(paste0(tools::file_path_sans_ext(target_file_or_directory), "_attrs.yaml"))
     attrs <- yaml::yaml.load(attrs)
-    attrs <- tibble::enframe(attrs) %>%
-      tidyr::unnest_wider(value) %>%
+    attrs <- tibble::enframe(attrs) |>
+      tidyr::unnest_wider(value) |>
       dplyr::select(-one_of("name"))
 
 
     # column classes to vector (req'd by set_attributes)
-    classes <- attrs %>%
+    classes <- attrs |>
       dplyr::pull(columnClasses)
 
     # copy attributeDefinition to defintion as appropriate; remove col classes
     # from attrs (req'd by set_attributes); remove empty columns (real targets
     # here are maximum and minimum, which can throw an error for data without any numeric
     # cols)
-    attrs <- attrs %>%
-      mutate(
+    attrs <- attrs |>
+      dplyr::mutate(
         definition = case_when(
           grepl("character", columnClasses) & ((is.na(definition) | definition == "")) ~ attributeDefinition,
           TRUE ~ definition
         )
-        ) %>%
-    dplyr::select(-columnClasses) %>%
+        ) |>
+    dplyr::select(-columnClasses) |>
     dplyr::select_if(not_all_na)
 
     has_attributes <- TRUE
@@ -319,12 +309,12 @@ create_otherEntity <- function(
   if (file.exists(paste0(tools::file_path_sans_ext(target_file_or_directory), "_factors.yaml"))) {
 
     df_factors <- yaml.load_file(paste0(tools::file_path_sans_ext(target_file_or_directory), "_factors.yaml")) %>%
-      yaml::yaml.load() %>%
-      tibble::enframe() %>%
-      tidyr::unnest_wider(value) %>%
-      tidyr::unnest_wider(attribute) %>%
-      tidyr::unnest_longer(levels) %>%
-      tidyr::unnest_wider(levels) %>%
+      yaml::yaml.load() |>
+      tibble::enframe() |>
+      tidyr::unnest_wider(value) |>
+      tidyr::unnest_wider(attribute) |>
+      tidyr::unnest_longer(levels) |>
+      tidyr::unnest_wider(levels) |>
       dplyr::select(-one_of("name"))
 
     has_factors <- TRUE
@@ -342,8 +332,8 @@ create_otherEntity <- function(
   if (has_attributes == TRUE && has_factors == TRUE) {
 
     attr_list <- EML::set_attributes(
-      attributes = attrs,
-      factors = df_factors,
+      attributes  = attrs,
+      factors     = df_factors,
       col_classes = classes
     )
 
@@ -355,7 +345,7 @@ create_otherEntity <- function(
   if (has_attributes == TRUE && has_factors == FALSE) {
 
     attr_list <- EML::set_attributes(
-      attributes = attrs,
+      attributes  = attrs,
       col_classes = classes
     )
 
