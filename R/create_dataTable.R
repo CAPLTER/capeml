@@ -59,6 +59,7 @@
 #' @importFrom yaml yaml.load_file yaml.load
 #' @importFrom utils write.csv
 #' @importFrom stringr str_extract
+#' @importFrom rlang get_expr
 #'
 #' @return EML dataTable object is returned. Additionally, the data entity is
 #'  written to file as type csv, and renamed with the package number + base
@@ -96,7 +97,7 @@
 create_dataTable <- function(
   dfname,
   description,
-  dateRangeField,
+  dateRangeField         = NULL,
   overwrite              = FALSE,
   projectNaming          = TRUE,
   missingValueCode       = NULL,
@@ -105,7 +106,16 @@ create_dataTable <- function(
 
   # get text reference of dataframe name for use throughout -------------------
 
-  namestr <- deparse(substitute(dfname))
+  if (rlang::is_expression(dfname)) {
+
+    namestr <- rlang::get_expr(dfname)
+
+  } else {
+
+    namestr <- deparse(substitute(dfname))
+
+  }
+
 
 
   # required parameters -------------------------------------------------------
@@ -224,7 +234,7 @@ create_dataTable <- function(
 
   # add temporalCoverage if appropriate -------------------------------------
 
-  if (!missing(dateRangeField)) {
+  if (!is.null(dateRangeField)) {
 
     dataTableTemporalCoverage <- EML::eml$coverage(
       temporalCoverage = EML::eml$temporalCoverage(
