@@ -59,7 +59,7 @@
 #' @importFrom yaml yaml.load_file yaml.load
 #' @importFrom utils write.csv
 #' @importFrom stringr str_extract
-#' @importFrom rlang get_expr
+#' @importFrom rlang get_expr is_expression
 #'
 #' @return EML dataTable object is returned. Additionally, the data entity is
 #'  written to file as type csv, and renamed with the package number + base

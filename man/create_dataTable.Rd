@@ -8,7 +8,7 @@ dataTable}
 create_dataTable(
   dfname,
   description,
-  dateRangeField,
+  dateRangeField = NULL,
   overwrite = FALSE,
   projectNaming = TRUE,
   missingValueCode = NULL,
