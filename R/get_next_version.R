@@ -12,7 +12,7 @@
 #' directly.
 #'
 #' @param provided_scope
-#' character) scope of data package
+#' character) scope of data package (defaults to CAP LTER: knb-lter-cap)
 #' @param provided_identifier
 #' (integer) identifier of data package
 #'
@@ -35,7 +35,7 @@
 #' @export
 #'
 get_next_version <- function(
-  provided_scope,
+  provided_scope = "knb-lter-cap",
   provided_identifier
   ) {
 

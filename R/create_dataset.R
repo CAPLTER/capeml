@@ -77,7 +77,6 @@ create_dataset <- function(
     sep = "."
   )
 
-
   # abstract
 
   tryCatch({
@@ -288,7 +287,7 @@ create_dataset <- function(
     paste0(
       "created EML dataset:\n",
       " package: ",              package_name, "\n",
-      " title: ",                title, "\n",
+      " title: ",                configurations$title, "\n",
       " project: ",              project, "\n",
       " maintenance: ",          maintenance, "\n",
       " dataTables: ",           paste0(c(ls(envir = .GlobalEnv, pattern = "_DT")), collapse = ", "), "\n",
