@@ -29,8 +29,8 @@ create_entities_from_yaml <- function(entity_configuration) {
 
   if (entity_configuration$type == "table") {
 
-    eml_table_entity <- capeml::create_dataTable(
-    #eml_table_entity <- create_dataTable2(
+    # eml_table_entity <- capeml::create_dataTable(
+    eml_table_entity <- create_dataTable(
       dfname                 = entity_configuration$dfname,
       description            = entity_configuration$description,
       dateRangeField         = entity_configuration$dateRangeField,
@@ -40,7 +40,12 @@ create_entities_from_yaml <- function(entity_configuration) {
       additional_information = entity_configuration$additional_information
     )
 
-    eml_tables[[entity_configuration$dfname]] <<- eml_table_entity
+    return(
+      list(
+        type   = "table",
+        entity = eml_table_entity
+      )
+    )
 
   }
 
@@ -59,8 +64,13 @@ create_entities_from_yaml <- function(entity_configuration) {
 
     entity_id <- basename(entity_configuration$target_file_or_directory)
     entity_id <- tools::file_path_sans_ext(entity_id)
-    eml_other_entities[[entity_id]] <<- eml_other_entity
-    # return(eml_other_entity)
+
+    return(
+      list(
+        type   = "other",
+        entity = eml_other_entity
+      )
+    )
 
   }
 
