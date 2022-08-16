@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.14.0</span>
       </span>
     </div>
 
@@ -46,34 +46,42 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">write_config</span><span class="op">(</span><span class="va">packageScopeNumber</span>, version <span class="op">=</span> <span class="fl">1</span>, path <span class="op">=</span> <span class="st">"."</span>, overwrite <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">write_config</span><span class="op">(</span>scope <span class="op">=</span> <span class="st">"knb-lter-cap"</span>, <span class="va">identifier</span>, path <span class="op">=</span> <span class="st">"."</span>, overwrite <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>packageScopeNumber</dt>
-<dd><p>(character) Quoted name of the package scope and number without the version
-number (e.g., "edi.521").</p></dd>
-<dt>version</dt>
-<dd><p>(integer) Data package version (default = 1).</p></dd>
+    <dl><dt>scope</dt>
+<dd><p>(character) Quoted name of the package scope (e.g., "edi"). The default is
+"knb-lter-cap".</p></dd>
+
+
+<dt>identifier</dt>
+<dd><p>(integer) Data package identifier (number).</p></dd>
+
+
 <dt>path</dt>
-<dd><p>(character) Path to where the config file will be written
-Defaults to the current directory.</p></dd>
+<dd><p>(character) Path to where the config file will be written. Defaults to the
+current directory.</p></dd>
+
+
 <dt>overwrite</dt>
-<dd><p>(logical) Logical indicating if an existing config file in
-the target directory should be overwritten.</p></dd>
+<dd><p>(logical)
+Logical indicating if an existing config file in the target directory should
+be overwritten.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
     <p>A template config.yaml file is written to the working directory or
- specified location. The function requires that the package scope and number
- (e.g., "edi.521") are provided. Package identifiers include a verion
- number; the function uses a default value of version 1 but an alternate
- version number can be specified.</p>
+specified location. The function requires that the package scope and number
+(e.g., "edi", 521) are provided. Package identifiers include a verion
+number; the function uses a default value of version 1 but an alternate
+version number can be specified.</p>
     </div>
     <div id="note">
     <h2>Note</h2>
-    <p>The function requires specifically a 3-digit package number.</p>
+    <p>The function expects specifically a 3-digit package identifier (number).</p>
     </div>
 
   </div>
@@ -88,7 +96,7 @@ the target directory should be overwritten.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -20,7 +20,7 @@ generates a EML entity of type dataTable"><!-- mathjax --><script src="https://c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.14.0</span>
       </span>
     </div>
 
@@ -49,52 +49,67 @@ generates a EML entity of type dataTable</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">create_dataTable</span><span class="op">(</span>
-  <span class="va">dfname</span>,
-  <span class="va">description</span>,
-  <span class="va">dateRangeField</span>,
-  overwrite <span class="op">=</span> <span class="cn">FALSE</span>,
-  projectNaming <span class="op">=</span> <span class="cn">TRUE</span>,
-  missingValueCode <span class="op">=</span> <span class="cn">NULL</span>,
-  additional_information <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_dataTable</span><span class="op">(</span></span>
+<span>  <span class="va">dfname</span>,</span>
+<span>  <span class="va">description</span>,</span>
+<span>  dateRangeField <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  overwrite <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  projectNaming <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  missingValueCode <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  additional_information <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dfname</dt>
 <dd><p>(character) The unquoted name of the R data frame or tibble.</p></dd>
+
+
 <dt>description</dt>
 <dd><p>(character) A quoted description of the data frame or tibble that will
 populate the entityDescription element of the EML document. name of the
 raster data to be processed is included as a parameter in this metadata
 file).</p></dd>
+
+
 <dt>dateRangeField</dt>
 <dd><p>(optional)
 (character) The quoted name of the data entity field that is a date field
 that would reflect the start and end dates of the data reflected in the
 data entity.</p></dd>
+
+
 <dt>overwrite</dt>
 <dd><p>(logical) A logical indicating whether to overwrite an existing file bearing
 the same name as csv file as it is imported.</p></dd>
+
+
 <dt>projectNaming</dt>
 <dd><p>(logical) Logical indicating if the resulting csv file should be renamed per
 the style used in the capeml ecosystem with the project id + base file name
 + md5sum + file extension. If set to false, the resulting csv will bear the
 name the object is assigned in the R environment.</p></dd>
+
+
 <dt>missingValueCode</dt>
 <dd><p>(optional)
 (character) create_dataTable will automatically document the presence of NA
 and NaN entries as missing values in the EML output. The user has the
 ability to identify an additional indicator of missing values (e.g.,
 "-9999", "missing").</p></dd>
+
+
 <dt>additional_information</dt>
 <dd><p>(character) Additional information about the data object. Should be quoted,
 and accepts (but not required) markdown formatting.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>EML dataTable object is returned. Additionally, the data entity is
+    
+
+<p>EML dataTable object is returned. Additionally, the data entity is
  written to file as type csv, and renamed with the package number + base
  file name + md5sum + file extension (csv in this case).</p>
     </div>
@@ -127,32 +142,32 @@ the function and it must exist.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">data_entity</span> <span class="op">&lt;-</span> <span class="fu">read</span><span class="op">(</span><span class="st">"data source"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="va">processing</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="va">processing</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="op">{</span></span>
-<span class="r-in">  <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="write_attributes.html">write_attributes</a></span><span class="op">(</span><span class="va">data_entity</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="write_factors.html">write_factors</a></span><span class="op">(</span><span class="va">data_entity</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">data_entity_desc</span> <span class="op">&lt;-</span> <span class="st">"snow leopard data"</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># create_dataTable with optional arguments dateRangeField and missingValueCode</span></span>
-<span class="r-in"><span class="va">data_entity_DT</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu">create_dataTable</span><span class="op">(</span></span>
-<span class="r-in">       dfname <span class="op">=</span> <span class="va">data_entity</span>,</span>
-<span class="r-in">       description <span class="op">=</span> <span class="va">data_entity_desc</span>,</span>
-<span class="r-in">       dateRangeField <span class="op">=</span> <span class="st">"observation date"</span>,</span>
-<span class="r-in">       missingValueCode <span class="op">=</span> <span class="st">"missing"</span></span>
-<span class="r-in">       <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># The resulting dataTable entity can be added to a EML dataset</span></span>
-<span class="r-in"><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html" class="external-link">eml</a></span><span class="op">$</span><span class="fu">dataset</span><span class="op">(</span>dataTable <span class="op">=</span> <span class="va">data_entity_DT</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">data_entity</span> <span class="op">&lt;-</span> <span class="fu">read</span><span class="op">(</span><span class="st">"data source"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="va">processing</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="va">processing</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="write_attributes.html">write_attributes</a></span><span class="op">(</span><span class="va">data_entity</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="write_factors.html">write_factors</a></span><span class="op">(</span><span class="va">data_entity</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">data_entity_desc</span> <span class="op">&lt;-</span> <span class="st">"snow leopard data"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># create_dataTable with optional arguments dateRangeField and missingValueCode</span></span></span>
+<span class="r-in"><span><span class="va">data_entity_DT</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu">create_dataTable</span><span class="op">(</span></span></span>
+<span class="r-in"><span>       dfname <span class="op">=</span> <span class="va">data_entity</span>,</span></span>
+<span class="r-in"><span>       description <span class="op">=</span> <span class="va">data_entity_desc</span>,</span></span>
+<span class="r-in"><span>       dateRangeField <span class="op">=</span> <span class="st">"observation date"</span>,</span></span>
+<span class="r-in"><span>       missingValueCode <span class="op">=</span> <span class="st">"missing"</span></span></span>
+<span class="r-in"><span>       <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The resulting dataTable entity can be added to a EML dataset</span></span></span>
+<span class="r-in"><span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html" class="external-link">eml</a></span><span class="op">$</span><span class="fu">dataset</span><span class="op">(</span>dataTable <span class="op">=</span> <span class="va">data_entity_DT</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -167,7 +182,7 @@ the function and it must exist.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

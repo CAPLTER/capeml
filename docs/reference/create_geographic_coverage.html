@@ -21,7 +21,7 @@ simple features (SF) object."><!-- mathjax --><script src="https://cdnjs.cloudfl
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.14.0</span>
       </span>
     </div>
 
@@ -51,7 +51,7 @@ simple features (SF) object.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">create_geographic_coverage</span><span class="op">(</span><span class="va">sf_object</span>, <span class="va">description</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_geographic_coverage</span><span class="op">(</span><span class="va">sf_object</span>, <span class="va">description</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -59,84 +59,89 @@ simple features (SF) object.</p>
     <dl><dt>sf_object</dt>
 <dd><p>(character) Unquoted name of the simple features (SF) object in the R
 environment</p></dd>
+
+
 <dt>description</dt>
 <dd><p>(character) Quoted (if passing a textual description) or unquoted (if
 passing a reference to an object) pointer to the location description.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with a structure corresponding to that expected of the EML
+    
+
+<p>A list with a structure corresponding to that expected of the EML
 schema for a geographic description, and that can be included as part of a
 EML coverage entity.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">sampling_sites</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span class="r-in">  site <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="st">"Olive"</span>,</span>
-<span class="r-in">    <span class="st">"Sunnyside Drive"</span>,</span>
-<span class="r-in">    <span class="st">"Sunburst Farms"</span>,</span>
-<span class="r-in">    <span class="st">"Calvary"</span>,</span>
-<span class="r-in">    <span class="st">"New River Road"</span>,</span>
-<span class="r-in">    <span class="st">"Table Mesa East"</span>,</span>
-<span class="r-in">    <span class="st">"Table Mesa West"</span>,</span>
-<span class="r-in">    <span class="st">"Moores Gulch"</span></span>
-<span class="r-in">    <span class="op">)</span>,</span>
-<span class="r-in">  latitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="fl">33.560378</span>,</span>
-<span class="r-in">    <span class="fl">33.592730</span>,</span>
-<span class="r-in">    <span class="fl">33.621183</span>,</span>
-<span class="r-in">    <span class="fl">33.601869</span>,</span>
-<span class="r-in">    <span class="fl">33.857829</span>,</span>
-<span class="r-in">    <span class="fl">33.973805</span>,</span>
-<span class="r-in">    <span class="fl">33.983873</span>,</span>
-<span class="r-in">    <span class="fl">33.999179</span></span>
-<span class="r-in">    <span class="op">)</span>,</span>
-<span class="r-in">  longitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="op">-</span><span class="fl">112.180969</span>,</span>
-<span class="r-in">    <span class="op">-</span><span class="fl">112.167620</span>,</span>
-<span class="r-in">    <span class="op">-</span><span class="fl">112.151316</span>,</span>
-<span class="r-in">    <span class="op">-</span><span class="fl">112.120515</span>,</span>
-<span class="r-in">    <span class="op">-</span><span class="fl">112.197051</span>,</span>
-<span class="r-in">    <span class="op">-</span><span class="fl">112.099295</span>,</span>
-<span class="r-in">    <span class="op">-</span><span class="fl">112.185413</span>,</span>
-<span class="r-in">    <span class="op">-</span><span class="fl">112.132538</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span> |&gt;</span>
-<span class="r-in"><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span></span>
-<span class="r-in">  coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="st">"latitude"</span><span class="op">)</span>,</span>
-<span class="r-in">  crs    <span class="op">=</span> <span class="fl">4326</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">geographic_coverage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span></span>
-<span class="r-in">  x <span class="op">=</span> <span class="va">sampling_sites</span>,</span>
-<span class="r-in">  f <span class="op">=</span> <span class="va">sampling_sites</span><span class="op">$</span><span class="va">site</span></span>
-<span class="r-in"><span class="op">)</span> |&gt;</span>
-<span class="r-in"><span class="op">{</span>\<span class="op">(</span><span class="va">site</span><span class="op">)</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span>.x <span class="op">=</span> <span class="va">site</span>, <span class="op">~</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu">create_geographic_coverage</span><span class="op">(</span><span class="va">.x</span>,</span>
-<span class="r-in">description <span class="op">=</span> <span class="va">.x</span><span class="op">$</span><span class="va">site</span><span class="op">)</span><span class="op">)</span><span class="op">}</span><span class="op">(</span><span class="op">)</span> |&gt; <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">begin_date</span> <span class="op">&lt;-</span> <span class="st">"2019-04-30"</span></span>
-<span class="r-in"><span class="va">end_date</span>   <span class="op">&lt;-</span> <span class="st">"2020-06-17"</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">coverage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">  temporalCoverage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">    rangeOfDates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">      beginDate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">        calendarDate <span class="op">=</span> <span class="va">begin_date</span></span>
-<span class="r-in">        <span class="op">)</span>,</span>
-<span class="r-in">      endDate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">        calendarDate <span class="op">=</span> <span class="va">end_date</span></span>
-<span class="r-in">      <span class="op">)</span></span>
-<span class="r-in">    <span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span>, <span class="co"># close temporalCoverage</span></span>
-<span class="r-in">geographicCoverage <span class="op">=</span> <span class="va">geographic_coverage</span></span>
-<span class="r-in"><span class="op">)</span> <span class="co"># close coverage</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">sampling_sites</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  site <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"Olive"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"Sunnyside Drive"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"Sunburst Farms"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"Calvary"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"New River Road"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"Table Mesa East"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"Table Mesa West"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"Moores Gulch"</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  latitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fl">33.560378</span>,</span></span>
+<span class="r-in"><span>    <span class="fl">33.592730</span>,</span></span>
+<span class="r-in"><span>    <span class="fl">33.621183</span>,</span></span>
+<span class="r-in"><span>    <span class="fl">33.601869</span>,</span></span>
+<span class="r-in"><span>    <span class="fl">33.857829</span>,</span></span>
+<span class="r-in"><span>    <span class="fl">33.973805</span>,</span></span>
+<span class="r-in"><span>    <span class="fl">33.983873</span>,</span></span>
+<span class="r-in"><span>    <span class="fl">33.999179</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  longitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="op">-</span><span class="fl">112.180969</span>,</span></span>
+<span class="r-in"><span>    <span class="op">-</span><span class="fl">112.167620</span>,</span></span>
+<span class="r-in"><span>    <span class="op">-</span><span class="fl">112.151316</span>,</span></span>
+<span class="r-in"><span>    <span class="op">-</span><span class="fl">112.120515</span>,</span></span>
+<span class="r-in"><span>    <span class="op">-</span><span class="fl">112.197051</span>,</span></span>
+<span class="r-in"><span>    <span class="op">-</span><span class="fl">112.099295</span>,</span></span>
+<span class="r-in"><span>    <span class="op">-</span><span class="fl">112.185413</span>,</span></span>
+<span class="r-in"><span>    <span class="op">-</span><span class="fl">112.132538</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"longitude"</span>, <span class="st">"latitude"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  crs    <span class="op">=</span> <span class="fl">4326</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">geographic_coverage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  x <span class="op">=</span> <span class="va">sampling_sites</span>,</span></span>
+<span class="r-in"><span>  f <span class="op">=</span> <span class="va">sampling_sites</span><span class="op">$</span><span class="va">site</span></span></span>
+<span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="op">{</span>\<span class="op">(</span><span class="va">site</span><span class="op">)</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span>.x <span class="op">=</span> <span class="va">site</span>, <span class="op">~</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu">create_geographic_coverage</span><span class="op">(</span><span class="va">.x</span>,</span></span>
+<span class="r-in"><span>description <span class="op">=</span> <span class="va">.x</span><span class="op">$</span><span class="va">site</span><span class="op">)</span><span class="op">)</span><span class="op">}</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">begin_date</span> <span class="op">&lt;-</span> <span class="st">"2019-04-30"</span></span></span>
+<span class="r-in"><span><span class="va">end_date</span>   <span class="op">&lt;-</span> <span class="st">"2020-06-17"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">coverage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  temporalCoverage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    rangeOfDates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      beginDate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        calendarDate <span class="op">=</span> <span class="va">begin_date</span></span></span>
+<span class="r-in"><span>        <span class="op">)</span>,</span></span>
+<span class="r-in"><span>      endDate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        calendarDate <span class="op">=</span> <span class="va">end_date</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>, <span class="co"># close temporalCoverage</span></span></span>
+<span class="r-in"><span>geographicCoverage <span class="op">=</span> <span class="va">geographic_coverage</span></span></span>
+<span class="r-in"><span><span class="op">)</span> <span class="co"># close coverage</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -151,7 +156,7 @@ EML coverage entity.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

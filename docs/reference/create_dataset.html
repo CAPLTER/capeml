@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.14.0</span>
       </span>
     </div>
 
@@ -44,47 +44,56 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">create_dataset</span><span class="op">(</span>
-  abstractFile <span class="op">=</span> <span class="st">"abstract.md"</span>,
-  methodsFile <span class="op">=</span> <span class="st">"methods.md"</span>,
-  keywordsFile <span class="op">=</span> <span class="st">"keywords.csv"</span>,
-  publicationDate <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_dataset</span><span class="op">(</span></span>
+<span>  abstractFile <span class="op">=</span> <span class="st">"abstract.md"</span>,</span>
+<span>  methodsFile <span class="op">=</span> <span class="st">"methods.md"</span>,</span>
+<span>  keywordsFile <span class="op">=</span> <span class="st">"keywords.csv"</span>,</span>
+<span>  publicationDate <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>abstractFile</dt>
 <dd><p>(character) Quoted name and path of abstract (in markdown format)</p></dd>
+
+
 <dt>methodsFile</dt>
 <dd><p>(character) Quoted name and path of methods (in markdown format)</p></dd>
+
+
 <dt>keywordsFile</dt>
 <dd><p>(character) Quoted name and path of keywords (in csv format)</p></dd>
+
+
 <dt>publicationDate</dt>
 <dd><p>(character) Quoted ISO date - defaults to today's date</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>EML dataset entity is returned.</p>
+    
+
+<p>EML dataset entity is returned.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
     <p>A dataset entity, the central component of a data package, is
- created from objects in the user's R environment or as detailed in
- config.yaml. A project scope (default is LTER) indicates contact and project
- details specific to the research. The abstract and methods must be in
- markdown format - by default the package will look for these files
- (abstract.md, methods.md) in the project directory but files of different
- names or locations can be passed. Similarly for keywords, the package will
- look for a keywords.csv file in the project directory but a different name
- or location can be passed.</p>
+created from objects in the user's R environment or as detailed in
+config.yaml. A project name (default is LTER) indicates contact and project
+details specific to the research. The abstract and methods must be in
+markdown format - by default the package will look for these files
+(abstract.md, methods.md) in the project directory but files of different
+names or locations can be passed. Similarly for keywords, the package will
+look for a keywords.csv file in the project directory but a different name
+or location can be passed.</p>
     </div>
     <div id="note">
     <h2>Note</h2>
     <p>create_dataset will look for most inputs used to construct a dataset,
- such as a package number, in the working environment or from the project
- config.yaml; these parameters are not passed directly to the function and
- must exist in the working environment or yaml.</p>
+such as a package number, in the working environment or from the project
+config.yaml; these parameters are not passed directly to the function and
+must exist in the working environment or configuration file.</p>
     </div>
 
   </div>
@@ -99,7 +108,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

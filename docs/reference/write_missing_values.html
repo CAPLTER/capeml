@@ -22,7 +22,7 @@ read and incorporated into attribute metadata."><!-- mathjax --><script src="htt
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.13.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.14.0</span>
       </span>
     </div>
 
@@ -54,7 +54,7 @@ read and incorporated into attribute metadata.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">write_missing_values</span><span class="op">(</span><span class="va">storage</span>, <span class="va">dataObject</span>, <span class="va">field</span>, <span class="va">MVC</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">write_missing_values</span><span class="op">(</span><span class="va">storage</span>, <span class="va">dataObject</span>, <span class="va">field</span>, <span class="va">MVC</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -65,20 +65,29 @@ object should be emtpy and consist of three columns (attributeName
 (character), code (character), and definition (charcater)). The user should
 create this object prior to running the function and pass the unquoted name
 of the object to write_missing_values via the storage parameter.</p></dd>
+
+
 <dt>dataObject</dt>
 <dd><p>(character) The unqouted name of the data entity that will be examined for
 missing values.</p></dd>
+
+
 <dt>field</dt>
 <dd><p>(character) The quoted name of the field within the data entity that will be
 examined for missing values.</p></dd>
+
+
 <dt>MVC</dt>
 <dd><p>(optional)
 (character) If relevant, the quoted name of a missing value code other than
 NA or NaN that should be documented.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A tibble documenting the presence of NA, NaN, or a user-specified
+    
+
+<p>A tibble documenting the presence of NA, NaN, or a user-specified
 missing value code for the field of a tibble or dataframe.</p>
     </div>
     <div id="details">
@@ -99,36 +108,36 @@ directly (but can be).</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="va">missing_value_frame</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span class="r-in">   attributeName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span class="r-in">   code <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span class="r-in">   definition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"> <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="fu">write_missing_values</span><span class="op">(</span></span>
-<span class="r-in">   storage <span class="op">=</span> <span class="va">missingValueFrame</span>,</span>
-<span class="r-in">   dataObject <span class="op">=</span> <span class="va">captures</span>,</span>
-<span class="r-in">   field <span class="op">=</span> <span class="st">"weight"</span>,</span>
-<span class="r-in">   MVC <span class="op">=</span> <span class="st">"X"</span></span>
-<span class="r-in"> <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="co"># write_missing_values can be run on a single field (as above) of a data</span></span>
-<span class="r-in"> <span class="co"># object but the most common use case, and how it is applied in the capeml</span></span>
-<span class="r-in"> <span class="co"># ecosystem, is to loop over all fields in a data entity (sensu with purrr</span></span>
-<span class="r-in"> <span class="co"># below).</span></span>
-<span class="r-in"></span>
-<span class="r-in"> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_df</a></span><span class="op">(</span></span>
-<span class="r-in">   .x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">data_entity</span><span class="op">)</span>,</span>
-<span class="r-in">   .f <span class="op">=</span> <span class="fu">capeml</span><span class="fu">::</span><span class="va">write_missing_values</span>,</span>
-<span class="r-in">   storage <span class="op">=</span> <span class="va">missing_value_frame</span>,</span>
-<span class="r-in">   dataObject <span class="op">=</span> <span class="va">data_entity</span>,</span>
-<span class="r-in">   MVC <span class="op">=</span> <span class="st">"X"</span></span>
-<span class="r-in"> <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="va">missing_value_frame</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   attributeName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   code <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   definition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="fu">write_missing_values</span><span class="op">(</span></span></span>
+<span class="r-in"><span>   storage <span class="op">=</span> <span class="va">missingValueFrame</span>,</span></span>
+<span class="r-in"><span>   dataObject <span class="op">=</span> <span class="va">captures</span>,</span></span>
+<span class="r-in"><span>   field <span class="op">=</span> <span class="st">"weight"</span>,</span></span>
+<span class="r-in"><span>   MVC <span class="op">=</span> <span class="st">"X"</span></span></span>
+<span class="r-in"><span> <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co"># write_missing_values can be run on a single field (as above) of a data</span></span></span>
+<span class="r-in"><span> <span class="co"># object but the most common use case, and how it is applied in the capeml</span></span></span>
+<span class="r-in"><span> <span class="co"># ecosystem, is to loop over all fields in a data entity (sensu with purrr</span></span></span>
+<span class="r-in"><span> <span class="co"># below).</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_df</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>   .x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">data_entity</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>   .f <span class="op">=</span> <span class="fu">capeml</span><span class="fu">::</span><span class="va">write_missing_values</span>,</span></span>
+<span class="r-in"><span>   storage <span class="op">=</span> <span class="va">missing_value_frame</span>,</span></span>
+<span class="r-in"><span>   dataObject <span class="op">=</span> <span class="va">data_entity</span>,</span></span>
+<span class="r-in"><span>   MVC <span class="op">=</span> <span class="st">"X"</span></span></span>
+<span class="r-in"><span> <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -143,7 +152,7 @@ directly (but can be).</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

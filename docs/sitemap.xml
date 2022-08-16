@@ -55,6 +55,9 @@
     <loc>/reference/create_eml.html</loc>
   </url>
   <url>
+    <loc>/reference/create_entities_from_yaml.html</loc>
+  </url>
+  <url>
     <loc>/reference/create_geographic_coverage.html</loc>
   </url>
   <url>
@@ -74,6 +77,9 @@
   </url>
   <url>
     <loc>/reference/get_emlProjection.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_next_version.html</loc>
   </url>
   <url>
     <loc>/reference/giosAddress.html</loc>
@@ -104,6 +110,9 @@
   </url>
   <url>
     <loc>/reference/read_markdown.html</loc>
+  </url>
+  <url>
+    <loc>/reference/read_package_configuration.html</loc>
   </url>
   <url>
     <loc>/reference/write_attributes.html</loc>

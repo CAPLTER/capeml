@@ -4,10 +4,10 @@
 \alias{get_next_version}
 \title{get the next version of a data package}
 \usage{
-get_next_version(provided_scope, provided_identifier)
+get_next_version(provided_scope = "knb-lter-cap", provided_identifier)
 }
 \arguments{
-\item{provided_scope}{character) scope of data package}
+\item{provided_scope}{character) scope of data package (defaults to CAP LTER: knb-lter-cap)}
 
 \item{provided_identifier}{(integer) identifier of data package}
 }
