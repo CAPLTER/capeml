@@ -213,22 +213,91 @@ create_dataset <- function(
   }
 
 
-  # add dataTable(s) if exist(s)
+  # load data objects as outlined in data_objects yaml
+  
+  if (file.exists("data_objects.yaml")) {
+
+    data_objects_load_file <- yaml::yaml.load_file("data_objects.yaml")
+    data_entities          <- purrr::map(.x = data_objects_load_file, ~ create_entities_from_yaml(entity_configuration = .x))
+    data_entities_yaml     <- TRUE
+
+  } else {
+
+    data_entities_yaml     <- FALSE
+
+  }
+
+  # data tables (DT)
+
+  ## tables from yaml
+
+  if (data_entities_yaml == TRUE) {
+
+    table_entities    <- purrr::map(data_entities, ~ .x[["type"]] == "table")
+    table_entities    <- data_entities[unlist(table_entities, use.names = FALSE)]
+    table_names       <- names(table_entities)
+    table_entities    <- purrr::map(table_entities, ~ .x[["entity"]])
+
+  } else {
+
+    table_entities <- NULL
+    table_names    <- NULL
+
+  }
+
+  ## tables from _DT
 
   if (length(ls(envir = .GlobalEnv, pattern = "_DT")) > 0) {
 
-    listOfDataTables  <- lapply(ls(envir = .GlobalEnv, pattern = "_DT"), function(DT) { get(DT, envir = .GlobalEnv) } )
-    dataset$dataTable <- listOfDataTables
+    listOfDataTables <- lapply(ls(envir = .GlobalEnv, pattern = "_DT"), function(DT) { get(DT, envir = .GlobalEnv) } )
+    table_names      <- c(table_names, c(ls(envir = .GlobalEnv, pattern = "_DT")))
+    table_entities   <- c(table_entities, listOfDataTables)
+
+  }
+
+  ## dataset tables
+
+  if (length(table_entities) > 0) { 
+
+    dataset$dataTable <- unname(table_entities)
 
   }
 
 
-  # add otherEntity(ies) if exist(s)
+
+  # other entities (OE)
+
+  ## other entities from yaml
+
+  if (data_entities_yaml == TRUE) {
+
+    other_entities      <- purrr::map(data_entities, ~ .x[["type"]] == "other")
+    other_entities      <- data_entities[unlist(other_entities, use.names = FALSE)]
+    other_entity_names  <- names(other_entities)
+    other_entities      <- purrr::map(other_entities, ~ .x[["entity"]])
+
+  } else {
+
+    other_entities     <- NULL
+    other_entity_names <- NULL
+
+  }
+
+  ## other entities from _OE
 
   if (length(ls(envir = .GlobalEnv, pattern = "_OE")) > 0) {
 
     list_of_otherEntities <- lapply(ls(envir = .GlobalEnv, pattern = "_OE"), function(OE) { get(OE, envir = .GlobalEnv) } )
-    dataset$otherEntity   <- list_of_otherEntities
+    other_entity_names    <- c(other_entity_names, c(ls(envir = .GlobalEnv, pattern = "_OE")))
+    other_entities        <- c(other_entities, list_of_otherEntities)
+
+  }
+
+  ## dataset other entities
+
+  if (length(other_entities) > 0) { 
+
+    dataset$otherEntity   <- unname(other_entities)
 
   }
 
@@ -290,8 +359,8 @@ create_dataset <- function(
       " title: ",                configurations$title, "\n",
       " project: ",              project, "\n",
       " maintenance: ",          maintenance, "\n",
-      " dataTables: ",           paste0(c(ls(envir = .GlobalEnv, pattern = "_DT")), collapse = ", "), "\n",
-      " otherEntities: ",        paste0(c(ls(envir = .GlobalEnv, pattern = "_OE")), collapse = ", "), "\n",
+      " dataTables: ",           paste0(c(table_names), collapse = ", "), "\n",
+      " otherEntities: ",        paste0(c(other_entity_names), collapse = ", "), "\n",
       " spatialVectors: ",       paste0(c(ls(envir = .GlobalEnv, pattern = "_SV")), collapse = ", "), "\n",
       " spatialRasters: ",       paste0(c(ls(envir = .GlobalEnv, pattern = "_SR")), collapse = ", "), "\n",
       " associated party: ",     exists("associatedParty"), "\n",
@@ -299,7 +368,6 @@ create_dataset <- function(
       " usage citations: ",      num_usages, "\n"
     )
   )
-
 
   # return
 

@@ -5,12 +5,24 @@
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	0.0.0	//
+.x	create_dataset.R	/^    data_entities          <- purrr::map(.x = data_objects_load_file, ~ create_entities_from_yam/;"	v	function:create_dataset
 abby	configure_caplter_project.R	/^  abby <- EML::eml$personnel($/;"	v
 abbyOrcid	configure_caplter_project.R	/^  abbyOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v
 abbyOrcid$userId	configure_caplter_project.R	/^  abbyOrcid$userId <- "0000-0002-2313-9262"$/;"	v
-abstract	create_dataset.R	/^    abstract <- capeml::read_markdown(abstractFile)$/;"	v
+abstract	create_dataset.R	/^    abstract <- capeml::read_markdown(abstractFile)$/;"	v	function:create_dataset
 allow_cap	configure_caplter.R	/^allow_cap <- EML::eml$allow($/;"	g
 allow_public	configure_caplter.R	/^allow_public <- EML::eml$allow($/;"	g
+anonFuncbcd71b3e0100	create_dataset.R	/^  }, error = function(err) {$/;"	f	function:create_dataset
+anonFuncbcd71b3e0200	create_dataset.R	/^    }, error = function(err) {$/;"	f	function:create_dataset
+anonFuncbcd71b3e0300	create_dataset.R	/^  }, error = function(err) {$/;"	f	function:create_dataset
+anonFuncbcd71b3e0400	create_dataset.R	/^    listOfDataTables <- lapply(ls(envir = .GlobalEnv, pattern = "_DT"), function(DT) { get(DT, e/;"	f	function:create_dataset
+anonFuncbcd71b3e0600	create_dataset.R	/^    list_of_otherEntities <- lapply(ls(envir = .GlobalEnv, pattern = "_OE"), function(OE) { get(/;"	f	function:create_dataset
+anonFuncbcd71b3e0800	create_dataset.R	/^    list_of_spatialVectors <- lapply(ls(envir = .GlobalEnv, pattern = "_SV"), function(SV) { get/;"	f	function:create_dataset
+anonFuncbcd71b3e0900	create_dataset.R	/^    list_of_spatialRasters <- lapply(ls(envir = .GlobalEnv, pattern = "_SR"), function(SR) { get/;"	f	function:create_dataset
+anonVecbcd71b3e0a06	create_dataset.R	/^      " dataTables: ",           paste0(c(table_names), collapse = ", "), "\\n",$/;"	c	function:create_dataset
+anonVecbcd71b3e0b06	create_dataset.R	/^      " otherEntities: ",        paste0(c(other_entity_names), collapse = ", "), "\\n",$/;"	c	function:create_dataset
+anonVecbcd71b3e0c06	create_dataset.R	/^      " spatialVectors: ",       paste0(c(ls(envir = .GlobalEnv, pattern = "_SV")), collapse = "/;"	c	function:create_dataset
+anonVecbcd71b3e0d06	create_dataset.R	/^      " spatialRasters: ",       paste0(c(ls(envir = .GlobalEnv, pattern = "_SR")), collapse = "/;"	c	function:create_dataset
 attr_list	create_otherEntity.R	/^    attr_list <- EML::set_attributes($/;"	v
 attr_list	read_attributes.R	/^  attr_list <- EML::set_attributes($/;"	v
 attributeYaml	write_attributes.R	/^  attributeYaml <- yaml::as.yaml($/;"	v
@@ -33,8 +45,7 @@ capAddress	configure_caplter.R	/^capAddress <- EML::eml$address($/;"	g
 capContact	configure_caplter.R	/^capContact <- EML::eml$contact($/;"	g
 capPublisher	configure_caplter.R	/^capPublisher <- EML::eml$publisher($/;"	g
 capRights	configure_caplter.R	/^capRights <- 'This data package is released to the "public domain" under Creative Commons CC0 1./;"	g
-cap_project	create_dataset.R	/^    cap_project                <- configure_caplter_project()$/;"	v
-cap_project$relatedProject	create_dataset.R	/^    cap_project$relatedProject <- configure_ltreb_project()$/;"	v
+cap_project	create_dataset.R	/^    cap_project                <- configure_caplter_project()$/;"	v	function:create_dataset
 check_class	write_attributes.R	/^  check_class <- function(x) { class(x)[[1]] }$/;"	f
 chuck	configure_urex_project.R	/^  chuck <- EML::eml$personnel($/;"	v
 chuckOrcid	configure_urex_project.R	/^  chuckOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v
@@ -42,8 +53,12 @@ chuckOrcid$userId	configure_urex_project.R	/^  chuckOrcid$userId <- "0000-0001-7
 classes	create_otherEntity.R	/^    classes <- attrs |>$/;"	v
 classes	read_attributes.R	/^  classes <- attrs |>$/;"	v
 cleaned_scope	get_next_version.R	/^  cleaned_scope <- stringr::str_extract($/;"	v
+collapse	create_dataset.R	/^      " dataTables: ",           paste0(c(table_names), collapse = ", "), "\\n",$/;"	n	vector:create_dataset.anonVecbcd71b3e0a06
+collapse	create_dataset.R	/^      " otherEntities: ",        paste0(c(other_entity_names), collapse = ", "), "\\n",$/;"	n	vector:create_dataset.anonVecbcd71b3e0b06
+collapse	create_dataset.R	/^      " spatialRasters: ",       paste0(c(ls(envir = .GlobalEnv, pattern = "_SR")), collapse = "/;"	n	vector:create_dataset.anonVecbcd71b3e0d06
+collapse	create_dataset.R	/^      " spatialVectors: ",       paste0(c(ls(envir = .GlobalEnv, pattern = "_SV")), collapse = "/;"	n	vector:create_dataset.anonVecbcd71b3e0c06
 configurations	create_dataTable.R	/^  configurations <- read_package_configuration()$/;"	v
-configurations	create_dataset.R	/^  configurations <- read_package_configuration()$/;"	v
+configurations	create_dataset.R	/^  configurations <- read_package_configuration()$/;"	v	function:create_dataset
 configurations	create_eml.R	/^  configurations <- read_package_configuration()$/;"	v
 configurations	create_otherEntity.R	/^  configurations <- read_package_configuration()$/;"	v
 configurations	read_package_configuration.R	/^  configurations <- yaml::yaml.load_file("config.yaml")$/;"	v
@@ -52,6 +67,7 @@ configure_caplter_project	configure_caplter_project.R	/^configure_caplter_projec
 configure_ltreb_project	configure_ltreb_project.R	/^configure_ltreb_project <- function() {$/;"	f
 configure_som_project	configure_som_project.R	/^configure_som_project <- function() {$/;"	f
 configure_urex_project	configure_urex_project.R	/^configure_urex_project  <- function() {$/;"	f
+coverage	create_dataset.R	/^    coverage           = coverage,$/;"	v	function:create_dataset
 create_citation	create_citation.R	/^create_citation <- function(doi) {$/;"	f
 create_dataTable	create_dataTable.R	/^create_dataTable <- function($/;"	f
 create_dataset	create_dataset.R	/^create_dataset <- function($/;"	f
@@ -63,33 +79,25 @@ create_keywordList	create_keywordSet.R	/^create_keywordList <- function(category
 create_keywordSet	create_keywordSet.R	/^create_keywordSet <- function(keywordsFile) {$/;"	f
 create_otherEntity	create_otherEntity.R	/^create_otherEntity <- function($/;"	f
 created_zip_name	zipRelatedFiles.R	/^  created_zip_name <- paste0(targetFileBaseName, ".zip")$/;"	v
+creator	create_dataset.R	/^    creator            = creators,$/;"	v	function:create_dataset
 dan	configure_caplter_project.R	/^  dan <- EML::eml$personnel($/;"	v
 danOrcid	configure_caplter_project.R	/^  danOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v
 danOrcid$userId	configure_caplter_project.R	/^  danOrcid$userId <- "0000-0003-3904-0803"$/;"	v
 dataTablePhysical	create_dataTable.R	/^  dataTablePhysical <- EML::set_physical($/;"	v
 dataTableTemporalCoverage	create_dataTable.R	/^    dataTableTemporalCoverage <- EML::eml$coverage($/;"	v
-dataset	create_dataset.R	/^  dataset <- EML::eml$dataset($/;"	v
-dataset$contact	create_dataset.R	/^    dataset$contact   <- capContact # cap contact$/;"	v
-dataset$contact	create_dataset.R	/^    dataset$contact   <- giosContact # gios contact$/;"	v
-dataset$dataTable	create_dataset.R	/^    dataset$dataTable <- listOfDataTables$/;"	v
-dataset$literatureCited	create_dataset.R	/^    dataset$literatureCited <- citations$/;"	v
-dataset$otherEntity	create_dataset.R	/^    dataset$otherEntity   <- list_of_otherEntities$/;"	v
-dataset$project	create_dataset.R	/^    dataset$project            <- cap_project$/;"	v
-dataset$project	create_dataset.R	/^    dataset$project   <- configure_caplter_project() # cap project$/;"	v
-dataset$project	create_dataset.R	/^    dataset$project   <- configure_som_project()  # SOM project$/;"	v
-dataset$project	create_dataset.R	/^    dataset$project   <- configure_urex_project()  # urex project$/;"	v
-dataset$publisher	create_dataset.R	/^    dataset$publisher <- capPublisher # cap pub$/;"	v
-dataset$publisher	create_dataset.R	/^    dataset$publisher <- giosPublisher # gios pub$/;"	v
-dataset$spatialRaster	create_dataset.R	/^    dataset$spatialRaster  <- list_of_spatialRasters$/;"	v
-dataset$spatialVector	create_dataset.R	/^    dataset$spatialVector  <- list_of_spatialVectors$/;"	v
-dataset$usageCitation	create_dataset.R	/^    dataset$usageCitation <- usages$/;"	v
-dataset_maintenance	create_dataset.R	/^    dataset_maintenance <- EML::eml$maintenance($/;"	v
-dataset_maintenance	create_dataset.R	/^    dataset_maintenance <- NULL$/;"	v
+data_entities	create_dataset.R	/^    data_entities          <- purrr::map(.x = data_objects_load_file, ~ create_entities_from_yam/;"	v	function:create_dataset
+data_entities_yaml	create_dataset.R	/^    data_entities_yaml     <- TRUE$/;"	v	function:create_dataset
+data_objects_load_file	create_dataset.R	/^    data_objects_load_file <- yaml::yaml.load_file("data_objects.yaml")$/;"	v	function:create_dataset
+dataset	create_dataset.R	/^  dataset <- EML::eml$dataset($/;"	v	function:create_dataset
+dataset_maintenance	create_dataset.R	/^    dataset_maintenance <- EML::eml$maintenance($/;"	v	function:create_dataset
 dataset_params	write_config.R	/^  dataset_params <- list($/;"	v
+description	create_dataset.R	/^      description                = "it is expected that dataset will receive regular updates (ap/;"	v	function:create_dataset
+description	create_dataset.R	/^      methods <- EML::eml$methods(methodStep = list(description = capeml::read_markdown(methodsF/;"	n	list:create_dataset.methodStep
 df_factors	create_otherEntity.R	/^    df_factors <- yaml.load_file(paste0(tools::file_path_sans_ext(target_file_or_directory), "_f/;"	v
 dfname	write_attributes.R	/^    dfname <- dfname %>%$/;"	v
 directoryName	create_otherEntity.R	/^  directoryName      <- dirname(target_file_or_directory)$/;"	v
 directoryNameFull	create_otherEntity.R	/^  directoryNameFull  <- sub("\/$", "", path.expand(directoryName))$/;"	v
+distribution	create_dataset.R	/^    distribution       = create_distribution(package_name)$/;"	v	function:create_dataset
 eml	create_eml.R	/^  eml <- EML::eml$eml($/;"	v
 emlKeyword	create_keywordSet.R	/^    emlKeyword <- EML::eml$keyword(keywordType = keywordAttribute)$/;"	v
 emlKeyword	create_keywordSet.R	/^    emlKeyword <- datasetKeyword$/;"	v
@@ -146,8 +154,8 @@ identifier	read_package_configuration.R	/^    identifier <- stringr::str_extract
 identifier	read_package_configuration.R	/^  identifier <- as.integer(identifier)$/;"	v
 if(!grepl("\\r$|\\n$",text)){text	read_markdown.R	/^  if (!grepl("\\r$|\\n$", text)) { text <- paste0(text, "\\n") }$/;"	v
 if(!grepl("^\\r|^\\n",text)){text	read_markdown.R	/^  if (!grepl("^\\r|^\\n", text)) { text <- paste0("\\n", text) }$/;"	v
-if(exists("associatedParty")){dataset$associatedParty	create_dataset.R	/^  if (exists("associatedParty")) { dataset$associatedParty <- associatedParty }$/;"	v
 if(exists("unitList")){eml$additionalMetadata	create_eml.R	/^  if (exists("unitList")) { eml$additionalMetadata  <- unitList }$/;"	v
+intellectualRights	create_dataset.R	/^    intellectualRights = capRights,$/;"	v	function:create_dataset
 is_directory	create_otherEntity.R	/^    is_directory <- TRUE$/;"	v
 is_directory	create_otherEntity.R	/^  is_directory <- FALSE$/;"	v
 is_shape	create_otherEntity.R	/^      is_shape <- TRUE$/;"	v
@@ -158,23 +166,26 @@ johnOrcid$userId	configure_ltreb_project.R	/^  johnOrcid$userId <- "0000-0001-52
 kate	configure_som_project.R	/^  kate <- EML::eml$personnel($/;"	v
 kateOrcid	configure_som_project.R	/^  kateOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v
 kateOrcid$userId	configure_som_project.R	/^  kateOrcid$userId <- "0000-0002-6430-4818"$/;"	v
+keywordSet	create_dataset.R	/^    keywordSet         = keywords,$/;"	v	function:create_dataset
 keywordSet	create_keywordSet.R	/^  keywordSet <- map(unique(keywordsFile[['thesaurus']]), create_keywordList, keywordsFile = keyw/;"	v
 keywordSubset	create_keywordSet.R	/^  keywordSubset <- map2(.x = thesaurusSubset$keyword, .y = thesaurusSubset$type, .f = create_key/;"	v
-keywords	create_dataset.R	/^    keywords <- capeml::create_keywordSet(keywordsFile)$/;"	v
+keywords	create_dataset.R	/^    keywords <- capeml::create_keywordSet(keywordsFile)$/;"	v	function:create_dataset
 keywordsFile	create_keywordSet.R	/^  keywordsFile <- read_csv(keywordsFile)$/;"	v
-listOfDataTables	create_dataset.R	/^    listOfDataTables  <- lapply(ls(envir = .GlobalEnv, pattern = "_DT"), function(DT) { get(DT, /;"	v
+language	create_dataset.R	/^    language           = "english",$/;"	v	function:create_dataset
+listOfDataTables	create_dataset.R	/^    listOfDataTables <- lapply(ls(envir = .GlobalEnv, pattern = "_DT"), function(DT) { get(DT, e/;"	v	function:create_dataset
 list_of_factors	write_factors.R	/^    list_of_factors <- dfname %>%$/;"	v
-list_of_otherEntities	create_dataset.R	/^    list_of_otherEntities <- lapply(ls(envir = .GlobalEnv, pattern = "_OE"), function(OE) { get(/;"	v
-list_of_spatialRasters	create_dataset.R	/^    list_of_spatialRasters <- lapply(ls(envir = .GlobalEnv, pattern = "_SR"), function(SR) { get/;"	v
-list_of_spatialVectors	create_dataset.R	/^    list_of_spatialVectors <- lapply(ls(envir = .GlobalEnv, pattern = "_SV"), function(SV) { get/;"	v
+list_of_otherEntities	create_dataset.R	/^    list_of_otherEntities <- lapply(ls(envir = .GlobalEnv, pattern = "_OE"), function(OE) { get(/;"	v	function:create_dataset
+list_of_spatialRasters	create_dataset.R	/^    list_of_spatialRasters <- lapply(ls(envir = .GlobalEnv, pattern = "_SR"), function(SR) { get/;"	v	function:create_dataset
+list_of_spatialVectors	create_dataset.R	/^    list_of_spatialVectors <- lapply(ls(envir = .GlobalEnv, pattern = "_SV"), function(SV) { get/;"	v	function:create_dataset
 lterAccess	configure_caplter.R	/^lterAccess <- EML::eml$access($/;"	g
-maintenance	create_dataset.R	/^    maintenance         <- "not specified (none, regular)"$/;"	v
-maintenance	create_dataset.R	/^  maintenance <- configurations$maintenance$/;"	v
+maintenance	create_dataset.R	/^  maintenance <- configurations$maintenance$/;"	v	function:create_dataset
 maintenance	read_package_configuration.R	/^  maintenance <- configurations[["maintenance"]]$/;"	v
+maintenanceUpdateFrequency	create_dataset.R	/^      maintenanceUpdateFrequency = "asNeeded"$/;"	v	function:create_dataset
 map_factor_levels	write_factors.R	/^  map_factor_levels <- function(level) {$/;"	f
+metadataProvider	create_dataset.R	/^    metadataProvider   = metadataProvider,$/;"	v	function:create_dataset
 metadata_dist	configure_caplter.R	/^  metadata_dist <- EML::eml$distribution($/;"	v
-methods	create_dataset.R	/^      methods <- EML::eml$methods(methodStep = list(description = capeml::read_markdown(methodsF/;"	v
-methods	create_dataset.R	/^    methods <- enhancedMethods$/;"	v
+methodStep	create_dataset.R	/^      methods <- EML::eml$methods(methodStep = list(description = capeml::read_markdown(methodsF/;"	L	function:create_dataset
+methods	create_dataset.R	/^      methods <- EML::eml$methods(methodStep = list(description = capeml::read_markdown(methodsF/;"	v	function:create_dataset
 mikhail	configure_urex_project.R	/^  mikhail <- EML::eml$personnel($/;"	v
 mikhailOrcid	configure_urex_project.R	/^  mikhailOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v
 mikhailOrcid$userId	configure_urex_project.R	/^  mikhailOrcid$userId <- "0000-0002-9354-2102"$/;"	v
@@ -207,15 +218,15 @@ numType	write_attributes.R	/^      numType  <- "whole" # natural + 0$/;"	v
 numType	write_attributes.R	/^      numType <- "integer" # whole + negative values$/;"	v
 numType	write_attributes.R	/^      numType <- "natural" # 1, 2, 3, ... (sans 0)$/;"	v
 numType	write_attributes.R	/^      numType <- "real" # all$/;"	v
-num_citations	create_dataset.R	/^    num_citations           <- length(citations$citation)$/;"	v
-num_citations	create_dataset.R	/^  num_citations <- 0$/;"	v
-num_usages	create_dataset.R	/^    num_usages            <- length(usages)$/;"	v
-num_usages	create_dataset.R	/^  num_usages <- 0$/;"	v
+num_citations	create_dataset.R	/^  num_citations <- 0$/;"	v	function:create_dataset
+num_usages	create_dataset.R	/^  num_usages <- 0$/;"	v	function:create_dataset
 number_records	harvest_dataTable.R	/^  number_records <- xml2::xml_find_all(xml_read_metadata, "numberOfRecords") |>$/;"	v
 objectName	write_attributes.R	/^  objectName <- paste0(deparse(substitute(dfname)), "_attrs")$/;"	v
 objectName	write_factors.R	/^  objectName <- paste0(deparse(substitute(dfname)), "_factors")$/;"	v
+other_entities	create_dataset.R	/^    other_entities      <- purrr::map(data_entities, ~ .x[["type"]] == "other")$/;"	v	function:create_dataset
+other_entity_names	create_dataset.R	/^    other_entity_names  <- names(other_entities)$/;"	v	function:create_dataset
 packageNum	zipRelatedFiles.R	/^  packageNum <- yaml::yaml.load_file("config.yaml")$packageNum$/;"	v
-package_name	create_dataset.R	/^  package_name <- paste($/;"	v
+package_name	create_dataset.R	/^  package_name <- paste($/;"	v	function:create_dataset
 package_name	create_eml.R	/^  package_name <- paste($/;"	v
 package_name	write_cap_eml.R	/^    package_name <- paste($/;"	v
 package_name	write_directory.R	/^  package_name <- paste0(scope, ".", identifier)$/;"	v
@@ -226,8 +237,7 @@ project	configure_caplter_project.R	/^  project <- list($/;"	v
 project	configure_ltreb_project.R	/^  project <- list($/;"	v
 project	configure_som_project.R	/^  project <- EML::eml$project($/;"	v
 project	configure_urex_project.R	/^  project <- EML::eml$project($/;"	v
-project	create_dataset.R	/^    project <- "none"$/;"	v
-project	create_dataset.R	/^  project <- configurations$project$/;"	v
+project	create_dataset.R	/^  project <- configurations$project$/;"	v	function:create_dataset
 project	read_package_configuration.R	/^  project     <- configurations[["project"]]$/;"	v
 projectAbstract	configure_caplter_project.R	/^  projectAbstract <- "Phase IV of the Central Arizona-Phoenix LTER (CAP) continues to focus on t/;"	v
 projectAbstract	configure_ltreb_project.R	/^  projectAbstract <- list($/;"	v
@@ -247,6 +257,9 @@ projectTitle	configure_som_project.R	/^  projectTitle <- "Advancing soil organic
 projectTitle	configure_urex_project.R	/^  projectTitle <- 'Urban resilience to extreme weather related events'$/;"	v
 project_name	create_dataTable.R	/^    project_name <- paste0(configurations$identifier , "_", namestr, ".csv")$/;"	v
 project_name	create_dataTable.R	/^    project_name <- paste0(namestr, ".csv")$/;"	v
+provided_identifier	create_dataset.R	/^    provided_identifier = configurations$identifier$/;"	v	function:create_dataset
+provided_scope	create_dataset.R	/^    provided_scope      = configurations$scope,$/;"	v	function:create_dataset
+pubDate	create_dataset.R	/^    pubDate            = if (!is.null(publicationDate)) { publicationDate } else { as.character(/;"	v	function:create_dataset
 r_object	read_attributes.R	/^    r_object <- r_object |>$/;"	v
 r_object	read_attributes.R	/^  r_object <- get($/;"	v
 raw	write_attributes.R	/^    raw <- na.omit(x)$/;"	v
@@ -265,6 +278,8 @@ sharonOrcid	configure_caplter_project.R	/^  sharonOrcid <- EML::eml$userId(direc
 sharonOrcid$userId	configure_caplter_project.R	/^  sharonOrcid$userId <- "0000-0002-8859-6691"$/;"	v
 standardUnits	write_unit_dictionary.R	/^  standardUnits <- EML::get_unitList()$/;"	v
 storage	write_missing_values.R	/^    storage <- storage %>%$/;"	v
+table_entities	create_dataset.R	/^    table_entities    <- purrr::map(data_entities, ~ .x[["type"]] == "table")$/;"	v	function:create_dataset
+table_names	create_dataset.R	/^    table_names       <- names(table_entities)$/;"	v	function:create_dataset
 targetFileBaseName	create_otherEntity.R	/^    targetFileBaseName <- paste0($/;"	v
 targetFileBaseName	create_otherEntity.R	/^  targetFileBaseName <- basename(target_file_or_directory)$/;"	v
 targetFileBaseName	zipRelatedFiles.R	/^  targetFileBaseName <- str_extract(basename(targetFile), "^[^\\\\.]*")$/;"	v
@@ -274,13 +289,14 @@ temporaryDirectoryLocation	zipRelatedFiles.R	/^  temporaryDirectoryLocation <- p
 text	read_markdown.R	/^  text <- list(markdown = text)$/;"	v
 text	read_markdown.R	/^  text <- readr::read_file(mdFile)$/;"	v
 thesaurusSubset	create_keywordSet.R	/^  thesaurusSubset <- keywordsFile %>%$/;"	v
-this_version	create_dataset.R	/^  this_version <- capeml::get_next_version($/;"	v
+this_version	create_dataset.R	/^  this_version <- capeml::get_next_version($/;"	v	function:create_dataset
 this_version	create_eml.R	/^  this_version <- capeml::get_next_version($/;"	v
 this_version	write_cap_eml.R	/^    this_version <- capeml::get_next_version($/;"	v
 timon	configure_urex_project.R	/^  timon <- EML::eml$personnel($/;"	v
 timonOrcid	configure_urex_project.R	/^  timonOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v
 timonOrcid$userId	configure_urex_project.R	/^  timonOrcid$userId <- "0000-0002-9499-0791"$/;"	v
 tischa	configure_urex_project.R	/^  tischa <- EML::eml$personnel($/;"	v
+title	create_dataset.R	/^    title              = configurations$title,$/;"	v	function:create_dataset
 title	read_package_configuration.R	/^  title       <- configurations[["title"]]$/;"	v
 var_levs	write_factors.R	/^    var_levs <- list($/;"	v
 variableAttributes	write_attributes.R	/^        variableAttributes <- c($/;"	v
