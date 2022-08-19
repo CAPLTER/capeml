@@ -166,6 +166,11 @@ create_dataTable <- function(
 
   }
 
+  # load object from environment ----------------------------------------------
+
+  data_object <- get(namestr)
+
+
   # write file ----------------------------------------------------------------
 
   if (file.exists(project_name) && overwrite == FALSE) {
@@ -175,14 +180,14 @@ create_dataTable <- function(
   }
 
   write.csv(
-    x         = dfname,
+    x         = data_object,
     file      = project_name,
     row.names = F,
     eol       = "\r\n"
   )
 
 
-  # set physical ----------------------------------------------------------------
+  # set physical ---------------------------------------------------------------
 
   # distribution
 
@@ -227,7 +232,7 @@ create_dataTable <- function(
     entityDescription = description,
     physical          = dataTablePhysical,
     attributeList     = attributes,
-    numberOfRecords   = nrow(dfname),
+    numberOfRecords   = nrow(data_object),
     id                = project_name
   )
 
@@ -240,10 +245,10 @@ create_dataTable <- function(
       temporalCoverage = EML::eml$temporalCoverage(
         rangeOfDates = EML::eml$rangeOfDates(
           EML::eml$beginDate(
-            calendarDate = format(min(dfname[[dateRangeField]], na.rm = TRUE), "%Y-%m-%d")
+            calendarDate = format(min(data_object[[dateRangeField]], na.rm = TRUE), "%Y-%m-%d")
             ),
           EML::eml$endDate(
-            calendarDate = format(max(dfname[[dateRangeField]], na.rm = TRUE), "%Y-%m-%d")
+            calendarDate = format(max(data_object[[dateRangeField]], na.rm = TRUE), "%Y-%m-%d")
           )
         )
       )

@@ -15,6 +15,9 @@
 #' character) scope of data package (defaults to CAP LTER: knb-lter-cap)
 #' @param provided_identifier
 #' (integer) identifier of data package
+#' @param display_message
+#' (boolean) indicates whether to display a message if an existing dataset is
+#' not identifed in the repository (thus returning a version number 1)
 #'
 #' @importFrom stringr str_extract
 #' @importFrom EDIutils list_data_package_scopes list_data_package_revisions
@@ -35,8 +38,9 @@
 #' @export
 #'
 get_next_version <- function(
-  provided_scope = "knb-lter-cap",
-  provided_identifier
+  provided_scope  = "knb-lter-cap",
+  provided_identifier,
+  display_message = FALSE
   ) {
 
   # ensure supplied scope features scope only (i.e., not package number or version)
@@ -67,7 +71,10 @@ get_next_version <- function(
 
   }, error = function(cond) {
 
-    message("dataset not found, assume new")
+    if (display_message == TRUE) {
+      message("dataset not found in repository, setting version to 1")
+    }
+
     return(0)
 
   })

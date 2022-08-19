@@ -64,7 +64,8 @@ create_dataset <- function(
 
   this_version <- capeml::get_next_version(
     provided_scope      = configurations$scope,
-    provided_identifier = configurations$identifier
+    provided_identifier = configurations$identifier,
+    display_message     = TRUE
   )
 
 

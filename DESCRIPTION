@@ -29,7 +29,8 @@ Imports:
     lubridate,
     xml2,
     EDIutils,
-    rlang
+    rlang,
+    aws.s3
 RoxygenNote: 7.2.1
 Suggests: 
     testthat (>= 3.0.0),
