@@ -1,6 +1,6 @@
 Package: capeml
 Title: CAP LTER package for generating EML
-Version: 1.15.0
+Version: 1.16.0
 Authors@R: person("S", "Earl", email = "stevan.earl@asu.edu",
   role = c("aut", "cre"))
 Description: This package is intented to facilitate the creation of EML
