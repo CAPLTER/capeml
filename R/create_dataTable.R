@@ -27,7 +27,7 @@
 #' the function and it must exist.
 #'
 #' @param dfname
-#' (character) The unquoted name of the R data frame or tibble.
+#' (character) The quoted or unquoted name of the R data frame or tibble.
 #' @param description
 #' (character) A quoted description of the data frame or tibble that will
 #' populate the entityDescription element of the EML document. name of the

@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.14.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.15.0</span>
       </span>
     </div>
 
@@ -197,7 +197,7 @@
 <span><span class="co"># function will build the taxa_map.csv and put it in the path identified with</span></span>
 <span><span class="co"># my_path.</span></span>
 <span></span>
-<span><span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu">create_taxa_map</span><span class="op">(</span></span>
+<span><span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/create_taxa_map.html" class="external-link">create_taxa_map</a></span><span class="op">(</span></span>
 <span>  path <span class="op">=</span> <span class="va">my_path</span>,</span>
 <span>  x    <span class="op">=</span> <span class="va">plantTaxa</span>,</span>
 <span>  col  <span class="op">=</span> <span class="st">"definition"</span></span>
@@ -210,7 +210,7 @@
 <span><span class="co"># Create or update map: a taxa_map.csv is the heart of taxonomyCleanr. This</span></span>
 <span><span class="co"># function will build the taxa_map.csv in the path identified with my_path.</span></span>
 <span></span>
-<span><span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu">create_taxa_map</span><span class="op">(</span></span>
+<span><span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/create_taxa_map.html" class="external-link">create_taxa_map</a></span><span class="op">(</span></span>
 <span>  path <span class="op">=</span> <span class="va">my_path</span>,</span>
 <span>  x    <span class="op">=</span> <span class="va">gambelQuail</span>,</span>
 <span>  col  <span class="op">=</span> <span class="st">"taxName"</span></span>
@@ -222,14 +222,14 @@
 <span><span class="co"># (data.source 3) is the only authority taxonomyCleanr will allow for common</span></span>
 <span><span class="co"># names.</span></span>
 <span></span>
-<span><span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu">resolve_sci_taxa</span><span class="op">(</span></span>
+<span><span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/resolve_sci_taxa.html" class="external-link">resolve_sci_taxa</a></span><span class="op">(</span></span>
 <span>  path         <span class="op">=</span> <span class="va">my_path</span>,</span>
 <span>  data.sources <span class="op">=</span> <span class="fl">3</span> <span class="co"># ITIS</span></span>
 <span><span class="op">)</span> </span>
 <span></span>
 <span><span class="co"># build the EML taxonomomic coverage</span></span>
 <span></span>
-<span><span class="va">taxaCoverage</span> <span class="op">&lt;-</span> <span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu">make_taxonomicCoverage</span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span><span class="op">)</span></span>
+<span><span class="va">taxaCoverage</span> <span class="op">&lt;-</span> <span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/taxonomyCleanr/man/make_taxonomicCoverage.html" class="external-link">make_taxonomicCoverage</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># add taxonomic to the other coverages</span></span>
 <span></span>

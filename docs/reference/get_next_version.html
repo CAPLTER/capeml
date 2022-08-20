@@ -20,7 +20,7 @@ and display a corresponding note."><!-- mathjax --><script src="https://cdnjs.cl
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.14.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.15.0</span>
       </span>
     </div>
 
@@ -50,7 +50,11 @@ and display a corresponding note.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_next_version</span><span class="op">(</span>provided_scope <span class="op">=</span> <span class="st">"knb-lter-cap"</span>, <span class="va">provided_identifier</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_next_version</span><span class="op">(</span></span>
+<span>  provided_scope <span class="op">=</span> <span class="st">"knb-lter-cap"</span>,</span>
+<span>  <span class="va">provided_identifier</span>,</span>
+<span>  display_message <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -61,6 +65,11 @@ and display a corresponding note.</p>
 
 <dt>provided_identifier</dt>
 <dd><p>(integer) identifier of data package</p></dd>
+
+
+<dt>display_message</dt>
+<dd><p>(boolean) indicates whether to display a message if an existing dataset is
+not identifed in the repository (thus returning a version number 1)</p></dd>
 
 </dl></div>
     <div id="value">

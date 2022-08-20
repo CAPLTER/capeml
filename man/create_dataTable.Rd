@@ -16,7 +16,7 @@ create_dataTable(
 )
 }
 \arguments{
-\item{dfname}{(character) The unquoted name of the R data frame or tibble.}
+\item{dfname}{(character) The quoted or unquoted name of the R data frame or tibble.}
 
 \item{description}{(character) A quoted description of the data frame or tibble that will
 populate the entityDescription element of the EML document. name of the

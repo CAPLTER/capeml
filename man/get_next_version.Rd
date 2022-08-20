@@ -4,12 +4,19 @@
 \alias{get_next_version}
 \title{get the next version of a data package}
 \usage{
-get_next_version(provided_scope = "knb-lter-cap", provided_identifier)
+get_next_version(
+  provided_scope = "knb-lter-cap",
+  provided_identifier,
+  display_message = FALSE
+)
 }
 \arguments{
 \item{provided_scope}{character) scope of data package (defaults to CAP LTER: knb-lter-cap)}
 
 \item{provided_identifier}{(integer) identifier of data package}
+
+\item{display_message}{(boolean) indicates whether to display a message if an existing dataset is
+not identifed in the repository (thus returning a version number 1)}
 }
 \value{
 integer reflecting the next version of a data package
