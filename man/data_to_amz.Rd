@@ -8,11 +8,14 @@
 data_to_amz(
   file_to_upload,
   data_path = "/datasets/cap/",
-  metadata_path = "/metadata/",
   aws_bucket = "gios-data"
 )
 
-eml_to_amz(file_to_upload)
+eml_to_amz(
+  file_to_upload,
+  metadata_path = "/metadata/",
+  aws_bucket = "gios-data"
+)
 }
 \arguments{
 \item{file_to_upload}{(character) The quoted name and path (if relevant) of the file to be
@@ -21,11 +24,11 @@ uploaded.}
 \item{data_path}{(character) The quoted name to the directory in the AWS environment to store
 data files.}
 
-\item{metadata_path}{(character) The quoted name to the directory in the AWS environment to store
-metadata files.}
-
 \item{aws_bucket}{(character) The AWS bucket to which data and/or metadata should be
 contributed.}
+
+\item{metadata_path}{(character) The quoted name to the directory in the AWS environment to store
+metadata files.}
 }
 \description{
 The functions data_to_amz and eml_to_amz are convenience

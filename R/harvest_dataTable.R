@@ -41,7 +41,9 @@
 #' @importFrom xml2 read_xml xml_find_all xml_text
 #'
 #' @return EML dataTable object is returned.
-
+#'
+#' @export
+#'
 harvest_dataTable <- function(metadata_file) {
 
   # do not proceed if the metadata_file parameter is not provided

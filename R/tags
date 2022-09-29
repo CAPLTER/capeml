@@ -43,8 +43,6 @@ bibtex_citation	create_citation.R	/^    bibtex_citation <- cr_cn($/;"	v
 billie	configure_caplter_project.R	/^  billie <- EML::eml$personnel($/;"	v
 billieOrcid	configure_caplter_project.R	/^  billieOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v
 billieOrcid$userId	configure_caplter_project.R	/^  billieOrcid$userId <- "0000-0002-6507-521X"$/;"	v
-bucket	upload_to_amazon.R	/^    bucket = aws_bucket$/;"	v	function:data_to_amz
-bucket	upload_to_amazon.R	/^    bucket = aws_bucket$/;"	v	function:eml_to_amz
 calendarDate	create_dataTable.R	/^            calendarDate = format(min(data_object[[dateRangeField]], na.rm = TRUE), "%Y-%m-%d")$/;"	v	function:create_dataTable
 capAddress	configure_caplter.R	/^capAddress <- EML::eml$address($/;"	g
 capContact	configure_caplter.R	/^capContact <- EML::eml$contact($/;"	g
@@ -94,7 +92,6 @@ data_entities	create_dataset.R	/^    data_entities          <- purrr::map(.x = d
 data_entities_yaml	create_dataset.R	/^    data_entities_yaml     <- TRUE$/;"	v	function:create_dataset
 data_object	create_dataTable.R	/^  data_object <- get(namestr)$/;"	v	function:create_dataTable
 data_objects_load_file	create_dataset.R	/^    data_objects_load_file <- yaml::yaml.load_file("data_objects.yaml")$/;"	v	function:create_dataset
-data_to_amz	upload_to_amazon.R	/^data_to_amz <- function($/;"	f
 dataset	create_dataset.R	/^  dataset <- EML::eml$dataset($/;"	v	function:create_dataset
 dataset_maintenance	create_dataset.R	/^    dataset_maintenance <- EML::eml$maintenance($/;"	v	function:create_dataset
 dataset_params	write_config.R	/^  dataset_params <- list($/;"	v
@@ -114,7 +111,6 @@ emlKeywordList	create_keywordSet.R	/^  emlKeywordList <- list($/;"	v
 eml_citation	create_citation.R	/^    eml_citation <- EML::eml$citation()$/;"	v
 eml_citation$bibtex	create_citation.R	/^    eml_citation$bibtex <- bibtex_citation$/;"	v
 eml_read_metadata	harvest_dataTable.R	/^  eml_read_metadata <- EML::read_eml(metadata_file)$/;"	v
-eml_to_amz	upload_to_amazon.R	/^eml_to_amz <- function(file_to_upload) {$/;"	f
 entityDescription	create_dataTable.R	/^    entityDescription = description,$/;"	v	function:create_dataTable
 entityName	create_dataTable.R	/^    entityName        = project_name,$/;"	v	function:create_dataTable
 entity_description	harvest_dataTable.R	/^  entity_description <- xml2::xml_find_all(xml_read_metadata, "entityDescription") |>$/;"	v
@@ -129,8 +125,6 @@ factors_yaml	write_factors.R	/^    factors_yaml <- list($/;"	v
 fcts	read_attributes.R	/^    fcts <- utils::read.csv(paste0(entity_name, "_factors.csv"))$/;"	v
 fcts	read_attributes.R	/^    fcts <- yaml.load_file(paste0(entity_name, "_factors.yaml")) |>$/;"	v
 fcts	read_attributes.R	/^  fcts <- NULL$/;"	v
-file	upload_to_amazon.R	/^    file   = file_to_upload,$/;"	v	function:data_to_amz
-file	upload_to_amazon.R	/^    file   = file_to_upload,$/;"	v	function:eml_to_amz
 fileAuthentication	create_dataTable.R	/^  fileAuthentication                <- EML::eml$authentication(method = "MD5")$/;"	v	function:create_dataTable
 fileAuthentication	create_otherEntity.R	/^  fileAuthentication                <- EML::eml$authentication(method = "MD5")$/;"	v
 fileAuthentication$authentication	create_otherEntity.R	/^  fileAuthentication$authentication <- tools::md5sum(target_file_or_directory)$/;"	v
@@ -242,8 +236,6 @@ num_citations	create_dataset.R	/^  num_citations <- 0$/;"	v	function:create_data
 num_usages	create_dataset.R	/^  num_usages <- 0$/;"	v	function:create_dataset
 numberOfRecords	create_dataTable.R	/^    numberOfRecords   = nrow(data_object),$/;"	v	function:create_dataTable
 number_records	harvest_dataTable.R	/^  number_records <- xml2::xml_find_all(xml_read_metadata, "numberOfRecords") |>$/;"	v
-object	upload_to_amazon.R	/^    object = paste0(data_path, basename(file_to_upload)),$/;"	v	function:data_to_amz
-object	upload_to_amazon.R	/^    object = paste0(metadata_path, basename(file_to_upload)),$/;"	v	function:eml_to_amz
 objectName	create_dataTable.R	/^    objectName      = project_name,$/;"	v	function:create_dataTable
 objectName	write_attributes.R	/^  objectName <- paste0(deparse(substitute(dfname)), "_attrs")$/;"	v
 objectName	write_factors.R	/^  objectName <- paste0(deparse(substitute(dfname)), "_factors")$/;"	v

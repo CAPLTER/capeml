@@ -36,7 +36,6 @@
 data_to_amz <- function(
   file_to_upload,
   data_path     = "/datasets/cap/",
-  metadata_path = "/metadata/",
   aws_bucket    = "gios-data"
   ) {
 
@@ -50,7 +49,11 @@ data_to_amz <- function(
 
 #' @rdname data_to_amz
 #' @export
-eml_to_amz <- function(file_to_upload) {
+eml_to_amz <- function(
+  file_to_upload,
+  metadata_path = "/metadata/",
+  aws_bucket    = "gios-data"
+  ) {
 
   aws.s3::put_object(
     file   = file_to_upload,
