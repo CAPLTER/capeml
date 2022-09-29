@@ -19,7 +19,7 @@ respectively, to a bucket in the AWS S3 ecosystem."><!-- mathjax --><script src=
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.15.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.16.0</span>
       </span>
     </div>
 
@@ -51,11 +51,14 @@ respectively, to a bucket in the AWS S3 ecosystem.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">data_to_amz</span><span class="op">(</span></span>
 <span>  <span class="va">file_to_upload</span>,</span>
 <span>  data_path <span class="op">=</span> <span class="st">"/datasets/cap/"</span>,</span>
-<span>  metadata_path <span class="op">=</span> <span class="st">"/metadata/"</span>,</span>
 <span>  aws_bucket <span class="op">=</span> <span class="st">"gios-data"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">eml_to_amz</span><span class="op">(</span><span class="va">file_to_upload</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">eml_to_amz</span><span class="op">(</span></span>
+<span>  <span class="va">file_to_upload</span>,</span>
+<span>  metadata_path <span class="op">=</span> <span class="st">"/metadata/"</span>,</span>
+<span>  aws_bucket <span class="op">=</span> <span class="st">"gios-data"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -70,14 +73,14 @@ uploaded.</p></dd>
 data files.</p></dd>
 
 
-<dt>metadata_path</dt>
-<dd><p>(character) The quoted name to the directory in the AWS environment to store
-metadata files.</p></dd>
-
-
 <dt>aws_bucket</dt>
 <dd><p>(character) The AWS bucket to which data and/or metadata should be
 contributed.</p></dd>
+
+
+<dt>metadata_path</dt>
+<dd><p>(character) The quoted name to the directory in the AWS environment to store
+metadata files.</p></dd>
 
 </dl></div>
     <div id="note">

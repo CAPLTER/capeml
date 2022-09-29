@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.15.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.16.0</span>
       </span>
     </div>
 
@@ -99,7 +99,7 @@
 <p>For new projects, <code>write_directory</code> will create a project directory at the current (default) or specified path. The package scope and number (e.g., “edi”, 521) are passed as arguments, with the package name (i.e., scope + identifier) becoming the directory name. Within the newly created directory, a template work flow as an Rmarkdown (Rmd) file with the package scope and number as the file name is generated and a <code>config.yaml</code>. In <code>config.yaml</code>, the scope and package identifier are generated as parameters.</p>
 <p>Creating a new project from the command line (<em>sensu</em> below) then opening it with R is a convenient approach.</p>
 <p><em>create project from command line</em></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>R <span class="sc">--</span>vanilla <span class="sc">-</span>e <span class="st">'capeml::write_directory(scope = "edi", identifier = 521)'</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>R <span class="op">--</span>vanilla <span class="op">-</span>e <span class="st">'capeml::write_directory(scope = "edi", identifier = 521)'</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="existing-projects">existing projects<a class="anchor" aria-label="anchor" href="#existing-projects"></a>
@@ -329,25 +329,25 @@
 </li>
 </ul>
 <p><em>create_dataTable example: my_table</em></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>my_table <span class="ot">&lt;-</span> import <span class="sc">/</span> generate...process...</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">try</span>({</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  capeml<span class="sc">::</span><span class="fu">write_attributes</span>(my_table)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  capeml<span class="sc">::</span><span class="fu">write_factors</span>(my_table)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>my_table_desc <span class="ot">&lt;-</span> <span class="st">"description of table"</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># create_dataTable() accepts additionalInfo but is not required</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>my_additional_info <span class="ot">&lt;-</span> <span class="st">"more metadata""</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="st">my_table_DT &lt;- capeml::create_dataTable(</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="st">  dfname                  = my_table,</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="st">  description             = my_table_desc,</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="st">  dateRangeField          = "</span>my_date_field<span class="st">",</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="st">  additional_information  = my_additional_info </span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="st">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>my_table &lt;-<span class="st"> </span>import <span class="op">/</span><span class="st"> </span>generate...process...</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="kw">try</span>({</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>  capeml<span class="op">::</span><span class="kw">write_attributes</span>(my_table)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>  capeml<span class="op">::</span><span class="kw">write_factors</span>(my_table)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>})</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a>my_table_desc &lt;-<span class="st"> "description of table"</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a><span class="co"># create_dataTable() accepts additionalInfo but is not required</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true"></a>my_additional_info &lt;-<span class="st"> "more metadata""</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true"></a><span class="st">my_table_DT &lt;- capeml::create_dataTable(</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true"></a><span class="st">  dfname                  = my_table,</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true"></a><span class="st">  description             = my_table_desc,</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true"></a><span class="st">  dateRangeField          = "</span>my_date_field<span class="st">",</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true"></a><span class="st">  additional_information  = my_additional_info </span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true"></a><span class="st">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="overview-create-a-otherentity">overview: create a otherEntity<a class="anchor" aria-label="anchor" href="#overview-create-a-otherentity"></a>
@@ -447,9 +447,9 @@
 <h4 id="citations-that-do-no-have-a-doi">citations that do no have a DOI<a class="anchor" aria-label="anchor" href="#citations-that-do-no-have-a-doi"></a>
 </h4>
 <p>Though a DOI makes documenting references easy, we can add citations that do not have a DOI. There are many ways to address this but likely easiest is to get or create a citation for the reference in bibtex format. <a href="http://sourceforge.net/p/bibutils/home/Bibutils/" class="external-link">bibutils</a> is a helfpul utility that can convert other citation formats, such as .ris, to bibtex. With bibutils, we can convert ris to an intermediate xml format and then to bibtex.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-O</span> ~/Desktop/tellman_dissertation.ris https://repository.asu.edu/items/53734.ris</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> tellman_dissertation.ris <span class="kw">|</span> <span class="ex">ris2xml</span> <span class="kw">|</span> <span class="ex">xml2bib</span> <span class="op">&gt;&gt;</span> tellman_dissertation.bib</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a><span class="fu">wget</span> -O ~/Desktop/tellman_dissertation.ris https://repository.asu.edu/items/53734.ris</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a><span class="fu">cat</span> tellman_dissertation.ris <span class="kw">|</span> <span class="ex">ris2xml</span> <span class="kw">|</span> <span class="ex">xml2bib</span> <span class="op">&gt;&gt;</span> tellman_dissertation.bib</span></code></pre></div>
 <p>Once we have the citation in bibtex format, we can add it along with other citations as in the example below where we added the citation for the Tellman dissertation to a suite of citations generated with capeml’s create_citiation function.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tellman_2021</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.worlddev.2020.105374"</span><span class="op">)</span></span>
