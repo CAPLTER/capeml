@@ -35,6 +35,12 @@
 #' and NaN entries as missing values in the EML output. The user has the
 #' ability to identify an additional indicator of missing values (e.g.,
 #' "-9999", "missing") if present.
+#' @param return_type
+#' (character) Quoted designator indicating the value returned as either an EML
+#' attributes entity (return_type = "eml", the default) or a dataframe of
+#' entity attributes and column classes (return_type = "attributes", the
+#' default) read from the attributes file, the latter primarily as a helper
+#' feature for updating an existing attributes file. 
 #'
 #' @importFrom yaml yaml.load_file yaml.load
 #' @importFrom utils read.csv
@@ -51,7 +57,8 @@
 #'
 read_attributes <- function(
   entity_name,
-  missing_value_code = NULL
+  missing_value_code = NULL,
+  return_type        = "eml"
   ) {
 
   # attributes ----------------------------------------------------------------
@@ -129,7 +136,7 @@ read_attributes <- function(
 
   # use the R object for these operations
   r_object <- get(
-    x = entity_name,
+    x     = entity_name,
     envir = globalenv()
   )
 
@@ -162,18 +169,29 @@ read_attributes <- function(
   }
 
 
-  # attribute list ------------------------------------------------------------
-
-  attr_list <- EML::set_attributes(
-    attributes    = attrs,
-    factors       = fcts,
-    col_classes   = classes,
-    missingValues = mvframe
-  )
-
-
   # return --------------------------------------------------------------------
 
-  return(attr_list)
+  if (grepl("eml", return_type, ignore.case = TRUE)) {
+
+    attr_list <- EML::set_attributes(
+      attributes    = attrs,
+      factors       = fcts,
+      col_classes   = classes,
+      missingValues = mvframe
+    )
+
+    return(attr_list)
+
+  } else if (grepl("attributes", return_type, ignore.case = TRUE)) {
+
+    attrs["columnClasses"] <- classes
+
+    return(attrs)
+
+  } else {
+
+    stop("ambiguous return_type, should be 'eml' or 'attributes'")
+
+  }
 
 }

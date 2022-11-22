@@ -44,11 +44,14 @@
 #'
 #' @export
 
-write_attributes <- function(dfname, overwrite = FALSE) {
+write_attributes <- function(
+  dfname,
+  overwrite = FALSE
+  ) {
 
   # establish yaml object name for checking if exists and writing to file
   objectName <- paste0(deparse(substitute(dfname)), "_attrs")
-  fileName <- paste0(objectName, ".yaml")
+  fileName   <- paste0(objectName, ".yaml")
 
 
   # check if attributes already exists for given data entity
@@ -66,44 +69,44 @@ write_attributes <- function(dfname, overwrite = FALSE) {
   check_class <- function(x) { class(x)[[1]] }
 
 
-  # if simple features, do not write include geometry column(s)
+  # do not write geometry column(s) if simple features 
   if (class(dfname)[[1]] == "sf") {
 
-    dfname <- dfname %>%
+    dfname <- dfname |>
       sf::st_drop_geometry()
 
   }
 
 
-  # helper function to get the type of numeric variables
-  get_number_type <- function(x) {
+  # # helper function to get the type of numeric variables
+  # get_number_type <- function(x) {
 
-    raw <- na.omit(x)
-    raw <- raw[is.finite(raw)] # remove infs (just in case)
+  #   raw <- na.omit(x)
+  #   raw <- raw[is.finite(raw)] # remove infs (just in case)
 
-    rounded <- floor(raw)
+  #   rounded <- floor(raw)
 
-    if (length(raw) - sum(raw == rounded, na.rm = TRUE) > 0) {
+  #   if (length(raw) - sum(raw == rounded, na.rm = TRUE) > 0) {
 
-      numType <- "real" # all
+  #     numType <- "real" # all
 
-    } else if (min(raw, na.rm = T) > 0) {
+  #   } else if (min(raw, na.rm = T) > 0) {
 
-      numType <- "natural" # 1, 2, 3, ... (sans 0)
+  #     numType <- "natural" # 1, 2, 3, ... (sans 0)
 
-    } else if (min(raw, na.rm = T) < 0) {
+  #   } else if (min(raw, na.rm = T) < 0) {
 
-      numType <- "integer" # whole + negative values
+  #     numType <- "integer" # whole + negative values
 
-    } else {
+  #   } else {
 
-      numType  <- "whole" # natural + 0
+  #     numType  <- "whole" # natural + 0
 
-    }
+  #   }
 
-    return(numType)
+  #   return(numType)
 
-  }
+  # }
 
 
   # construct yaml entry for each variable
@@ -182,7 +185,7 @@ write_attributes <- function(dfname, overwrite = FALSE) {
 
   # build attribute yaml file
   attributeYaml <- yaml::as.yaml(
-    map2(
+    purrr::map2(
       .x = dfname,
       .y = colnames(dfname),
       .f = attributes_to_yaml)
@@ -190,12 +193,47 @@ write_attributes <- function(dfname, overwrite = FALSE) {
 
   # write attribute yaml to file
   yaml::write_yaml(
-    x = attributeYaml,
+    x    = attributeYaml,
     file = fileName
   )
 
   message(paste0("constructed attribute yaml: ", fileName))
 
   return(objectName)
+
+}
+
+
+#' @description a helper function used by write_attributes to determine the
+#' type of a numeric variable
+#' @note internal to write_attributes and not exported
+#' @param numeric_object
+#'  (numeric) numeric object (e.g., 2, 3.2)
+get_number_type <- function(numeric_object) {
+
+  raw <- na.omit(numeric_object)
+  raw <- raw[is.finite(raw)] # remove infs (just in case)
+
+  rounded <- floor(raw)
+
+  if (length(raw) - sum(raw == rounded, na.rm = TRUE) > 0) {
+
+    number_type <- "real" # all
+
+  } else if (min(raw, na.rm = T) > 0) {
+
+    number_type <- "natural" # 1, 2, 3, ... (sans 0)
+
+  } else if (min(raw, na.rm = T) < 0) {
+
+    number_type <- "integer" # whole + negative values
+
+  } else {
+
+    number_type  <- "whole" # natural + 0
+
+  }
+
+  return(number_type)
 
 }
