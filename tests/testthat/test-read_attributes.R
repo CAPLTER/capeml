@@ -34,8 +34,6 @@ testthat::test_that(
   desc = "expect similar data structure between data entity and read_attributes when return_type = attributes",
   code = {
 
-    black_widow_behavior <- readr::read_csv(file = "Black_Widow_Behavior.csv")
-
     testthat::expect_setequal(
       object = capeml::read_attributes(
         entity_name = "black_widow_behavior",

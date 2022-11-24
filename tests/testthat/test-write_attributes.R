@@ -2,7 +2,7 @@ testthat::test_that(
   desc = "write_attributes performs appropriate action given return_type",
   code = {
 
-    black_widow_behavior_temp <- readr::read_csv(file = "Black_Widow_Behavior.csv")
+    black_widow_behavior_temp <- black_widow_behavior
 
     withr::with_file(
       file = "black_widow_behavior_temp_attrs.yaml",

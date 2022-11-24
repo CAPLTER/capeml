@@ -7,8 +7,8 @@
 configure_caplter_project()
 }
 \value{
-establishes in the R environment a EML::project
-  entity specific to the CAP LTER.#'
+establishes in the R environment a EML::project entity specific to
+the CAP LTER.
 }
 \description{
 configure_caplter_project establishes an EML::project with the

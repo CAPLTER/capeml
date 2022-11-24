@@ -6,8 +6,9 @@ black_widow_behavior <- readr::read_csv(
   ) |>
 dplyr::mutate(
   dplyr::across(dplyr::contains("Date"), ~ as.Date(x = ., format = "%m/%d/%y")),
+  dplyr::across(dplyr::contains("Mass"), as.numeric),
   Habitat = as.factor(Habitat),
-  Site = as.factor(Site)
+  Site    = as.factor(Site)
   ) |>
 dplyr::filter(!is.na(ID))
 
