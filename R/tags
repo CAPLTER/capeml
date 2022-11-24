@@ -12,9 +12,6 @@
 .x	write_attributes.R	/^    .x = dfname,$/;"	v	function:write_attributes
 .y	write_attributes.R	/^    .y = colnames(dfname),$/;"	v	function:write_attributes
 MVC	read_attributes.R	/^    MVC        = missing_value_code$/;"	v	function:read_attributes
-abby	configure_caplter_project.R	/^  abby <- EML::eml$personnel($/;"	v
-abbyOrcid	configure_caplter_project.R	/^  abbyOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v
-abbyOrcid$userId	configure_caplter_project.R	/^  abbyOrcid$userId <- "0000-0002-2313-9262"$/;"	v
 abstract	create_dataset.R	/^    abstract <- capeml::read_markdown(abstractFile)$/;"	v	function:create_dataset
 allow_cap	configure_caplter.R	/^allow_cap <- EML::eml$allow($/;"	g
 allow_public	configure_caplter.R	/^allow_public <- EML::eml$allow($/;"	g
@@ -47,9 +44,6 @@ attrs	create_otherEntity.R	/^    attrs <- yaml::yaml.load(attrs)$/;"	v
 attrs	create_otherEntity.R	/^    attrs <- yaml::yaml.load_file(paste0(tools::file_path_sans_ext(target_file_or_directory), "_/;"	v
 attrs	read_attributes.R	/^    attrs <- yaml::yaml.load_file(paste0(string_pointer, "_attrs.yaml"))$/;"	v	function:read_attributes
 bibtex_citation	create_citation.R	/^    bibtex_citation <- cr_cn($/;"	v
-billie	configure_caplter_project.R	/^  billie <- EML::eml$personnel($/;"	v
-billieOrcid	configure_caplter_project.R	/^  billieOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v
-billieOrcid$userId	configure_caplter_project.R	/^  billieOrcid$userId <- "0000-0002-6507-521X"$/;"	v
 bucket	upload_to_amazon.R	/^    bucket = aws_bucket$/;"	v	function:data_to_amz
 bucket	upload_to_amazon.R	/^    bucket = aws_bucket$/;"	v	function:eml_to_amz
 calendarDate	create_dataTable.R	/^            calendarDate = format(min(data_object[[dateRangeField]], na.rm = TRUE), "%Y-%m-%d")$/;"	v	function:create_dataTable
@@ -82,7 +76,6 @@ configurations	create_eml.R	/^  configurations <- read_package_configuration()$/
 configurations	create_otherEntity.R	/^  configurations <- read_package_configuration()$/;"	v
 configurations	read_package_configuration.R	/^  configurations <- yaml::yaml.load_file("config.yaml")$/;"	v
 configurations	write_cap_eml.R	/^    configurations <- read_package_configuration()$/;"	v
-configure_caplter_project	configure_caplter_project.R	/^configure_caplter_project <- function() {$/;"	f
 configure_ltreb_project	configure_ltreb_project.R	/^configure_ltreb_project <- function() {$/;"	f
 configure_som_project	configure_som_project.R	/^configure_som_project <- function() {$/;"	f
 configure_urex_project	configure_urex_project.R	/^configure_urex_project  <- function() {$/;"	f
@@ -99,9 +92,6 @@ create_keywordSet	create_keywordSet.R	/^create_keywordSet <- function(keywordsFi
 create_otherEntity	create_otherEntity.R	/^create_otherEntity <- function($/;"	f
 created_zip_name	zipRelatedFiles.R	/^  created_zip_name <- paste0(targetFileBaseName, ".zip")$/;"	v
 creator	create_dataset.R	/^    creator            = creators,$/;"	v	function:create_dataset
-dan	configure_caplter_project.R	/^  dan <- EML::eml$personnel($/;"	v
-danOrcid	configure_caplter_project.R	/^  danOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v
-danOrcid$userId	configure_caplter_project.R	/^  danOrcid$userId <- "0000-0003-3904-0803"$/;"	v
 dataObject	read_attributes.R	/^    dataObject = object_pointer,$/;"	v	function:read_attributes
 dataTablePhysical	create_dataTable.R	/^  dataTablePhysical <- EML::set_physical($/;"	v	function:create_dataTable
 dataTableTemporalCoverage	create_dataTable.R	/^    dataTableTemporalCoverage <- EML::eml$coverage($/;"	v	function:create_dataTable
@@ -234,13 +224,10 @@ missing_value_frame	read_attributes.R	/^  missing_value_frame <- tibble::tibble(
 mvframe	read_attributes.R	/^  mvframe <- purrr::map_df($/;"	v	function:read_attributes
 namedDirectory	zipRelatedFiles.R	/^  namedDirectory <- paste0(pathToFile, "\/", targetFileBaseName)$/;"	v
 namestr	create_dataTable.R	/^    namestr <- rlang::get_expr(dfname)$/;"	v	function:create_dataTable
-nancy	configure_caplter_project.R	/^  nancy <- EML::eml$personnel($/;"	v
 nancy	configure_ltreb_project.R	/^  nancy <- EML::eml$personnel($/;"	v
 nancy	configure_urex_project.R	/^  nancy <- EML::eml$personnel($/;"	v
-nancyOrcid	configure_caplter_project.R	/^  nancyOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v
 nancyOrcid	configure_ltreb_project.R	/^  nancyOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v
 nancyOrcid	configure_urex_project.R	/^  nancyOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v
-nancyOrcid$userId	configure_caplter_project.R	/^  nancyOrcid$userId <- "0000-0001-9374-660X"$/;"	v
 nancyOrcid$userId	configure_ltreb_project.R	/^  nancyOrcid$userId <- "0000-0001-9374-660X"$/;"	v
 nancyOrcid$userId	configure_urex_project.R	/^  nancyOrcid$userId <- "0000-0001-9374-660X"$/;"	v
 newDT	create_dataTable.R	/^  newDT <- EML::eml$dataTable($/;"	v	function:create_dataTable
@@ -277,25 +264,20 @@ pathToFile	create_otherEntity.R	/^  pathToFile         <- path.expand(target_fil
 pathToFile	zipRelatedFiles.R	/^  pathToFile <- path.expand(pathToFile)$/;"	v
 pattern	get_next_version.R	/^    pattern = "^[^\\\\.]*"$/;"	v	function:get_next_version
 physical	create_dataTable.R	/^    physical          = dataTablePhysical,$/;"	v	function:create_dataTable
-project	configure_caplter_project.R	/^  project <- list($/;"	v
 project	configure_ltreb_project.R	/^  project <- list($/;"	v
 project	configure_som_project.R	/^  project <- EML::eml$project($/;"	v
 project	configure_urex_project.R	/^  project <- EML::eml$project($/;"	v
 project	create_dataset.R	/^  project <- configurations$project$/;"	v	function:create_dataset
 project	read_package_configuration.R	/^  project     <- configurations[["project"]]$/;"	v
-projectAbstract	configure_caplter_project.R	/^  projectAbstract <- "Phase IV of the Central Arizona-Phoenix LTER (CAP) continues to focus on t/;"	v
 projectAbstract	configure_ltreb_project.R	/^  projectAbstract <- list($/;"	v
 projectAbstract	configure_som_project.R	/^  projectAbstract <- "Soil organic matter is a massive storehouse for carbon, as well as a key r/;"	v
 projectAbstract	configure_urex_project.R	/^  projectAbstract <- "Urban areas are vulnerable to extreme weather related events given their l/;"	v
-projectFunding	configure_caplter_project.R	/^  projectFunding <- "NSF Awards: CAP I: DEB-9714833, CAP II: DEB-0423704, CAP III: DEB-1026865, /;"	v
 projectFunding	configure_ltreb_project.R	/^  projectFunding <- list($/;"	v
 projectFunding	configure_som_project.R	/^  projectFunding <- "Soil Organic Matter Synthesis Group supported through the Long Term Ecologi/;"	v
 projectFunding	configure_urex_project.R	/^  projectFunding <- "NSF Awards: CBET 1444755"$/;"	v
-projectPersonnel	configure_caplter_project.R	/^  projectPersonnel <- list(dan, nancy, sharon, billie, abby)$/;"	v
 projectPersonnel	configure_ltreb_project.R	/^  projectPersonnel <- list(nancy, john)$/;"	v
 projectPersonnel	configure_som_project.R	/^  projectPersonnel <- list(will, kate)$/;"	v
 projectPersonnel	configure_urex_project.R	/^  projectPersonnel <- list(chuck, nancy, timon, tischa, mikhail)$/;"	v
-projectTitle	configure_caplter_project.R	/^  projectTitle <- 'Central Arizona\\u2013Phoenix Long-Term Ecological Research Project'$/;"	v
 projectTitle	configure_ltreb_project.R	/^  projectTitle <- "Multiscale effects of climate variability and change on hydrologic regimes, e/;"	v
 projectTitle	configure_som_project.R	/^  projectTitle <- "Advancing soil organic matter research: Synthesizing multi-scale observations/;"	v
 projectTitle	configure_urex_project.R	/^  projectTitle <- 'Urban resilience to extreme weather related events'$/;"	v
@@ -317,9 +299,6 @@ scope	get_next_version.R	/^      scope      = cleaned_scope,$/;"	v	function:get_
 scope	read_package_configuration.R	/^    scope <- configurations[["scope"]]$/;"	v
 scope	read_package_configuration.R	/^    scope <- stringr::str_extract($/;"	v
 sf_object_box	create_geographic_coverage.R	/^  sf_object_box <- sf::st_bbox(sf_object)$/;"	v
-sharon	configure_caplter_project.R	/^  sharon <- EML::eml$personnel($/;"	v
-sharonOrcid	configure_caplter_project.R	/^  sharonOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v
-sharonOrcid$userId	configure_caplter_project.R	/^  sharonOrcid$userId <- "0000-0002-8859-6691"$/;"	v
 standardUnits	write_unit_dictionary.R	/^  standardUnits <- EML::get_unitList()$/;"	v
 storage	read_attributes.R	/^    storage    = missing_value_frame,$/;"	v	function:read_attributes
 storage	write_missing_values.R	/^    storage <- storage %>%$/;"	v

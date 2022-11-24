@@ -12,8 +12,8 @@
 #'
 #' @import EML
 #'
-#' @return establishes in the R environment a EML::project
-#'   entity specific to the CAP LTER.#'
+#' @return establishes in the R environment a EML::project entity specific to
+#' the CAP LTER.
 #'
 #' @export
 #'
@@ -34,11 +34,12 @@ configure_caplter_project <- function() {
   dan <- EML::eml$personnel(
     individualName = EML::eml$individualName(
       givenName = "Daniel",
-      surName = "Childers"),
+      surName   = "Childers"
+      ),
     electronicMailAddress = "dan.childers@asu.edu",
-    organizationName = "Arizona State University",
-    userId = danOrcid,
-    role = "Principal Investigator"
+    organizationName      = "Arizona State University",
+    userId                = danOrcid,
+    role                  = "Principal Investigator"
   )
 
   # Nancy Grimm
@@ -49,11 +50,12 @@ configure_caplter_project <- function() {
   nancy <- EML::eml$personnel(
     individualName = EML::eml$individualName(
       givenName = "Nancy",
-      surName = "Grimm"),
+      surName   = "Grimm"
+      ),
     electronicMailAddress = "nbgrimm@asu.edu",
-    organizationName = "Arizona State University",
-    userId = nancyOrcid,
-    role = "Co-principal Investigator"
+    organizationName      = "Arizona State University",
+    userId                = nancyOrcid,
+    role                  = "Co-principal Investigator"
   )
 
   # Sharon Hall
@@ -63,12 +65,13 @@ configure_caplter_project <- function() {
 
   sharon <- EML::eml$personnel(
     individualName = EML::eml$individualName(
-      givenName = "Sharon",
-      surName = "Hall"),
+      givenName = c("Sharon", "J"),
+      surName = "Hall"
+      ),
     electronicMailAddress = "sharonjhall@asu.edu",
-    organizationName = "Arizona State University",
-    userId = sharonOrcid,
-    role = "Co-principal Investigator"
+    organizationName      = "Arizona State University",
+    userId                = sharonOrcid,
+    role                  = "Co-principal Investigator"
   )
 
   # Billie Turner
@@ -79,11 +82,12 @@ configure_caplter_project <- function() {
   billie <- EML::eml$personnel(
     individualName = EML::eml$individualName(
       givenName = "Billie",
-      surName = "Turner II"),
+      surName   = "Turner II"
+      ),
     electronicMailAddress = "Billie.L.Turner@asu.edu",
-    organizationName = "Arizona State University",
-    userId = billieOrcid,
-    role = "Co-principal Investigator"
+    organizationName      = "Arizona State University",
+    userId                = billieOrcid,
+    role                  = "Co-principal Investigator"
   )
 
   # Abby York
@@ -94,11 +98,12 @@ configure_caplter_project <- function() {
   abby <- EML::eml$personnel(
     individualName = EML::eml$individualName(
       givenName = "Abigail",
-      surName = "York"),
+      surName   = "York"
+      ),
     electronicMailAddress = "Abigail.York@asu.edu",
-    organizationName = "Arizona State University",
-    userId = abbyOrcid,
-    role = "Co-principal Investigator"
+    organizationName      = "Arizona State University",
+    userId                = abbyOrcid,
+    role                  = "Co-principal Investigator"
   )
 
   projectPersonnel <- list(dan, nancy, sharon, billie, abby)
@@ -116,16 +121,16 @@ configure_caplter_project <- function() {
   # EML::project ------------------------------------------------------------
 
   project <- list(
-    title = projectTitle,
+    title     = projectTitle,
     personnel = projectPersonnel,
-    abstract = projectAbstract,
-    funding = projectFunding,
-    award = list(
-      funderName = "National Science Foundation",
+    abstract  = projectAbstract,
+    funding   = projectFunding,
+    award     = list(
+      funderName       = "National Science Foundation",
       funderIdentifier = "https://ror.org/021nxhr62",
-      awardNumber = "1832016",
-      title = "LTER: CAP IV - Investigating urban ecology and sustainability through the lens of Urban Ecological Infrastructure",
-      awardUrl = "https://nsf.gov/awardsearch/showAward?AWD_ID=1832016&HistoricalAwards=false"
+      awardNumber      = "1832016",
+      title            = "LTER: CAP IV - Investigating urban ecology and sustainability through the lens of Urban Ecological Infrastructure",
+      awardUrl         = "https://nsf.gov/awardsearch/showAward?AWD_ID=1832016&HistoricalAwards=false"
     )
   )
 
