@@ -30,7 +30,8 @@ Imports:
     xml2,
     EDIutils,
     rlang,
-    aws.s3
+    aws.s3,
+    withr
 RoxygenNote: 7.2.2
 Suggests: 
     testthat (>= 3.0.0),

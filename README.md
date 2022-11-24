@@ -360,7 +360,7 @@ Whereas the above approches require that data entity objects are created, and, p
 
 *Example `data_objects.yaml` file:*
 
-
+```yaml
 my_iris_changed_name:
   type: table
   dfname: my_iris
@@ -386,7 +386,7 @@ my_other_ent:
   overwrite: TRUE
   projectNaming: TRUE
   additional_information: 'additional details'
-
+```
 
 #### citations
 

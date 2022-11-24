@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.16.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.17.0</span>
       </span>
     </div>
 
@@ -66,7 +66,7 @@
 <h3 id="overview">overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h3>
 <p>This package contains tools to aid the generation of EML metadata with intent to publish a dataset (data + metadata) in the Environmental Data Initiative (EDI) data repository. Functions and a template work flow are included that allow for the creation of metadata at the dataset level, and individual data entities (e.g., other entities, data tables).</p>
-<p>Helper functions for the creation of dataset metadata for dataTable and otherEntity objects using the <a href="https://docs.ropensci.org/EML/" class="external-link">EML</a> package are supported. This package can be extended with the <a href="https://github.com/caplter/capemlgis" class="external-link">capemlGIS</a> package to generate metadata for spatialRaster and spatialvector objects.</p>
+<p>Helper functions for the creation of dataset metadata for dataTable and otherEntity objects using the <a href="https://docs.ropensci.org/EML/" class="external-link">EML</a> package are supported. This package can be extended with the <a href="https://github.com/caplter/capemlgis" class="external-link">capemlGIS</a> package to generate metadata for spatialRaster and spatialVector objects.</p>
 <p>A template work flow is available as part of this package. The template is automatically generated if a new project is created with <code>write_directory</code>, which also generates a <code>config.yaml</code> file and new directory, or with the <code>write_template</code> function.</p>
 </div>
 <div class="section level3">
@@ -109,24 +109,20 @@
 </div>
 </div>
 <div class="section level3">
-<h3 id="tools-to-generate-entity-metadata">tools to generate entity metadata<a class="anchor" aria-label="anchor" href="#tools-to-generate-entity-metadata"></a>
+<h3 id="tools-to-generate-entity-data-and-metadata">tools to generate entity data and metadata<a class="anchor" aria-label="anchor" href="#tools-to-generate-entity-data-and-metadata"></a>
 </h3>
 <ul>
 <li>
-<code><a href="reference/write_attributes.html">write_attributes()</a></code> creates a template as a yaml file for supplying attribute metadata for a tabular data object that resides in the R environment</li>
+<code>write_attributes</code> creates a template as a yaml file for supplying attribute metadata for a tabular data object that resides in the R environment</li>
 <li>
-<code><a href="reference/write_factors.html">write_factors()</a></code> creates a template as a yaml file for supplying code definition metadata for factors in a tabular data object that resides in the R environment</li>
+<code>write_factors</code> creates a template as a yaml file for supplying code definition metadata for factors in a tabular data object that resides in the R environment</li>
+<li>
+<code>update_attributes</code> A frequent need with long-term, ongoing research is to update existing data. A challenge to that is that we do not want to have to rebuild from scratch the attribute metadata for a data entity that we constructed with <code><a href="reference/write_attributes.html">write_attributes()</a></code> at each update. In terms of attribute metadata, definitions, units, etc. are relatively static but what often change are the minimum and maximum values for numeric variables as the observation record grows. We could ascertain the minimum and maximum values for numeric variables then manually update existing attribute metadata but this is tedious, error-prone, and can be time consuming when dealing with many variables. The <code>update_attributes</code> function takes care of this for us by reading the existing attribute metadata for a given data entity and updating those metadata with the minimum and maximum values for said data entity if they have changed in the context of a data refresh.</li>
+<li>
+<code>create_dataTable</code> creates a EML entity of type dataTable</li>
+<li>
+<code>create_otherEntity</code> creates a EML entity of type otherEntity</li>
 </ul>
-<div class="section level4">
-<h4 id="tools-to-create-eml-entities">tools to create EML entities<a class="anchor" aria-label="anchor" href="#tools-to-create-eml-entities"></a>
-</h4>
-<ul>
-<li>
-<code><a href="reference/create_dataTable.html">create_dataTable()</a></code> creates a EML entity of type dataTable</li>
-<li>
-<code><a href="reference/create_otherEntity.html">create_otherEntity()</a></code> creates a EML entity of type otherEntity</li>
-</ul>
-</div>
 </div>
 <div class="section level3">
 <h3 id="construct-a-dataset">construct a dataset<a class="anchor" aria-label="anchor" href="#construct-a-dataset"></a>
@@ -154,7 +150,7 @@
 <div class="section level4">
 <h4 id="keywords">keywords<a class="anchor" aria-label="anchor" href="#keywords"></a>
 </h4>
-<p><code><a href="reference/write_keywords.html">write_keywords()</a></code> creates a template as a csv file for supplying dataset keywords. The <code>create_dataset</code> function will look for a <code>keywords.csv</code> file in the working directory or at the path provided if specified.</p>
+<p><code>write_keywords</code> creates a template as a csv file for supplying dataset keywords. The <code>create_dataset</code> function will look for a <code>keywords.csv</code> file in the working directory or at the path provided if specified.</p>
 </div>
 <div class="section level4">
 <h4 id="methods">methods<a class="anchor" aria-label="anchor" href="#methods"></a>
@@ -214,7 +210,7 @@
 <span>  path <span class="op">=</span> <span class="va">my_path</span>,</span>
 <span>  x    <span class="op">=</span> <span class="va">gambelQuail</span>,</span>
 <span>  col  <span class="op">=</span> <span class="st">"taxName"</span></span>
-<span><span class="op">)</span> </span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Resolve taxa by attempting to match the taxon name (data.source 3 is ITIS but</span></span>
 <span><span class="co"># other sources are accessible). Use `resolve_comm_taxa` instead of</span></span>
@@ -238,7 +234,6 @@
 <div class="section level4">
 <h4 id="people">people<a class="anchor" aria-label="anchor" href="#people"></a>
 </h4>
-<p>For CAP LTER datasets, we can use the <code>gioseml</code> package to harvest person details from the Global Institute of Sustainability and Innovation database. For dataset parties not associated with the CAP LTER (or parties not in the GIOSI database), we can construct <code>creator</code>, <code>metadataProvider</code>, and <code>associatedParty</code> elements using the list structure provided by ROpenSci’s <a href="https://docs.ropensci.org/eml/" class="external-link">EML</a>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># creator(s) - required</span></span>
 <span></span>
@@ -309,49 +304,55 @@
 <div class="section level4">
 <h4 id="data-objects">data objects<a class="anchor" aria-label="anchor" href="#data-objects"></a>
 </h4>
-<p><em>data tables</em></p>
-<p>The <code>create_dataset</code> function will look for objects in the R environment with a trailing <code>_DT</code> in the object name (e.g. <code>my_table_DT</code>), e.g., see section on creating a dataTable below. All objects with that naming convention will be added to the dataset.</p>
-</div>
-</div>
-<div class="section level3">
-<h3 id="overview-create-a-datatable">overview: create a dataTable<a class="anchor" aria-label="anchor" href="#overview-create-a-datatable"></a>
-</h3>
+<p>The <code>create_dataset</code> function will look for objects in the R environment with a trailing <code>*_DT</code> or <code>*_OE</code> in the object name (e.g. <code>my_table_DT</code>) for data tables and other entities, respectively (but see <code>overview: data objects with yaml</code> below). All objects with that naming convention will be added to the dataset.</p>
+<div class="section level5">
+<h5 id="overview-create-a-datatable">overview: create a dataTable<a class="anchor" aria-label="anchor" href="#overview-create-a-datatable"></a>
+</h5>
 <p>Given a rectangular data matrix of type dataframe or tibble in the R environment:</p>
-<p><code>write_attributes(data_entity)</code> will generate a template as a yaml file in the working directory based on properties of the data entity such that metadata properties (e.g., attributeDefinition, units) can be added via a editor.</p>
-<p><code>write_factors(data_entity)</code> will generate a template as a yaml file in the working directory based on columns of the data entity that are factors such that details of factor levels can be added via a editor.</p>
-<p>Note that <code>write_attributes</code> and <code>write_factors</code> are wrapped in a <code>try</code> block. This allows us to run the chunk or knit the entire document even if the attributes and factors yaml files already exist (since they will not be overwritten unless the overwrite flag is set, thus aborting the chunk).</p>
-<p><code>create_dataTable(data_entity)</code> performs many services:</p>
 <ul>
+<li>
+<code>write_attributes(data_entity)</code> will generate a template as a yaml file in the working directory based on properties of the data entity such that metadata properties (e.g., attributeDefinition, units) can be added via a editor.</li>
+<li>
+<code>write_factors(data_entity)</code> will generate a template as a yaml file in the working directory based on columns of the data entity that are factors such that details of factor levels can be added via a editor.</li>
+<li>
+<code>create_dataTable(data_entity)</code> performs many services:<ul>
 <li>the data entity is written to file as a csv in the working directory with the file name: <em>identifier_data-entity-name.csv</em>
 </li>
 <li>metadata provided in the attributes and factors (if relevant) templates are ingested</li>
-<li>a EML object of type dataTable is returned note that the data entity name should be used consistently within the chunk, and the resulting dataTable entity should have the name: <em>data_entity_DT</em>
+<li>a EML object of type dataTable that reflects metadata detailed in the attributes and factors files noted above is returned note that the data entity name should be used consistently within the chunk, and the resulting dataTable entity should have the name: <em>data_entity_DT</em>
+</li>
+</ul>
 </li>
 </ul>
 <p><em>create_dataTable example: my_table</em></p>
+<p><em>note that the data entity name should be used consistently within the chunk, and the resulting dataTable entity should have the name (e.g., my_table in the example below)</em></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>my_table &lt;-<span class="st"> </span>import <span class="op">/</span><span class="st"> </span>generate...process...</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="kw">try</span>({</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>  capeml<span class="op">::</span><span class="kw">write_attributes</span>(my_table)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>  capeml<span class="op">::</span><span class="kw">write_factors</span>(my_table)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>})</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a>my_table_desc &lt;-<span class="st"> "description of table"</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a><span class="co"># create_dataTable() accepts additionalInfo but is not required</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="co"># Note: the `try` block facilitates knitting the entire document even if the</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="co"># attributes and factors yaml files already exist (since they will not be</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a><span class="co"># overwritten unless the overwrite flag is set, thus aborting the knit).</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a><span class="kw">try</span>({</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a>  capeml<span class="op">::</span><span class="kw">write_attributes</span>(my_table, <span class="dt">overwrite =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a>  capeml<span class="op">::</span><span class="kw">write_factors</span>(my_table, <span class="dt">overwrite =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a>})</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true"></a>my_additional_info &lt;-<span class="st"> "more metadata""</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true"></a>my_table_desc &lt;-<span class="st"> "description of the table"</span></span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true"></a></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true"></a><span class="st">my_table_DT &lt;- capeml::create_dataTable(</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true"></a><span class="st">  dfname                  = my_table,</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true"></a><span class="st">  description             = my_table_desc,</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true"></a><span class="st">  dateRangeField          = "</span>my_date_field<span class="st">",</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true"></a><span class="st">  additional_information  = my_additional_info </span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true"></a><span class="st">)</span></span></code></pre></div>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true"></a><span class="co"># create_dataTable() accepts additionalInfo but is not required</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true"></a>my_additional_info &lt;-<span class="st"> "more metadata""</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true"></a><span class="st">my_table_DT &lt;- capeml::create_dataTable(</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true"></a><span class="st">  dfname                  = my_table,</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true"></a><span class="st">  description             = my_table_desc,</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true"></a><span class="st">  dateRangeField          = "</span>my_date_field<span class="st">",</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true"></a><span class="st">  additional_information  = my_additional_info</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true"></a><span class="st">)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="overview-create-a-otherentity">overview: create a otherEntity<a class="anchor" aria-label="anchor" href="#overview-create-a-otherentity"></a>
-</h3>
+<div class="section level5">
+<h5 id="overview-create-a-otherentity">overview: create a otherEntity<a class="anchor" aria-label="anchor" href="#overview-create-a-otherentity"></a>
+</h5>
 <p>A EML object of type otherEntity can be created from a single file or a directory. In the case of generating a otherEntity object from a directory, pass the directory path to the target_file_or_directory argument, capeml will recognize the target as a directory, and create a zipped file of the identified directory.</p>
 <p>If the otherEntity object already is a zip file with the desired name, set the overwrite argument to FALSE to prevent overwriting the existing object.</p>
 <p>As with all objects created with the capeml package, the resulting object is named with convention: projectid_object-name.file extension by default but this functionality can be turned off by setting projectNaming to FALSE.</p>
@@ -411,16 +412,49 @@
 <span>  additional_information   <span class="op">=</span> <span class="va">UEI_Features_CAPLTER_2010_2017_JAB_additional</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="citations">citations<a class="anchor" aria-label="anchor" href="#citations"></a>
-</h3>
+</div>
+<div class="section level4">
+<h4 id="overview-data-objects-with-yaml">overview: data objects with yaml<a class="anchor" aria-label="anchor" href="#overview-data-objects-with-yaml"></a>
+</h4>
+<p>Whereas the above approches require that data entity objects are created, and, particularly, created using a speicic naming conventino (i.e., <code>*_DT</code>, <code>*_OE</code> for datatables and other entities, respectively), another option for generating both EML dataTable and otherEntity objects and metadata is to detail the parameters for each entity in a <code>data_objects.yaml</code> file. Using this approach, the <code>create_dataset</code> function will call the appropriate function for each entity rather than the user having to construct each entity using <code>create_dataTable</code>, <code>create_otherEntity</code>. This approach provides greater flexibility for the user to address data processing across files and envrironments. A combination of approaches is possible, as <code>create_dataset</code> will look for both a <code>data_objects.yaml</code> and appropriately names objects (i.e., <code>*_DT</code>, <code>*_OE</code>) in the working directory and environment, respectively. The <code>data_objects.yaml</code> must include all parameters and arguments corresponding to the <code>create_dataTable</code> and <code>create_otherEntity</code> functions.</p>
+<p><em>Example <code>data_objects.yaml</code> file:</em></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="fu">my_iris_changed_name</span><span class="kw">:</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> table</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a><span class="at">  </span><span class="fu">dfname</span><span class="kw">:</span><span class="at"> my_iris</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a><span class="at">  </span><span class="fu">description</span><span class="kw">:</span><span class="at"> </span><span class="st">'my iris data'</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a><span class="at">  </span><span class="fu">dateRangeField</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true"></a><span class="at">  </span><span class="fu">overwrite</span><span class="kw">:</span><span class="at"> </span><span class="ch">TRUE</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true"></a><span class="at">  </span><span class="fu">projectNaming</span><span class="kw">:</span><span class="at"> </span><span class="ch">FALSE</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true"></a><span class="at">  </span><span class="fu">missingValueCode</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true"></a><span class="at">  </span><span class="fu">additional_information</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true"></a><span class="fu">some_data</span><span class="kw">:</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> table</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true"></a><span class="at">  </span><span class="fu">dfname</span><span class="kw">:</span><span class="at"> some_data</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true"></a><span class="at">  </span><span class="fu">description</span><span class="kw">:</span><span class="at"> </span><span class="st">'my some data'</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true"></a><span class="at">  </span><span class="fu">dateRangeField</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true"></a><span class="at">  </span><span class="fu">overwrite</span><span class="kw">:</span><span class="at"> </span><span class="ch">TRUE</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true"></a><span class="at">  </span><span class="fu">projectNaming</span><span class="kw">:</span><span class="at"> </span><span class="ch">TRUE</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true"></a><span class="at">  </span><span class="fu">missingValueCode</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true"></a><span class="at">  </span><span class="fu">additional_information</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true"></a><span class="fu">my_other_ent</span><span class="kw">:</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> other</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true"></a><span class="at">  </span><span class="fu">target_file_or_directory</span><span class="kw">:</span><span class="at"> </span><span class="st">'./my_other_ent.pdf'</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true"></a><span class="at">  </span><span class="fu">description</span><span class="kw">:</span><span class="at"> </span><span class="st">'my other ent desc'</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true"></a><span class="at">  </span><span class="fu">overwrite</span><span class="kw">:</span><span class="at"> </span><span class="ch">TRUE</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true"></a><span class="at">  </span><span class="fu">projectNaming</span><span class="kw">:</span><span class="at"> </span><span class="ch">TRUE</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true"></a><span class="at">  </span><span class="fu">additional_information</span><span class="kw">:</span><span class="at"> </span><span class="st">'additional details'</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="citations">citations<a class="anchor" aria-label="anchor" href="#citations"></a>
+</h4>
 <p>Below are sample work flows that use <code>capeml</code>’s <code>create_citation</code> function to generate citations by passing a resource DOI to crossref. Citations can be added to EML <code>literatureCited</code> and <code>usageCitation</code> elements. The work flow capitalizes on EML version 2.2 that accepts the BibTex format for references.</p>
 <p><code><a href="reference/create_dataset.html">create_dataset()</a></code> will look for citation entities at the time of dataset construction so desired citation entities must exist in the R environment. <code>literatureCited</code> entities must be in a list named <code>citations</code>, and <code>usageCitation</code> entities must be a list named <code>usages</code>.</p>
 <p>Note that, unlike a <code>literatureCited</code> citation, a <code>usageCitation</code> is <strong>not</strong> wrapped in a citation tag.</p>
+</div>
 <div class="section level4">
 <h4 id="literature-cited">literature cited<a class="anchor" aria-label="anchor" href="#literature-cited"></a>
 </h4>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cook</span>    <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.envpol.2018.04.013"</span><span class="op">)</span></span>
 <span><span class="va">sartory</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1007/BF00031869"</span><span class="op">)</span></span>
 <span></span>
@@ -434,12 +468,10 @@
 <div class="section level4">
 <h4 id="usage-citations">usage citations<a class="anchor" aria-label="anchor" href="#usage-citations"></a>
 </h4>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">brown</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.3389/fevo.2020.569730"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">usages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    <span class="va">brown</span></span>
-<span><span class="op">)</span> <span class="co"># close usages</span></span>
+<span><span class="va">usages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">brown</span><span class="op">)</span> <span class="co"># close usages</span></span>
 <span></span>
 <span><span class="va">dataset</span><span class="op">$</span><span class="va">usageCitation</span> <span class="op">&lt;-</span> <span class="va">usages</span></span></code></pre></div>
 </div>
@@ -447,11 +479,11 @@
 <h4 id="citations-that-do-no-have-a-doi">citations that do no have a DOI<a class="anchor" aria-label="anchor" href="#citations-that-do-no-have-a-doi"></a>
 </h4>
 <p>Though a DOI makes documenting references easy, we can add citations that do not have a DOI. There are many ways to address this but likely easiest is to get or create a citation for the reference in bibtex format. <a href="http://sourceforge.net/p/bibutils/home/Bibutils/" class="external-link">bibutils</a> is a helfpul utility that can convert other citation formats, such as .ris, to bibtex. With bibutils, we can convert ris to an intermediate xml format and then to bibtex.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a><span class="fu">wget</span> -O ~/Desktop/tellman_dissertation.ris https://repository.asu.edu/items/53734.ris</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a><span class="fu">cat</span> tellman_dissertation.ris <span class="kw">|</span> <span class="ex">ris2xml</span> <span class="kw">|</span> <span class="ex">xml2bib</span> <span class="op">&gt;&gt;</span> tellman_dissertation.bib</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a><span class="fu">wget</span> -O ~/Desktop/tellman_dissertation.ris https://repository.asu.edu/items/53734.ris</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a><span class="fu">cat</span> tellman_dissertation.ris <span class="kw">|</span> <span class="ex">ris2xml</span> <span class="kw">|</span> <span class="ex">xml2bib</span> <span class="op">&gt;&gt;</span> tellman_dissertation.bib</span></code></pre></div>
 <p>Once we have the citation in bibtex format, we can add it along with other citations as in the example below where we added the citation for the Tellman dissertation to a suite of citations generated with capeml’s create_citiation function.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tellman_2021</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.worlddev.2020.105374"</span><span class="op">)</span></span>
 <span><span class="va">lerner_2018</span>  <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.cities.2018.06.009"</span><span class="op">)</span></span>
 <span><span class="va">eakin_2019</span>   <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.5751/ES-11030-240315"</span><span class="op">)</span></span>
