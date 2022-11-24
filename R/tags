@@ -7,11 +7,13 @@
 !_TAG_PROGRAM_VERSION	0.0.0	//
 .f	read_attributes.R	/^    .f         = capeml::write_missing_values,$/;"	v	function:read_attributes
 .f	write_attributes.R	/^    .f = attributes_to_yaml$/;"	v	function:write_attributes
+.f	write_factors.R	/^        .f = factors_to_yaml,$/;"	v	function:write_factors
 .l	update_attributes.R	/^    .l     = attrs_updated,$/;"	v	function:update_attributes
 .names	update_attributes.R	/^    .names = attrs_updated[["attributeName"]]$/;"	v	function:update_attributes
 .x	create_dataset.R	/^    data_entities          <- purrr::map(.x = data_objects_load_file, ~ create_entities_from_yam/;"	v	function:create_dataset
 .x	read_attributes.R	/^    .x         = colnames(object_pointer),$/;"	v	function:read_attributes
 .x	write_attributes.R	/^    .x = dfname,$/;"	v	function:write_attributes
+.x	write_factors.R	/^        .x = list_of_factors,$/;"	v	function:write_factors
 .y	write_attributes.R	/^    .y = colnames(dfname),$/;"	v	function:write_attributes
 MVC	read_attributes.R	/^    MVC        = missing_value_code$/;"	v	function:read_attributes
 abstract	create_dataset.R	/^    abstract <- capeml::read_markdown(abstractFile)$/;"	v	function:create_dataset
@@ -33,10 +35,12 @@ anonVecbcd71b3e0c06	create_dataset.R	/^      " spatialVectors: ",       paste0(c
 anonVecbcd71b3e0d06	create_dataset.R	/^      " spatialRasters: ",       paste0(c(ls(envir = .GlobalEnv, pattern = "_SR")), collapse = "/;"	c	function:create_dataset
 attr_list	create_otherEntity.R	/^    attr_list <- EML::set_attributes($/;"	v
 attr_list	read_attributes.R	/^    attr_list <- EML::set_attributes($/;"	v	function:read_attributes
+attribute	write_factors.R	/^      attribute = list($/;"	n	list:write_factors.factors_to_yaml.factors_yaml	constructor:list
 attributeDefinition	write_attributes.R	/^    attributeDefinition = ""$/;"	n	list:attributes_to_yaml.variableAttributes
 attributeList	create_dataTable.R	/^    attributeList     = attributes,$/;"	v	function:create_dataTable
 attributeName	read_attributes.R	/^    attributeName = as.character(),$/;"	v	function:read_attributes
 attributeName	write_attributes.R	/^    attributeName = varName,$/;"	n	list:attributes_to_yaml.variableAttributes
+attributeName	write_factors.R	/^        attributeName = varName,$/;"	n	nameattr:write_factors.factors_to_yaml.factors_yaml.attribute
 attribute_list	write_attributes.R	/^  attribute_list <- purrr::map2($/;"	v	function:write_attributes
 attribute_yaml	write_attributes.R	/^    attribute_yaml <- yaml::as.yaml(attribute_list)$/;"	v	function:write_attributes
 attributes	create_dataTable.R	/^  attributes <- capeml::read_attributes($/;"	v	function:create_dataTable
@@ -68,6 +72,7 @@ classes	create_otherEntity.R	/^    classes <- attrs |>$/;"	v
 classes	read_attributes.R	/^  classes <- attrs |>$/;"	v	function:read_attributes
 cleaned_scope	get_next_version.R	/^  cleaned_scope <- stringr::str_extract($/;"	v	function:get_next_version
 code	read_attributes.R	/^    code          = as.character(),$/;"	v	function:read_attributes
+code	write_factors.R	/^      code       = level,$/;"	n	list:write_factors.map_factor_levels.var_levs
 col_classes	read_attributes.R	/^      col_classes   = classes,$/;"	v	function:read_attributes
 collapse	create_dataset.R	/^      " dataTables: ",           paste0(c(table_names), collapse = ", "), "\\n",$/;"	n	vector:create_dataset.anonVecbcd71b3e0a06
 collapse	create_dataset.R	/^      " otherEntities: ",        paste0(c(other_entity_names), collapse = ", "), "\\n",$/;"	n	vector:create_dataset.anonVecbcd71b3e0b06
@@ -113,8 +118,10 @@ dataset_maintenance	create_dataset.R	/^    dataset_maintenance <- EML::eml$maint
 dataset_params	write_config.R	/^  dataset_params <- list($/;"	v
 definition	read_attributes.R	/^      definition = NA_character_,$/;"	v	function:read_attributes
 definition	write_attributes.R	/^      definition    = ""$/;"	g
+definition	write_factors.R	/^      definition = "metadata_not_provided"$/;"	n	list:write_factors.map_factor_levels.var_levs
 description	create_dataset.R	/^      description                = "it is expected that dataset will receive regular updates (ap/;"	v	function:create_dataset
 description	create_dataset.R	/^      methods <- EML::eml$methods(methodStep = list(description = capeml::read_markdown(methodsF/;"	n	list:create_dataset.methodStep
+df	write_factors.R	/^        df = dfname$/;"	v	function:write_factors
 df_factors	create_otherEntity.R	/^    df_factors <- yaml.load_file(paste0(tools::file_path_sans_ext(target_file_or_directory), "_f/;"	v
 dfname	update_attributes.R	/^    dfname      = object_pointer,$/;"	v	function:update_attributes
 directoryName	create_otherEntity.R	/^  directoryName      <- dirname(target_file_or_directory)$/;"	v
@@ -139,14 +146,15 @@ env	get_next_version.R	/^      env        = "production"$/;"	v	function:get_next
 error	get_next_version.R	/^  }, error = function(cond) {$/;"	f	function:get_next_version.anonFunc21e58a680200
 externallyDefinedFormat	create_dataTable.R	/^    externallyDefinedFormat = EML::eml$externallyDefinedFormat($/;"	v	function:create_dataTable
 factors	read_attributes.R	/^      factors       = fcts,$/;"	v	function:read_attributes
-factors_as_yaml	write_factors.R	/^  factors_as_yaml <- yaml::as.yaml($/;"	v
-factors_to_yaml	write_factors.R	/^  factors_to_yaml <- function(varName, df) {$/;"	f
-factors_yaml	write_factors.R	/^    factors_yaml <- list($/;"	v
+factors_as_yaml	write_factors.R	/^    factors_as_yaml <- yaml::as.yaml($/;"	v	function:write_factors
+factors_to_yaml	write_factors.R	/^  factors_to_yaml <- function(varName, df) {$/;"	f	function:write_factors
+factors_yaml	write_factors.R	/^    factors_yaml <- list($/;"	L	function:write_factors.factors_to_yaml
 fcts	read_attributes.R	/^  fcts <- NULL$/;"	v	function:read_attributes
 file	update_attributes.R	/^      file = file_name$/;"	v	function:update_attributes
 file	upload_to_amazon.R	/^    file   = file_to_upload,$/;"	v	function:data_to_amz
 file	upload_to_amazon.R	/^    file   = file_to_upload,$/;"	v	function:eml_to_amz
 file	write_attributes.R	/^      file = file_name$/;"	v	function:write_attributes
+file	write_factors.R	/^      file = fileName$/;"	v	function:write_factors
 fileAuthentication	create_dataTable.R	/^  fileAuthentication                <- EML::eml$authentication(method = "MD5")$/;"	v	function:create_dataTable
 fileAuthentication	create_otherEntity.R	/^  fileAuthentication                <- EML::eml$authentication(method = "MD5")$/;"	v
 fileAuthentication$authentication	create_otherEntity.R	/^  fileAuthentication$authentication <- tools::md5sum(target_file_or_directory)$/;"	v
@@ -155,7 +163,7 @@ fileDataFormat	create_otherEntity.R	/^    fileDataFormat <- EML::eml$dataFormat(
 fileDistribution	create_dataTable.R	/^  fileDistribution <- EML::eml$distribution($/;"	v	function:create_dataTable
 fileDistribution	create_otherEntity.R	/^  fileDistribution <- EML::eml$distribution($/;"	v
 fileExtension	create_otherEntity.R	/^  fileExtension <- tools::file_ext(target_file_or_directory)$/;"	v
-fileName	write_factors.R	/^  fileName <- paste0(objectName, ".yaml")$/;"	v
+fileName	write_factors.R	/^  fileName   <- paste0(objectName, ".yaml")$/;"	v	function:write_factors
 filePathName	write_cap_eml.R	/^    filePathName <- paste0(package_name, ".xml")$/;"	v
 filePhysical	create_otherEntity.R	/^  filePhysical <- EML::eml$physical($/;"	v
 fileSize	create_dataTable.R	/^  fileSize      <- EML::eml$size(unit = "byte")$/;"	v	function:create_dataTable
@@ -209,8 +217,9 @@ keywordSubset	create_keywordSet.R	/^  keywordSubset <- map2(.x = thesaurusSubset
 keywords	create_dataset.R	/^    keywords <- capeml::create_keywordSet(keywordsFile)$/;"	v	function:create_dataset
 keywordsFile	create_keywordSet.R	/^  keywordsFile <- read_csv(keywordsFile)$/;"	v
 language	create_dataset.R	/^    language           = "english",$/;"	v	function:create_dataset
+levels	write_factors.R	/^        levels = map($/;"	n	nameattr:write_factors.factors_to_yaml.factors_yaml.attribute
 listOfDataTables	create_dataset.R	/^    listOfDataTables <- lapply(ls(envir = .GlobalEnv, pattern = "_DT"), function(DT) { get(DT, e/;"	v	function:create_dataset
-list_of_factors	write_factors.R	/^    list_of_factors <- dfname %>%$/;"	v
+list_of_factors	write_factors.R	/^  list_of_factors <- dfname |>$/;"	v	function:write_factors
 list_of_otherEntities	create_dataset.R	/^    list_of_otherEntities <- lapply(ls(envir = .GlobalEnv, pattern = "_OE"), function(OE) { get(/;"	v	function:create_dataset
 list_of_spatialRasters	create_dataset.R	/^    list_of_spatialRasters <- lapply(ls(envir = .GlobalEnv, pattern = "_SR"), function(SR) { get/;"	v	function:create_dataset
 list_of_spatialVectors	create_dataset.R	/^    list_of_spatialVectors <- lapply(ls(envir = .GlobalEnv, pattern = "_SV"), function(SV) { get/;"	v	function:create_dataset
@@ -218,7 +227,7 @@ lterAccess	configure_caplter.R	/^lterAccess <- EML::eml$access($/;"	g
 maintenance	create_dataset.R	/^  maintenance <- configurations$maintenance$/;"	v	function:create_dataset
 maintenance	read_package_configuration.R	/^  maintenance <- configurations[["maintenance"]]$/;"	v
 maintenanceUpdateFrequency	create_dataset.R	/^      maintenanceUpdateFrequency = "asNeeded"$/;"	v	function:create_dataset
-map_factor_levels	write_factors.R	/^  map_factor_levels <- function(level) {$/;"	f
+map_factor_levels	write_factors.R	/^  map_factor_levels <- function(level) {$/;"	f	function:write_factors
 maximum	update_attributes.R	/^    maximum = new_max$/;"	v	function:update_attributes
 maximum	write_attributes.R	/^      maximum    = max(variable, na.rm = TRUE)$/;"	g
 metadataProvider	create_dataset.R	/^    metadataProvider   = metadataProvider,$/;"	v	function:create_dataset
@@ -264,7 +273,7 @@ number_type	write_attributes.R	/^    number_type <- "real" # all$/;"	v	function:
 object	upload_to_amazon.R	/^    object = paste0(data_path, basename(file_to_upload)),$/;"	v	function:data_to_amz
 object	upload_to_amazon.R	/^    object = paste0(metadata_path, basename(file_to_upload)),$/;"	v	function:eml_to_amz
 objectName	create_dataTable.R	/^    objectName      = project_name,$/;"	v	function:create_dataTable
-objectName	write_factors.R	/^  objectName <- paste0(deparse(substitute(dfname)), "_factors")$/;"	v
+objectName	write_factors.R	/^  objectName <- paste0(deparse(substitute(dfname)), "_factors")$/;"	v	function:write_factors
 object_name	write_attributes.R	/^    object_name <- paste0(deparse(substitute(dfname)), "_attrs")$/;"	v	function:write_attributes
 object_pointer	read_attributes.R	/^    object_pointer <- get(x = entity_name, envir = globalenv())$/;"	v	function:read_attributes
 object_pointer	update_attributes.R	/^    object_pointer <- get(entity_name)$/;"	v	function:update_attributes
@@ -346,7 +355,7 @@ unit	create_dataTable.R	/^  fileSize      <- EML::eml$size(unit = "byte")$/;"	v	
 unit	write_attributes.R	/^      unit       = "",$/;"	g
 update_attributes	update_attributes.R	/^update_attributes <- function($/;"	f
 url	create_dataTable.R	/^    EML::eml$online(url = paste0(fileURL, project_name))$/;"	v	function:create_dataTable
-var_levs	write_factors.R	/^    var_levs <- list($/;"	v
+var_levs	write_factors.R	/^    var_levs <- list($/;"	L	function:write_factors.map_factor_levels
 variableAttributes	write_attributes.R	/^  variableAttributes <- list($/;"	L	function:attributes_to_yaml
 will	configure_som_project.R	/^  will <- EML::eml$personnel($/;"	v
 willOrcid	configure_som_project.R	/^  willOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v
@@ -362,6 +371,7 @@ write_template	write_template.R	/^write_template <- function($/;"	f
 write_unit_dictionary	write_unit_dictionary.R	/^write_unit_dictionary <- function() {$/;"	f
 x	update_attributes.R	/^    x  = attrs_from_read,$/;"	v	function:update_attributes
 x	write_attributes.R	/^      x    = attribute_yaml,$/;"	v	function:write_attributes
+x	write_factors.R	/^      x    = factors_as_yaml,$/;"	v	function:write_factors
 xml_read_metadata	harvest_dataTable.R	/^  xml_read_metadata <- xml2::read_xml(metadata_file)$/;"	v
 xml_url	configure_caplter.R	/^  xml_url <- EML::eml$online($/;"	v
 y	update_attributes.R	/^    y  = attrs_from_write,$/;"	v	function:update_attributes
