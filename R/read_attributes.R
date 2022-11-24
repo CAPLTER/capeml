@@ -38,9 +38,9 @@
 #' @param return_type
 #' (character) Quoted designator indicating the value returned as either an EML
 #' attributes entity (return_type = "eml", the default) or a dataframe of
-#' entity attributes and column classes (return_type = "attributes", the
-#' default) read from the attributes file, the latter primarily as a helper
-#' feature for updating an existing attributes file. 
+#' entity attributes and column classes (return_type = "attributes") read from
+#' the attributes file, the latter primarily as a helper feature for updating
+#' an existing attributes file. 
 #'
 #' @importFrom yaml yaml.load_file yaml.load
 #' @importFrom utils read.csv
@@ -61,24 +61,39 @@ read_attributes <- function(
   return_type        = "eml"
   ) {
 
+  # establish references to the data entity and entity name
+
+  if (rlang::is_expression(entity_name)) {
+
+    string_pointer <- rlang::get_expr(entity_name)
+    object_pointer <- get(x = entity_name, envir = globalenv())
+
+  } else {
+
+    string_pointer <- deparse(substitute(entity_name))
+    object_pointer <- entity_name
+
+  }
+
+
   # attributes ----------------------------------------------------------------
 
   # load attributes from yaml or csv (default to yaml)
-  if (file.exists(paste0(entity_name, "_attrs.yaml"))) {
+  if (file.exists(paste0(string_pointer, "_attrs.yaml"))) {
 
-    attrs <- yaml::yaml.load_file(paste0(entity_name, "_attrs.yaml"))
+    attrs <- yaml::yaml.load_file(paste0(string_pointer, "_attrs.yaml"))
     attrs <- yaml::yaml.load(attrs)
     attrs <- tibble::enframe(attrs) |>
       tidyr::unnest_wider(value) |>
       dplyr::select(-one_of("name"))
 
-  } else if (!file.exists(paste0(entity_name, "_attrs.yaml")) && file.exists(paste0(entity_name, "_attrs.csv"))) {
+  } else if (!file.exists(paste0(string_pointer, "_attrs.yaml")) && file.exists(paste0(string_pointer, "_attrs.csv"))) {
 
-    attrs <- utils::read.csv(paste0(entity_name, "_attrs.csv"))
+    attrs <- utils::read.csv(paste0(string_pointer, "_attrs.csv"))
 
   } else {
 
-    warning(paste0("attributes file: ", entity_name, "_attrs.yaml ", "not found in ", getwd()))
+    stop(paste0("attributes file: ", string_pointer, "_attrs.yaml ", "not found in ", getwd()))
 
   }
 
@@ -99,7 +114,7 @@ read_attributes <- function(
   attrs <- attrs |>
     dplyr::mutate(
       definition = NA_character_,
-      definition = case_when(
+      definition = dplyr::case_when(
         grepl("character", columnClasses) & ((is.na(definition) | definition == "")) ~ attributeDefinition,
         TRUE ~ definition
       )
@@ -114,9 +129,9 @@ read_attributes <- function(
 
   # load factor metadata from yaml or csv (default to yaml)
 
-  if (file.exists(paste0(entity_name, "_factors.yaml"))) {
+  if (file.exists(paste0(string_pointer, "_factors.yaml"))) {
 
-    fcts <- yaml.load_file(paste0(entity_name, "_factors.yaml")) |>
+    fcts <- yaml.load_file(paste0(string_pointer, "_factors.yaml")) |>
       yaml::yaml.load() |>
       tibble::enframe() |>
       tidyr::unnest_wider(value) |>
@@ -125,25 +140,19 @@ read_attributes <- function(
       tidyr::unnest_wider(levels) |>
       dplyr::select(-one_of("name"))
 
-  } else if (file.exists(paste0(entity_name, "_factors.csv"))) {
+  } else if (file.exists(paste0(string_pointer, "_factors.csv"))) {
 
-    fcts <- utils::read.csv(paste0(entity_name, "_factors.csv"))
+    fcts <- utils::read.csv(paste0(string_pointer, "_factors.csv"))
 
   }
 
 
   # missing value coding ------------------------------------------------------
 
-  # use the R object for these operations
-  r_object <- get(
-    x     = entity_name,
-    envir = globalenv()
-  )
-
   # drop geometry columns from consideration if simple features
-  if (class(r_object)[[1]] == "sf") {
+  if (class(object_pointer)[[1]] == "sf") {
 
-    r_object <- r_object |>
+    object_pointer <- object_pointer |>
       sf::st_drop_geometry()
 
   }
@@ -155,10 +164,10 @@ read_attributes <- function(
   )
 
   mvframe <- purrr::map_df(
-    .x         = colnames(r_object),
-    .f         = write_missing_values,
+    .x         = colnames(object_pointer),
+    .f         = capeml::write_missing_values,
     storage    = missing_value_frame,
-    dataObject = r_object,
+    dataObject = object_pointer,
     MVC        = missing_value_code
   )
 
@@ -182,7 +191,7 @@ read_attributes <- function(
 
     return(attr_list)
 
-  } else if (grepl("attributes", return_type, ignore.case = TRUE)) {
+  } else if (grepl("attr", return_type, ignore.case = TRUE)) {
 
     attrs["columnClasses"] <- classes
 

@@ -44,7 +44,9 @@ other users should set bucket and path variables as appropriate.
 \examples{
 \dontrun{
 
+data_to_amz("650_CAP_1985_0c95b18e82df5eb0302a46e5967bb1e1.zip")
 
+eml_to_amz("~/localRepos/cap-data/cap-data-eml/knb-lter-cap.650.1.xml")
 
 }
 }
