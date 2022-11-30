@@ -53,11 +53,11 @@ attrs	create_otherEntity.R	/^    attrs <- yaml::yaml.load_file(paste0(tools::fil
 attrs	read_attributes.R	/^    attrs <- yaml::yaml.load_file(paste0(string_pointer, "_attrs.yaml"))$/;"	v	function:read_attributes
 attrs_from_read	update_attributes.R	/^  attrs_from_read  <- capeml::read_attributes($/;"	v	function:update_attributes
 attrs_from_write	update_attributes.R	/^  attrs_from_write <- capeml::write_attributes($/;"	v	function:update_attributes
-attrs_updated	update_attributes.R	/^  attrs_updated <- dplyr::inner_join($/;"	v	function:update_attributes
+attrs_updated	update_attributes.R	/^  attrs_updated <- dplyr::right_join($/;"	v	function:update_attributes
 bibtex_citation	create_citation.R	/^    bibtex_citation <- cr_cn($/;"	v
 bucket	upload_to_amazon.R	/^    bucket = aws_bucket$/;"	v	function:data_to_amz
 bucket	upload_to_amazon.R	/^    bucket = aws_bucket$/;"	v	function:eml_to_amz
-by	update_attributes.R	/^    by = c("attributeName")$/;"	c	function:update_attributes
+by	update_attributes.R	/^      by = c("attributeName")$/;"	c	function:update_attributes
 calendarDate	create_dataTable.R	/^            calendarDate = format(min(data_object[[dateRangeField]], na.rm = TRUE), "%Y-%m-%d")$/;"	v	function:create_dataTable
 capAddress	configure_caplter.R	/^capAddress <- EML::eml$address($/;"	g
 capContact	configure_caplter.R	/^capContact <- EML::eml$contact($/;"	g
@@ -263,6 +263,8 @@ new_zip_name	zipRelatedFiles.R	/^  new_zip_name <- paste0(packageNum, "_", targe
 newest_version	get_next_version.R	/^  newest_version <- tryCatch({$/;"	v	function:get_next_version
 not_all_na	create_otherEntity.R	/^  not_all_na <- function(x) {$/;"	f
 not_all_na	read_attributes.R	/^  not_all_na <- function(x) {$/;"	f	function:read_attributes
+not_in_read	update_attributes.R	/^    not_in_read <- dplyr::anti_join($/;"	v	function:update_attributes
+not_in_write	update_attributes.R	/^    not_in_write <- dplyr::anti_join($/;"	v	function:update_attributes
 numHeaderLines	create_dataTable.R	/^    numHeaderLines  = 1,$/;"	v	function:create_dataTable
 num_citations	create_dataset.R	/^  num_citations <- 0$/;"	v	function:create_dataset
 num_usages	create_dataset.R	/^  num_usages <- 0$/;"	v	function:create_dataset
@@ -369,11 +371,11 @@ write_keywords	write_keywords.R	/^write_keywords <- function(overwrite = FALSE) 
 write_missing_values	write_missing_values.R	/^write_missing_values <- function($/;"	f
 write_template	write_template.R	/^write_template <- function($/;"	f
 write_unit_dictionary	write_unit_dictionary.R	/^write_unit_dictionary <- function() {$/;"	f
-x	update_attributes.R	/^    x  = attrs_from_read,$/;"	v	function:update_attributes
+x	update_attributes.R	/^      x  = attrs_from_write,$/;"	v	function:update_attributes
 x	write_attributes.R	/^      x    = attribute_yaml,$/;"	v	function:write_attributes
 x	write_factors.R	/^      x    = factors_as_yaml,$/;"	v	function:write_factors
 xml_read_metadata	harvest_dataTable.R	/^  xml_read_metadata <- xml2::read_xml(metadata_file)$/;"	v
 xml_url	configure_caplter.R	/^  xml_url <- EML::eml$online($/;"	v
-y	update_attributes.R	/^    y  = attrs_from_write,$/;"	v	function:update_attributes
+y	update_attributes.R	/^      y  = attrs_from_read,$/;"	v	function:update_attributes
 zipRelatedFiles	zipRelatedFiles.R	/^zipRelatedFiles <- function(pathToFile, targetFile) {$/;"	f
 zippedObject	create_otherEntity.R	/^    zippedObject <- paste0(basename(target_file_or_directory), ".zip")$/;"	v

@@ -81,8 +81,8 @@ the function and it must exist.
 \examples{
 \dontrun{
 
-data_entity <- read("data source") \%>\%
-  processing \%>\%
+data_entity <- read("data source") |>
+  processing |>
   processing
 
 try({
@@ -94,9 +94,9 @@ data_entity_desc <- "snow leopard data"
 
 # create_dataTable with optional arguments dateRangeField and missingValueCode
 data_entity_DT <- capeml::create_dataTable(
-       dfname = data_entity,
-       description = data_entity_desc,
-       dateRangeField = "observation date",
+       dfname           = data_entity,
+       description      = data_entity_desc,
+       dateRangeField   = "observation date",
        missingValueCode = "missing"
        )
 

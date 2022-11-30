@@ -27,6 +27,18 @@
 #' on the resulting data entity EML, and we can still provide custom
 #' \code{definition} metadata if desired.
 #'
+#' @note \code{update_attributes} will abort the update if an attribute is
+#' detected in the data entity but for which there is not metadata in the
+#' existing attributes file. This is an indication that the data structure or
+#' content has changed sufficiently that a new, blank attributes metadata file
+#' should be constructed. Conversely, if an attribute is detected in the
+#' existing metadata that is not detected in the data entity, the update will
+#' proceed but the attribute and corresponding metadata in the entity but not
+#' in the existing metadata file will be stricken from the updated attribute
+#' metadata file. In both cases, \code{update_attributes} will print to screen
+#' the incongruent attributes.
+#'
+#'
 #' @param entity_name
 #' (character) The name of the data entity.
 #' @param return_type
@@ -98,22 +110,46 @@ update_attributes <- function(
     new_max = maximum
   )
 
-  if (nrow(attrs_from_read) != nrow(attrs_from_write)) {
 
-    stop(
-      "mismatch in the number of data entity and existing metadata variables ",
-      nrow(attrs_from_read),
-      " versus ",
-      nrow(attrs_from_write),
-      " could not update attribute metadta"
-    )
+  # resolve mismatches between the current entity and existing metadata
+
+  if (!identical(attrs_from_read[["attributeName"]], attrs_from_write[["attributeName"]])) { 
+
+    not_in_read <- dplyr::anti_join(
+      x  = attrs_from_write,
+      y  = attrs_from_read,
+      by = c("attributeName")
+      ) |>
+    dplyr::pull(attributeName)
+
+    if (length(not_in_read) > 0) {
+
+      not_in_read <- paste(not_in_read, collapse = " ")
+      stop("aborted, these attributes not in the existing metadata: ", not_in_read)
+
+    }
+
+    not_in_write <- dplyr::anti_join(
+      x  = attrs_from_read,
+      y  = attrs_from_write,
+      by = c("attributeName")
+      ) |>
+    dplyr::pull(attributeName)
+
+    if (length(not_in_write) > 0) {
+
+      not_in_write <- paste(not_in_write, collapse = " ")
+      warning("attribute(s) in data entity but not metadata: ", not_in_write)
+
+    }
 
   }
 
 
   # join and update
 
-  attrs_updated <- dplyr::inner_join(
+  # attrs_updated <- dplyr::inner_join(
+  attrs_updated <- dplyr::right_join(
     x  = attrs_from_read,
     y  = attrs_from_write,
     by = c("attributeName")

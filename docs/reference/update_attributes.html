@@ -30,7 +30,7 @@ for said data entity if they have changed in the context of a data refresh."><!-
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.17.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.18.0</span>
       </span>
     </div>
 
@@ -109,6 +109,16 @@ for variables of type character, this is reflected by
 <code>update_attributes</code> in the updated yaml. This does not have any bearing
 on the resulting data entity EML, and we can still provide custom
 <code>definition</code> metadata if desired.</p>
+<p><code>update_attributes</code> will abort the update if an attribute is
+detected in the data entity but for which there is not metadata in the
+existing attributes file. This is an indication that the data structure or
+content has changed sufficiently that a new, blank attributes metadata file
+should be constructed. Conversely, if an attribute is detected in the
+existing metadata that is not detected in the data entity, the update will
+proceed but the attribute and corresponding metadata in the entity but not
+in the existing metadata file will be stricken from the updated attribute
+metadata file. In both cases, <code>update_attributes</code> will print to screen
+the incongruent attributes.</p>
     </div>
 
     <div id="ref-examples">

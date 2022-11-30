@@ -13,3 +13,5 @@ dplyr::mutate(
 dplyr::filter(!is.na(ID))
 
 black_widow_behavior_desc <- "Western black widow spider characteristics and behaviors in the field and the laboratory"
+
+black_widow_behavior_edited <- black_widow_behavior

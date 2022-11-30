@@ -20,7 +20,7 @@ generates a EML entity of type dataTable"><!-- mathjax --><script src="https://c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.17.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.18.0</span>
       </span>
     </div>
 
@@ -142,33 +142,7 @@ the function and it must exist.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">data_entity</span> <span class="op">&lt;-</span> <span class="fu">read</span><span class="op">(</span><span class="st">"data source"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
-<span class="r-in"><span>  <span class="va">processing</span> <span class="op">%&gt;%</span></span></span>
-<span class="r-in"><span>  <span class="va">processing</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="write_attributes.html">write_attributes</a></span><span class="op">(</span><span class="va">data_entity</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="write_factors.html">write_factors</a></span><span class="op">(</span><span class="va">data_entity</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">data_entity_desc</span> <span class="op">&lt;-</span> <span class="st">"snow leopard data"</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># create_dataTable with optional arguments dateRangeField and missingValueCode</span></span></span>
-<span class="r-in"><span><span class="va">data_entity_DT</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu">create_dataTable</span><span class="op">(</span></span></span>
-<span class="r-in"><span>       dfname <span class="op">=</span> <span class="va">data_entity</span>,</span></span>
-<span class="r-in"><span>       description <span class="op">=</span> <span class="va">data_entity_desc</span>,</span></span>
-<span class="r-in"><span>       dateRangeField <span class="op">=</span> <span class="st">"observation date"</span>,</span></span>
-<span class="r-in"><span>       missingValueCode <span class="op">=</span> <span class="st">"missing"</span></span></span>
-<span class="r-in"><span>       <span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># The resulting dataTable entity can be added to a EML dataset</span></span></span>
-<span class="r-in"><span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu">EML</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/EML/reference/eml.html" class="external-link">eml</a></span><span class="op">$</span><span class="fu">dataset</span><span class="op">(</span>dataTable <span class="op">=</span> <span class="va">data_entity_DT</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
-</code></pre></div>
+    
     </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -49,6 +49,17 @@ for variables of type character, this is reflected by
 \code{update_attributes} in the updated yaml. This does not have any bearing
 on the resulting data entity EML, and we can still provide custom
 \code{definition} metadata if desired.
+
+\code{update_attributes} will abort the update if an attribute is
+detected in the data entity but for which there is not metadata in the
+existing attributes file. This is an indication that the data structure or
+content has changed sufficiently that a new, blank attributes metadata file
+should be constructed. Conversely, if an attribute is detected in the
+existing metadata that is not detected in the data entity, the update will
+proceed but the attribute and corresponding metadata in the entity but not
+in the existing metadata file will be stricken from the updated attribute
+metadata file. In both cases, \code{update_attributes} will print to screen
+the incongruent attributes.
 }
 \examples{
 \dontrun{
