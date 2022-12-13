@@ -4,14 +4,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="This package is intented to facilitate the creation of EML
+  metadata with intent to publish data and metadata in the Environmental Data
+  Initiative (EDI) data repository. Functions and a workflow are included that
+  allow for the creation of metadata at the data set level, and individual data
+  entities (other entities, data tables).">
 <title>CAP LTER package for generating EML • capeml</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="CAP LTER package for generating EML">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="CAP LTER package for generating EML">
 <meta property="og:description" content="This package is intented to facilitate the creation of EML
   metadata with intent to publish data and metadata in the Environmental Data
   Initiative (EDI) data repository. Functions and a workflow are included that
@@ -22,44 +26,39 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">capeml</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.18.0</span>
-      </span>
-    </div>
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-dark"><div class="container">
+    
+    <a class="navbar-brand me-2" href="index.html">capeml</a>
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="reference/index.html">Reference</a>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.19.0</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item">
+  <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav"></ul>
 </div>
-<!--/.nav-collapse -->
+
+    
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
-
-      
-
-      </header><div class="row">
-  <div class="contents col-md-9">
-<div class="section level2">
+</nav><div class="container template-home">
+<div class="row">
+  <main id="main" class="col-md-9"><div class="section level2">
 <h2 id="capeml-tools-to-aid-the-generation-of-eml-metadata">capeml: tools to aid the generation of EML metadata<a class="anchor" aria-label="anchor" href="#capeml-tools-to-aid-the-generation-of-eml-metadata"></a>
 </h2>
 <div class="section level3">
@@ -329,8 +328,8 @@
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>my_table &lt;-<span class="st"> </span>import <span class="op">/</span><span class="st"> </span>generate...process...</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="co"># Note: the `try` block facilitates knitting the entire document even if the</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="co"># attributes and factors yaml files already exist (since they will not be</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a><span class="co"># overwritten unless the overwrite flag is set, thus aborting the knit).</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="co"># attributes and factors yaml files already exist since they will not be</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a><span class="co"># overwritten unless the overwrite flag is set, thus aborting the knit.</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a><span class="kw">try</span>({</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a>  capeml<span class="op">::</span><span class="kw">write_attributes</span>(my_table, <span class="dt">overwrite =</span> <span class="ot">FALSE</span>)</span>
@@ -356,8 +355,12 @@
 <p>A EML object of type otherEntity can be created from a single file or a directory. In the case of generating a otherEntity object from a directory, pass the directory path to the target_file_or_directory argument, capeml will recognize the target as a directory, and create a zipped file of the identified directory.</p>
 <p>If the otherEntity object already is a zip file with the desired name, set the overwrite argument to FALSE to prevent overwriting the existing object.</p>
 <p>As with all objects created with the capeml package, the resulting object is named with convention: projectid_object-name.file extension by default but this functionality can be turned off by setting projectNaming to FALSE.</p>
-<p>As with <code><a href="reference/create_dataTable.html">create_dataTable()</a></code>, <code><a href="reference/create_otherEntity.html">create_otherEntity()</a></code> can also take advantage of the <code><a href="reference/write_attributes.html">write_attributes()</a></code> and <code><a href="reference/write_factors.html">write_factors()</a></code> services of capeml. An example of where you might want to use these features would be when documenting a spatial resource that cannot be coerced into a type <code>spatialRaster</code> or <code>spatialVector</code> (e.g., because of an undocumented coordinate system). To use these services with a directory, create an object in R with the same name as the directory that will be zipped, then pass that object to <code><a href="reference/write_attributes.html">write_attributes()</a></code> and <code><a href="reference/write_factors.html">write_factors()</a></code> - capeml will look for the resulting attribute and factor (if relevant) yaml files and match them to the directory name (see following for an example).</p>
-<p><em>example using create_otherEntity to construct an object of type otherEntity from an ESRI shapefile titled UEI_Features_CAPLTER_2010_2017_JAB.shp (plus </em>.dbf, <em>.prj, and other shapefile files) that is in a directory of the same name (sans file extension)</em></p>
+<p>As with <code><a href="reference/create_dataTable.html">create_dataTable()</a></code>, <code><a href="reference/create_otherEntity.html">create_otherEntity()</a></code> can also take advantage of the <code><a href="reference/write_attributes.html">write_attributes()</a></code> and <code><a href="reference/write_factors.html">write_factors()</a></code> services of capeml. An example of where you might want to use these features would be when documenting a spatial resource that cannot be documented as type <code>spatialRaster</code> or <code>spatialVector</code> (e.g., because the resource is projected in a coordinate reference system that is not part of the EML schema). To use these services with a directory, create an object in R with the same name as the directory that will be zipped, then pass that object to <code><a href="reference/write_attributes.html">write_attributes()</a></code> and <code><a href="reference/write_factors.html">write_factors()</a></code> - capeml will look for the resulting attribute and factor (if relevant) yaml files and match them to the directory name (see following for an example).</p>
+</div>
+<div class="section level5">
+<h5 id="otherentity-for-vectors-example-using-create_otherentity-to-construct-an-object-of-type-otherentity-from-an-esri-shapefile-titled-uei_features_caplter_2010_2017_jabshp-plus-dbf-prj-and-other-shapefile-files-that-is-in-a-directory-of-the-same-name-sans-file-extension">otherEntity for vectors <em>example using create_otherEntity to construct an object of type otherEntity from an ESRI shapefile titled UEI_Features_CAPLTER_2010_2017_JAB.shp (plus </em>.dbf, <em>.prj, and other shapefile files) that is in a directory of the same name (sans file extension)</em>
+<a class="anchor" aria-label="anchor" href="#otherentity-for-vectors-example-using-create_otherentity-to-construct-an-object-of-type-otherentity-from-an-esri-shapefile-titled-uei_features_caplter_2010_2017_jabshp-plus-dbf-prj-and-other-shapefile-files-that-is-in-a-directory-of-the-same-name-sans-file-extension"></a>
+</h5>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Read the data into R, here a shapefile using the sf package being careful to</span></span>
 <span><span class="co"># name the resulting object in the R environment with the same name of the</span></span>
@@ -375,7 +378,7 @@
 <span></span>
 <span><span class="co"># Generate yaml files of both the attributes and factors (if relevant) from the</span></span>
 <span><span class="co"># shapefile that we read into R; these will be written to the project directory</span></span>
-<span><span class="co"># with the name of the object that we crated in the R environment in the first</span></span>
+<span><span class="co"># with the name of the object that we created in the R environment in the first</span></span>
 <span><span class="co"># step - again, this must correspond to the name of directory housing the files</span></span>
 <span><span class="co"># to be zipped.</span></span>
 <span></span>
@@ -404,12 +407,32 @@
 <span><span class="co"># of the attribute metadata provided in the corresponding attribute and factor</span></span>
 <span><span class="co"># (if relevant) yaml files. Additionally, the target directory housing our</span></span>
 <span><span class="co"># shapefiles will be zipped and, possibly, renamed depending on whether project</span></span>
-<span><span class="co"># naming was invoked.</span></span>
+<span><span class="co"># naming was enabled.</span></span>
 <span></span>
 <span><span class="va">uei_features_OE</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_otherEntity.html">create_otherEntity</a></span><span class="op">(</span></span>
 <span>  target_file_or_directory <span class="op">=</span> <span class="st">"data/UEI_Features_CAPLTER_2010_2017_JAB"</span>,</span>
 <span>  description              <span class="op">=</span> <span class="va">UEI_Features_CAPLTER_2010_2017_JAB_desc</span>,</span>
 <span>  additional_information   <span class="op">=</span> <span class="va">UEI_Features_CAPLTER_2010_2017_JAB_additional</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level5">
+<h5 id="otherentity-for-rasters-example-using-create_otherentity-to-construct-an-object-of-type-otherentity-of-a-raster">otherEntity for rasters <em>example using create_otherEntity to construct an object of type otherEntity of a raster</em>
+<a class="anchor" aria-label="anchor" href="#otherentity-for-rasters-example-using-create_otherentity-to-construct-an-object-of-type-otherentity-of-a-raster"></a>
+</h5>
+<p>If the raster data are not categorical, we can simply pass raster value details to the <code>entity_value_description</code> parameter. If the raster data are categorical, we can construct a template to provide metadata about the factor levels using the <code>write_raster_factors()</code> tool from the capemlGIS package. <code>write_raster_factors()</code> works similarly to capeml’s <code><a href="reference/write_factors.html">write_factors()</a></code> but accomodates the matrix structure and single data type of raster data. In the example below, the well_water_use raster features changes in water level - the changes are in units of acre-feet but the changes are binned in ranges such that the values are categorical. We can use the <code><a href="https://rdrr.io/pkg/capemlGIS/man/write_raster_factors.html" class="external-link">capemlGIS::write_raster_factors</a></code> function to generate a metadata template (well_water_use.yaml) in the working directory that we can use do document the details of the categories; <code><a href="reference/create_otherEntity.html">capeml::create_otherEntity</a></code> will read the contents of the metadata file and add the details regarding the levels of well_water_use.img in the otherEntity object metadata.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">capemlGIS</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/capemlGIS/man/write_raster_factors.html" class="external-link">write_raster_factors</a></span><span class="op">(</span></span>
+<span>  raster_entity <span class="op">=</span> <span class="va">well_water_use</span>,</span>
+<span>  value_name    <span class="op">=</span> <span class="st">"acre-feet"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">well_water_use_OE</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_otherEntity.html">create_otherEntity</a></span><span class="op">(</span></span>
+<span>  target_file_or_directory <span class="op">=</span> <span class="st">"well_water_use.img"</span>,</span>
+<span>  description              <span class="op">=</span> <span class="st">"Change of groundwater usage..."</span>,</span>
+<span>  overwrite        <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  project_naming           <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  additional_information   <span class="op">=</span> <span class="st">"This is a spatial data object..."</span>,</span>
+<span>  entity_value_description <span class="op">=</span> <span class="st">"acre-feet"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
@@ -418,31 +441,31 @@
 </h4>
 <p>Whereas the above approches require that data entity objects are created, and, particularly, created using a speicic naming conventino (i.e., <code>*_DT</code>, <code>*_OE</code> for datatables and other entities, respectively), another option for generating both EML dataTable and otherEntity objects and metadata is to detail the parameters for each entity in a <code>data_objects.yaml</code> file. Using this approach, the <code>create_dataset</code> function will call the appropriate function for each entity rather than the user having to construct each entity using <code>create_dataTable</code>, <code>create_otherEntity</code>. This approach provides greater flexibility for the user to address data processing across files and envrironments. A combination of approaches is possible, as <code>create_dataset</code> will look for both a <code>data_objects.yaml</code> and appropriately names objects (i.e., <code>*_DT</code>, <code>*_OE</code>) in the working directory and environment, respectively. The <code>data_objects.yaml</code> must include all parameters and arguments corresponding to the <code>create_dataTable</code> and <code>create_otherEntity</code> functions.</p>
 <p><em>Example <code>data_objects.yaml</code> file:</em></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="fu">my_iris_changed_name</span><span class="kw">:</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> table</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a><span class="at">  </span><span class="fu">dfname</span><span class="kw">:</span><span class="at"> my_iris</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a><span class="at">  </span><span class="fu">description</span><span class="kw">:</span><span class="at"> </span><span class="st">'my iris data'</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a><span class="at">  </span><span class="fu">dateRangeField</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true"></a><span class="at">  </span><span class="fu">overwrite</span><span class="kw">:</span><span class="at"> </span><span class="ch">TRUE</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true"></a><span class="at">  </span><span class="fu">projectNaming</span><span class="kw">:</span><span class="at"> </span><span class="ch">FALSE</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true"></a><span class="at">  </span><span class="fu">missingValueCode</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true"></a><span class="at">  </span><span class="fu">additional_information</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true"></a><span class="fu">some_data</span><span class="kw">:</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> table</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true"></a><span class="at">  </span><span class="fu">dfname</span><span class="kw">:</span><span class="at"> some_data</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true"></a><span class="at">  </span><span class="fu">description</span><span class="kw">:</span><span class="at"> </span><span class="st">'my some data'</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true"></a><span class="at">  </span><span class="fu">dateRangeField</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true"></a><span class="at">  </span><span class="fu">overwrite</span><span class="kw">:</span><span class="at"> </span><span class="ch">TRUE</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true"></a><span class="at">  </span><span class="fu">projectNaming</span><span class="kw">:</span><span class="at"> </span><span class="ch">TRUE</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true"></a><span class="at">  </span><span class="fu">missingValueCode</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true"></a><span class="at">  </span><span class="fu">additional_information</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true"></a><span class="fu">my_other_ent</span><span class="kw">:</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> other</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true"></a><span class="at">  </span><span class="fu">target_file_or_directory</span><span class="kw">:</span><span class="at"> </span><span class="st">'./my_other_ent.pdf'</span></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true"></a><span class="at">  </span><span class="fu">description</span><span class="kw">:</span><span class="at"> </span><span class="st">'my other ent desc'</span></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true"></a><span class="at">  </span><span class="fu">overwrite</span><span class="kw">:</span><span class="at"> </span><span class="ch">TRUE</span></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true"></a><span class="at">  </span><span class="fu">projectNaming</span><span class="kw">:</span><span class="at"> </span><span class="ch">TRUE</span></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true"></a><span class="at">  </span><span class="fu">additional_information</span><span class="kw">:</span><span class="at"> </span><span class="st">'additional details'</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="fu">my_iris_changed_name</span><span class="kw">:</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> table</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a><span class="at">  </span><span class="fu">dfname</span><span class="kw">:</span><span class="at"> my_iris</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a><span class="at">  </span><span class="fu">description</span><span class="kw">:</span><span class="at"> </span><span class="st">'my iris data'</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true"></a><span class="at">  </span><span class="fu">dateRangeField</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true"></a><span class="at">  </span><span class="fu">overwrite</span><span class="kw">:</span><span class="at"> </span><span class="ch">TRUE</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true"></a><span class="at">  </span><span class="fu">projectNaming</span><span class="kw">:</span><span class="at"> </span><span class="ch">FALSE</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true"></a><span class="at">  </span><span class="fu">missingValueCode</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true"></a><span class="at">  </span><span class="fu">additional_information</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true"></a><span class="fu">some_data</span><span class="kw">:</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> table</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true"></a><span class="at">  </span><span class="fu">dfname</span><span class="kw">:</span><span class="at"> some_data</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true"></a><span class="at">  </span><span class="fu">description</span><span class="kw">:</span><span class="at"> </span><span class="st">'my some data'</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true"></a><span class="at">  </span><span class="fu">dateRangeField</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true"></a><span class="at">  </span><span class="fu">overwrite</span><span class="kw">:</span><span class="at"> </span><span class="ch">TRUE</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true"></a><span class="at">  </span><span class="fu">projectNaming</span><span class="kw">:</span><span class="at"> </span><span class="ch">TRUE</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true"></a><span class="at">  </span><span class="fu">missingValueCode</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true"></a><span class="at">  </span><span class="fu">additional_information</span><span class="kw">:</span><span class="at"> </span><span class="ch">NULL</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true"></a><span class="fu">my_other_ent</span><span class="kw">:</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> other</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true"></a><span class="at">  </span><span class="fu">target_file_or_directory</span><span class="kw">:</span><span class="at"> </span><span class="st">'./my_other_ent.pdf'</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true"></a><span class="at">  </span><span class="fu">description</span><span class="kw">:</span><span class="at"> </span><span class="st">'my other ent desc'</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true"></a><span class="at">  </span><span class="fu">overwrite</span><span class="kw">:</span><span class="at"> </span><span class="ch">TRUE</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true"></a><span class="at">  </span><span class="fu">projectNaming</span><span class="kw">:</span><span class="at"> </span><span class="ch">TRUE</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true"></a><span class="at">  </span><span class="fu">additional_information</span><span class="kw">:</span><span class="at"> </span><span class="st">'additional details'</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="citations">citations<a class="anchor" aria-label="anchor" href="#citations"></a>
@@ -454,7 +477,7 @@
 <div class="section level4">
 <h4 id="literature-cited">literature cited<a class="anchor" aria-label="anchor" href="#literature-cited"></a>
 </h4>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cook</span>    <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.envpol.2018.04.013"</span><span class="op">)</span></span>
 <span><span class="va">sartory</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1007/BF00031869"</span><span class="op">)</span></span>
 <span></span>
@@ -468,7 +491,7 @@
 <div class="section level4">
 <h4 id="usage-citations">usage citations<a class="anchor" aria-label="anchor" href="#usage-citations"></a>
 </h4>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">brown</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.3389/fevo.2020.569730"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">usages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">brown</span><span class="op">)</span> <span class="co"># close usages</span></span>
@@ -479,11 +502,11 @@
 <h4 id="citations-that-do-no-have-a-doi">citations that do no have a DOI<a class="anchor" aria-label="anchor" href="#citations-that-do-no-have-a-doi"></a>
 </h4>
 <p>Though a DOI makes documenting references easy, we can add citations that do not have a DOI. There are many ways to address this but likely easiest is to get or create a citation for the reference in bibtex format. <a href="http://sourceforge.net/p/bibutils/home/Bibutils/" class="external-link">bibutils</a> is a helfpul utility that can convert other citation formats, such as .ris, to bibtex. With bibutils, we can convert ris to an intermediate xml format and then to bibtex.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a><span class="fu">wget</span> -O ~/Desktop/tellman_dissertation.ris https://repository.asu.edu/items/53734.ris</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a><span class="fu">cat</span> tellman_dissertation.ris <span class="kw">|</span> <span class="ex">ris2xml</span> <span class="kw">|</span> <span class="ex">xml2bib</span> <span class="op">&gt;&gt;</span> tellman_dissertation.bib</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a><span class="fu">wget</span> -O ~/Desktop/tellman_dissertation.ris https://repository.asu.edu/items/53734.ris</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a><span class="fu">cat</span> tellman_dissertation.ris <span class="kw">|</span> <span class="ex">ris2xml</span> <span class="kw">|</span> <span class="ex">xml2bib</span> <span class="op">&gt;&gt;</span> tellman_dissertation.bib</span></code></pre></div>
 <p>Once we have the citation in bibtex format, we can add it along with other citations as in the example below where we added the citation for the Tellman dissertation to a suite of citations generated with capeml’s create_citiation function.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tellman_2021</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.worlddev.2020.105374"</span><span class="op">)</span></span>
 <span><span class="va">lerner_2018</span>  <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.1016/j.cities.2018.06.009"</span><span class="op">)</span></span>
 <span><span class="va">eakin_2019</span>   <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/create_citation.html">create_citation</a></span><span class="op">(</span><span class="st">"https://doi.org/10.5751/ES-11030-240315"</span><span class="op">)</span></span>
@@ -525,10 +548,7 @@
 </div>
 </div>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="license">
+  </main><aside class="col-md-3"><div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>CC0</li>
@@ -552,25 +572,24 @@
 
 
 
-  </div>
+  </aside>
 </div>
 
 
-      <footer><div class="copyright">
+    <footer><div class="pkgdown-footer-left">
   <p></p>
 <p>Developed by S Earl.</p>
 </div>
 
-<div class="pkgdown">
+<div class="pkgdown-footer-right">
   <p></p>
 <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
   
-
 
   
 

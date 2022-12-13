@@ -263,8 +263,8 @@ Given a rectangular data matrix of type dataframe or tibble in the R environment
 my_table <- import / generate...process...
 
 # Note: the `try` block facilitates knitting the entire document even if the
-# attributes and factors yaml files already exist (since they will not be
-# overwritten unless the overwrite flag is set, thus aborting the knit).
+# attributes and factors yaml files already exist since they will not be
+# overwritten unless the overwrite flag is set, thus aborting the knit.
 
 try({
   capeml::write_attributes(my_table, overwrite = FALSE)
@@ -295,11 +295,11 @@ If the otherEntity object already is a zip file with the desired name, set the o
 
 As with all objects created with the capeml package, the resulting object is named with convention: projectid_object-name.file extension by default but this functionality can be turned off by setting projectNaming to FALSE.
 
-As with `create_dataTable()`, `create_otherEntity()` can also take advantage of the `write_attributes()` and `write_factors()` services of capeml. An example of where you might want to use these features would be when documenting a spatial resource that cannot be coerced into a type `spatialRaster` or `spatialVector` (e.g., because of an undocumented coordinate system). To use these services with a directory, create an object in R with the same name as the directory that will be zipped, then pass that object to `write_attributes()` and `write_factors()` - capeml will look for the resulting attribute and factor (if relevant) yaml files and match them to the directory name (see following for an example).
+As with `create_dataTable()`, `create_otherEntity()` can also take advantage of the `write_attributes()` and `write_factors()` services of capeml. An example of where you might want to use these features would be when documenting a spatial resource that cannot be documented as type `spatialRaster` or `spatialVector` (e.g., because the resource is projected in a coordinate reference system that is not part of the EML schema). To use these services with a directory, create an object in R with the same name as the directory that will be zipped, then pass that object to `write_attributes()` and `write_factors()` - capeml will look for the resulting attribute and factor (if relevant) yaml files and match them to the directory name (see following for an example).
 
-*example using create_otherEntity to construct an object of type otherEntity from an ESRI shapefile titled UEI_Features_CAPLTER_2010_2017_JAB.shp (plus *.dbf, *.prj, and other shapefile files) that is in a directory of the same name (sans file extension)*
+##### otherEntity for vectors *example using create_otherEntity to construct an object of type otherEntity from an ESRI shapefile titled UEI_Features_CAPLTER_2010_2017_JAB.shp (plus *.dbf, *.prj, and other shapefile files) that is in a directory of the same name (sans file extension)*
 
-```{r my-other-entity, eval=FALSE}
+```{r other-entity-vector, eval=FALSE}
 
 # Read the data into R, here a shapefile using the sf package being careful to
 # name the resulting object in the R environment with the same name of the
@@ -317,7 +317,7 @@ UEI_Features_CAPLTER_2010_2017_JAB <- UEI_Features_CAPLTER_2010_2017_JAB |>
 
 # Generate yaml files of both the attributes and factors (if relevant) from the
 # shapefile that we read into R; these will be written to the project directory
-# with the name of the object that we crated in the R environment in the first
+# with the name of the object that we created in the R environment in the first
 # step - again, this must correspond to the name of directory housing the files
 # to be zipped.
 
@@ -346,12 +346,34 @@ Central (ft) - Projected"
 # of the attribute metadata provided in the corresponding attribute and factor
 # (if relevant) yaml files. Additionally, the target directory housing our
 # shapefiles will be zipped and, possibly, renamed depending on whether project
-# naming was invoked.
+# naming was enabled.
 
 uei_features_OE <- capeml::create_otherEntity(
   target_file_or_directory = "data/UEI_Features_CAPLTER_2010_2017_JAB",
   description              = UEI_Features_CAPLTER_2010_2017_JAB_desc,
   additional_information   = UEI_Features_CAPLTER_2010_2017_JAB_additional
+)
+
+```
+
+##### otherEntity for rasters *example using create_otherEntity to construct an object of type otherEntity of a raster*
+
+If the raster data are not categorical, we can simply pass raster value details to the `entity_value_description` parameter. If the raster data are categorical, we can construct a template to provide metadata about the factor levels using the `write_raster_factors()` tool from the capemlGIS package. `write_raster_factors()` works similarly to capeml's `write_factors()` but accomodates the matrix structure and single data type of raster data. In the example below, the well_water_use raster features changes in water level - the changes are in units of acre-feet but the changes are binned in ranges such that the values are categorical. We can use the `capemlGIS::write_raster_factors` function to generate a metadata template (well_water_use.yaml) in the working directory that we can use do document the details of the categories; `capeml::create_otherEntity` will read the contents of the metadata file and add the details regarding the levels of well_water_use.img in the otherEntity object metadata.
+
+```{r other-entity-raster, eval=FALSE}
+
+capemlGIS::write_raster_factors(
+  raster_entity = well_water_use,
+  value_name    = "acre-feet"
+)
+
+well_water_use_OE <- capeml::create_otherEntity(
+  target_file_or_directory = "well_water_use.img",
+  description              = "Change of groundwater usage...",
+  overwrite		   = FALSE,
+  project_naming           = FALSE,
+  additional_information   = "This is a spatial data object...",
+  entity_value_description = "acre-feet"
 )
 
 ```
