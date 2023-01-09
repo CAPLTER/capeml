@@ -130,7 +130,7 @@ configure_caplter_project <- function() {
       funderIdentifier = "https://ror.org/021nxhr62",
       awardNumber      = "1832016",
       title            = "LTER: CAP IV - Investigating urban ecology and sustainability through the lens of Urban Ecological Infrastructure",
-      awardUrl         = "https://nsf.gov/awardsearch/showAward?AWD_ID=1832016&HistoricalAwards=false"
+      awardUrl         = "https://nsf.gov/awardsearch/showAward?AWD_ID=1832016&HistoricalAwards=true"
     )
   )
 
