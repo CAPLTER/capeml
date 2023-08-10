@@ -3,6 +3,7 @@
 export(capAddress)
 export(capContact)
 export(capPublisher)
+export(capROR)
 export(capRights)
 export(configure_caplter_project)
 export(configure_ltreb_project)

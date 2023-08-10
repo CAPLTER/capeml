@@ -79,14 +79,23 @@ capPublisher <- EML::eml$publisher(
   organizationName = "Central Arizona\u2013Phoenix LTER",
   address = capAddress)
 
+#' @title CAP LTER ROR
+#' @export capROR
+cap_ror <- list(
+  userId    = "020zjmd13",
+  directory = "https://ror.org/"
+)
+
 #' @title default CAP LTER contact as EML::contact
 #' @export capContact
 capContact <- EML::eml$contact(
-  organizationName = "Central Arizona\u2013Phoenix LTER",
-  positionName = "Information Manager",
+  organizationName      = "Central Arizona\u2013Phoenix LTER",
+  positionName          = "Information Manager",
   electronicMailAddress = "caplter.data@asu.edu",
-  onlineUrl = "https://sustainability-innovation.asu.edu/caplter/",
-  address = capAddress)
+  onlineUrl             = "https://sustainability-innovation.asu.edu/caplter/",
+  address               = capAddress,
+  userId                = cap_ror
+)
 
 
 # language ----------------------------------------------------------------
