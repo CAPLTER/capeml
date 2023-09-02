@@ -181,7 +181,11 @@ attributes_to_yaml <- function(variable, varName) {
 
   variableAttributes <- list(
     attributeName = varName,
-    attributeDefinition = ""
+    attributeDefinition = "",
+    propertyURI = "",
+    propertyLabel = "",
+    valueURI = "",
+    valueLabel = ""
   )
 
   if (is.numeric(variable)) {

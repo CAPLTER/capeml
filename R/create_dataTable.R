@@ -141,14 +141,6 @@ create_dataTable <- function(
   }
 
 
-  # attributes ---------------------------------------------------------------
-
-  attributes <- capeml::read_attributes(
-    entity_name        = namestr,
-    missing_value_code = missingValueCode
-  )
-
-
   # retrieve dataset details from config.yaml
 
   configurations <- read_package_configuration()
@@ -222,6 +214,15 @@ create_dataTable <- function(
     recordDelimiter = "\\r\\n",
     quoteCharacter  = "\"",
     url             = paste0(fileURL, project_name)
+  )
+
+
+  # attributes ---------------------------------------------------------------
+
+  attributes <- capeml::read_attributes(
+    entity_name        = namestr,
+    missing_value_code = missingValueCode,
+    entity_id          = tools::md5sum(project_name)
   )
 
 

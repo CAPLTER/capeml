@@ -41,6 +41,10 @@
 #' entity attributes and column classes (return_type = "attributes") read from
 #' the attributes file, the latter primarily as a helper feature for updating
 #' an existing attributes file. 
+#' @param entity_id
+#' (character) Quoted identifier of the data object that is being described,
+#' this will usually be the name or hash of the data table (or otherwise) of
+#' which the attribute is associated.
 #'
 #' @importFrom yaml yaml.load_file yaml.load
 #' @importFrom utils read.csv
@@ -51,14 +55,16 @@
 #' @importFrom purrr map_df
 #' @importFrom sf st_drop_geometry
 #'
-#' @return A entity of type EML attributes
+#' @return A entity of type EML attributes or list of attributes (for testing
+#' and debugging)
 #'
 #' @export
 #'
 read_attributes <- function(
   entity_name,
   missing_value_code = NULL,
-  return_type        = "eml"
+  return_type        = "eml",
+  entity_id          = "data_entity"
   ) {
 
   # establish references to the data entity and entity name
@@ -105,6 +111,9 @@ read_attributes <- function(
   # remove col classes from attrs (req'd by set_attributes);
   # remove empty columns (targets here are max and min values, which can throw
   # an error for data without any numeric columns)
+  # empty strings to NA
+
+  attrs[attrs == ""] <- NA
 
   # helper function to remove missing columns
   not_all_na <- function(x) {
@@ -113,6 +122,7 @@ read_attributes <- function(
 
   attrs <- attrs |>
     dplyr::mutate(
+      id         = paste0(entity_id, "_", row.names(attrs)),
       definition = NA_character_,
       definition = dplyr::case_when(
         grepl("character", columnClasses) & ((is.na(definition) | definition == "")) ~ attributeDefinition,
