@@ -223,7 +223,7 @@ create_dataTable <- function(
     entity_name        = namestr,
     missing_value_code = missingValueCode,
     entity_id          = tools::md5sum(project_name)
-  )
+  )[["eml"]]
 
 
   # create dataTable entity -------------------------------------------------

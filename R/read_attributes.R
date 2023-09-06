@@ -63,7 +63,6 @@
 read_attributes <- function(
   entity_name,
   missing_value_code = NULL,
-  return_type        = "eml",
   entity_id          = "data_entity"
   ) {
 
@@ -190,27 +189,20 @@ read_attributes <- function(
 
   # return --------------------------------------------------------------------
 
-  if (grepl("eml", return_type, ignore.case = TRUE)) {
+  attr_list <- EML::set_attributes(
+    attributes    = attrs,
+    factors       = fcts,
+    col_classes   = classes,
+    missingValues = mvframe
+  )
 
-    attr_list <- EML::set_attributes(
-      attributes    = attrs,
-      factors       = fcts,
-      col_classes   = classes,
-      missingValues = mvframe
+  attrs["columnClasses"] <- classes
+
+  return(
+    list(
+      eml   = attr_list,
+      table = attrs
     )
-
-    return(attr_list)
-
-  } else if (grepl("attr", return_type, ignore.case = TRUE)) {
-
-    attrs["columnClasses"] <- classes
-
-    return(attrs)
-
-  } else {
-
-    stop("ambiguous return_type, should be 'eml' or 'attributes'")
-
-  }
+  )
 
 }
