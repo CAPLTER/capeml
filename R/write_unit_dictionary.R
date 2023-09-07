@@ -7,8 +7,12 @@
 #' @usage
 #'     write_unit_dictionary()
 #'
-#' @export
-#'
+
+.Deprecated(
+  new     = "EML::get_unitList",
+  package = "EML",
+  old     = as.character(sys.call(sys.parent()))[1L]
+)
 
 write_unit_dictionary <- function() {
 

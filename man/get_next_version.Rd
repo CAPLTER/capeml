@@ -11,7 +11,7 @@ get_next_version(
 )
 }
 \arguments{
-\item{provided_scope}{character) scope of data package (defaults to CAP LTER: knb-lter-cap)}
+\item{provided_scope}{(character) scope of data package (defaults to CAP LTER: knb-lter-cap)}
 
 \item{provided_identifier}{(integer) identifier of data package}
 
@@ -22,17 +22,17 @@ not identifed in the repository (thus returning a version number 1)}
 integer reflecting the next version of a data package
 }
 \description{
-get_next_version will access the EDI API to identify and return
-the next version of a data package. If the data package does not exist
-(i.e., we are constructing a new package), get_next_version will return `1`
-and display a corresponding note.
+\code{get_next_version} will access the EDI API to identify and
+return the next version of a data package. If the data package does not
+exist (i.e., we are constructing a new package), \code{get_next_version}
+will return `1` and display a corresponding note.
 }
 \details{
-get_next_version is a helper function designed to aid construction
-of a package identifier (e.g., the version `5` of `knb-lter-cap.624.5`). As
-such, the most common use case is that the function will be called
-internally from capeml::createDataset but the function can be called
-directly.
+\code{get_next_version} is a helper function designed to aid
+construction of a package identifier (e.g., the version `5` of
+`knb-lter-cap.624.5`). As such, the most common use case is that the
+function will be called internally from \code{capeml::createDataset} but the
+function can be called directly.
 }
 \examples{
 \dontrun{

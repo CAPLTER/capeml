@@ -80,7 +80,7 @@ capPublisher <- EML::eml$publisher(
   address = capAddress)
 
 #' @title CAP LTER ROR
-#' @export capROR
+#' @export cap_ror
 cap_ror <- list(
   userId    = "020zjmd13",
   directory = "https://ror.org/"

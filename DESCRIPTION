@@ -31,7 +31,8 @@ Imports:
     EDIutils,
     rlang,
     aws.s3,
-    withr
+    withr,
+    rdflib
 RoxygenNote: 7.2.3
 Suggests: 
     testthat (>= 3.0.0),
