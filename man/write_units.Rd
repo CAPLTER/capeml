@@ -27,12 +27,17 @@ the R environment.
 on the reference of attribute units associated with a data entity. A
 `annotations.yaml` template is generated if attribute units are in the QUDT
 unit dictionary. A `custom_units.yaml` template is generated for custom
-(i.e., not in the EML standard units or QUDT dictionaries). Both templates
-will be created if both QUDT and custom units are identified, and neither
-template will be written if the data entity does not have units or if all of
-the units are in the EML standard dictionary (because further documentation
-is not required). Unit metadata will be appended to templates if they
-already exist in the working directory.
+(i.e., not in the EML standard units or QUDT dictionaries) and/or QUDT
+units. In the case of custom units, entries include a description field for
+investigators to provide a description of the unit. In the case of QUDT
+units, only the name of the unit is included in `custom_units.yaml` - QUDT
+metadata are documented in the <annotation> element but a reference to any
+units not in the EML standard unit list must be referenced in
+<additionalMetadata>.  will be created if both QUDT and custom units are
+identified, and neither template will be written if the data entity does not
+have units or if all of the units are in the EML standard dictionary
+(because further documentation is not required). Unit metadata will be
+appended to templates if they already exist in the working directory.
 }
 \note{
 \code{write_units} evalutes a data object's attributes metadata file

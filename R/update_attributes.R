@@ -95,7 +95,7 @@ update_attributes <- function(
 
   attrs_from_read  <- capeml::read_attributes(entity_name = string_pointer)[["table"]]
 
-  attrs_from_write <- capeml::write_attributes(dfname = object_pointer)[["table"]]
+  attrs_from_write <- capeml::write_attributes(dfname = object_pointer, return_type = "attributes")
 
   attrs_from_write <- dplyr::bind_rows(attrs_from_write) |>
   dplyr::select(

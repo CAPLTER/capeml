@@ -8,12 +8,17 @@
 #' on the reference of attribute units associated with a data entity. A
 #' `annotations.yaml` template is generated if attribute units are in the QUDT
 #' unit dictionary. A `custom_units.yaml` template is generated for custom
-#' (i.e., not in the EML standard units or QUDT dictionaries). Both templates
-#' will be created if both QUDT and custom units are identified, and neither
-#' template will be written if the data entity does not have units or if all of
-#' the units are in the EML standard dictionary (because further documentation
-#' is not required). Unit metadata will be appended to templates if they
-#' already exist in the working directory.
+#' (i.e., not in the EML standard units or QUDT dictionaries) and/or QUDT
+#' units. In the case of custom units, entries include a description field for
+#' investigators to provide a description of the unit. In the case of QUDT
+#' units, only the name of the unit is included in `custom_units.yaml` - QUDT
+#' metadata are documented in the <annotation> element but a reference to any
+#' units not in the EML standard unit list must be referenced in
+#' <additionalMetadata>.  will be created if both QUDT and custom units are
+#' identified, and neither template will be written if the data entity does not
+#' have units or if all of the units are in the EML standard dictionary
+#' (because further documentation is not required). Unit metadata will be
+#' appended to templates if they already exist in the working directory.
 #'
 #' @note \code{write_units} evalutes a data object's attributes metadata file
 #' (e.g., `my_table_attrs.yaml`). As such, this file must exist in the working
@@ -55,6 +60,9 @@ write_units <- function(
   entity_id
 ) {
 
+  qudt   <- FALSE
+  custom <- FALSE
+
   attributes_table <- capeml::read_attributes(
     entity_name = entity_name,
     entity_id   = entity_id
@@ -76,6 +84,8 @@ write_units <- function(
 
     if (nrow(qudt_and_custom[grepl("qudt", qudt_and_custom$type, ignore.case = TRUE), ]) > 0) {
 
+      qudt <- TRUE
+
       qudt_units <- qudt_and_custom[grepl("qudt", qudt_and_custom$type, ignore.case = TRUE), ]
       qudt_units$id_name <- paste0(qudt_units$id, "_", qudt_units$name)
 
@@ -92,14 +102,17 @@ write_units <- function(
             propertyLabel = "has unit",
             propertyURI   = "http://qudt.org/schema/qudt/hasUnit"
           )
-        )}()
+        )}() |> 
+        unique()
 
 
       if (file.exists("annotations.yaml")) {
 
-        existing_annotations <- yaml::yaml.load_file("annotations.yaml")
+        existing_annotations <- yaml::yaml.load_file("annotations.yaml") |> 
+          unique()
 
         c(existing_annotations, qudt_annotations) |> 
+          unique() |> 
           yaml::write_yaml(
             file         = "annotations.yaml",
             column.major = FALSE
@@ -122,12 +135,35 @@ write_units <- function(
 
     if (nrow(qudt_and_custom[qudt_and_custom$type == "custom", ]) > 0) {
 
+      custom <- TRUE
+
       new_custom_units <- qudt_and_custom[qudt_and_custom$type == "custom", ]["name"] |> 
         dplyr::mutate(description = "") |>
         as.list() |> 
         purrr::list_transpose(simplify = FALSE)
 
       message("new_custom_units: ", qudt_and_custom[qudt_and_custom$type == "custom", ]["name"])
+
+    }
+
+
+    # construct <additionalMetadata><metadata><unitList><unit>
+
+    if (qudt == TRUE && custom == TRUE) {
+
+      qudt_for_unitlist <- unique(purrr::map(.x = qudt_annotations, ~ list(name = .x$"name")))
+      new_custom_units  <- c(new_custom_units, qudt_for_unitlist)
+
+    } else if (qudt == TRUE && custom == FALSE) {
+
+      new_custom_units <- unique(purrr::map(.x = qudt_annotations, ~ list(name = .x$"name")))
+
+    }
+
+
+    # write to file
+
+    if (qudt == TRUE || custom == TRUE) {
 
       if (file.exists("custom_units.yaml")) {
 

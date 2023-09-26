@@ -5,25 +5,17 @@ testthat::test_that(
     testthat::expect_s3_class(
       object = capeml::read_attributes(
         entity_name = "black_widow_behavior",
-        return_type = "eml"
-        ),
+        entity_id   = "hash"
+        )[["eml"]],
       class  = "emld"
     )
 
     testthat::expect_s3_class(
       object = capeml::read_attributes(
         entity_name = "black_widow_behavior",
-        return_type = "attr"
-        ),
+        entity_id   = "hash"
+        )[["table"]],
       class  = "data.frame"
-    )
-
-    testthat::expect_error(
-      object = capeml::read_attributes(
-        entity_name = "black_widow_behavior",
-        return_type = "text"
-        ),
-      regexp = "ambiguous return_type, should be 'eml' or 'attributes'"
     )
 
   }
@@ -37,8 +29,8 @@ testthat::test_that(
     testthat::expect_setequal(
       object = capeml::read_attributes(
         entity_name = "black_widow_behavior",
-        return_type = "attr"
-        )[["attributeName"]],
+        entity_id   = "hash"
+        )[["table"]][["attributeName"]],
       expected = colnames(black_widow_behavior)
     )
 
@@ -46,9 +38,9 @@ testthat::test_that(
       object = nrow(
         capeml::read_attributes(
           entity_name = "black_widow_behavior",
-          return_type = "attr"
-        )
-        ),
+          entity_id   = "hash"
+          )[["table"]]
+      ),
       expected = ncol(black_widow_behavior)
     )
 
