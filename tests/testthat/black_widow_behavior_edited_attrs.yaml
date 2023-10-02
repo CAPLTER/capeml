@@ -1,186 +1,221 @@
 |
   ID:
     attributeName: ID
-    attributeDefinition: 'individual spider identification code'
+    attributeDefinition: individual spider identification code
+    definition: individual spider identification code
+    id: data_entity_1
     columnClasses: character
-    definition: ''
   3rd Leg:
     attributeName: 3rd Leg
-    attributeDefinition: 'spider third leg measurement'
-    unit: 'millimeter'
+    attributeDefinition: spider third leg measurement
+    id: data_entity_2
+    unit: millimeter
     numberType: real
     minimum: 2.255
     maximum: 5.621
     columnClasses: numeric
   Habitat:
     attributeName: Habitat
-    attributeDefinition: 'habitat classification'
+    attributeDefinition: habitat classification
+    id: data_entity_3
     columnClasses: factor
   Site:
     attributeName: Site
-    attributeDefinition: 'site location'
+    attributeDefinition: site location
+    id: data_entity_4
     columnClasses: factor
   Collection Date:
     attributeName: Collection Date
-    attributeDefinition: 'date spiders were collected from the field'
-    columnClasses: Date
+    attributeDefinition: date spiders were collected from the field
+    id: data_entity_5
     formatString: YYYY-MM-DD
+    columnClasses: Date
   Web Length:
     attributeName: Web Length
-    attributeDefinition: 'web length'
-    unit: 'centimeter'
+    attributeDefinition: web length
+    id: data_entity_6
+    unit: centimeter
     numberType: natural
     minimum: 30.0
     maximum: 155.0
     columnClasses: numeric
   Web Width:
     attributeName: Web Width
-    attributeDefinition: 'web width'
-    unit: 'centimeter'
+    attributeDefinition: web width
+    id: data_entity_7
+    unit: centimeter
     numberType: natural
     minimum: 20.0
     maximum: 150.0
     columnClasses: numeric
   Web Height:
     attributeName: Web Height
-    attributeDefinition: 'web height'
-    unit: 'centimeter'
+    attributeDefinition: web height
+    id: data_entity_8
+    unit: centimeter
     numberType: natural
     minimum: 20.0
     maximum: 190.0
     columnClasses: numeric
   First Field Assay Date:
     attributeName: First Field Assay Date
-    attributeDefinition: 'date of first observation'
-    columnClasses: Date
+    attributeDefinition: date of first observation
+    id: data_entity_9
     formatString: YYYY-MM-DD
+    columnClasses: Date
   First Field Voracity:
     attributeName: First Field Voracity
-    attributeDefinition: 'latency to attack artificial prey in the field (seconds)'
+    attributeDefinition: latency to attack artificial prey in the field (seconds)
+    definition: latency to attack artificial prey in the field (seconds)
+    id: data_entity_10
     columnClasses: character
-    definition: ''
   First Field Boldness:
     attributeName: First Field Boldness
-    attributeDefinition: 'latency to emerge from refuge following disturbance in the field (seconds)'
+    attributeDefinition: latency to emerge from refuge following disturbance in the
+      field (seconds)
+    definition: latency to emerge from refuge following disturbance in the field (seconds)
+    id: data_entity_11
     columnClasses: character
-    definition: ''
   Second Field Assay Date:
     attributeName: Second Field Assay Date
-    attributeDefinition: 'date of second observation'
-    columnClasses: Date
+    attributeDefinition: date of second observation
+    id: data_entity_12
     formatString: YYYY-MM-DD
+    columnClasses: Date
   Second Field Voracity:
     attributeName: Second Field Voracity
-    attributeDefinition: 'latency to attack artificial prey in the field (seconds)'
+    attributeDefinition: latency to attack artificial prey in the field (seconds)
+    definition: latency to attack artificial prey in the field (seconds)
+    id: data_entity_13
     columnClasses: character
-    definition: ''
   Second Field Boldness:
     attributeName: Second Field Boldness
-    attributeDefinition: 'latency to emerge from refuge following disturbance in the field (seconds)'
+    attributeDefinition: latency to emerge from refuge following disturbance in the
+      field (seconds)
+    definition: latency to emerge from refuge following disturbance in the field (seconds)
+    id: data_entity_14
     columnClasses: character
-    definition: ''
   Third Field Assay Date:
     attributeName: Third Field Assay Date
-    attributeDefinition: 'date of third observation'
-    columnClasses: Date
+    attributeDefinition: date of third observation
+    id: data_entity_15
     formatString: YYYY-MM-DD
+    columnClasses: Date
   Third Field Voracity:
     attributeName: Third Field Voracity
-    attributeDefinition: 'latency to attack artificial prey in the field (seconds)'
+    attributeDefinition: latency to attack artificial prey in the field (seconds)
+    definition: latency to attack artificial prey in the field (seconds)
+    id: data_entity_16
     columnClasses: character
-    definition: ''
   Third Field Boldness:
     attributeName: Third Field Boldness
-    attributeDefinition: 'latency to emerge from refuge following disturbance in the field (seconds)'
+    attributeDefinition: latency to emerge from refuge following disturbance in the
+      field (seconds)
+    definition: latency to emerge from refuge following disturbance in the field (seconds)
+    id: data_entity_17
     columnClasses: character
-    definition: ''
   First Lab Assay Date:
     attributeName: First Lab Assay Date
-    attributeDefinition: 'date of first observation'
-    columnClasses: Date
+    attributeDefinition: date of first observation
+    id: data_entity_18
     formatString: YYYY-MM-DD
+    columnClasses: Date
   First Lab Voracity:
     attributeName: First Lab Voracity
-    attributeDefinition: 'latency to attack artificial prey in the laboratory (seconds)'
+    attributeDefinition: latency to attack artificial prey in the laboratory (seconds)
+    definition: latency to attack artificial prey in the laboratory (seconds)
+    id: data_entity_19
     columnClasses: character
-    definition: ''
   First Lab Boldness:
     attributeName: First Lab Boldness
-    attributeDefinition: 'latency to emerge from refuge following disturbance in the laboratory (seconds)'
+    attributeDefinition: latency to emerge from refuge following disturbance in the
+      laboratory (seconds)
+    definition: latency to emerge from refuge following disturbance in the laboratory
+      (seconds)
+    id: data_entity_20
     columnClasses: character
-    definition: ''
   Second Lab Assay Date:
     attributeName: Second Lab Assay Date
-    attributeDefinition: 'date of second observation'
-    columnClasses: Date
+    attributeDefinition: date of second observation
+    id: data_entity_21
     formatString: YYYY-MM-DD
+    columnClasses: Date
   Secon Lab Voracity:
     attributeName: Secon Lab Voracity
-    attributeDefinition: 'latency to attack artificial prey in the laboratory (seconds)'
+    attributeDefinition: latency to attack artificial prey in the laboratory (seconds)
+    definition: latency to attack artificial prey in the laboratory (seconds)
+    id: data_entity_22
     columnClasses: character
-    definition: ''
   Second Lab Boldness:
     attributeName: Second Lab Boldness
-    attributeDefinition: 'latency to emerge from refuge following disturbance in the laboratory (seconds)'
+    attributeDefinition: latency to emerge from refuge following disturbance in the
+      laboratory (seconds)
+    definition: latency to emerge from refuge following disturbance in the laboratory
+      (seconds)
+    id: data_entity_23
     columnClasses: character
-    definition: ''
   Third Lab Assay Date:
     attributeName: Third Lab Assay Date
-    attributeDefinition: 'date of third observation'
-    columnClasses: Date
+    attributeDefinition: date of third observation
+    id: data_entity_24
     formatString: YYYY-MM-DD
+    columnClasses: Date
   Third Lab Voracity:
     attributeName: Third Lab Voracity
-    attributeDefinition: 'latency to attack artificial prey in the laboratory (seconds)'
+    attributeDefinition: latency to attack artificial prey in the laboratory (seconds)
+    definition: latency to attack artificial prey in the laboratory (seconds)
+    id: data_entity_25
     columnClasses: character
-    definition: ''
   Third Lab Boldness:
     attributeName: Third Lab Boldness
-    attributeDefinition: 'latency to emerge from refuge following disturbance in the laboratory (seconds)'
+    attributeDefinition: latency to emerge from refuge following disturbance in the
+      laboratory (seconds)
+    definition: latency to emerge from refuge following disturbance in the laboratory
+      (seconds)
+    id: data_entity_26
     columnClasses: character
-    definition: ''
   Field Collection Temperature:
     attributeName: Field Collection Temperature
-    attributeDefinition: 'temperature in the field at the time of collection'
-    unit: 'celsius'
+    attributeDefinition: temperature in the field at the time of collection
+    id: data_entity_27
+    unit: celsius
     numberType: real
     minimum: 24.6
     maximum: 31.4
     columnClasses: numeric
   Field Mass:
     attributeName: Field Mass
-    attributeDefinition: 'spider mass at the time of collection'
-    unit: 'gram'
+    attributeDefinition: spider mass at the time of collection
+    id: data_entity_28
+    unit: gram
     numberType: real
     minimum: 0.1063
     maximum: 0.6167
     columnClasses: numeric
   First Lab Assay Mass:
     attributeName: First Lab Assay Mass
-    attributeDefinition: 'spider mass at first assay in the laboratory'
-    unit: 'gram'
+    attributeDefinition: spider mass at first assay in the laboratory
+    id: data_entity_29
+    unit: gram
     numberType: real
     minimum: 0.225
     maximum: 0.578
     columnClasses: numeric
   Second Lab Assay Mass:
     attributeName: Second Lab Assay Mass
-    attributeDefinition: 'spider mass at second assay in the laboratory'
-    unit: 'gram'
+    attributeDefinition: spider mass at second assay in the laboratory
+    id: data_entity_30
+    unit: gram
     numberType: real
     minimum: 0.173
     maximum: 0.546
     columnClasses: numeric
   Third Lab Assay Mass:
     attributeName: Third Lab Assay Mass
-    attributeDefinition: 'spider mass at third assay in the laboratory'
-    unit: 'gram'
+    attributeDefinition: spider mass at third assay in the laboratory
+    id: data_entity_31
+    unit: gram
     numberType: real
     minimum: 0.268
     maximum: 0.698
     columnClasses: numeric
-  test_column:
-    attributeName: test_column
-    attributeDefinition: attribute metadata added to the yaml file but that is not in the entity
-    columnClasses: character
-    definition: attribute metadata added to the yaml file but that is not in the entity

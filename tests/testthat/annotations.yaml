@@ -1,0 +1,60 @@
+- name: MicroGM-PER-L
+  valueLabel: Microgram Per Liter
+  valueURI: http://qudt.org/vocab/unit/MicroGM-PER-L
+  references: 05c13ff53c9cbbc19dcdc3acecd30052_10
+  propertyLabel: has unit
+  propertyURI: http://qudt.org/schema/qudt/hasUnit
+- name: MicroS-PER-CentiM
+  valueLabel: Microsiemens Per Centimeter
+  valueURI: http://qudt.org/vocab/unit/MicroS-PER-CentiM
+  references: 05c13ff53c9cbbc19dcdc3acecd30052_7
+  propertyLabel: has unit
+  propertyURI: http://qudt.org/schema/qudt/hasUnit
+- name: MicroGM-PER-L
+  valueLabel: Microgram Per Liter
+  valueURI: http://qudt.org/vocab/unit/MicroGM-PER-L
+  references: 05c13ff53c9cbbc19dcdc3acecd30052_8
+  propertyLabel: has unit
+  propertyURI: http://qudt.org/schema/qudt/hasUnit
+- name: MicroGM-PER-L
+  valueLabel: Microgram Per Liter
+  valueURI: http://qudt.org/vocab/unit/MicroGM-PER-L
+  references: 05c13ff53c9cbbc19dcdc3acecd30052_9
+  propertyLabel: has unit
+  propertyURI: http://qudt.org/schema/qudt/hasUnit
+- name: PERCENT
+  valueLabel: Percent
+  valueURI: http://qudt.org/vocab/unit/PERCENT
+  references: ac29987b1e80a00b0f9b11b432a22590_10
+  propertyLabel: has unit
+  propertyURI: http://qudt.org/schema/qudt/hasUnit
+- name: NanoGM-PER-L
+  valueLabel: Nanograms per litre
+  valueURI: http://qudt.org/vocab/unit/NanoGM-PER-L
+  references: ac29987b1e80a00b0f9b11b432a22590_11
+  propertyLabel: has unit
+  propertyURI: http://qudt.org/schema/qudt/hasUnit
+- name: NanoGM-PER-L
+  valueLabel: Nanograms per litre
+  valueURI: http://qudt.org/vocab/unit/NanoGM-PER-L
+  references: ac29987b1e80a00b0f9b11b432a22590_12
+  propertyLabel: has unit
+  propertyURI: http://qudt.org/schema/qudt/hasUnit
+- name: NanoGM-PER-L
+  valueLabel: Nanograms per litre
+  valueURI: http://qudt.org/vocab/unit/NanoGM-PER-L
+  references: ac29987b1e80a00b0f9b11b432a22590_7
+  propertyLabel: has unit
+  propertyURI: http://qudt.org/schema/qudt/hasUnit
+- name: NanoGM-PER-L
+  valueLabel: Nanograms per litre
+  valueURI: http://qudt.org/vocab/unit/NanoGM-PER-L
+  references: ac29987b1e80a00b0f9b11b432a22590_8
+  propertyLabel: has unit
+  propertyURI: http://qudt.org/schema/qudt/hasUnit
+- name: NanoGM-PER-L
+  valueLabel: Nanograms per litre
+  valueURI: http://qudt.org/vocab/unit/NanoGM-PER-L
+  references: ac29987b1e80a00b0f9b11b432a22590_9
+  propertyLabel: has unit
+  propertyURI: http://qudt.org/schema/qudt/hasUnit

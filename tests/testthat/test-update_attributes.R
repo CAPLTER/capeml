@@ -38,10 +38,7 @@ testthat::test_that(
     new_max <- old_max + 0.5
     black_widow_behavior[1,]["First Lab Assay Mass"] <- new_max
 
-    from_read <- capeml::read_attributes(
-      entity_name = black_widow_behavior,
-      return_type = "attributes"
-    )
+    from_read <- capeml::read_attributes(entity_name = black_widow_behavior)[["table"]]
 
     max_from_read <- from_read[grepl("First Lab Assay Mass", from_read$attributeName, ignore.case = TRUE),][["maximum"]]
 

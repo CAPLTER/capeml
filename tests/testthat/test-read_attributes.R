@@ -1,5 +1,5 @@
 testthat::test_that(
-  desc = "read_attributes returns appropriate type given return_type",
+  desc = "read_attributes returns both eml and table return_types",
   code = {
 
     testthat::expect_s3_class(
@@ -23,7 +23,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  desc = "expect similar data structure between data entity and read_attributes when return_type = attributes",
+  desc = "expect similar data structure between data entity and read_attributes when return_type is a table",
   code = {
 
     testthat::expect_setequal(
