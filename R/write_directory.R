@@ -122,8 +122,13 @@ write_directory <- function(
   )
 
 
+# generate keyword template ----------------------------------------------------
+
+  capeml::write_keywords()
+
+
 # end --------------------------------------------------------------------------
 
-  message("completed generating directory, template, and config for ", package_name)
+  message("completed generating directory, template, keywords, and config for ", package_name)
 
 }

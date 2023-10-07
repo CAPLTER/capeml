@@ -30,7 +30,7 @@
 !_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
-!_TAG_PROGRAM_VERSION	6.0.0	/729f6522/
+!_TAG_PROGRAM_VERSION	6.0.0	/d104ee5b/
 !_TAG_ROLE_DESCRIPTION!R!library	library	/library attached by library function/
 !_TAG_ROLE_DESCRIPTION!R!library	require	/library attached by require function/
 !_TAG_ROLE_DESCRIPTION!R!source	source	/source loaded by source fucntion/
@@ -42,6 +42,8 @@
 .names	update_attributes.R	/^    .names = attrs_updated[["attributeName"]]$/;"	v	function:update_attributes
 .x	create_dataset.R	/^    data_entities          <- purrr::map(.x = data_objects_load_file, ~ create_entities_from_yam/;"	v	function:create_dataset
 .x	create_otherEntity.R	/^    if ("shp" %in% purrr::map_chr(.x = list.files(targetFileFullPath), ~ tools::file_ext(.x))) {$/;"	v	function:create_otherEntity
+.x	get_annotations.R	/^  annotation_list <- purrr::map(.x = from_load, ~ create_annotation(.x))$/;"	v	function:get_annotations
+.x	get_custom_units.R	/^  unit_list <- purrr::map(.x = from_load, ~ create_unit(.x))$/;"	v	function:get_custom_units
 .x	read_attributes.R	/^    .x         = colnames(object_pointer),$/;"	v	function:read_attributes
 .x	write_attributes.R	/^    .x = dfname,$/;"	v	function:write_attributes
 .x	write_factors.R	/^        .x = list_of_factors,$/;"	v	function:write_factors
@@ -64,6 +66,9 @@ administrativeArea	configure_caplter.R	/^  administrativeArea = "AZ",$/;"	g
 allow	configure_caplter.R	/^  allow = list(allow_cap,$/;"	L
 allow_cap	configure_caplter.R	/^allow_cap <- EML::eml$allow($/;"	g
 allow_public	configure_caplter.R	/^allow_public <- EML::eml$allow($/;"	g
+annotation	get_annotations.R	/^    annotation = annotation_list$/;"	g
+annotation_eml	get_annotations.R	/^  annotation_eml <- EML::eml$annotation($/;"	v	function:create_annotation
+annotation_list	get_annotations.R	/^  annotation_list <- purrr::map(.x = from_load, ~ create_annotation(.x))$/;"	v	function:get_annotations
 anonFunc21e58a680200	get_next_version.R	/^  }, warning = function(cond) {$/;"	f	function:get_next_version
 anonFunc25da510e0100	update_attributes.R	/^  attrs_updated <- lapply(attrs_updated, function(x) x[!is.na(x)])$/;"	f	function:update_attributes
 anonFunc25da510e0200	update_attributes.R	/^  attrs_updated <- lapply(attrs_updated, function(x) x[x != ""])$/;"	f	function:update_attributes
@@ -78,14 +83,19 @@ anonFuncbcd71b3e0900	create_dataset.R	/^    list_of_spatialRasters <- lapply(ls(
 anonList49ae2dc20107	create_entities_from_yaml.R	/^      list($/;"	L	function:create_entities_from_yaml
 anonList49ae2dc20207	create_entities_from_yaml.R	/^      list($/;"	L	function:create_entities_from_yaml
 anonList4b35be470107	read_attributes.R	/^    list($/;"	L	function:read_attributes
+anonList7db3e9290107	get_people.R	/^    list($/;"	L	function:get_people
 anonList7e81d6820207	write_units.R	/^          list($/;"	L	function:write_units
+anonList7e81d6820407	write_units.R	/^      qudt_for_unitlist <- unique(purrr::map(.x = qudt_annotations, ~ list(name = .x$"name")))$/;"	L	function:write_units
+anonList7e81d6820507	write_units.R	/^      new_custom_units <- unique(purrr::map(.x = qudt_annotations, ~ list(name = .x$"name")))$/;"	L	function:write_units
 anonLista3ae47c30107	read_package_configuration.R	/^  list($/;"	L	function:read_package_configuration
 anonVec7e81d6820306	write_units.R	/^        c(existing_annotations, qudt_annotations) |> $/;"	c	function:write_units
-anonVec7e81d6820406	write_units.R	/^        c(existing_custom_units, new_custom_units) |> $/;"	c	function:write_units
+anonVec7e81d6820606	write_units.R	/^        c(existing_custom_units, new_custom_units) |> $/;"	c	function:write_units
 anonVecbcd71b3e0a06	create_dataset.R	/^      " dataTables: ",           paste0(c(table_names), collapse = ", "), "\\n",$/;"	c	function:create_dataset
 anonVecbcd71b3e0b06	create_dataset.R	/^      " otherEntities: ",        paste0(c(other_entity_names), collapse = ", "), "\\n",$/;"	c	function:create_dataset
 anonVecbcd71b3e0c06	create_dataset.R	/^      " spatialVectors: ",       paste0(c(ls(envir = .GlobalEnv, pattern = "_SV")), collapse = "/;"	c	function:create_dataset
 anonVecbcd71b3e0d06	create_dataset.R	/^      " spatialRasters: ",       paste0(c(ls(envir = .GlobalEnv, pattern = "_SR")), collapse = "/;"	c	function:create_dataset
+associated_parties	get_people.R	/^      associated_parties = associated_parties$/;"	n	list:get_people.anonList7db3e9290107
+associated_parties	get_people.R	/^  associated_parties <- from_load |> $/;"	v	function:get_people
 attr_list	create_otherEntity.R	/^    attr_list <- EML::set_attributes($/;"	v	function:create_otherEntity
 attr_list	read_attributes.R	/^  attr_list <- EML::set_attributes($/;"	v	function:read_attributes
 attribute	write_factors.R	/^      attribute = list($/;"	n	list:write_factors.factors_to_yaml.factors_yaml	constructor:list
@@ -111,10 +121,12 @@ attrs	create_otherEntity.R	/^    attrs <- yaml::yaml.load_file(paste0(tools::fil
 attrs	read_attributes.R	/^    attrs <- yaml::yaml.load_file(paste0(string_pointer, "_attrs.yaml"))$/;"	v	function:read_attributes
 attrs_factor_only	create_otherEntity.R	/^    attrs_factor_only <- data.frame($/;"	d	function:create_otherEntity
 attrs_from_read	update_attributes.R	/^  attrs_from_read  <- capeml::read_attributes(entity_name = string_pointer)[["table"]]$/;"	v	function:update_attributes
-attrs_from_write	update_attributes.R	/^  attrs_from_write <- capeml::write_attributes(dfname = object_pointer)[["table"]]$/;"	v	function:update_attributes
+attrs_from_write	update_attributes.R	/^  attrs_from_write <- capeml::write_attributes(dfname = object_pointer, return_type = "attribute/;"	v	function:update_attributes
 attrs_updated	update_attributes.R	/^  attrs_updated <- dplyr::right_join($/;"	v	function:update_attributes
 authSystem	configure_caplter.R	/^  authSystem = "knb",$/;"	g
 authentication	create_otherEntity.R	/^    authentication = fileAuthentication,$/;"	v	function:create_otherEntity
+author	get_people.R	/^  author <- authors |>$/;"	v	function:get_person_attributes
+authors	get_people.R	/^  authors <- readr::read_csv(this_data_source)$/;"	v	function:get_person_attributes
 award	configure_caplter_project.R	/^    award     = list($/;"	n	list:configure_caplter_project.project	constructor:list
 award	configure_ltreb_project.R	/^    award = list($/;"	n	list:configure_ltreb_project.project	constructor:list
 awardNumber	configure_caplter_project.R	/^      awardNumber      = "1832016",$/;"	n	nameattr:configure_caplter_project.project.award
@@ -154,7 +166,7 @@ collapse	create_dataset.R	/^      " otherEntities: ",        paste0(c(other_enti
 collapse	create_dataset.R	/^      " spatialRasters: ",       paste0(c(ls(envir = .GlobalEnv, pattern = "_SR")), collapse = "/;"	n	vector:create_dataset.anonVecbcd71b3e0d06
 collapse	create_dataset.R	/^      " spatialVectors: ",       paste0(c(ls(envir = .GlobalEnv, pattern = "_SV")), collapse = "/;"	n	vector:create_dataset.anonVecbcd71b3e0c06
 column.major	write_units.R	/^            column.major = FALSE$/;"	n	vector:write_units.anonVec7e81d6820306
-column.major	write_units.R	/^            column.major = FALSE$/;"	n	vector:write_units.anonVec7e81d6820406
+column.major	write_units.R	/^            column.major = FALSE$/;"	n	vector:write_units.anonVec7e81d6820606
 column.major	write_units.R	/^          column.major = FALSE$/;"	v	function:write_units
 columnClasses	write_attributes.R	/^        columnClasses = "numeric"$/;"	g
 columnClasses	write_attributes.R	/^        columnClasses = check_class(variable)$/;"	g
@@ -173,6 +185,7 @@ configure_som_project	configure_som_project.R	/^configure_som_project <- functio
 configure_urex_project	configure_urex_project.R	/^configure_urex_project  <- function() {$/;"	f
 country	configure_caplter.R	/^  country = "USA")$/;"	g
 coverage	create_dataset.R	/^    coverage           = coverage,$/;"	v	function:create_dataset
+create_annotation	get_annotations.R	/^create_annotation <- function(annotation_metadata) {$/;"	f
 create_citation	create_citation.R	/^create_citation <- function(doi) {$/;"	f
 create_dataTable	create_dataTable.R	/^create_dataTable <- function($/;"	f
 create_dataset	create_dataset.R	/^create_dataset <- function($/;"	f
@@ -184,8 +197,13 @@ create_keyword	create_keywordSet.R	/^create_keyword <- function(datasetKeyword, 
 create_keywordList	create_keywordSet.R	/^create_keywordList <- function(category, keywordsFile) {$/;"	f
 create_keywordSet	create_keywordSet.R	/^create_keywordSet <- function(keywordsFile) {$/;"	f
 create_otherEntity	create_otherEntity.R	/^create_otherEntity <- function($/;"	f
+create_role	get_people.R	/^create_role <- function($/;"	f
+create_unit	get_custom_units.R	/^create_unit <- function(unit_metadata) {$/;"	f
 created_zip_name	zipRelatedFiles.R	/^  created_zip_name <- paste0(targetFileBaseName, ".zip")$/;"	v	function:zipRelatedFiles
 creator	create_dataset.R	/^    creator            = creators,$/;"	v	function:create_dataset
+creators	get_people.R	/^      creators           = creators,$/;"	n	list:get_people.anonList7db3e9290107
+creators	get_people.R	/^  creators <- from_load |> $/;"	v	function:get_people
+custom	write_units.R	/^  custom <- FALSE$/;"	v	function:write_units
 dan	configure_caplter_project.R	/^  dan <- EML::eml$personnel($/;"	v	function:configure_caplter_project
 danOrcid	configure_caplter_project.R	/^  danOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v	function:configure_caplter_project
 dataFormat	create_otherEntity.R	/^    dataFormat     = fileDataFormat,$/;"	v	function:create_otherEntity
@@ -212,7 +230,7 @@ description	create_dataset.R	/^      methods <- EML::eml$methods(methodStep = li
 description	create_entities_from_yaml.R	/^      description              = entity_configuration$description,$/;"	v	function:create_entities_from_yaml
 description	write_units.R	/^        dplyr::mutate(description = "") |>$/;"	v	function:write_units
 df	write_factors.R	/^        df = dfname$/;"	v	function:write_factors
-dfname	update_attributes.R	/^  attrs_from_write <- capeml::write_attributes(dfname = object_pointer)[["table"]]$/;"	v	function:update_attributes
+dfname	update_attributes.R	/^  attrs_from_write <- capeml::write_attributes(dfname = object_pointer, return_type = "attribute/;"	v	function:update_attributes
 directory	configure_caplter.R	/^  directory = "https:\/\/ror.org\/"$/;"	n	list:cap_ror
 directory	configure_caplter_project.R	/^  danOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v	function:configure_caplter_project
 directory	configure_ltreb_project.R	/^  nancyOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v	function:configure_ltreb_project
@@ -235,6 +253,7 @@ emlKeyword	create_keywordSet.R	/^    emlKeyword <- datasetKeyword$/;"	v	function
 emlKeywordList	create_keywordSet.R	/^  emlKeywordList <- list($/;"	L	function:create_keywordList
 eml_citation	create_citation.R	/^    eml_citation <- EML::eml$citation()$/;"	v	function:create_citation
 eml_other_entity	create_entities_from_yaml.R	/^    eml_other_entity <- capeml::create_otherEntity($/;"	v	function:create_entities_from_yaml
+eml_person	get_people.R	/^    eml_person <- EML::eml$metadataProvider()$/;"	v	function:create_role
 eml_read_metadata	harvest_dataTable.R	/^  eml_read_metadata <- EML::read_eml(metadata_file)$/;"	v	function:harvest_dataTable
 eml_table_entity	create_entities_from_yaml.R	/^    eml_table_entity <- create_dataTable($/;"	v	function:create_entities_from_yaml
 eml_to_amz	upload_to_amazon.R	/^eml_to_amz <- function($/;"	f
@@ -255,7 +274,7 @@ entity_name	create_dataTable.R	/^    entity_name        = namestr,$/;"	v	functio
 entity_name	harvest_dataTable.R	/^  entity_name <- xml2::xml_find_all(xml_read_metadata, "entityName") |>$/;"	v	function:harvest_dataTable
 env	get_next_version.R	/^      env        = "production"$/;"	v	function:get_next_version
 error	get_next_version.R	/^  }, error = function(cond) {$/;"	f	function:get_next_version.anonFunc21e58a680200
-existing_annotations	write_units.R	/^        existing_annotations <- yaml::yaml.load_file("annotations.yaml")$/;"	v	function:write_units
+existing_annotations	write_units.R	/^        existing_annotations <- yaml::yaml.load_file("annotations.yaml") |> $/;"	v	function:write_units
 existing_custom_units	write_units.R	/^        existing_custom_units <- yaml::yaml.load_file("custom_units.yaml")$/;"	v	function:write_units
 externallyDefinedFormat	create_dataTable.R	/^    externallyDefinedFormat = EML::eml$externallyDefinedFormat($/;"	v	function:create_dataTable
 externallyDefinedFormat	create_otherEntity.R	/^      externallyDefinedFormat = EML::eml$externallyDefinedFormat(formatName = "Portable Document/;"	v	function:create_otherEntity
@@ -272,7 +291,7 @@ file	write_attributes.R	/^      file = file_name$/;"	v	function:write_attributes
 file	write_config.R	/^    file = paste0(path, "\/", "config.yaml")$/;"	v	function:write_config
 file	write_factors.R	/^      file = fileName$/;"	v	function:write_factors
 file	write_units.R	/^            file         = "annotations.yaml",$/;"	n	vector:write_units.anonVec7e81d6820306
-file	write_units.R	/^            file         = "custom_units.yaml",$/;"	n	vector:write_units.anonVec7e81d6820406
+file	write_units.R	/^            file         = "custom_units.yaml",$/;"	n	vector:write_units.anonVec7e81d6820606
 file	write_units.R	/^          file         = "annotations.yaml",$/;"	v	function:write_units
 fileAuthentication	create_dataTable.R	/^  fileAuthentication                <- EML::eml$authentication(method = "MD5")$/;"	v	function:create_dataTable
 fileAuthentication	create_otherEntity.R	/^  fileAuthentication                <- EML::eml$authentication(method = "MD5")$/;"	v	function:create_otherEntity
@@ -295,6 +314,9 @@ filter	get_next_version.R	/^      filter     = "newest",$/;"	v	function:get_next
 formatName	create_dataTable.R	/^      formatName = "Comma Separated Values Text")$/;"	v	function:create_dataTable
 formatName	create_otherEntity.R	/^      externallyDefinedFormat = EML::eml$externallyDefinedFormat(formatName = "Portable Document/;"	v	function:create_otherEntity
 formatString	write_attributes.R	/^      formatString  = "YYYY-MM-DD"$/;"	g
+from_load	get_annotations.R	/^  from_load <- yaml::yaml.load_file("annotations.yaml")$/;"	v	function:get_annotations
+from_load	get_custom_units.R	/^  from_load <- yaml::yaml.load_file("custom_units.yaml")$/;"	v	function:get_custom_units
+from_load	get_people.R	/^  from_load <- yaml::yaml.load_file("people.yaml")$/;"	v	function:get_people
 funderIdentifier	configure_caplter_project.R	/^      funderIdentifier = "https:\/\/ror.org\/021nxhr62",$/;"	n	nameattr:configure_caplter_project.project.award
 funderIdentifier	configure_ltreb_project.R	/^      funderIdentifier = "https:\/\/ror.org\/021nxhr62",$/;"	n	nameattr:configure_ltreb_project.project.award
 funderName	configure_caplter_project.R	/^      funderName       = "National Science Foundation",$/;"	n	nameattr:configure_caplter_project.project.award
@@ -308,8 +330,12 @@ geographic_coverage	create_geographic_coverage.R	/^  geographic_coverage <- list
 geographic_description	read_package_configuration.R	/^    geographic_description  <- configurations[["geographicCoverage"]][["geographicDescription"]]$/;"	v	function:read_package_configuration
 geographic_description	read_package_configuration.R	/^    geographic_description = geographic_description$/;"	n	list:read_package_configuration.anonLista3ae47c30107
 geographic_description	write_config.R	/^    geographic_description = "CAP LTER study area: greater Phoenix, Arizona (USA) metropolitan a/;"	n	list:write_config.dataset_params
+get_annotations	get_annotations.R	/^get_annotations <- function() {$/;"	f
+get_custom_units	get_custom_units.R	/^get_custom_units <- function() {$/;"	f
 get_next_version	get_next_version.R	/^get_next_version <- function($/;"	f
 get_number_type	write_attributes.R	/^get_number_type <- function(numeric_object) {$/;"	f
+get_people	get_people.R	/^get_people <- function() {$/;"	f
+get_person_attributes	get_people.R	/^get_person_attributes <- function($/;"	f
 get_unit_type	get_unit_type.R	/^get_unit_type <- function(this_unit) {$/;"	f
 giosAddress	configure_caplter.R	/^giosAddress <- EML::eml$address($/;"	g
 giosContact	configure_caplter.R	/^giosContact <- EML::eml$contact($/;"	g
@@ -325,6 +351,7 @@ has_factor_only	create_otherEntity.R	/^    has_factor_only <- TRUE$/;"	v	functio
 has_factors	create_otherEntity.R	/^    has_factors <- TRUE$/;"	v	function:create_otherEntity
 id	create_dataTable.R	/^    id                = project_name$/;"	v	function:create_dataTable
 id	create_otherEntity.R	/^    id                = targetFileBaseName$/;"	v	function:create_otherEntity
+id	get_custom_units.R	/^  unit_for_export <- EML::eml$unit(id = unit_metadata$name)$/;"	v	function:create_unit
 id	harvest_dataTable.R	/^    id                = entity_name$/;"	v	function:harvest_dataTable
 id	read_attributes.R	/^      id         = paste0(entity_id, "_", row.names(attrs)),$/;"	v	function:read_attributes
 identifier	create_otherEntity.R	/^    identifier <- configurations$identifier$/;"	v	function:create_otherEntity
@@ -344,12 +371,14 @@ johnOrcid	configure_ltreb_project.R	/^  johnOrcid <- EML::eml$userId(directory =
 kate	configure_som_project.R	/^  kate <- EML::eml$personnel($/;"	v	function:configure_som_project
 kateOrcid	configure_som_project.R	/^  kateOrcid <- EML::eml$userId(directory = "https:\/\/orcid.org")$/;"	v	function:configure_som_project
 keyword	create_keywordSet.R	/^    keyword = keywordSubset,$/;"	n	list:create_keywordList.emlKeywordList
+keyword	write_keywords.R	/^    keyword = c($/;"	c	function:write_keywords
 keywordSet	create_dataset.R	/^    keywordSet         = keywords,$/;"	v	function:create_dataset
 keywordSet	create_keywordSet.R	/^  keywordSet <- map(unique(keywordsFile[['thesaurus']]), create_keywordList, keywordsFile = keyw/;"	v	function:create_keywordSet
 keywordSubset	create_keywordSet.R	/^  keywordSubset <- map2(.x = thesaurusSubset$keyword, .y = thesaurusSubset$type, .f = create_key/;"	v	function:create_keywordList
 keywordThesaurus	create_keywordSet.R	/^    keywordThesaurus = category$/;"	n	list:create_keywordList.emlKeywordList
 keywordType	create_keywordSet.R	/^    emlKeyword <- EML::eml$keyword(keywordType = keywordAttribute)$/;"	v	function:create_keyword
 keywords	create_dataset.R	/^    keywords <- capeml::create_keywordSet(keywordsFile)$/;"	v	function:create_dataset
+label	get_annotations.R	/^  property <- EML::eml$propertyURI(label = annotation_metadata$propertyLabel)$/;"	v	function:create_annotation
 language	create_dataset.R	/^    language           = "english",$/;"	v	function:create_dataset
 levels	write_factors.R	/^        levels = map($/;"	n	nameattr:write_factors.factors_to_yaml.factors_yaml.attribute
 listOfDataTables	create_dataset.R	/^    listOfDataTables <- lapply(ls(envir = .GlobalEnv, pattern = "_DT"), function(DT) { get(DT, e/;"	v	function:create_dataset
@@ -369,8 +398,11 @@ markdown	configure_ltreb_project.R	/^    markdown = "The primary objective of th
 markdown	read_markdown.R	/^  text <- list(markdown = text)$/;"	g
 maximum	update_attributes.R	/^    maximum = new_max$/;"	v	function:update_attributes
 maximum	write_attributes.R	/^      maximum    = max(variable, na.rm = TRUE)$/;"	g
+metadata	get_custom_units.R	/^    metadata = list($/;"	n	list:get_custom_units.unit_list_eml	constructor:list
 metadataProvider	create_dataset.R	/^    metadataProvider   = metadataProvider,$/;"	v	function:create_dataset
 metadata_dist	configure_caplter.R	/^  metadata_dist <- EML::eml$distribution($/;"	v	function:create_distribution
+metadata_providers	get_people.R	/^      metadata_providers = metadata_providers,$/;"	n	list:get_people.anonList7db3e9290107
+metadata_providers	get_people.R	/^  metadata_providers <- from_load |> $/;"	v	function:get_people
 method	create_dataTable.R	/^  fileAuthentication                <- EML::eml$authentication(method = "MD5")$/;"	v	function:create_dataTable
 method	create_otherEntity.R	/^  fileAuthentication                <- EML::eml$authentication(method = "MD5")$/;"	v	function:create_otherEntity
 methodStep	create_dataset.R	/^      methods <- EML::eml$methods(methodStep = list(description = capeml::read_markdown(methodsF/;"	L	function:create_dataset
@@ -385,6 +417,8 @@ missing_value_frame	read_attributes.R	/^  missing_value_frame <- tibble::tibble(
 mvframe	read_attributes.R	/^  mvframe <- purrr::map_df($/;"	v	function:read_attributes
 name	get_unit_type.R	/^      name = this_unit,$/;"	g
 name	write_units.R	/^            name          = .x$name,$/;"	n	list:write_units.anonList7e81d6820207
+name	write_units.R	/^      new_custom_units <- unique(purrr::map(.x = qudt_annotations, ~ list(name = .x$"name")))$/;"	n	list:write_units.anonList7e81d6820507
+name	write_units.R	/^      qudt_for_unitlist <- unique(purrr::map(.x = qudt_annotations, ~ list(name = .x$"name")))$/;"	n	list:write_units.anonList7e81d6820407
 namedDirectory	zipRelatedFiles.R	/^  namedDirectory <- paste0(pathToFile, "\/", targetFileBaseName)$/;"	v	function:zipRelatedFiles
 namestr	create_dataTable.R	/^    namestr <- rlang::get_expr(dfname)$/;"	v	function:create_dataTable
 nancy	configure_caplter_project.R	/^  nancy <- EML::eml$personnel($/;"	v	function:configure_caplter_project
@@ -450,6 +484,7 @@ pattern	get_next_version.R	/^    pattern = "^[^\\\\.]*"$/;"	v	function:get_next_
 pattern	read_package_configuration.R	/^      pattern = "^[^\\\\.]*"$/;"	v	function:read_package_configuration
 permission	configure_caplter.R	/^  permission = "all")$/;"	g
 permission	configure_caplter.R	/^  permission = "read")$/;"	g
+person_from_file	get_people.R	/^    person_from_file <- get_person_attributes($/;"	v	function:create_role
 personnel	configure_caplter_project.R	/^    personnel = projectPersonnel,$/;"	n	list:configure_caplter_project.project
 personnel	configure_ltreb_project.R	/^    personnel = projectPersonnel,$/;"	n	list:configure_ltreb_project.project
 personnel	configure_som_project.R	/^    personnel = projectPersonnel,$/;"	v	function:configure_som_project
@@ -488,8 +523,10 @@ projectTitle	configure_ltreb_project.R	/^  projectTitle <- "Multiscale effects o
 projectTitle	configure_som_project.R	/^  projectTitle <- "Advancing soil organic matter research: Synthesizing multi-scale observations/;"	v	function:configure_som_project
 projectTitle	configure_urex_project.R	/^  projectTitle <- 'Urban resilience to extreme weather related events'$/;"	v	function:configure_urex_project
 project_name	create_dataTable.R	/^    project_name <- paste0(configurations$identifier, "_", namestr, ".csv")$/;"	v	function:create_dataTable
+property	get_annotations.R	/^  property <- EML::eml$propertyURI(label = annotation_metadata$propertyLabel)$/;"	v	function:create_annotation
 propertyLabel	write_attributes.R	/^    propertyLabel = "",$/;"	n	list:attributes_to_yaml.variableAttributes
 propertyLabel	write_units.R	/^            propertyLabel = "has unit",$/;"	n	list:write_units.anonList7e81d6820207
+propertyURI	get_annotations.R	/^    propertyURI = property,$/;"	v	function:create_annotation
 propertyURI	write_attributes.R	/^    propertyURI = "",$/;"	n	list:attributes_to_yaml.variableAttributes
 propertyURI	write_units.R	/^            propertyURI   = "http:\/\/qudt.org\/schema\/qudt\/hasUnit"$/;"	n	list:write_units.anonList7e81d6820207
 provided_identifier	create_dataset.R	/^    provided_identifier = configurations$identifier,$/;"	v	function:create_dataset
@@ -500,9 +537,11 @@ provided_scope	create_eml.R	/^    provided_scope      = configurations$scope,$/;
 provided_scope	write_cap_eml.R	/^      provided_scope      = configurations$scope,$/;"	v	function:write_cap_eml
 pubDate	create_dataset.R	/^    pubDate            = if (!is.null(publicationDate)) { publicationDate } else { as.character(/;"	v	function:create_dataset
 qudt	get_unit_type.R	/^  qudt       <- FALSE$/;"	v	function:get_unit_type
+qudt	write_units.R	/^  qudt   <- FALSE$/;"	v	function:write_units
 qudt_and_custom	write_units.R	/^    qudt_and_custom <- attributes_units_types |> $/;"	v	function:write_units
 qudt_annotations	write_units.R	/^      qudt_annotations <- split($/;"	v	function:write_units
 qudt_en_us	get_unit_type.R	/^  qudt_en_us <- FALSE$/;"	v	function:get_unit_type
+qudt_for_unitlist	write_units.R	/^      qudt_for_unitlist <- unique(purrr::map(.x = qudt_annotations, ~ list(name = .x$"name")))$/;"	v	function:write_units
 qudt_units	write_units.R	/^      qudt_units <- qudt_and_custom[grepl("qudt", qudt_and_custom$type, ignore.case = TRUE), ]$/;"	v	function:write_units
 quoteCharacter	create_dataTable.R	/^    quoteCharacter  = "\\"",$/;"	v	function:create_dataTable
 rangeOfDates	create_dataTable.R	/^        rangeOfDates = EML::eml$rangeOfDates($/;"	v	function:create_dataTable
@@ -531,7 +570,6 @@ simplify	write_units.R	/^        purrr::list_transpose(simplify = FALSE)$/;"	v	f
 size	create_otherEntity.R	/^    size           = fileSize,$/;"	v	function:create_otherEntity
 southBoundingCoordinate	create_geographic_coverage.R	/^      southBoundingCoordinate = sf_object_box[["ymin"]]$/;"	n	nameattr:create_geographic_coverage.geographic_coverage.boundingCoordinates
 standard	get_unit_type.R	/^  standard   <- FALSE$/;"	v	function:get_unit_type
-standardUnits	write_unit_dictionary.R	/^  standardUnits <- EML::get_unitList()$/;"	v	function:write_unit_dictionary
 storage	read_attributes.R	/^    storage    = missing_value_frame,$/;"	v	function:read_attributes
 string	get_next_version.R	/^    string  = provided_scope,$/;"	v	function:get_next_version
 string	read_package_configuration.R	/^      string  = configurations[["packageIdent"]],$/;"	v	function:read_package_configuration
@@ -552,8 +590,13 @@ target_file_or_directory	create_entities_from_yaml.R	/^      target_file_or_dire
 temporalCoverage	create_dataTable.R	/^      temporalCoverage = EML::eml$temporalCoverage($/;"	v	function:create_dataTable
 temporaryDirectoryLocation	zipRelatedFiles.R	/^  temporaryDirectoryLocation <- paste0(pathToFile, "\/temporaryDirectory")$/;"	v	function:zipRelatedFiles
 text	read_markdown.R	/^  text <- readr::read_file(mdFile)$/;"	v	function:read_markdown
+thesaurus	write_keywords.R	/^    thesaurus = c($/;"	c	function:write_keywords
 thesaurusSubset	create_keywordSet.R	/^  thesaurusSubset <- keywordsFile %>%$/;"	v	function:create_keywordList
+this_annotation_list	create_eml.R	/^    this_annotation_list <- capeml::get_annotations()$/;"	v	function:create_eml
+this_first_name	get_people.R	/^    this_first_name <- c($/;"	c	function:create_role
+this_role_type	get_people.R	/^  this_role_type <- person_metadata[["role_type"]] $/;"	v	function:create_role
 this_unit	write_units.R	/^  attributes_units_types  <- purrr::map(.x = attributes_units_unique, ~ capeml::get_unit_type(th/;"	v	function:write_units
+this_unit_list	create_eml.R	/^    this_unit_list <- capeml::get_custom_units()$/;"	v	function:create_eml
 this_version	create_dataset.R	/^  this_version <- capeml::get_next_version($/;"	v	function:create_dataset
 this_version	create_eml.R	/^  this_version <- capeml::get_next_version($/;"	v	function:create_eml
 this_version	write_cap_eml.R	/^    this_version <- capeml::get_next_version($/;"	v	function:write_cap_eml
@@ -573,10 +616,16 @@ title	write_config.R	/^    title                  = "title with subject time pla
 type	create_entities_from_yaml.R	/^        type   = "other",$/;"	n	list:create_entities_from_yaml.anonList49ae2dc20207
 type	create_entities_from_yaml.R	/^        type   = "table",$/;"	n	list:create_entities_from_yaml.anonList49ae2dc20107
 type	get_unit_type.R	/^      type = "custom"$/;"	g
+type	write_keywords.R	/^    type = c($/;"	c	function:write_keywords
 unit	create_dataTable.R	/^  fileSize      <- EML::eml$size(unit = "byte")$/;"	v	function:create_dataTable
 unit	create_otherEntity.R	/^  fileSize      <- EML::eml$size(unit = "byte")$/;"	v	function:create_otherEntity
+unit	get_custom_units.R	/^        unit = list(unit_list)$/;"	n	nameattr:get_custom_units.unit_list_eml.metadata.unitList	constructor:list
 unit	write_attributes.R	/^      unit       = "",$/;"	g
+unitList	get_custom_units.R	/^      unitList = list($/;"	n	nameattr:get_custom_units.unit_list_eml.metadata	constructor:list
 unit_details	get_unit_type.R	/^    unit_details <- NULL$/;"	v	function:get_unit_type
+unit_for_export	get_custom_units.R	/^  unit_for_export <- EML::eml$unit(id = unit_metadata$name)$/;"	v	function:create_unit
+unit_list	get_custom_units.R	/^  unit_list <- purrr::map(.x = from_load, ~ create_unit(.x))$/;"	v	function:get_custom_units
+unit_list_eml	get_custom_units.R	/^  unit_list_eml <- list($/;"	L	function:get_custom_units
 update_attributes	update_attributes.R	/^update_attributes <- function($/;"	f
 url	configure_caplter.R	/^    url = paste0("https:\/\/sustainability.asu.edu\/caplter\/data\/data-catalog\/view\/", packag/;"	v	function:create_distribution
 url	create_dataTable.R	/^    EML::eml$online(url = paste0(fileURL, project_name))$/;"	v	function:create_dataTable
@@ -587,8 +636,13 @@ userId	configure_caplter_project.R	/^    userId                = danOrcid,$/;"	v
 userId	configure_ltreb_project.R	/^    userId = nancyOrcid,$/;"	v	function:configure_ltreb_project
 userId	configure_som_project.R	/^    userId = willOrcid,$/;"	v	function:configure_som_project
 userId	configure_urex_project.R	/^    userId = chuckOrcid,$/;"	v	function:configure_urex_project
+validate_attribute	get_people.R	/^    validate_attribute <- function(person_attribute) {$/;"	f	function:create_role
+validate_input	get_people.R	/^validate_input <- function(object) {$/;"	f
+validated_attribute	get_people.R	/^      validated_attribute <- ifelse($/;"	v	function:create_role.validate_attribute
+value	get_annotations.R	/^  value <- EML::eml$propertyURI(label = annotation_metadata$valueLabel)$/;"	v	function:create_annotation
 valueLabel	write_attributes.R	/^    valueLabel = ""$/;"	n	list:attributes_to_yaml.variableAttributes
 valueLabel	write_units.R	/^            valueLabel    = .x$label,$/;"	n	list:write_units.anonList7e81d6820207
+valueURI	get_annotations.R	/^    valueURI    = value$/;"	v	function:create_annotation
 valueURI	write_attributes.R	/^    valueURI = "",$/;"	n	list:attributes_to_yaml.variableAttributes
 valueURI	write_units.R	/^            valueURI      = .x$unit,$/;"	n	list:write_units.anonList7e81d6820207
 var_levs	write_factors.R	/^    var_levs <- list($/;"	L	function:write_factors.map_factor_levels
