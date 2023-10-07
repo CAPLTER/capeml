@@ -8,8 +8,11 @@
 #' appropriate structure to be read into the create_keywordSet function to
 #' include in EML metadata for a dataset.
 #'
-#' @param overwrite Logical indicating if an existing keywords.csv file in the
-#' target directory should be overwritten.
+#' @param path
+#'  (character) Path to where the file will be written. Defaults to the current
+#'  directory.
+#' @param overwrite
+#'  (logical) Indicates to overwrite an existing file if one exists.
 #'
 #' @importFrom tibble tibble
 #' @importFrom readr write_csv
@@ -23,12 +26,17 @@
 #'
 #' @export
 
-write_keywords <- function(overwrite = FALSE) {
+write_keywords <- function(
+  path      = ".",
+  overwrite = FALSE
+  ) {
 
-  if(file.exists("keywords.csv") && overwrite == FALSE) {
+  target_path_file <- paste0(path, "/keywords.csv")
 
-    stop("keywords.csv already exists - set overwrite = TRUE to overwrite")
-
+  if (file.exists(target_path_file) && overwrite == FALSE) {
+    stop(
+      paste0(target_path_file, " already exists (use overwrite)")
+    )
   }
 
   tibble::tibble(
@@ -70,6 +78,6 @@ write_keywords <- function(overwrite = FALSE) {
       "place",
       "theme"
     )
-    ) |> readr::write_csv("keywords.csv")
+    ) |> readr::write_csv(target_path_file)
 
 }

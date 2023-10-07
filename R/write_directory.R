@@ -1,4 +1,4 @@
-#' @title Construct campel supporting files in a data package directory
+#' @title construct campel supporting files in a data package directory
 #'
 #' @description Create a directory structure for data package contents and
 #' \code{capeml} files.
@@ -75,7 +75,7 @@ write_directory <- function(
   }
 
 
-# create parent dir ------------------------------------------------------------
+  # create parent dir ------------------------------------------------------------
 
   message(
     paste0(
@@ -95,40 +95,45 @@ write_directory <- function(
   )
 
 
-# set directory to newly created -----------------------------------------------
+  # set directory to newly created -----------------------------------------------
 
-  newParent <- paste0(
+  new_parent <- paste0(
     path,
     "/",
     package_name
   )
 
 
-# write config.yaml ------------------------------------------------------------
+  # write config.yaml ------------------------------------------------------------
 
-  write_config(
+  capeml::write_config(
     scope      = scope,
     identifier = identifier,
-    path       = newParent
+    path       = new_parent
   )
 
 
-# generate capeml processing template ------------------------------------------
+  # generate capeml processing template ------------------------------------------
 
-  write_template(
+  capeml::write_template(
     scope      = scope,
     identifier = identifier,
-    path       = newParent
+    path       = new_parent
   )
 
 
-# generate keyword template ----------------------------------------------------
+  # generate keyword template ----------------------------------------------------
 
-  capeml::write_keywords()
+  capeml::write_keywords(path = new_parent)
 
 
-# end --------------------------------------------------------------------------
+  # generate personnel template --------------------------------------------------
 
-  message("completed generating directory, template, keywords, and config for ", package_name)
+  capeml::write_people_template(path = new_parent)
+
+
+  # end --------------------------------------------------------------------------
+
+  message("completed generating directory and templates for ", package_name)
 
 }

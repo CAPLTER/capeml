@@ -4,23 +4,23 @@
 \alias{write_keywords}
 \title{write a keywords template file}
 \usage{
-write_keywords(overwrite = FALSE)
+write_keywords(path = ".", overwrite = FALSE)
 }
 \arguments{
 \item{overwrite}{Logical indicating if an existing keywords.csv file in the
 target directory should be overwritten.}
 }
 \value{
-output is a csv file titled keywords.csv
+output is a partially populated csv file titled keywords.csv
 }
 \description{
-write_keywords creates a template as a csv file for supplying
-  dataset keywords. The template csv file is pre-populated with CAP
-  LTER-specific keywords attached to every data set, and inludes the relevant
-  thesaurii (LTER controlled vocabular, LTER core areas, Creator Defined
-  Keyword Set, CAPLTER Keyword Set List). The keywords.csv file has the
-  appropriate structure to be read into the create_keywordSet function to
-  include in EML metadata for a dataset.
+\code{write_keywords} creates a template as a csv file for
+supplying dataset keywords. The template csv file is pre-populated with CAP
+LTER-specific keywords attached to every data set, and inludes the relevant
+thesaurii (LTER controlled vocabular, LTER core areas, Creator Defined
+Keyword Set, CAPLTER Keyword Set List). The keywords.csv file has the
+appropriate structure to be read into the create_keywordSet function to
+include in EML metadata for a dataset.
 }
 \examples{
 

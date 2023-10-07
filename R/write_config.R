@@ -1,7 +1,7 @@
 #' @title write a project config.yaml file
 #'
 #' @description write_config writes a template config.yaml file to the working
-#'  directory (default) or supplied path.
+#' directory (default) or supplied path.
 #'
 #' @details A template config.yaml file is written to the working directory or
 #' specified location. The function requires that the package scope and number
@@ -19,9 +19,9 @@
 #' @param path
 #'  (character) Path to where the config file will be written. Defaults to the
 #'  current directory.
-#' @param overwrite (logical)
-#' Logical indicating if an existing config file in the target directory should
-#' be overwritten.
+#' @param overwrite 
+#' (logical) Logical indicating if an existing config file in the target
+#' directory should be overwritten.
 #'
 #' @importFrom yaml write_yaml
 #'
