@@ -2,7 +2,7 @@
 % Please edit documentation in R/write_people_template.R
 \name{write_people_template}
 \alias{write_people_template}
-\title{Write a template yaml file for adding personnel (people) metadata}
+\title{write a template yaml file for adding personnel (people) metadata}
 \usage{
 write_people_template(path = ".", overwrite = FALSE)
 }

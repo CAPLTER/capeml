@@ -194,7 +194,7 @@ get_person_attributes <- function(
 
   }
 
-  authors <- readr::read_csv(this_data_source)
+  authors <- suppressMessages(readr::read_csv(this_data_source))
 
   author <- authors |>
     dplyr::filter(

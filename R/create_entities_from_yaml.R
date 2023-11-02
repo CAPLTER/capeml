@@ -58,7 +58,7 @@ create_entities_from_yaml <- function(entity_configuration) {
       target_file_or_directory = entity_configuration$target_file_or_directory,
       description              = entity_configuration$description,
       overwrite                = entity_configuration$overwrite,
-      projectNaming            = entity_configuration$projectNaming,
+      project_naming           = entity_configuration$projectNaming,
       additional_information   = entity_configuration$additional_information
     )
 

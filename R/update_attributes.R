@@ -14,6 +14,13 @@
 #' data entity and updating those metadata with the minimum and maximum values
 #' for said data entity if they have changed in the context of a data refresh.
 #'
+#' @note An artifact of the updating process is that empty/unused keys will be
+#' omitted from the updated yaml file. For example, empty annotation fields
+#' will not be present in the yaml file after the update. This does not affect
+#' functionality of the metadata generated (the keys were not used anyway) but
+#' the keys would have to be added manually if there was a need for them in the
+#' future.
+#'
 #' @note An artifact of the updating process is that the \code{definition}
 #' element is populated in the updated yaml file. The \code{definition} element
 #' is required by the EML schema for attributes of type character. In a typical
@@ -95,15 +102,11 @@ update_attributes <- function(
 
   attrs_from_read  <- capeml::read_attributes(entity_name = string_pointer)[["table"]]
 
-  attrs_from_write <- capeml::write_attributes(dfname = object_pointer, return_type = "attributes")
-
-  attrs_from_write <- dplyr::bind_rows(attrs_from_write) |>
-  dplyr::select(
-    attributeName,
-    new_min = minimum,
-    new_max = maximum
-  )
-
+  attrs_from_write <- capeml::write_attributes(
+    dfname      = object_pointer,
+    return_type = "attributes"
+  ) |> 
+    dplyr::bind_rows()
 
   # resolve mismatches between the current entity and existing metadata
 
@@ -142,20 +145,30 @@ update_attributes <- function(
 
   # join and update
 
-  # attrs_updated <- dplyr::inner_join(
-  attrs_updated <- dplyr::right_join(
+  numeric_cols <- attrs_from_read[attrs_from_read$columnClasses == "numeric", ][["attributeName"]]
+
+  attrs_from_write <- attrs_from_write |> 
+    dplyr::filter(attributeName %in% c(numeric_cols)) |> 
+    dplyr::select(
+      attributeName,
+      new_min = minimum,
+      new_max = maximum
+    )
+
+  attrs_updated <- dplyr::left_join(
     x  = attrs_from_read,
     y  = attrs_from_write,
     by = c("attributeName")
+  ) |>
+    dplyr::mutate(
+      minimum = new_min,
+      maximum = new_max
     ) |>
-  dplyr::mutate(
-    minimum = new_min,
-    maximum = new_max
-    ) |>
-  dplyr::select(
-    -new_min,
-    -new_max
-  )
+    dplyr::select(
+      -new_min,
+      -new_max,
+      -id
+    )
 
 
   # convert table back to a list

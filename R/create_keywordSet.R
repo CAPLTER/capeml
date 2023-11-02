@@ -10,7 +10,7 @@
 #' @param keywordsFile The quoted path and name of the keywords file.
 #'
 #' @import EML
-#' @import purrr
+#' @importFrom purrr map map2
 #' @importFrom dplyr filter
 #' @importFrom readr read_csv
 #'
@@ -39,9 +39,9 @@
 #'
 create_keywordSet <- function(keywordsFile) {
 
-  keywordsFile <- read_csv(keywordsFile)
+  keywordsFile <- suppressMessages(readr::read_csv(keywordsFile))
 
-  keywordSet <- map(unique(keywordsFile[['thesaurus']]), create_keywordList, keywordsFile = keywordsFile)
+  keywordSet <- purrr::map(unique(keywordsFile[['thesaurus']]), create_keywordList, keywordsFile = keywordsFile)
 
   return(keywordSet)
 
@@ -78,10 +78,10 @@ create_keywordList <- function(category, keywordsFile) {
   thesaurusSubset <- keywordsFile %>%
     filter(thesaurus == category)
 
-  keywordSubset <- map2(.x = thesaurusSubset$keyword, .y = thesaurusSubset$type, .f = create_keyword)
+  keywordSubset <- purrr::map2(.x = thesaurusSubset$keyword, .y = thesaurusSubset$type, .f = create_keyword)
 
   emlKeywordList <- list(
-    keyword = keywordSubset,
+    keyword          = keywordSubset,
     keywordThesaurus = category
   )
 

@@ -13,6 +13,11 @@
 #' can be provided by the user but, in that case, both parameters must be
 #' provided.
 #'
+#' @note If warns or errors are returned, we can view the full report to
+#' examine the details of those problems. For example, write the report to file
+#' with \code{xml2::write_xml(report, "/tmp/report.xml")}, and search for e.g.,
+#' `<status>warn`.
+#'
 #' @param identifier
 #'  (integer) Unquoted package identifier integer
 #' @param scope
@@ -33,7 +38,7 @@ get_package_evaluation <- function(
   full_report = FALSE
   ) {
 
-  if (is.null(identifier)) || is.null(scope) {
+  if (is.null(identifier) || is.null(scope)) {
 
     if (!file.exists("config.yaml")) {
 

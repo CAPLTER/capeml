@@ -7,8 +7,10 @@
 write_keywords(path = ".", overwrite = FALSE)
 }
 \arguments{
-\item{overwrite}{Logical indicating if an existing keywords.csv file in the
-target directory should be overwritten.}
+\item{path}{(character) Path to where the file will be written. Defaults to the current
+directory.}
+
+\item{overwrite}{(logical) Indicates to overwrite an existing file if one exists.}
 }
 \value{
 output is a partially populated csv file titled keywords.csv

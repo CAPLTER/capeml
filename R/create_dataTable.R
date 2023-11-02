@@ -118,7 +118,6 @@ create_dataTable <- function(
   }
 
 
-
   # required parameters -------------------------------------------------------
 
   # do not proceed if a description is not provided
@@ -227,13 +226,16 @@ create_dataTable <- function(
   )[["eml"]]
 
 
-
   # units ---------------------------------------------------------------------
 
-  capeml::write_units(
-    entity_name = namestr,
-    entity_id   = tools::md5sum(project_name)
-  )
+  if (!is.null(find_element(attributes, "unit"))) {
+
+    capeml::write_units(
+      entity_name = namestr,
+      entity_id   = tools::md5sum(project_name)
+    )
+
+  }
 
 
   # create dataTable entity -------------------------------------------------
@@ -252,20 +254,34 @@ create_dataTable <- function(
 
   if (!is.null(dateRangeField)) {
 
-    dataTableTemporalCoverage <- EML::eml$coverage(
-      temporalCoverage = EML::eml$temporalCoverage(
-        rangeOfDates = EML::eml$rangeOfDates(
-          EML::eml$beginDate(
-            calendarDate = format(min(data_object[[dateRangeField]], na.rm = TRUE), "%Y-%m-%d")
-            ),
-          EML::eml$endDate(
-            calendarDate = format(max(data_object[[dateRangeField]], na.rm = TRUE), "%Y-%m-%d")
+    if (is.name(substitute(dateRangeField))) {
+
+      dateRangeField <- deparse(substitute(dateRangeField))
+
+    }
+
+    if (dateRangeField %in% colnames(data_object)) {
+
+      dataTableTemporalCoverage <- EML::eml$coverage(
+        temporalCoverage = EML::eml$temporalCoverage(
+          rangeOfDates = EML::eml$rangeOfDates(
+            EML::eml$beginDate(
+              calendarDate = format(min(data_object[[dateRangeField]], na.rm = TRUE), "%Y-%m-%d")
+              ),
+            EML::eml$endDate(
+              calendarDate = format(max(data_object[[dateRangeField]], na.rm = TRUE), "%Y-%m-%d")
+            )
           )
         )
-      )
-    )
+      ) 
 
-    newDT$coverage <- dataTableTemporalCoverage
+      newDT$coverage <- dataTableTemporalCoverage
+
+    } else {
+
+      message("dateRangeField not present in ", namestr)
+
+    }
 
   } # close temporalCoverage
 
@@ -284,9 +300,37 @@ create_dataTable <- function(
   message(paste0("created dataTable: ", project_name))
 
 
-
   # return ------------------------------------------------------------------
 
   return(newDT)
 
 } # close create_dataTable
+
+
+#' @description \code{find_element} is a helper function to
+#' \code{create_dataTable} that checks for the presence of a particular element
+#' in a list. In this case, we use \code{find_element} to determine if any of
+#' the attributes of a datatable have units.
+
+find_element <- function(attributes, element) {
+
+  if (utils::hasName(attributes, element)) {
+
+    attributes[[element]]
+
+  } else if (is.list(attributes)) {
+
+    for (obj in attributes) {
+
+      ret <- Recall(obj, element)
+      if (!is.null(ret)) return(ret)
+
+    }
+
+  } else {
+
+    NULL
+
+  }
+
+}

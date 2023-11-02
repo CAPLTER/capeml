@@ -8,32 +8,6 @@ editor_options:
 ---
 
 
-# people
-
-```{r people}
-
-# creator(s) (required)
-
-creators <- list()
-
-# metadata provider (required)
-
-metadataProvider <- list()
-
-# associated party (optional)
-# associatedParty <- list()
-
-```
-
-
-# keywords
-
-```{r keywords}
-
-capeml::write_keywords()
-```
-
-
 # methods
 
 Methods are automatically read from a `methods.md` file in the project

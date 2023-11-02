@@ -2,7 +2,7 @@
 % Please edit documentation in R/write_directory.R
 \name{write_directory}
 \alias{write_directory}
-\title{Construct campel supporting files in a data package directory}
+\title{construct campel supporting files in a data package directory}
 \usage{
 write_directory(
       scope,

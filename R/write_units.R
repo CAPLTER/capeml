@@ -46,7 +46,7 @@
 #'
 #'  algae <- read.csv("algae.csv")
 #'
-#'  capeml::write_attributes(
+#'  capeml::write_units(
 #'    entity_name = "algae",
 #'    entity_id   = tools::md5sum("algae.csv")
 #'  )
@@ -142,7 +142,7 @@ write_units <- function(
         as.list() |> 
         purrr::list_transpose(simplify = FALSE)
 
-      message("new_custom_units: ", qudt_and_custom[qudt_and_custom$type == "custom", ]["name"])
+      # message("new_custom_units: ", qudt_and_custom[qudt_and_custom$type == "custom", ]["name"])
 
     }
 
@@ -169,6 +169,16 @@ write_units <- function(
 
         existing_custom_units <- yaml::yaml.load_file("custom_units.yaml")
 
+        # do not add new CUs if they already exist in cu.yaml
+        existing_custom_units_names <- existing_custom_units |>
+        purrr::map("name") |>
+        unique()
+
+        new_custom_units <- purrr::discard(
+          .x = new_custom_units,
+          .p = \(x) x[["name"]] %in% existing_custom_units_names
+        )
+
         c(existing_custom_units, new_custom_units) |> 
           unique() |> 
           yaml::write_yaml(
@@ -190,7 +200,7 @@ write_units <- function(
 
   } else {
 
-    message(entity_name, ": neither QUDT or custom units were detected")
+    # message(entity_name, ": neither QUDT or custom units were detected")
     return(NULL)
 
   }

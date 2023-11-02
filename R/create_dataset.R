@@ -1,54 +1,36 @@
-#' @title create EML entity of type dataset
+#' @title create a EML entity of type dataset
 #'
-#' @description create_dataset generates a EML entity of type dataset
+#' @description \code{create_dataset} generates a EML entity of type dataset.
 #'
 #' @details A dataset entity, the central component of a data package, is
-#' created from objects in the user's R environment or as detailed in
-#' config.yaml. A project name (default is LTER) indicates contact and project
-#' details specific to the research. The abstract and methods must be in
-#' markdown format - by default the package will look for these files
-#' (abstract.md, methods.md) in the project directory but files of different
-#' names or locations can be passed. Similarly for keywords, the package will
-#' look for a keywords.csv file in the project directory but a different name
-#' or location can be passed.
+#' created from objects in the user's R environment and supporting yaml files.
+#' A project (default is LTER) indicates contact and project details specific
+#' to the research. The abstract and methods must be in markdown format -
+#' package will look for these files (abstract.md, methods.md) in the project
+#' directory. Similarly for keywords, the package will look for a keywords.csv
+#' file in the project directory.
 #'
-#' @note create_dataset will look for most inputs used to construct a dataset,
-#' such as a package number, in the working environment or from the project
-#' config.yaml; these parameters are not passed directly to the function and
-#' must exist in the working environment or configuration file.
+#' @note \code{create_dataset} will look for most inputs used to construct a
+#' dataset, such as a package number, in the working environment or from the
+#' project config.yaml; these parameters are not passed directly to the
+#' function and must exist in the working environment or configuration file(s).
 #'
-#' @param abstractFile
-#' (character) Quoted name and path of abstract (in markdown format)
-#' @param methodsFile
-#' (character) Quoted name and path of methods (in markdown format)
-#' @param keywordsFile
-#' (character) Quoted name and path of keywords (in csv format)
-#' @param publicationDate
-#' (character) Quoted ISO date - defaults to today's date
+#' @param publication_date
+#' (character) Quoted ISO date - defaults to \code{Sys.Date()}
 #'
 #' @import EML
 #' @importFrom yaml yaml.load_file
+#' @importFrom purrr map map_chr every
 #'
-#' @return EML dataset entity is returned.
+#' @return EML entity of type dataset entity is returned.
 #'
 #' @export
 #'
 create_dataset <- function(
-  abstractFile    = "abstract.md",
-  methodsFile     = "methods.md",
-  keywordsFile    = "keywords.csv",
-  publicationDate = NULL
+  publication_date = NULL
   ) {
 
   # confirm required components exist in R environment
-
-  if (!exists("creators")) {
-    stop("missing creator")
-  }
-
-  if (!exists("metadataProvider")) {
-    stop("missing metadata provider")
-  }
 
   if (!exists("coverage")) {
     stop("missing coverage")
@@ -57,7 +39,7 @@ create_dataset <- function(
 
   # retrieve dataset details from config.yaml
 
-  configurations <- read_package_configuration()
+  configurations <- capeml::read_package_configuration()
 
 
   # package version
@@ -82,7 +64,7 @@ create_dataset <- function(
 
   tryCatch({
 
-    abstract <- capeml::read_markdown(abstractFile)
+    abstract <- capeml::read_markdown("abstract.md")
 
   }, error = function(err) {
 
@@ -93,11 +75,15 @@ create_dataset <- function(
 
   # methods
 
-  if (!exists("enhancedMethods")) {
+  if (!exists("rich_methods")) {
 
     tryCatch({
 
-      methods <- EML::eml$methods(methodStep = list(description = capeml::read_markdown(methodsFile)))
+      methods <- EML::eml$methods(
+        methodStep = list(
+          description = capeml::read_markdown("methods.md")
+        )
+      )
 
     }, error = function(err) {
 
@@ -107,7 +93,7 @@ create_dataset <- function(
 
   } else {
 
-    methods <- enhancedMethods
+    methods <- rich_methods
 
   }
 
@@ -116,7 +102,7 @@ create_dataset <- function(
 
   tryCatch({
 
-    keywords <- capeml::create_keywordSet(keywordsFile)
+    keywords <- capeml::create_keywordSet("keywords.csv")
 
   }, error = function(err) {
 
@@ -151,13 +137,22 @@ create_dataset <- function(
   }
 
 
+  # distribution
+
+  cap_url <- list(
+    url        = "https://cap.lternet.edu",
+    `function` = "information"
+  )
+
+  cap_online       <- EML::eml$online(url = cap_url)
+  cap_distribution <- EML::eml$distribution(online = cap_online)
+
+
   # construct base dataset with required components
 
   dataset <- EML::eml$dataset(
     title              = configurations$title,
-    creator            = creators,
-    pubDate            = if (!is.null(publicationDate)) { publicationDate } else { as.character(Sys.Date()) },
-    metadataProvider   = metadataProvider,
+    pubDate            = if (!is.null(publication_date)) { publication_date } else { as.character(Sys.Date()) },
     language           = "english",
     intellectualRights = capRights,
     abstract           = abstract,
@@ -165,8 +160,54 @@ create_dataset <- function(
     coverage           = coverage,
     maintenance        = dataset_maintenance,
     methods            = methods,
-    distribution       = create_distribution(package_name)
+    distribution       = cap_distribution
   )
+
+
+  # personnel
+
+  people <- capeml::get_people()
+
+  ## add to dataset
+
+  dataset$creator          <- people[["creators"]]
+  dataset$metadataProvider <- people[["metadata_providers"]]
+  dataset$associatedParty  <- people[["associated_parties"]]
+
+  ## summarize people
+
+  list_of_creators <- purrr::map(people[["creators"]], "individualName") |> 
+  purrr::map_chr("surName")
+
+  if (
+    purrr::map(people[["metadata_providers"]], "individualName") |> 
+    purrr::map("surName") |> 
+    purrr::every(is.null)
+    ) {
+
+    list_of_metadata_providers <- NULL
+
+  } else {
+
+    list_of_metadata_providers <- purrr::map(people[["metadata_providers"]], "individualName") |> 
+    purrr::map_chr("surName")
+
+  }
+
+  if (
+    purrr::map(people[["associated_parties"]], "individualName") |> 
+    purrr::map("surName") |> 
+    purrr::every(is.null)
+    ) {
+
+    list_of_associated_parties <- NULL
+
+  } else {
+
+    list_of_associated_parties <- purrr::map(people[["associated_parties"]], "individualName") |> 
+    purrr::map_chr("surName")
+
+  }
 
 
   # add project-specific elements
@@ -177,7 +218,7 @@ create_dataset <- function(
 
     dataset$contact   <- capContact # cap contact
     dataset$publisher <- capPublisher # cap pub
-    dataset$project   <- configure_caplter_project() # cap project
+    dataset$project   <- capeml::configure_caplter_project() # cap project
 
   } else if (grepl("gios", project, ignore.case = TRUE)) {
 
@@ -188,13 +229,13 @@ create_dataset <- function(
 
     dataset$contact   <- giosContact # gios contact
     dataset$publisher <- giosPublisher # gios pub
-    dataset$project   <- configure_urex_project()  # urex project
+    dataset$project   <- capeml::configure_urex_project()  # urex project
 
   } else if (grepl("som", project, ignore.case = TRUE)) {
 
     dataset$contact   <- capContact # cap contact
     dataset$publisher <- capPublisher # cap pub
-    dataset$project   <- configure_som_project()  # SOM project
+    dataset$project   <- capeml::configure_som_project()  # SOM project
 
   } else if (grepl("ltreb", project, ignore.case = TRUE)) {
 
@@ -203,8 +244,8 @@ create_dataset <- function(
 
     # nest LTREB under CAP
 
-    cap_project                <- configure_caplter_project()
-    cap_project$relatedProject <- configure_ltreb_project()
+    cap_project                <- capeml::configure_caplter_project()
+    cap_project$relatedProject <- capeml::configure_ltreb_project()
     dataset$project            <- cap_project
 
   } else {
@@ -215,7 +256,7 @@ create_dataset <- function(
 
 
   # load data objects as outlined in data_objects yaml
-  
+
   if (file.exists("data_objects.yaml")) {
 
     data_objects_load_file <- yaml::yaml.load_file("data_objects.yaml")
@@ -234,10 +275,10 @@ create_dataset <- function(
 
   if (data_entities_yaml == TRUE) {
 
-    table_entities    <- purrr::map(data_entities, ~ .x[["type"]] == "table")
-    table_entities    <- data_entities[unlist(table_entities, use.names = FALSE)]
-    table_names       <- names(table_entities)
-    table_entities    <- purrr::map(table_entities, ~ .x[["entity"]])
+    table_entities <- purrr::map(data_entities, ~ .x[["type"]] == "table")
+    table_entities <- data_entities[unlist(table_entities, use.names = FALSE)]
+    table_names    <- names(table_entities)
+    table_entities <- purrr::map(table_entities, ~ .x[["entity"]])
 
   } else {
 
@@ -265,17 +306,16 @@ create_dataset <- function(
   }
 
 
-
   # other entities (OE)
 
   ## other entities from yaml
 
   if (data_entities_yaml == TRUE) {
 
-    other_entities      <- purrr::map(data_entities, ~ .x[["type"]] == "other")
-    other_entities      <- data_entities[unlist(other_entities, use.names = FALSE)]
-    other_entity_names  <- names(other_entities)
-    other_entities      <- purrr::map(other_entities, ~ .x[["entity"]])
+    other_entities     <- purrr::map(data_entities, ~ .x[["type"]] == "other")
+    other_entities     <- data_entities[unlist(other_entities, use.names = FALSE)]
+    other_entity_names <- names(other_entities)
+    other_entities     <- purrr::map(other_entities, ~ .x[["entity"]])
 
   } else {
 
@@ -325,7 +365,7 @@ create_dataset <- function(
 
   # add associated party if exists
 
-  if (exists("associatedParty")) { dataset$associatedParty <- associatedParty }
+  # if (exists("associatedParty")) { dataset$associatedParty <- associatedParty }
 
 
   # add literature citations if exists
@@ -364,7 +404,9 @@ create_dataset <- function(
       " otherEntities: ",        paste0(c(other_entity_names), collapse = ", "), "\n",
       " spatialVectors: ",       paste0(c(ls(envir = .GlobalEnv, pattern = "_SV")), collapse = ", "), "\n",
       " spatialRasters: ",       paste0(c(ls(envir = .GlobalEnv, pattern = "_SR")), collapse = ", "), "\n",
-      " associated party: ",     exists("associatedParty"), "\n",
+      " creators: ",             paste0(list_of_creators, collapse = ", "), "\n",
+      " metadata providers: ",   paste0(list_of_metadata_providers, collapse = ", "), "\n",
+      " associated parties: ",   paste0(list_of_associated_parties, collapse = ", "), "\n",
       " literature citations: ", num_citations, "\n",
       " usage citations: ",      num_usages, "\n"
     )

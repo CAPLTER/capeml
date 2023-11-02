@@ -52,7 +52,7 @@ directory.
 
  algae <- read.csv("algae.csv")
 
- capeml::write_attributes(
+ capeml::write_units(
    entity_name = "algae",
    entity_id   = tools::md5sum("algae.csv")
  )

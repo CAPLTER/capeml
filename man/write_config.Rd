@@ -15,13 +15,12 @@ write_config(scope = "knb-lter-cap", identifier, path = ".", overwrite = FALSE)
 \item{path}{(character) Path to where the config file will be written. Defaults to the
 current directory.}
 
-\item{overwrite}{(logical)
-Logical indicating if an existing config file in the target directory should
-be overwritten.}
+\item{overwrite}{(logical) Logical indicating if an existing config file in the target
+directory should be overwritten.}
 }
 \description{
 write_config writes a template config.yaml file to the working
- directory (default) or supplied path.
+directory (default) or supplied path.
 }
 \details{
 A template config.yaml file is written to the working directory or

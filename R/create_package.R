@@ -1,7 +1,7 @@
 #' @title create or update data package with EDI API
 #'
-#' @description \code{create_package} creates a data package in the EDI data
-#' repository.
+#' @description \code{create_package} creates or updates a data package in the
+#' EDI data repository.
 #'
 #' @note \code{create_package} will look for a config.yaml file to estalish the
 #' package scope and identifier. Alternatively, these parameters can be
@@ -17,6 +17,9 @@
 #' @param environment
 #'  (character) Quoted name of the EDI environment where the data package
 #'  should be created, can be: production, staging (default), or development.
+#' @param update
+#'  (logical) Boolean value indicating if the data package already exists and
+#'  should be updated.
 #'
 #' @import EDIutils
 #'
@@ -25,10 +28,11 @@
 create_package <- function(
   identifier  = NULL,
   scope       = NULL,
-  environment = "staging"
+  environment = "staging",
+  update      = FALSE
   ) {
 
-  if (is.null(identifier)) || is.null(scope) {
+  if (is.null(identifier) || is.null(scope)) {
 
     if (!file.exists("config.yaml")) {
 
@@ -48,9 +52,22 @@ create_package <- function(
 
   )
 
-  EDIutils::create_data_package(
-    eml = paste(scope, identifier, version, "xml", sep = "."),
-    env = environment
-  )
+  if (update == TRUE) {
+
+    EDIutils::update_data_package(
+      eml         = paste(scope, identifier, version, "xml", sep = "."),
+      useChecksum = TRUE,
+      env         = environment
+
+    )
+
+  } else {
+
+    EDIutils::create_data_package(
+      eml = paste(scope, identifier, version, "xml", sep = "."),
+      env = environment
+    )
+
+  }
 
 }

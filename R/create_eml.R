@@ -1,14 +1,10 @@
-#' @title generate a EML entity of type eml
+#' @title create a EML entity of type EML
 #'
 #' @description \code{create_eml} generates a EML entity of type eml from
 #' objects and metadata compiled from capeml objects in the working directory
 #'
 #' @details A eml entity is created from objects defined in the user's R
-#' environment. The function loads a project scope (default is LTER), which
-#' informs contact and project details specific to the research. The abstract
-#' and methods must be in markdown format - by default the package will look
-#' for these files (abstract.md, methods.md) in the project directory but files
-#' of different names or locadtions can be passed.
+#' environment and configuration files. 
 #'
 #' @note \code{create_eml} will look for most inputs used to construct a eml
 #' entity, such as access and dataset, in the working environment; these
@@ -20,7 +16,7 @@
 #'
 #' @import EML
 #'
-#' @return EML eml entity is returned.
+#' @return EML entity of type EML is returned.
 #'
 #' @export
 #'
