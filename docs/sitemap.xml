@@ -70,6 +70,9 @@
     <loc>/reference/create_otherEntity.html</loc>
   </url>
   <url>
+    <loc>/reference/create_package.html</loc>
+  </url>
+  <url>
     <loc>/reference/create_spatialRaster.html</loc>
   </url>
   <url>
@@ -82,10 +85,25 @@
     <loc>/reference/emlCoordSystems.html</loc>
   </url>
   <url>
+    <loc>/reference/get_annotations.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_custom_units.html</loc>
+  </url>
+  <url>
     <loc>/reference/get_emlProjection.html</loc>
   </url>
   <url>
     <loc>/reference/get_next_version.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_package_evaluation.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_people.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_unit_type.html</loc>
   </url>
   <url>
     <loc>/reference/giosAddress.html</loc>
@@ -110,6 +128,9 @@
   </url>
   <url>
     <loc>/reference/projectTitle.html</loc>
+  </url>
+  <url>
+    <loc>/reference/qudt_table.html</loc>
   </url>
   <url>
     <loc>/reference/read_attributes.html</loc>
@@ -145,6 +166,9 @@
     <loc>/reference/write_missing_values.html</loc>
   </url>
   <url>
+    <loc>/reference/write_people_template.html</loc>
+  </url>
+  <url>
     <loc>/reference/write_raster_factors.html</loc>
   </url>
   <url>
@@ -152,6 +176,9 @@
   </url>
   <url>
     <loc>/reference/write_unit_dictionary.html</loc>
+  </url>
+  <url>
+    <loc>/reference/write_units.html</loc>
   </url>
   <url>
     <loc>/reference/zipRelatedFiles.html</loc>

@@ -1,3 +1,7 @@
+---
+format: gfm
+---
+
 <!-- readme.md is generated from readme.rmd. please edit the latter. -->
 
 ## capeml: tools to aid the generation of EML metadata

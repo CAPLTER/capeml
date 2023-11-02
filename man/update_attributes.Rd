@@ -37,6 +37,13 @@ data entity and updating those metadata with the minimum and maximum values
 for said data entity if they have changed in the context of a data refresh.
 }
 \note{
+An artifact of the updating process is that empty/unused keys will be
+omitted from the updated yaml file. For example, empty annotation fields
+will not be present in the yaml file after the update. This does not affect
+functionality of the metadata generated (the keys were not used anyway) but
+the keys would have to be added manually if there was a need for them in the
+future.
+
 An artifact of the updating process is that the \code{definition}
 element is populated in the updated yaml file. The \code{definition} element
 is required by the EML schema for attributes of type character. In a typical

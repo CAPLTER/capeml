@@ -1,94 +1,146 @@
+
 <!-- readme.md is generated from readme.rmd. please edit the latter. -->
 
 ## capeml: tools to aid the generation of EML metadata
 
 ### overview
 
-This package contains tools to aid the generation of EML metadata with intent to publish a dataset (data + metadata) in the Environmental Data Initiative (EDI) data repository. Functions and a template work flow are included that allow for the creation of metadata at the dataset level, and individual data entities (e.g., other entities, data tables).
+This package contains tools to aid the generation of EML metadata with
+intent to publish a dataset (data + metadata) in the Environmental Data
+Initiative (EDI) data repository. Functions and a template work flow are
+included that allow for the creation of metadata at the dataset level,
+and individual data entities (e.g., other entities, data tables).
 
-Helper functions for the creation of dataset metadata for dataTable and otherEntity objects using the [EML](https://docs.ropensci.org/EML/) package are supported. This package can be extended with the [capemlGIS](https://github.com/caplter/capemlgis) package to generate metadata for spatialRaster and spatialVector objects.
+Helper functions for the creation of dataset metadata for dataTable and
+otherEntity objects using the [EML](https://docs.ropensci.org/EML/)
+package are supported. This package can be extended with the
+[capemlGIS](https://github.com/caplter/capemlgis) package to generate
+metadata for spatialRaster and spatialVector objects.
 
-A template work flow is available as part of this package. The template is automatically generated if a new project is created with `write_directory`, which also generates a `config.yaml` file and new directory, or with the `write_template` function.
+A template work flow is available as part of this package. The template
+is automatically generated if a new project is created with
+`write_directory`, which also generates a `config.yaml` file and new
+directory, or with the `write_template` function.
 
 ### installation
 
-Install from GitHub (after installing the [devtools](https://cran.r-project.org/web/packages/devtools/index.html) package:
+Install from GitHub (after installing the
+[devtools](https://cran.r-project.org/web/packages/devtools/index.html)
+package:
 
-
-```r
+``` r
 devtools::install_github("CAPLTER/capeml")
 ```
 
-
 ### options
 
-#### EML
+#### EML version
 
-This package defaults to the current version of EML. Users can switch to the previous version with `emld::eml_version("eml-2.1.1")`.
+This package defaults to the current version of EML. Users can switch to
+the previous version with `emld::eml_version("eml-2.1.1")`.
 
 #### project naming
 
-Most EML-generating functions in the capeml and capemlGIS packages will create both physical objects and EML references to those objects. By default, the package will name output files with the format `identifier`\_`object-name`\.`file-extension` (e.g., *664_site_map.png*). The target object (e.g., site_map.png from the previous example) is renamed with the additional metadata and this object name is referenced in the EML metadata. Project naming can be disabled by setting the `projectNaming` flag to `FALSE`. When set to FALSE, the object name is not changed, and the name of the data object as read into the R environment is written to file and referenced in the EML. Note that the package identifier (number) is not passed as an argument, and must exist in `config.yaml` (as `identifier`). 
+Most EML-generating functions in the capeml and capemlGIS packages will
+create both physical objects and EML references to those objects. By
+default, the package will name output files with the format
+`identifier`\_`object-name`.`file-extension` (e.g., *664_site_map.png*).
+The target object (e.g., my_map.png) is renamed with the additional
+metadata and this object name is referenced in the EML metadata. Project
+naming can be disabled by setting the `projectNaming` flag to `FALSE`.
+When set to FALSE, the object name is not changed, and the name of the
+data object as read into the R environment is written to file and
+referenced in the EML. Note that the package identifier (number) is not
+passed as an argument, and must exist in `config.yaml` (as
+`identifier`).
 
 ### getting started
 
 #### new projects
 
-For new projects, `write_directory` will create a project directory at the current (default) or specified path. The package scope and number (e.g., "edi", 521) are passed as arguments, with the package name (i.e., scope + identifier) becoming the directory name. Within the newly created directory, a template work flow as an Rmarkdown (Rmd) file with the package scope and number as the file name is generated and a `config.yaml`. In `config.yaml`, the scope and package identifier are generated as parameters. 
+For new projects, `write_directory` will create a project directory at
+the current (default) or specified path. The package scope and number
+(e.g., “edi”, 521) are passed as arguments, with the package name (i.e.,
+scope + identifier) becoming the directory name. Within the newly
+created directory, a template work flow as a Quarto (qmd) file with the
+package scope and number as the file name is generated. Additional files
+include a `config.yaml` for providing project-level metadata, a
+`people.yaml` for providing project personnel details (see below), and a
+`keywords.csv` file for providing project keywords. In `config.yaml`,
+the provided scope and package identifier are generated as parameters.
+Note that each of these template files can be generated outside of
+`write_directory` with package functions (see below).
 
-Creating a new project from the command line (*sensu* below) then opening it with R is a convenient approach.
+Creating a new project from the command line (*sensu* below) then
+opening it with R is a convenient approach.
 
 *create project from command line*
 
-
-```r
+``` r
 R --vanilla -e 'capeml::write_directory(scope = "edi", identifier = 521)'
 ```
 
 #### existing projects
 
-For existing projects, if `config.yaml` does not already exist, `write_config` will generate `config.yaml` with the package scope and identifier (e.g., "edi", 521) passed as an argument to the function. A version number (default = 1) can be passed as a separate argument.
+For existing projects, we can generate any of the needed configuration
+files with package functions:
 
-A template work flow as an Rmarkdown (Rmd) file named with the package scope and identifier can be generated independently with the `write_template` function.
-
-### tools to generate entity data and metadata
-
-* `write_attributes` creates a template as a yaml file for supplying attribute metadata for a tabular data object that resides in the R environment
-* `write_factors` creates a template as a yaml file for supplying code definition metadata for factors in a tabular data object that resides in the R environment
-* `update_attributes` A frequent need with long-term, ongoing research is to update existing data. A challenge to that is that we do not want to have to rebuild from scratch the attribute metadata for a data entity that we constructed with `write_attributes()` at each update. In terms of attribute metadata, definitions, units, etc. are relatively static but what often change are the minimum and maximum values for numeric variables as the observation record grows. We could ascertain the minimum and maximum values for numeric variables then manually update existing attribute metadata but this is tedious, error-prone, and can be time consuming when dealing with many variables. The `update_attributes` function takes care of this for us by reading the existing attribute metadata for a given data entity and updating those metadata with the minimum and maximum values for said data entity if they have changed in the context of a data refresh.
-* `create_dataTable` creates a EML entity of type dataTable
-* `create_otherEntity` creates a EML entity of type otherEntity
+-   `write_config` generates `config.yaml` with the package scope and
+    identifier (e.g., “edi”, 521) passed as an argument to the function.
+    A version number (default = 1) can be passed as a separate argument.
+-   `write_template` generates a template work flow as a Quarto (qmd)
+    file named with the package scope and identifier.
+-   `write_people_template` generates a template yaml file for providing
+    metadata regarding project personnel.
+-   `write_keywords` generates a template csv file for providing
+    metadata regarding project keywords.
 
 ### construct a dataset
 
 #### project details: dataset package number and package identifier
 
-Package details, including scope and identifier are read from config.yaml. The appropriate version is determined by identifying the highest version currently in the production environment of the EDI repository (1 for new packagees).
+Package details, including scope and identifier are read from
+config.yaml. The appropriate version is determined by identifying the
+highest version currently in the production environment of the EDI
+repository (1 for new packages).
 
 #### title
 
-The dataset title is read from the `title` parameter of `config.yaml`. The title can be quoted or unquoted but must be quoted if the title contains a colon.
+The dataset title is read from the `title` parameter of `config.yaml`.
+The title can be quoted or unquoted but must be quoted if the title
+contains a colon.
 
 #### maintenance
 
-The maintenance status of a project is read from the `maintenance` parameter of `config.yaml`. Standardized language is provided for either `none` (updates not anticipated) or `regular` (approximately annual updates are anticipated) maintenance regimes. `NULL` or text other than `none` or `regular` will omit the `maintenance` element from the resulting EML.
+The maintenance status of a project is read from the `maintenance`
+parameter of `config.yaml`. Standardized language is provided for either
+`none` (updates not anticipated) or `regular` (approximately annual
+updates are anticipated) maintenance regimes. `NULL` or text other than
+`none` or `regular` will omit the `maintenance` element from the
+resulting EML.
 
 #### abstract
 
-The `create_dataset` function will look for a `abstract.md` file in the working directory or at the path provided if specified. `abstract.md` must be a markdown file.
+The `create_dataset` function will look for a `abstract.md` file in the
+working directory or at the path provided if specified. `abstract.md`
+must be a markdown file.
 
 #### keywords
 
-`write_keywords` creates a template as a csv file for supplying dataset keywords. The `create_dataset` function will look for a `keywords.csv` file in the working directory or at the path provided if specified.
+`write_keywords` creates a template as a csv file for supplying dataset
+keywords. The `create_dataset` function will look for a `keywords.csv`
+file in the working directory or at the path provided if specified.
 
 #### methods
 
-The `create_dataset` function will look for a `methods.md` file in the working directory or at the path provided if specified (`methods.md` must be a markdown file).
+The `create_dataset` function will look for a `methods.md` file in the
+working directory or at the path provided if specified (`methods.md`
+must be a markdown file).
 
-Alternatively, the work flow below is an enhanced approach of developing methods if provenance data are required or there are multiple methods files. If `enhancedMethods` exists, it will override arguments passed to `methodsFile` in `create_dataset`.
+Alternatively, the work flow below is an approach of developing methods
+if provenance data are required or there are multiple methods files.
 
-
-```r
+``` r
 # methods from file tagged as markdown
 main <- list(description = read_markdown("methods.md"))
 
@@ -102,17 +154,19 @@ landSurfaceTemp <- emld::as_emld(EDIutils::api_get_provenance_metadata("knb-lter
 landSurfaceTemp$`@context` <- NULL
 landSurfaceTemp$`@type` <- NULL
 
-enhancedMethods <- EML::eml$methods(methodStep = list(main, naip, landSurfaceTemp))
+rich_methods <- EML::eml$methods(methodStep = list(main, naip, landSurfaceTemp))
 ```
 
 #### coverages
 
-*Geographic* and *temporal* coverages are straight foward and documented in the work flow, but creating a *taxonomic* coverage is more involved. *Taxonomic coverage(s)* are constructed using EDI's [taxonomyCleanr](https://github.com/EDIorg/taxonomyCleanr) tool suite.
+*Geographic* and *temporal* coverages are straightforward and documented
+in the work flow, but creating a *taxonomic* coverage is more involved.
+*Taxonomic coverage(s)* are constructed using EDI’s
+[taxonomyCleanr](https://github.com/EDIorg/taxonomyCleanr) tool suite.
 
 A sample work flow for creating a taxonomic coverage:
 
-
-```r
+``` r
 my_path <- getwd() # taxonomyCleanr requires a path (to build the taxa_map)
 
 # Example: draw taxonomic information from existing resource:
@@ -168,97 +222,226 @@ coverage$taxonomicCoverage <- taxaCoverage
 
 #### people
 
+Project personnel metadata in the form of `<creator>`,
+`<metadataProvider>`, and `<associatedParty>` are provided via the
+`people.yaml` configuration file. The following example illustrates
+personnel metadata for two `<creators>`, and one each
+`<metadataProvider>` and `<associatedParty>`.
 
-```r
-# creator(s) - required
-
-# if the person has an ORCiD, generate that first
-
-sean_orcid <- EML::eml$userId(directory = "https://orcid.org")
-sean_orcid$userId <- "1111-1111-1111-1111"
-
-sean <- EML::eml$creator(
-  individualName = EML::eml$individualName(
-    givenName = "Sean",
-    surName   = "Payton"
-    ),
-  electronicMailAddress = "spayton@saints.com",
-  organizationName      = "Saints",
-  userId = sean_orcid
-)
-
-# sans ORCiD
-
-kliff <- EML::eml$creator(
-  individualName = EML::eml$individualName(
-    givenName = "Kliff",
-    surName   = "Kingsbury"
-    ),
-  electronicMailAddress = "kkingsbury@cardinals.com",
-  organizationName      = "Cardinals"
-)
-
-creators <- list(
-  sean,
-  kliff
-)
-
-# metadata provider - required
-
-pete_orcid <- EML::eml$userId(directory = "https://orcid.org")
-pete_orcid$userId <- "3333-3333-3333-3333"
-
-pete <- EML::eml$metadataProvider(
-  individualName = EML::eml$individualName(
-    givenName = "Pete",
-    surName   = "Carrol"
-    ),
-  electronicMailAddress = "pcarroll@seahawks.com",
-  organizationName      = "Seahawks",
-  userId = pete_orcid
-)
-
-metadataProvider <- list(pete)
-
-# associated party (optional)
-
-# requires the additional argument `role`
-
-brandon <- EML::eml$associatedParty(
-  individualName = EML::eml$individualName(
-    givenName = "Brandon",
-    surName   = "Staley"
-    ),
-  electronicMailAddress = "bstaley@chargers.com",
-  organizationName      = "Chargers",
-  role                  = "head coach"
-)
-
-associatedParty <- list(brandon)
+``` yaml
+- last_name: Gannon
+  first_name: Richard
+  middle_name: ~
+  role_type: creator
+  email: rgannon@cardinals.usfl
+  orcid: 1111-1111-11x1-1111
+  data_source: ~
+- last_name: Carrol
+  first_name: Pete
+  middle_name: ~
+  role_type: creator
+  email: pcarroll@seahawks.usfl
+  orcid: 2222-2x22-2222-2222
+  data_source: ~
+- last_name: Payton
+  first_name: Sean
+  middle_name: ~
+  role_type: metadataProvider
+  email: spayton@broncos.usfl
+  orcid: ~
+  data_source: ~
+- last_name: Staley
+  first_name: Brandon
+  middle_name: ~
+  role_type: associatedParty
+  project_role: "head coach"
+  email: bstaley@chargers.usfl
+  orcid: 3x33-3333-3333-2222
+  data_source: ~
 ```
+
+If personnel are involved with many or repeated projects, it may be
+easier to keep personnel metadata in a file that `people.yaml` can
+reference. Below is an example of the same personnel metadata but
+drawing from a tabular csv file of personnel metadata. In this case, the
+tabular csv file contains most of the details (e.g., email, orcid) so we
+do not have to include those details in the yaml, and partial matching
+is supported so we do not have to pass the full names. We pass the
+location of the personnel tabular metadata file with `data_source`. We
+can also mix and match providing metadata via yaml and drawing from a
+tabular file. For example metadata pertaining to Pete Carrol are passed
+via yaml whereas metadata for all other personnel are drawn from the
+tabular file, with the presence of a `data_source` providing the
+indication to generate EML metadata from the details provided in the
+yaml or draw them from a tabular file.
+
+``` yaml
+- last_name: Ganon
+  first_name: Ri
+  middle_name: ~
+  role_type: creator
+  email: ~
+  orcid: ~
+  data_source: "path/file.csv"
+- last_name: Carrol
+  first_name: Pete
+  middle_name: ~
+  role_type: creator
+  email: pcarroll@seahawks.nfl
+  orcid: 2222-2x22-2222-2222
+  data_source: ~
+- last_name: Payt
+  first_name: Se
+  middle_name: ~
+  role_type: 
+  email: ~
+  orcid: ~
+  data_source: "path/file.csv"
+- last_name: Staley
+  first_name: Br
+  middle_name: ~
+  role_type: associatedParty
+  project_role: "head coach"
+  email: ~
+  orcid: ~
+  data_source: "path/file.csv"
+```
+
+If employing a tabular csv file to generate personnel metadata, it must
+have the following structure:
+
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 11%" />
+<col style="width: 12%" />
+<col style="width: 20%" />
+<col style="width: 24%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>last_name</th>
+<th>first_name</th>
+<th>middle_name</th>
+<th>organization</th>
+<th>email</th>
+<th>orcid</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Gannon</td>
+<td>Richard</td>
+<td>NA</td>
+<td>Phoenix Cardinals</td>
+<td>rgannon@cardinals.usfl</td>
+<td>1111-1111-11x1-1111</td>
+</tr>
+<tr class="even">
+<td>Payton</td>
+<td>Sean</td>
+<td>NA</td>
+<td>Colorado Broncos</td>
+<td>spayton@broncos.usfl</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td>Staley</td>
+<td>Brandon</td>
+<td>NA</td>
+<td>California Chargers</td>
+<td>bstaley@chargers.usfl</td>
+<td>3x33-3333-3333-2222</td>
+</tr>
+</tbody>
+</table>
 
 #### data objects
 
-The `create_dataset` function will look for objects in the R environment with a trailing `*_DT` or `*_OE` in the object name (e.g. `my_table_DT`) for data tables and other entities, respectively (but see `overview: data objects with yaml` below). All objects with that naming convention will be added to the dataset. 
+##### overview: create a EML dataTable
 
-##### overview: create a dataTable
+There are (up to) three resources that we use to provide metadata about
+our EML dataTable data objects. The workflow goes like this:
 
-Given a rectangular data matrix of type dataframe or tibble in the R environment:
+1.  Load the data into the R environment and process as appropriate.
 
-* `write_attributes(data_entity)` will generate a template as a yaml file in the working directory based on properties of the data entity such that metadata properties (e.g., attributeDefinition, units) can be added via a editor.
-* `write_factors(data_entity)` will generate a template as a yaml file in the working directory based on columns of the data entity that are factors such that details of factor levels can be added via a editor.
-* `create_dataTable(data_entity)` performs many services:
-  + the data entity is written to file as a csv in the working directory with the file name: *identifier_data-entity-name.csv*
-  + metadata provided in the attributes and factors (if relevant) templates are ingested
-  + a EML object of type dataTable that reflects metadata detailed in the attributes and factors files noted above is returned
-    note that the data entity name should be used consistently within the chunk, and the resulting dataTable entity should have the name: *data_entity_DT*
+2.  Generate a yaml template specific to that data object to document
+    entity attributes.
 
-*create_dataTable example: my_table*
+`write_attributes(data_entity)` will generate a template as a yaml file
+in the working directory based on properties of the data entity such
+that metadata properties (e.g., attributeDefinition, units, annotations)
+can be added via a editor.
 
-*note that the data entity name should be used consistently within the chunk, and the resulting dataTable entity should have the name (e.g., my_table in the example below)*
+1.  If relevant, generate a yaml template specific to that data object
+    to document entity attributes that are factors (categorical).
 
+`write_factors(data_entity)` will generate a template as a yaml file in
+the working directory based on columns of the data entity that are
+factors such that details of factor levels can be added via a editor.
 
-```r
+1.  Add the data entity details (e.g., data object name, description) to
+    the `data_objects.yaml` file in the project directory. An entry for
+    a dataTable where the data object in the R environment is titled
+    `datasonde_record` might look like the following:
+
+``` yaml
+datasonde_record:
+  type: table
+  dfname: datasonde_record
+  description: "record of datasonde readings in the Tempe Town Lake, Tempe, Arizona, USA"
+  dateRangeField: ~
+  overwrite: TRUE
+  projectNaming: TRUE
+  missingValueCode: ~
+  additional_information: ~
+```
+
+1.  when the dataset is created, any numeric attributes that had custom
+    (i.e., not in the EML schemas) will be listed in a
+    `custom_units.yaml` template file where a description can be
+    provided.
+
+*A special case of updating existing datasets:*
+
+A common need with long-term, ongoing research to update existing
+metadata. A challenge is that we do not want to have to rebuild from
+scratch the attribute metadata for a data entity that we constructed
+with `write_attributes()` at each update. In terms of attribute
+metadata, definitions, units, etc. are relatively static but what often
+change are the minimum and maximum values for numeric variables as the
+observation record grows. We could ascertain the minimum and maximum
+values for numeric variables then manually update existing attribute
+metadata but this is tedious, error-prone, and can be time consuming
+when dealing with many variables. The `update_attributes` function takes
+care of this for us by reading the existing attribute metadata for a
+given data entity and updating those metadata with the minimum and
+maximum values for any numeric variables for said data entity.
+
+Under the hood, `capeml` is using the `create_dataTable` function to
+build the dataTable metadata in EML format for each tabular data
+resource listed in `data_objects.yaml`. This function provides many
+services for given a rectangular data matrix of type dataframe or tibble
+in the R environment:
+
+-   the data entity is written to file as a csv in the working directory
+    with the file name: identifier_data-entity-name.csv (or
+    data-entity-name.csv if project naming is not invoked).
+-   metadata provided in the attributes and factors (if relevant)
+    templates are ingested
+-   a EML object of type dataTable that reflects metadata detailed in
+    the attributes and factors files noted above is returned
+-   units that are outside the EML standard unit library (e.g., custom,
+    QUDT) are added to a `custom_units.yaml` file in the project
+    directory
+
+We can invoke `create_dataTable` outside of building a dataset, which
+can be helpful for previewing dataTable EML metadata before it goes into
+a xml file or debugging. A workflow around `create_dataTable` might look
+like this:
+
+``` r
 my_table <- import / generate...process...
 
 # Note: the `try` block facilitates knitting the entire document even if the
@@ -284,21 +467,43 @@ my_table_DT <- capeml::create_dataTable(
 )
 ```
 
+##### overview: create a EML otherEntity
 
-##### overview: create a otherEntity
+A EML object of type otherEntity can be created from a single file or a
+directory. In the case of generating a otherEntity object from a
+directory, pass the directory path to the target_file_or_directory
+argument, capeml will recognize the target as a directory, and create a
+zipped file of the identified directory.
 
-A EML object of type otherEntity can be created from a single file or a directory. In the case of generating a otherEntity object from a directory, pass the directory path to the target_file_or_directory argument, capeml will recognize the target as a directory, and create a zipped file of the identified directory.
+If the otherEntity object already is a zip file with the desired name,
+set the overwrite argument to FALSE to prevent overwriting the existing
+object.
 
-If the otherEntity object already is a zip file with the desired name, set the overwrite argument to FALSE to prevent overwriting the existing object.
+As with all objects created with the capeml package, the resulting
+object is named with convention: projectid_object-name.file extension by
+default but this functionality can be turned off by setting
+projectNaming to FALSE.
 
-As with all objects created with the capeml package, the resulting object is named with convention: projectid_object-name.file extension by default but this functionality can be turned off by setting projectNaming to FALSE.
+As with `create_dataTable()`, `create_otherEntity()` can also take
+advantage of the `write_attributes()` and `write_factors()` services of
+capeml. An example of where you might want to use these features would
+be when documenting a spatial resource that cannot be documented as type
+`spatialRaster` or `spatialVector` (e.g., because the resource is
+projected in a coordinate reference system that is not part of the EML
+schema). To use these services with a directory, create an object in R
+with the same name as the directory that will be zipped, then pass that
+object to `write_attributes()` and `write_factors()` - capeml will look
+for the resulting attribute and factor (if relevant) yaml files and
+match them to the directory name (see following for an example).
 
-As with `create_dataTable()`, `create_otherEntity()` can also take advantage of the `write_attributes()` and `write_factors()` services of capeml. An example of where you might want to use these features would be when documenting a spatial resource that cannot be documented as type `spatialRaster` or `spatialVector` (e.g., because the resource is projected in a coordinate reference system that is not part of the EML schema). To use these services with a directory, create an object in R with the same name as the directory that will be zipped, then pass that object to `write_attributes()` and `write_factors()` - capeml will look for the resulting attribute and factor (if relevant) yaml files and match them to the directory name (see following for an example).
+*example: create a EML otherEntity for a vector data object*
 
-##### otherEntity for vectors *example using create_otherEntity to construct an object of type otherEntity from an ESRI shapefile titled UEI_Features_CAPLTER_2010_2017_JAB.shp (plus *.dbf, *.prj, and other shapefile files) that is in a directory of the same name (sans file extension)*
+In this example, we will generate EML otherEntity metadata for a ESRI
+shapefile titled UEI_Features_CAPLTER_2010_2017_JAB.shp (plus *.dbf,
+*.prj, and other shapefile files) that is in a directory of the same
+name.
 
-
-```r
+``` r
 # Read the data into R, here a shapefile using the sf package being careful to
 # name the resulting object in the R environment with the same name of the
 # directory housing the shapefiles (i.e., UEI_Features_CAPLTER_2010_2017_JAB).
@@ -311,7 +516,7 @@ UEI_Features_CAPLTER_2010_2017_JAB <- sf::st_read(
 # add factors if and as appropriate
 
 UEI_Features_CAPLTER_2010_2017_JAB <- UEI_Features_CAPLTER_2010_2017_JAB |>
-  dplyr::mutate(myfactor = as.factor(UEI_type))
+  dplyr::mutate(UEI_type = as.factor(UEI_type))
 
 # Generate yaml files of both the attributes and factors (if relevant) from the
 # shapefile that we read into R; these will be written to the project directory
@@ -321,107 +526,153 @@ UEI_Features_CAPLTER_2010_2017_JAB <- UEI_Features_CAPLTER_2010_2017_JAB |>
 
 capeml::write_attributes(UEI_Features_CAPLTER_2010_2017_JAB, overwrite = TRUE)
 capeml::write_factors(UEI_Features_CAPLTER_2010_2017_JAB, overwrite = TRUE)
+```
 
-# an object description is required
+As with a dataTable, we add the otherEntity details to the
+`data_objects.yaml` file.
 
-UEI_Features_CAPLTER_2010_2017_JAB_desc <- "compilation of pre-existing data as
-well as data created using expert opinion featuring (1) land-use and land-cover
-data used to classify the amount of agricultural land (classified as inactive
-  cropland and active cropland) as well as standing water, (2) water in canals
-and along the Salt River, (3) vacant lands which were classified as bare soil,
-grass/trees, or scrub, and (4) community parks and desert parks"
+``` yaml
+UEI_Features_CAPLTER_2010_2017_JAB:
+  type: other
+  target_file_or_directory: UEI_Features_CAPLTER_2010_2017_JAB
+  description: "compilation of pre-existing..."
+  overwrite: FALSE
+  projectNaming: FALSE
+  additional_information: "This is a spatial data object..."
+```
 
-# create_otherEntity() accepts additionalInfo but is not required
+As with `create_dataTable`, we can call `create_otherEntity` outside of
+`data_objects.yaml` for previewing and debugging:
 
-UEI_Features_CAPLTER_2010_2017_JAB_additional <- "this is a spatial data object
-with a Coordinate Reference System (CRS) of EPSG:2868 - NAD83(HARN) / Arizona
-Central (ft) - Projected"
-
-# Create the otherEntity object (i.e., UEI_other_entity) - the name of this
-# object is irrelevant but should have the `_OE` suffix to identify it as an
-# object of type otherEntity as a convenience when constructing the dataset. If
-# the names were matched appropriately, UEI_other_entity_OE should feature all
-# of the attribute metadata provided in the corresponding attribute and factor
-# (if relevant) yaml files. Additionally, the target directory housing our
-# shapefiles will be zipped and, possibly, renamed depending on whether project
-# naming was enabled.
-
-uei_features_OE <- capeml::create_otherEntity(
+``` r
+uei_features_other <- capeml::create_otherEntity(
   target_file_or_directory = "data/UEI_Features_CAPLTER_2010_2017_JAB",
-  description              = UEI_Features_CAPLTER_2010_2017_JAB_desc,
-  additional_information   = UEI_Features_CAPLTER_2010_2017_JAB_additional
+  description              = "compilation of pre-existing..."
+  additional_information   = "This is a spatial data object..."
 )
 ```
 
-##### otherEntity for rasters *example using create_otherEntity to construct an object of type otherEntity of a raster*
+*example create a EML otherEntity for a raster data object*
 
-If the raster data are not categorical, we can simply pass raster value details to the `entity_value_description` parameter. If the raster data are categorical, we can construct a template to provide metadata about the factor levels using the `write_raster_factors()` tool from the capemlGIS package. `write_raster_factors()` works similarly to capeml's `write_factors()` but accomodates the matrix structure and single data type of raster data. In the example below, the well_water_use raster features changes in water level - the changes are in units of acre-feet but the changes are binned in ranges such that the values are categorical. We can use the `capemlGIS::write_raster_factors` function to generate a metadata template (well_water_use.yaml) in the working directory that we can use do document the details of the categories; `capeml::create_otherEntity` will read the contents of the metadata file and add the details regarding the levels of well_water_use.img in the otherEntity object metadata.
+If the raster data are not categorical, we can simply pass raster value
+details to the `entity_value_description` parameter and add the raster
+file details to the `data_objects.yaml.`
 
+``` yaml
+well_water_use:
+  type: other
+  target_file_or_directory: "well_water_use.img"
+  description: "Change of groundwater usage..."
+  overwrite: FALSE
+  projectNaming: FALSE
+  additional_information: "This is a spatial data object..."
+  entity_value_description: "acre-feet"
+```
 
-```r
+If the raster data are categorical, we can construct a template to
+provide metadata about the factor levels using the
+`write_raster_factors()` tool from the capemlGIS package.
+`write_raster_factors()` works similarly to capeml’s `write_factors()`
+but accommodates the matrix structure and single data type of raster
+data. In the example below, the well_water_use raster features changes
+in water level - the changes are in units of acre-feet but the changes
+are binned in ranges such that the values are categorical. We can use
+the `capemlGIS::write_raster_factors` function to generate a metadata
+template (well_water_use.yaml) in the working directory that we can use
+do document the details of the categories, which will be read when the
+otherEntity EML is generated.
+
+``` r
+well_water_use <- read raster data "well_water_use.img"
+
 capemlGIS::write_raster_factors(
   raster_entity = well_water_use,
   value_name    = "acre-feet"
 )
-
-well_water_use_OE <- capeml::create_otherEntity(
-  target_file_or_directory = "well_water_use.img",
-  description              = "Change of groundwater usage...",
-  overwrite		   = FALSE,
-  project_naming           = FALSE,
-  additional_information   = "This is a spatial data object...",
-  entity_value_description = "acre-feet"
-)
 ```
 
-
-#### overview: data objects with yaml
-
-Whereas the above approches require that data entity objects are created, and, particularly, created using a speicic naming conventino (i.e., `*_DT`, `*_OE` for datatables and other entities, respectively), another option for generating both EML dataTable and otherEntity objects and metadata is to detail the parameters for each entity in a `data_objects.yaml` file. Using this approach, the `create_dataset` function will call the appropriate function for each entity rather than the user having to construct each entity using `create_dataTable`, `create_otherEntity`. This approach provides greater flexibility for the user to address data processing across files and envrironments. A combination of approaches is possible, as `create_dataset` will look for both a `data_objects.yaml` and appropriately names objects (i.e., `*_DT`, `*_OE`) in the working directory and environment, respectively. The `data_objects.yaml` must include all parameters and arguments corresponding to the `create_dataTable` and `create_otherEntity` functions.
-
-*Example `data_objects.yaml` file:*
-
-```yaml
-my_iris_changed_name:
-  type: table
-  dfname: my_iris
-  description: 'my iris data'
-  dateRangeField: NULL
-  overwrite: TRUE
-  projectNaming: FALSE
-  missingValueCode: NULL
-  additional_information: NULL
-some_data:
-  type: table
-  dfname: some_data
-  description: 'my some data'
-  dateRangeField: NULL
-  overwrite: TRUE
-  projectNaming: TRUE
-  missingValueCode: NULL
-  additional_information: NULL
-my_other_ent:
+``` yaml
+well_water_use:
   type: other
-  target_file_or_directory: './my_other_ent.pdf'
-  description: 'my other ent desc'
-  overwrite: TRUE
-  projectNaming: TRUE
-  additional_information: 'additional details'
+  target_file_or_directory: "well_water_use.img"
+  description: "Change of groundwater usage..."
+  overwrite: FALSE
+  projectNaming: FALSE
+  additional_information: "This is a spatial data object..."
+  entity_value_description: ~
 ```
+
+##### annotations
+
+`capeml` supports adding semantic annotations to attributes. This is
+facilitated by adding *propertyURI*, *propertyLabel*, *valueURI*, and
+*valueLabel* details to the `_attrs.yaml` file for a data object.
+*Example, add semantic annotation (and other) metadata to the datetime
+field of a data object…*
+
+``` yaml
+datetime:
+  attributeName: datetime
+  attributeDefinition: 'date and time (UTC-7) of data capture'
+  propertyURI: 'http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType'
+  propertyLabel: 'contains measurements of type'
+  valueURI: 'http://purl.dataone.org/odo/ECSO_00002043'
+  valueLabel: 'date and time of measurement'
+  columnClasses: Date
+  formatString: YYYY-MM-DD
+```
+
+##### units
+
+`capeml` supports the following unit types: (1) units in the EML
+standard library, (2) custom units, and (3) units documented by QUDT.
+QUDT is the preferred form of units, and the example below for the
+*Temp_deg_C* variable illustrates adding Celsius unit metadata.
+
+``` yaml
+Temp_deg_C:
+  attributeName: Temp_deg_C
+  attributeDefinition: 'temperature as measured by the sensor'
+  propertyURI: ~
+  propertyLabel: ~
+  valueURI: ~
+  valueLabel: ~
+  unit: 'DEG_C'
+  numberType: real
+  minimum: 0.0
+  maximum: 44.88
+  columnClasses: numeric
+```
+
+Both custom and QUDT units are documented in a `custom_units.yaml` file
+that is generated when the EML dataset is generated. In the case of QUDT
+units, they are listed only for schema compliance. For custom units,
+however, there is a description field for each custom units in
+`custom_units.yaml` where a description should be provided.
+
+In the case of QUDT units, these are documented also in a
+`annotations.yaml` file that is read when the EML eml is generated (this
+file does not need to be edited).
 
 #### citations
 
-Below are sample work flows that use `capeml`'s `create_citation` function to generate citations by passing a resource DOI to crossref. Citations can be added to EML `literatureCited` and `usageCitation` elements. The work flow capitalizes on EML version 2.2 that accepts the BibTex format for references.
+Below are sample work flows that use `capeml`’s `create_citation`
+function to generate citations by passing a resource DOI to crossref.
+Citations can be added to EML `literatureCited` and `usageCitation`
+elements. The work flow capitalizes on EML version 2.2 that accepts the
+BibTex format for references.
 
-`create_dataset()` will look for citation entities at the time of dataset construction so desired citation entities must exist in the R environment. `literatureCited` entities must be in a list named `citations`, and `usageCitation` entities must be a list named `usages`.
+`create_dataset()` will look for citation entities at the time of
+dataset construction so desired citation entities must exist in the R
+environment. `literatureCited` entities must be in a list named
+`citations`, and `usageCitation` entities must be a list named `usages`.
 
-Note that, unlike a `literatureCited` citation, a `usageCitation` is **not** wrapped in a citation tag.
+Note that, unlike a `literatureCited` citation, a `usageCitation` is
+**not** wrapped in a citation tag.
 
+##### literature cited
 
-#### literature cited
-
-
-```r
+``` r
 cook    <- capeml::create_citation("https://doi.org/10.1016/j.envpol.2018.04.013")
 sartory <- capeml::create_citation("https://doi.org/10.1007/BF00031869")
 
@@ -433,11 +684,9 @@ citations <- list(
 ) # close citation
 ```
 
+##### usage citations
 
-#### usage citations
-
-
-```r
+``` r
 brown <- capeml::create_citation("https://doi.org/10.3389/fevo.2020.569730")
 
 usages <- list(brown) # close usages
@@ -445,23 +694,28 @@ usages <- list(brown) # close usages
 dataset$usageCitation <- usages
 ```
 
+##### citations that do no have a DOI
 
-#### citations that do no have a DOI
+Though a DOI makes documenting references easy, we can add citations
+that do not have a DOI. There are many ways to address this but likely
+easiest is to get or create a citation for the reference in bibtex
+format. [bibutils](http://sourceforge.net/p/bibutils/home/Bibutils/) is
+a helpful utility that can convert other citation formats, such as .ris,
+to bibtex. With bibutils, we can convert ris to an intermediate xml
+format and then to bibtex.
 
-Though a DOI makes documenting references easy, we can add citations that do not have a DOI. There are many ways to address this but likely easiest is to get or create a citation for the reference in bibtex format. [bibutils](http://sourceforge.net/p/bibutils/home/Bibutils/) is a helfpul utility that can convert other citation formats, such as .ris, to bibtex. With bibutils, we can convert ris to an intermediate xml format and then to bibtex.
-
-
-```sh
+``` sh
 
 wget -O ~/Desktop/tellman_dissertation.ris https://repository.asu.edu/items/53734.ris
 cat tellman_dissertation.ris | ris2xml | xml2bib >> tellman_dissertation.bib
-
 ```
 
-Once we have the citation in bibtex format, we can add it along with other citations as in the example below where we added the citation for the Tellman dissertation to a suite of citations generated with capeml's create_citiation function.
+Once we have the citation in bibtex format, we can add it along with
+other citations as in the example below where we added the citation for
+the Tellman dissertation to a suite of citations generated with capeml’s
+`create_citiation` function.
 
-
-```r
+``` r
 tellman_2021 <- capeml::create_citation("https://doi.org/10.1016/j.worlddev.2020.105374")
 lerner_2018  <- capeml::create_citation("https://doi.org/10.1016/j.cities.2018.06.009")
 eakin_2019   <- capeml::create_citation("https://doi.org/10.5751/ES-11030-240315")
@@ -499,5 +753,5 @@ usages <- list(
   lerner_2018,
   eakin_2019,
   tellman_2019 
-) # close list of usages
+)
 ```

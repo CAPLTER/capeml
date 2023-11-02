@@ -4,7 +4,12 @@
 \alias{create_package}
 \title{create or update data package with EDI API}
 \usage{
-create_package(identifier = NULL, scope = NULL, environment = "staging")
+create_package(
+  identifier = NULL,
+  scope = NULL,
+  environment = "staging",
+  update = FALSE
+)
 }
 \arguments{
 \item{identifier}{(integer) Unquoted package identifier integer}
@@ -13,10 +18,13 @@ create_package(identifier = NULL, scope = NULL, environment = "staging")
 
 \item{environment}{(character) Quoted name of the EDI environment where the data package
 should be created, can be: production, staging (default), or development.}
+
+\item{update}{(logical) Boolean value indicating if the data package already exists and
+should be updated.}
 }
 \description{
-\code{create_package} creates a data package in the EDI data
-repository.
+\code{create_package} creates or updates a data package in the
+EDI data repository.
 }
 \note{
 \code{create_package} will look for a config.yaml file to estalish the

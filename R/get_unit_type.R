@@ -28,19 +28,18 @@
 #' @examples
 #' \dontrun{
 #' 
-#' get_unit_type("dog_years")
-#'        name   type
-#' 1 dog_years custom
+#' capeml::get_unit_type("dog_years")
+#' #        name   type
+#' # 1 dog_years custom
 #' 
-#' get_unit_type("C-M")
-#' A tibble: 1 × 4
-#' name  unit                           label         type      
-#' <chr> <chr>                          <chr>         <chr>     
-#' 1 C-M   http://qudt.org/vocab/unit/C-M Coulomb Meter qudt_en_us
+#' capeml::capeml::get_unit_type("C-M")
+#' # A tibble: 1 × 4
+#' # name    unit                           label         type      
+#' # <chr>   <chr>                          <chr>         <chr>     
+#' # 1 C-M   http://qudt.org/vocab/unit/C-M Coulomb Meter qudt_en_us
 #' 
-#' get_unit_type("meter")
-#' NULL
-#' 
+#' capeml::get_unit_type("meter")
+#' # NULL
 #'
 #' }
 #' #'

@@ -69,27 +69,19 @@
 #' @examples
 #' \dontrun{
 #'
-#' data_entity <- read("data source") |>
-#'   processing |>
-#'   processing
+#' mycars <- mtcars |>
+#'   head()
 #'
 #' try({
-#'   capeml::write_attributes(data_entity)
-#'   capeml::write_factors(data_entity)
+#'   capeml::write_attributes(mycars)
+#'   capeml::write_factors(mycars)
 #' })
 #'
-#' data_entity_desc <- "snow leopard data"
-#'
 #' # create_dataTable with optional arguments dateRangeField and missingValueCode
-#' data_entity_DT <- capeml::create_dataTable(
-#'        dfname           = data_entity,
-#'        description      = data_entity_desc,
-#'        dateRangeField   = "observation date",
-#'        missingValueCode = "missing"
-#'        )
-#'
-#' # The resulting dataTable entity can be added to a EML dataset
-#' dataset <- EML::eml$dataset(dataTable = data_entity_DT)
+#' mycars_DT <- capeml::create_dataTable(
+#'  dfname      = mycars,
+#'  description = "just a few cars",
+#'  )
 #'
 #' }
 #'

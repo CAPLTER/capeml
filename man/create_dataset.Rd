@@ -2,44 +2,31 @@
 % Please edit documentation in R/create_dataset.R
 \name{create_dataset}
 \alias{create_dataset}
-\title{create EML entity of type dataset}
+\title{create a EML entity of type dataset}
 \usage{
-create_dataset(
-  abstractFile = "abstract.md",
-  methodsFile = "methods.md",
-  keywordsFile = "keywords.csv",
-  publicationDate = NULL
-)
+create_dataset(publication_date = NULL)
 }
 \arguments{
-\item{abstractFile}{(character) Quoted name and path of abstract (in markdown format)}
-
-\item{methodsFile}{(character) Quoted name and path of methods (in markdown format)}
-
-\item{keywordsFile}{(character) Quoted name and path of keywords (in csv format)}
-
-\item{publicationDate}{(character) Quoted ISO date - defaults to today's date}
+\item{publication_date}{(character) Quoted ISO date - defaults to \code{Sys.Date()}}
 }
 \value{
-EML dataset entity is returned.
+EML entity of type dataset entity is returned.
 }
 \description{
-create_dataset generates a EML entity of type dataset
+\code{create_dataset} generates a EML entity of type dataset.
 }
 \details{
 A dataset entity, the central component of a data package, is
-created from objects in the user's R environment or as detailed in
-config.yaml. A project name (default is LTER) indicates contact and project
-details specific to the research. The abstract and methods must be in
-markdown format - by default the package will look for these files
-(abstract.md, methods.md) in the project directory but files of different
-names or locations can be passed. Similarly for keywords, the package will
-look for a keywords.csv file in the project directory but a different name
-or location can be passed.
+created from objects in the user's R environment and supporting yaml files.
+A project (default is LTER) indicates contact and project details specific
+to the research. The abstract and methods must be in markdown format -
+package will look for these files (abstract.md, methods.md) in the project
+directory. Similarly for keywords, the package will look for a keywords.csv
+file in the project directory.
 }
 \note{
-create_dataset will look for most inputs used to construct a dataset,
-such as a package number, in the working environment or from the project
-config.yaml; these parameters are not passed directly to the function and
-must exist in the working environment or configuration file.
+\code{create_dataset} will look for most inputs used to construct a
+dataset, such as a package number, in the working environment or from the
+project config.yaml; these parameters are not passed directly to the
+function and must exist in the working environment or configuration file(s).
 }

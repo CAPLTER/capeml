@@ -35,15 +35,9 @@ configure_caplter establishes several data set elements that are
   the exception as this is a function that requires the data set package
   identifier as an input.
 }
-\examples{
-\dontrun{
-
-# Most entities are simply loaded when the package is loaded without the need
-to call them explicitly. An exception is the create_distribution() function.
-
-create_distribution(packageIdent)
-
-}
-
+\note{
+Most entities are simply loaded when the package is loaded without the
+need to call them explicitly. An exception is the create_distribution()
+function.
 }
 \keyword{datasets}

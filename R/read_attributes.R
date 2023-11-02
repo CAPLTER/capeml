@@ -35,12 +35,6 @@
 #' and NaN entries as missing values in the EML output. The user has the
 #' ability to identify an additional indicator of missing values (e.g.,
 #' "-9999", "missing") if present.
-#' @param return_type
-#' (character) Quoted designator indicating the value returned as either an EML
-#' attributes entity (return_type = "eml", the default) or a dataframe of
-#' entity attributes and column classes (return_type = "attributes") read from
-#' the attributes file, the latter primarily as a helper feature for updating
-#' an existing attributes file. 
 #' @param entity_id
 #' (character) Quoted identifier of the data object that is being described,
 #' this will usually be the name or hash of the data table (or otherwise) of

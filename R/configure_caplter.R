@@ -19,21 +19,14 @@
 #'   the exception as this is a function that requires the data set package
 #'   identifier as an input.
 #'
+#' @note Most entities are simply loaded when the package is loaded without the
+#' need to call them explicitly. An exception is the create_distribution()
+#' function.
+#'
 #' @import EML
 #'
 #' @return establishes in the R environment upon package load, eml entities
 #'   referenced in (or outside) a EML development template.
-#'
-#' @examples
-#' \dontrun{
-#'
-#' # Most entities are simply loaded when the package is loaded without the need
-#' to call them explicitly. An exception is the create_distribution() function.
-#'
-#' create_distribution(packageIdent)
-#'
-#' }
-#'
 
 # GIOS address, publisher, contact ----------------------------------------
 
@@ -55,11 +48,12 @@ giosPublisher <- EML::eml$publisher(
 #' @title default GIOS contact as EML::contact
 #' @export giosContact
 giosContact <- EML::eml$contact(
-  organizationName = "Julie Ann Wrigley Global Institute of Sustainability and Innovation, Arizona State University",
-  positionName = "Data Manager",
+  organizationName      = "Julie Ann Wrigley Global Institute of Sustainability and Innovation, Arizona State University",
+  positionName          = "Data Manager",
   electronicMailAddress = "caplter.data@asu.edu",
-  onlineUrl = "https://researchdata.asu.edu/",
-  address = giosAddress)
+  onlineUrl             = "https://researchdata.asu.edu/",
+  address               = giosAddress
+)
 
 
 # CAP LTER address, publisher, contact ------------------------------------
@@ -67,17 +61,19 @@ giosContact <- EML::eml$contact(
 #' @title default CAP LTER address
 #' @export capAddress
 capAddress <- EML::eml$address(
-  deliveryPoint = c("Arizona State University", "Global Institute of Sustainability and Innovation"),
-  city = "Tempe",
+  deliveryPoint      = c("Arizona State University", "Global Institute of Sustainability and Innovation"),
+  city               = "Tempe",
   administrativeArea = "AZ",
-  postalCode = "85287-5402",
-  country = "USA")
+  postalCode         = "85287-5402",
+  country            = "USA"
+)
 
 #' @title default CAP LTER publisher as EML::publisher
 #' @export capPublisher
 capPublisher <- EML::eml$publisher(
   organizationName = "Central Arizona\u2013Phoenix LTER",
-  address = capAddress)
+  address          = capAddress
+)
 
 #' @title CAP LTER ROR
 #' @export cap_ror
@@ -115,22 +111,26 @@ capRights <- 'This data package is released to the "public domain" under Creativ
 # access ------------------------------------------------------------------
 
 allow_cap <- EML::eml$allow(
-  principal = "uid=CAP,o=EDI,dc=edirepository,dc=org",
-  permission = "all")
+  principal  = "uid=CAP,o=EDI,dc=edirepository,dc=org",
+  permission = "all"
+)
 
 allow_public <- EML::eml$allow(
-  principal = "public",
-  permission = "read")
+  principal  = "public",
+  permission = "read"
+)
 
 
 #' @title default CAP LTER / GIOS access as EML::access
 #' @export lterAccess
 lterAccess <- EML::eml$access(
   authSystem = "knb",
-  order = "allowFirst",
-  scope = "document",
-  allow = list(allow_cap,
-               allow_public)
+  order      = "allowFirst",
+  scope      = "document",
+  allow      = list(
+    allow_cap,
+    allow_public
+  )
 )
 
 
@@ -142,9 +142,9 @@ create_distribution <- function(packageIdent) {
 
   xml_url <- EML::eml$online(
     onlineDescription = "CAPLTER Metadata URL",
-    url = paste0("https://sustainability.asu.edu/caplter/data/data-catalog/view/", packageIdent, "/xml/"))
+    url               = paste0("https://sustainability.asu.edu/caplter/data/data-catalog/view/", packageIdent, "/xml/")
+  )
 
-  metadata_dist <- EML::eml$distribution(
-    online = xml_url)
+  metadata_dist <- EML::eml$distribution(online = xml_url)
 
 }

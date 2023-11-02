@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">capeml</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.20.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.21.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,7 +105,7 @@ dataTable</dd>
           
           <code><a href="create_dataset.html">create_dataset()</a></code> 
         </dt>
-        <dd>create EML entity of type dataset</dd>
+        <dd>create a EML entity of type dataset</dd>
       </dl><dl><dt>
           
           <code><a href="create_distribution.html">create_distribution()</a></code> 
@@ -115,7 +115,7 @@ dataTable</dd>
           
           <code><a href="create_eml.html">create_eml()</a></code> 
         </dt>
-        <dd>generate a EML entity of type eml</dd>
+        <dd>create a EML entity of type EML</dd>
       </dl><dl><dt>
           
           <code><a href="create_entities_from_yaml.html">create_entities_from_yaml()</a></code> 
@@ -139,14 +139,44 @@ from a simple features object</dd>
         <dd>create EML entity of type otherEntity</dd>
       </dl><dl><dt>
           
+          <code><a href="create_package.html">create_package()</a></code> 
+        </dt>
+        <dd>create or update data package with EDI API</dd>
+      </dl><dl><dt>
+          
           <code><a href="data_to_amz.html">data_to_amz()</a></code> <code><a href="data_to_amz.html">eml_to_amz()</a></code> 
         </dt>
         <dd>upload_to_amazon</dd>
       </dl><dl><dt>
           
+          <code><a href="get_annotations.html">get_annotations()</a></code> 
+        </dt>
+        <dd>translate annotations metadata to eml</dd>
+      </dl><dl><dt>
+          
+          <code><a href="get_custom_units.html">get_custom_units()</a></code> 
+        </dt>
+        <dd>translate custom and QUDT unit metadata to eml</dd>
+      </dl><dl><dt>
+          
           <code><a href="get_next_version.html">get_next_version()</a></code> 
         </dt>
         <dd>get the next version of a data package</dd>
+      </dl><dl><dt>
+          
+          <code><a href="get_package_evaluation.html">get_package_evaluation()</a></code> 
+        </dt>
+        <dd>evaluate data package with EDI API</dd>
+      </dl><dl><dt>
+          
+          <code><a href="get_people.html">get_people()</a></code> 
+        </dt>
+        <dd>translate personnel metadata to eml</dd>
+      </dl><dl><dt>
+          
+          <code><a href="get_unit_type.html">get_unit_type()</a></code> 
+        </dt>
+        <dd>get the reference to a unit</dd>
       </dl><dl><dt>
           
           <code><a href="giosAddress.html">giosAddress</a></code> 
@@ -178,6 +208,11 @@ metadata in an xml file</dd>
           <code><a href="lterAccess.html">lterAccess</a></code> 
         </dt>
         <dd>default CAP LTER / GIOS access as EML::access</dd>
+      </dl><dl><dt>
+          
+          <code><a href="qudt_table.html">qudt_table</a></code> <code><a href="qudt_table.html">qudt_table</a></code> <code><a href="qudt_table.html">qudt_table</a></code> 
+        </dt>
+        <dd>qudt_table: reference table of QUDT units</dd>
       </dl><dl><dt>
           
           <code><a href="read_attributes.html">read_attributes()</a></code> 
@@ -221,7 +256,7 @@ tabular data object</dd>
           
           <code><a href="write_directory.html">write_directory()</a></code> 
         </dt>
-        <dd>Construct campel supporting files in a data package directory</dd>
+        <dd>construct campel supporting files in a data package directory</dd>
       </dl><dl><dt>
           
           <code><a href="write_factors.html">write_factors()</a></code> 
@@ -240,6 +275,11 @@ are factors</dd>
         <dd>Construct table of missing values codes and their meaning</dd>
       </dl><dl><dt>
           
+          <code><a href="write_people_template.html">write_people_template()</a></code> 
+        </dt>
+        <dd>write a template yaml file for adding personnel (people) metadata</dd>
+      </dl><dl><dt>
+          
           <code><a href="write_template.html">write_template()</a></code> 
         </dt>
         <dd>Construct a template capeml workflow</dd>
@@ -248,6 +288,11 @@ are factors</dd>
           <code><a href="write_unit_dictionary.html">write_unit_dictionary()</a></code> 
         </dt>
         <dd>EML standard unit dictionary data frame</dd>
+      </dl><dl><dt>
+          
+          <code><a href="write_units.html">write_units()</a></code> 
+        </dt>
+        <dd>Create template yaml file(s) for supplying attribute unit metadata</dd>
       </dl><dl><dt>
           
           <code><a href="zipRelatedFiles.html">zipRelatedFiles()</a></code> 
