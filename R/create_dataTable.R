@@ -181,25 +181,6 @@ create_dataTable <- function(
     EML::eml$online(url = paste0(fileURL, project_name))
   )
 
-  # data format
-
-  fileDataFormat <- EML::eml$dataFormat(
-    externallyDefinedFormat = EML::eml$externallyDefinedFormat(
-      formatName = "Comma Separated Values Text")
-  )
-
-  # file size
-
-  fileSize      <- EML::eml$size(unit = "byte")
-  fileSize$size <- deparse(file.size(project_name))
-
-  # authentication
-
-  fileAuthentication                <- EML::eml$authentication(method = "MD5")
-  fileAuthentication$authentication <- tools::md5sum(project_name)
-
-  # set physical ------------------------------------------------------------
-
   dataTablePhysical <- EML::set_physical(
     objectName      = project_name,
     numHeaderLines  = 1,
@@ -207,6 +188,15 @@ create_dataTable <- function(
     quoteCharacter  = "\"",
     url             = paste0(fileURL, project_name)
   )
+
+  # file format
+
+  fileDataFormat <- EML::eml$dataFormat(
+    externallyDefinedFormat = EML::eml$externallyDefinedFormat(
+      formatName = "Comma Separated Values Text")
+  )
+
+  dataTablePhysical$dataFormat <- fileDataFormat
 
 
   # attributes ---------------------------------------------------------------
@@ -230,7 +220,7 @@ create_dataTable <- function(
   }
 
 
-  # create dataTable entity -------------------------------------------------
+  # create dataTable entity ---------------------------------------------------
 
   newDT <- EML::eml$dataTable(
     entityName        = project_name,
@@ -242,7 +232,7 @@ create_dataTable <- function(
   )
 
 
-  # add temporalCoverage if appropriate -------------------------------------
+  # add temporalCoverage if appropriate ---------------------------------------
 
   if (!is.null(dateRangeField)) {
 
@@ -278,7 +268,7 @@ create_dataTable <- function(
   } # close temporalCoverage
 
 
-  # additional information -------------------------------------------------------
+  # additional information -----------------------------------------------------
 
   if (!is.null(additional_information)) {
 
@@ -287,12 +277,12 @@ create_dataTable <- function(
   }
 
 
-  # closing message ---------------------------------------------------------
+  # closing message -----------------------------------------------------------
 
   message(paste0("created dataTable: ", project_name))
 
 
-  # return ------------------------------------------------------------------
+  # return --------------------------------------------------------------------
 
   return(newDT)
 

@@ -1,0 +1,90 @@
+|
+  site_code:
+    attributeName: site_code
+    attributeDefinition: 'site name abbreviation'
+    propertyURI: ''
+    propertyLabel: ''
+    valueURI: ''
+    valueLabel: ''
+    columnClasses: factor
+  plot_id:
+    attributeName: plot_id
+    attributeDefinition: plot id number
+    propertyURI: ''
+    propertyLabel: ''
+    valueURI: ''
+    valueLabel: ''
+    columnClasses: character
+    definition: ''
+  treatment_code:
+    attributeName: treatment_code
+    attributeDefinition: treatment name abbreviation
+    propertyURI: ''
+    propertyLabel: ''
+    valueURI: ''
+    valueLabel: ''
+    columnClasses: factor
+  location_within_plot:
+    attributeName: location_within_plot
+    attributeDefinition: habitat within plot where probes were deployed
+    propertyURI: ''
+    propertyLabel: ''
+    valueURI: ''
+    valueLabel: ''
+    columnClasses: factor
+  subplot:
+    attributeName: subplot
+    attributeDefinition: subplot number (one of two replicates)
+    propertyURI: ''
+    propertyLabel: ''
+    valueURI: ''
+    valueLabel: ''
+    columnClasses: factor
+  subquad_orientation:
+    attributeName: subquad_orientation
+    attributeDefinition: direction of subquadrat from which biomass was harvested
+    propertyURI: ''
+    propertyLabel: ''
+    valueURI: ''
+    valueLabel: ''
+    columnClasses: character
+    definition: ''
+  date:
+    attributeName: date
+    attributeDefinition: date of data collection
+    propertyURI: 'http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType'
+    propertyLabel: 'contains measurements of type'
+    valueURI: 'http://purl.dataone.org/odo/ECSO_00002051'
+    valueLabel: 'date'
+    columnClasses: Date
+    formatString: YYYY-MM-DD
+  year:
+    attributeName: year
+    attributeDefinition: year of data collection
+    propertyURI: 'http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType'
+    propertyLabel: 'contains measurements of type'
+    valueURI: 'http://purl.dataone.org/odo/ECSO_00002050'
+    valueLabel: 'year of measurement'
+    columnClasses: Date
+    formatString: YYYY
+  mass:
+    attributeName: mass
+    attributeDefinition: "mass of biomass harvested in 0.25 meterSquare quadrat"
+    propertyURI: ''
+    propertyLabel: ''
+    valueURI: ''
+    valueLabel: ''
+    unit: 'GM'
+    numberType: real
+    minimum: -0.481
+    maximum: 628.06
+    columnClasses: numeric
+  notes:
+    attributeName: notes
+    attributeDefinition: field and_or processing notes
+    propertyURI: ''
+    propertyLabel: ''
+    valueURI: ''
+    valueLabel: ''
+    columnClasses: character
+    definition: ''

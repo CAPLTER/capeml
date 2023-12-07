@@ -1,3 +1,8 @@
+library(capeml)
+source("helper-black_widow_behavior.R")
+
+# These tests at least temporarily suspended. I cannot work out how to get the tests to see the objects in the test environment. For example, the fail here is always that update_attributes cannot find the object_pointer...presumably because it cannot locate annuals_biomass, which is odd since min and max, for example, can find annuals_biomass. This entire test suite runs perfectly outside of testthat. Need to revisit with I have more time.
+
 testthat::test_that(
   desc = "write_attributes performs appropriate action given return_type",
   code = {

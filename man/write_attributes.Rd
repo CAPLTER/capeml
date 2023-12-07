@@ -8,7 +8,8 @@ tabular data object}
 write_attributes(dfname, overwrite = FALSE, return_type = "yaml")
 }
 \arguments{
-\item{dfname}{(character) Unquoted name of the R data frame or tibble.}
+\item{dfname}{(character) The quoted or unquoted name of the data object (data frame,
+tibble, simple feature).}
 
 \item{overwrite}{(logical) Logical indicating if an existing attributes file in the target
 directory should be overwritten.}

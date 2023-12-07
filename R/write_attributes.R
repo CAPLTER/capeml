@@ -15,10 +15,11 @@
 #' dataTable entity.
 #'
 #' @param dfname
-#'  (character) Unquoted name of the R data frame or tibble.
+#' (character) The quoted or unquoted name of the data object (data frame,
+#' tibble, simple feature).
 #' @param overwrite
-#'  (logical) Logical indicating if an existing attributes file in the target
-#'  directory should be overwritten.
+#' (logical) Logical indicating if an existing attributes file in the target
+#' directory should be overwritten.
 #' @param return_type
 #' (character) Quoted designator indicating the value returned as either a
 #' attributes template yaml file (return_type = "yaml", the default) or a list
@@ -60,18 +61,37 @@ write_attributes <- function(
   return_type = "yaml"
   ) {
 
-  # do not write geometry column(s) if simple features
-  if (class(dfname)[[1]] == "sf") {
+  # get text reference of dataframe name for use throughout -------------------
 
-    dfname <- dfname |>
+  if (rlang::is_expression(dfname)) {
+
+    namestr <- rlang::get_expr(dfname)
+
+  } else {
+
+    namestr <- deparse(substitute(dfname))
+
+  }
+
+
+  # load object from environment ----------------------------------------------
+
+  data_object <- get(namestr)
+
+
+  # do not write geometry column(s) if simple features
+
+  if (class(data_object)[[1]] == "sf") {
+
+    data_object <- data_object |>
     sf::st_drop_geometry()
 
   }
 
 
   attribute_list <- purrr::map2(
-    .x = dfname,
-    .y = colnames(dfname),
+    .x = data_object,
+    .y = colnames(data_object),
     .f = attributes_to_yaml
   )
 
@@ -79,8 +99,7 @@ write_attributes <- function(
   if (grepl("yaml", return_type, ignore.case = TRUE)) {
 
     # establish yaml object name for checking if exists and writing to file
-    object_name <- paste0(deparse(substitute(dfname)), "_attrs")
-    file_name   <- paste0(object_name, ".yaml")
+    file_name   <- paste0(namestr, "_attrs.yaml")
 
     # check if attributes already exists for given data entity
     if (file.exists(file_name) && overwrite == FALSE) {
@@ -115,9 +134,12 @@ write_attributes <- function(
 
 #' @description a helper function used by write_attributes to determine the
 #' type of a numeric variable
+#'
 #' @note internal to write_attributes and not exported
+#'
 #' @param numeric_object
-#'  (numeric) numeric object (e.g., 2, 3.2)
+#' (numeric) numeric object (e.g., 2, 3.2)
+
 get_number_type <- function(numeric_object) {
 
   raw <- na.omit(numeric_object)
@@ -129,11 +151,11 @@ get_number_type <- function(numeric_object) {
 
     number_type <- "real" # all
 
-  } else if (min(raw, na.rm = T) > 0) {
+  } else if (min(raw, na.rm = TRUE) > 0) {
 
     number_type <- "natural" # 1, 2, 3, ... (sans 0)
 
-  } else if (min(raw, na.rm = T) < 0) {
+  } else if (min(raw, na.rm = TRUE) < 0) {
 
     number_type <- "integer" # whole + negative values
 
@@ -150,11 +172,14 @@ get_number_type <- function(numeric_object) {
 
 #' @description a helper function used by write_attributes to construct a
 #' type-specific yaml entry for each variable of a data object
+#'
 #' @note internal to write_attributes and not exported
+#'
 #' @param variable
-#'  (column) Column or variable of a data entity (e.g., mtcars$mpg)
+#' (column) Column or variable of a data entity (e.g., mtcars$mpg)
+#'
 #' @param varName
-#'  (character) Name of @variable (e.g., "mpg" from above example)
+#' (character) Name of @variable (e.g., "mpg" from above example)
 #' @examples
 #'
 #' \dontrun{
@@ -180,12 +205,12 @@ attributes_to_yaml <- function(variable, varName) {
   check_class <- function(x) { class(x)[[1]] }
 
   variableAttributes <- list(
-    attributeName = varName,
+    attributeName       = varName,
     attributeDefinition = "",
-    propertyURI = "",
-    propertyLabel = "",
-    valueURI = "",
-    valueLabel = ""
+    propertyURI         = "",
+    propertyLabel       = "",
+    valueURI            = "",
+    valueLabel          = ""
   )
 
   if (is.numeric(variable)) {
@@ -230,9 +255,9 @@ attributes_to_yaml <- function(variable, varName) {
     )
 
   } else if (
-    lubridate::is.Date(variable) |
-      lubridate::is.POSIXt(variable) |
-      lubridate::is.POSIXlt(variable) |
+      lubridate::is.Date(variable) ||
+      lubridate::is.POSIXt(variable) ||
+      lubridate::is.POSIXlt(variable) ||
       lubridate::is.POSIXct(variable)
     ) {
 

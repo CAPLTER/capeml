@@ -1,5 +1,5 @@
 library(capeml)
-source("helper-create_dataTable.R")
+source("helper-black_widow_behavior.R")
 
 testthat::test_that(
   desc = "create_dataTable returns and writes expected output",
