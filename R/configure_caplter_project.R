@@ -2,13 +2,13 @@
 #'
 #' @description configure_caplter_project establishes an EML::project with the
 #' elements: (1) personnel (CAP PI and Co-PIs), (2) project abstract (project
-#' overview from CAP IV proposal), and (3) funding (grant numbers for CAP I,
-#' II, III, and IV).
+#' overview from CAP V proposal), and (3) funding (grant numbers for CAP I, II,
+#' III, IV, and V).
 #'
 #' @details configure_caplter_project establishes an EML::project with the
 #' elements: (1) personnel (CAP PI and Co-PIs), (2) project abstract (project
 #' overview from CAP IV proposal), and (3) funding (grant numbers for CAP I,
-#' II, III, and IV).
+#' II, III, IV, and V).
 #'
 #' @import EML
 #'
@@ -35,7 +35,7 @@ configure_caplter_project <- function() {
     individualName = EML::eml$individualName(
       givenName = "Daniel",
       surName   = "Childers"
-      ),
+    ),
     electronicMailAddress = "dan.childers@asu.edu",
     organizationName      = "Arizona State University",
     userId                = danOrcid,
@@ -51,7 +51,7 @@ configure_caplter_project <- function() {
     individualName = EML::eml$individualName(
       givenName = "Nancy",
       surName   = "Grimm"
-      ),
+    ),
     electronicMailAddress = "nbgrimm@asu.edu",
     organizationName      = "Arizona State University",
     userId                = nancyOrcid,
@@ -67,7 +67,7 @@ configure_caplter_project <- function() {
     individualName = EML::eml$individualName(
       givenName = c("Sharon", "J"),
       surName = "Hall"
-      ),
+    ),
     electronicMailAddress = "sharonjhall@asu.edu",
     organizationName      = "Arizona State University",
     userId                = sharonOrcid,
@@ -83,7 +83,7 @@ configure_caplter_project <- function() {
     individualName = EML::eml$individualName(
       givenName = "Billie",
       surName   = "Turner II"
-      ),
+    ),
     electronicMailAddress = "Billie.L.Turner@asu.edu",
     organizationName      = "Arizona State University",
     userId                = billieOrcid,
@@ -99,7 +99,7 @@ configure_caplter_project <- function() {
     individualName = EML::eml$individualName(
       givenName = "Abigail",
       surName   = "York"
-      ),
+    ),
     electronicMailAddress = "Abigail.York@asu.edu",
     organizationName      = "Arizona State University",
     userId                = abbyOrcid,
@@ -111,12 +111,18 @@ configure_caplter_project <- function() {
 
   # project abstract --------------------------------------------------------
 
-  projectAbstract <- "Phase IV of the Central Arizona-Phoenix LTER (CAP) continues to focus on the question: How do the ecosystem services provided by urban ecological infrastructure (UEI) affect human outcomes and behavior, and how do human actions affect patterns of urban ecosystem structure and function and, ultimately, urban sustainability and resilience? The overarching goal is to foster social-ecological urban research aimed at understanding these complex systems using a holistic, ecology of cities perspective while contributing to an ecology for cities that enhances urban sustainability and resilience. This goal is being met through four broad programmatic objectives: (1) use long-term observations and datasets to articulate and answer new questions requiring a long-term perspective; (2) develop and use predictive models and future-looking scenarios to help answer research questions; (3) employ existing urban ecological theory while articulating new theory; and (4) build transdisciplinary partnerships to foster resilience and enhance sustainability in urban ecosystems while educating urban dwellers of all ages and experiences. CAP IV research is organized around eight interdisciplinary questions and ten long-term datasets and experiments, and researchers are organized into eight Interdisciplinary Research Themes to pursue these long-term research questions."
+  projectAbstract <- "Humankind is increasingly an urban species and urban ecosystems are therefore profoundly important. Cities are concentrated consumers of energy and resources and producers of various wastes, but they are also centers of social networks, innovation, efficiency, and solutions. The Central Arizona?Phoenix Long Term Ecological Research program (CAP V) is a research project that includes scientists from a variety of disciplines focused on understanding cities as hybrid ecosystems including both environmental and human components, and their interactions. Understanding urban ecosystems remains the central focus of CAP V after 25 years of innovative research. The interconnectedness of human motivation, behavior, actions, and outcomes with urban ecosystem structure and function leads to a fundamental question addressed by this project. How have/are human-environment interactions mediated by urban ecological infrastructure to shape past, present, and future ecosystem functions? This project will further indicate how we can use knowledge of these relationships to inform more just, transformative, and sustainable futures. Broader societal impacts are intentionally integrated in CAP V research, with many activities involving explicit partnerships with practitioners and communities that historically have had little voice in the future of their city and environment. This work forms a translational link among social-ecological research outcomes, city institutions, and communities with the goal of ultimately making Phoenix, and cities in general, better and more sustainable places to live.
 
+  CAP research will extend its focus on the theory of Urban Ecological Infrastructure (UEI) as a critical bridge between the system?s biophysical and human/social domains. CAP researchers will continue to explore interdisciplinary urban ecology in residential landscapes, urban waterbodies, desert parks and preserves, while examining the plants, animals, climate, urban design and governance across the metropolitan Phoenix region. New research initiatives will include a focus on environmental justice and equity, as well as urban air quality. The research will develop both knowledge and solutions in underserved and historically neglected communities, including local Indigenous communities. CAP V research is organized around five interdisciplinary areas: 1) ecosystem structure and function and biogeochemical cycling; 2) adaptation and eco-evolutionary dynamics; 3) urban climate, and air quality; 4) urban nature and human perceptions, decisions, and wellbeing; and 5) environmental justice, governance, and transformative futures. Investigating these questions, in the context of the previous 25 years of CAP research, will guide the CAP research endeavor towards more sustainable and resilient futures for U.S. cities and for our increasingly urban society.
+
+  This award is jointly funded by the Division of Environmental Biology and the Division of Behavioral and Cognitive Sciences.
+
+  This award reflects NSF's statutory mission and has been deemed worthy of support through evaluation using the Foundation's intellectual merit and broader impacts review criteria.
+  "
 
   # project funding ---------------------------------------------------------
 
-  projectFunding <- "NSF Awards: CAP I: DEB-9714833, CAP II: DEB-0423704, CAP III: DEB-1026865, CAP IV: DEB-1832016"
+  projectFunding <- "NSF Awards: CAP I: DEB-9714833, CAP II: DEB-0423704, CAP III: DEB-1026865, CAP IV: DEB-1832016, CAP V: DEB-2224662"
 
   # EML::project ------------------------------------------------------------
 
@@ -128,9 +134,9 @@ configure_caplter_project <- function() {
     award     = list(
       funderName       = "National Science Foundation",
       funderIdentifier = "https://ror.org/021nxhr62",
-      awardNumber      = "1832016",
-      title            = "LTER: CAP IV - Investigating urban ecology and sustainability through the lens of Urban Ecological Infrastructure",
-      awardUrl         = "https://nsf.gov/awardsearch/showAward?AWD_ID=1832016&HistoricalAwards=true"
+      awardNumber      = "2224662",
+      title            = "LTER: CAP V: Investigating how relationships between urban ecological infrastructure and human-environment interactions shape the structure and function of urban ecosystems",
+      awardUrl         = "https://www.nsf.gov/awardsearch/showAward?AWD_ID=2224662&HistoricalAwards=false"
     )
   )
 
