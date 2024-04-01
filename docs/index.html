@@ -25,8 +25,8 @@
   }
 </script><title>CAP LTER package for generating EML • capeml</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="CAP LTER package for generating EML">
 <meta property="og:description" content="This package is intented to facilitate the creation of EML
@@ -51,7 +51,7 @@
     
     <a class="navbar-brand me-2" href="index.html">capeml</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -202,7 +202,7 @@
 <span><span class="co"># function will build the taxa_map.csv and put it in the path identified with</span></span>
 <span><span class="co"># my_path.</span></span>
 <span></span>
-<span><span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu"><a href="https://ediorg.github.io/taxonomyCleanr/reference/create_taxa_map.html" class="external-link">create_taxa_map</a></span><span class="op">(</span></span>
+<span><span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu">create_taxa_map</span><span class="op">(</span></span>
 <span>  path <span class="op">=</span> <span class="va">my_path</span>,</span>
 <span>  x    <span class="op">=</span> <span class="va">plantTaxa</span>,</span>
 <span>  col  <span class="op">=</span> <span class="st">"definition"</span></span>
@@ -215,7 +215,7 @@
 <span><span class="co"># Create or update map: a taxa_map.csv is the heart of taxonomyCleanr. This</span></span>
 <span><span class="co"># function will build the taxa_map.csv in the path identified with my_path.</span></span>
 <span></span>
-<span><span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu"><a href="https://ediorg.github.io/taxonomyCleanr/reference/create_taxa_map.html" class="external-link">create_taxa_map</a></span><span class="op">(</span></span>
+<span><span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu">create_taxa_map</span><span class="op">(</span></span>
 <span>  path <span class="op">=</span> <span class="va">my_path</span>,</span>
 <span>  x    <span class="op">=</span> <span class="va">gambelQuail</span>,</span>
 <span>  col  <span class="op">=</span> <span class="st">"taxName"</span></span>
@@ -227,14 +227,14 @@
 <span><span class="co"># (data.source 3) is the only authority taxonomyCleanr will allow for common</span></span>
 <span><span class="co"># names.</span></span>
 <span></span>
-<span><span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu"><a href="https://ediorg.github.io/taxonomyCleanr/reference/resolve_sci_taxa.html" class="external-link">resolve_sci_taxa</a></span><span class="op">(</span></span>
+<span><span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu">resolve_sci_taxa</span><span class="op">(</span></span>
 <span>  path         <span class="op">=</span> <span class="va">my_path</span>,</span>
 <span>  data.sources <span class="op">=</span> <span class="fl">3</span> <span class="co"># ITIS</span></span>
 <span><span class="op">)</span> </span>
 <span></span>
 <span><span class="co"># build the EML taxonomomic coverage</span></span>
 <span></span>
-<span><span class="va">taxaCoverage</span> <span class="op">&lt;-</span> <span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu"><a href="https://ediorg.github.io/taxonomyCleanr/reference/make_taxonomicCoverage.html" class="external-link">make_taxonomicCoverage</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span><span class="op">)</span></span>
+<span><span class="va">taxaCoverage</span> <span class="op">&lt;-</span> <span class="fu">taxonomyCleanr</span><span class="fu">::</span><span class="fu">make_taxonomicCoverage</span><span class="op">(</span>path <span class="op">=</span> <span class="va">my_path</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># add taxonomic to the other coverages</span></span>
 <span></span>
@@ -464,7 +464,7 @@
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a><span class="at">  </span><span class="fu">projectNaming</span><span class="kw">:</span><span class="at"> </span><span class="ch">FALSE</span></span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true"></a><span class="at">  </span><span class="fu">additional_information</span><span class="kw">:</span><span class="at"> </span><span class="st">"This is a spatial data object..."</span></span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true"></a><span class="at">  </span><span class="fu">entity_value_description</span><span class="kw">:</span><span class="at"> </span><span class="st">"acre-feet"</span></span></code></pre></div>
-<p>If the raster data are categorical, we can construct a template to provide metadata about the factor levels using the <code>write_raster_factors()</code> tool from the capemlGIS package. <code>write_raster_factors()</code> works similarly to capeml’s <code><a href="reference/write_factors.html">write_factors()</a></code> but accommodates the matrix structure and single data type of raster data. In the example below, the well_water_use raster features changes in water level - the changes are in units of acre-feet but the changes are binned in ranges such that the values are categorical. We can use the <code><a href="https://rdrr.io/pkg/capemlGIS/man/write_raster_factors.html" class="external-link">capemlGIS::write_raster_factors</a></code> function to generate a metadata template (well_water_use.yaml) in the working directory that we can use do document the details of the categories, which will be read when the otherEntity EML is generated.</p>
+<p>If the raster data are categorical, we can construct a template to provide metadata about the factor levels using the <code>write_raster_factors()</code> tool from the capemlGIS package. <code>write_raster_factors()</code> works similarly to capeml’s <code><a href="reference/write_factors.html">write_factors()</a></code> but accommodates the matrix structure and single data type of raster data. In the example below, the well_water_use raster features changes in water level - the changes are in units of acre-feet but the changes are binned in ranges such that the values are categorical. We can use the <code>capemlGIS::write_raster_factors</code> function to generate a metadata template (well_water_use.yaml) in the working directory that we can use do document the details of the categories, which will be read when the otherEntity EML is generated.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a>well_water_use &lt;-<span class="st"> </span>read raster data <span class="st">"well_water_use.img"</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a>capemlGIS<span class="op">::</span><span class="kw">write_raster_factors</span>(</span>

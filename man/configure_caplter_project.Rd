@@ -13,12 +13,12 @@ the CAP LTER.
 \description{
 configure_caplter_project establishes an EML::project with the
 elements: (1) personnel (CAP PI and Co-PIs), (2) project abstract (project
-overview from CAP IV proposal), and (3) funding (grant numbers for CAP I,
-II, III, and IV).
+overview from CAP V proposal), and (3) funding (grant numbers for CAP I, II,
+III, IV, and V).
 }
 \details{
 configure_caplter_project establishes an EML::project with the
 elements: (1) personnel (CAP PI and Co-PIs), (2) project abstract (project
 overview from CAP IV proposal), and (3) funding (grant numbers for CAP I,
-II, III, and IV).
+II, III, IV, and V).
 }
