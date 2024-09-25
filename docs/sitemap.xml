@@ -1,186 +1,64 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/articles/create_spatialRaster.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/capAddress.html</loc>
-  </url>
-  <url>
-    <loc>/reference/capContact.html</loc>
-  </url>
-  <url>
-    <loc>/reference/capPublisher.html</loc>
-  </url>
-  <url>
-    <loc>/reference/capRights.html</loc>
-  </url>
-  <url>
-    <loc>/reference/cap_ror.html</loc>
-  </url>
-  <url>
-    <loc>/reference/configure_caplter_project.html</loc>
-  </url>
-  <url>
-    <loc>/reference/configure_ltreb_project.html</loc>
-  </url>
-  <url>
-    <loc>/reference/configure_som_project.html</loc>
-  </url>
-  <url>
-    <loc>/reference/configure_urex_project.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_citation.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_dataTable.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_dataset.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_distribution.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_eml.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_entities_from_yaml.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_geographic_coverage.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_keywordSet.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_otherEntity.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_spatialRaster.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_spatialVector.html</loc>
-  </url>
-  <url>
-    <loc>/reference/data_to_amz.html</loc>
-  </url>
-  <url>
-    <loc>/reference/emlCoordSystems.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_annotations.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_custom_units.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_emlProjection.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_next_version.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_package_evaluation.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_people.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_unit_type.html</loc>
-  </url>
-  <url>
-    <loc>/reference/giosAddress.html</loc>
-  </url>
-  <url>
-    <loc>/reference/giosContact.html</loc>
-  </url>
-  <url>
-    <loc>/reference/giosLanguage.html</loc>
-  </url>
-  <url>
-    <loc>/reference/giosPublisher.html</loc>
-  </url>
-  <url>
-    <loc>/reference/harvest_dataTable.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/lterAccess.html</loc>
-  </url>
-  <url>
-    <loc>/reference/projectTitle.html</loc>
-  </url>
-  <url>
-    <loc>/reference/qudt_table.html</loc>
-  </url>
-  <url>
-    <loc>/reference/read_attributes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/read_markdown.html</loc>
-  </url>
-  <url>
-    <loc>/reference/read_package_configuration.html</loc>
-  </url>
-  <url>
-    <loc>/reference/update_attributes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/write_attributes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/write_cap_eml.html</loc>
-  </url>
-  <url>
-    <loc>/reference/write_config.html</loc>
-  </url>
-  <url>
-    <loc>/reference/write_directory.html</loc>
-  </url>
-  <url>
-    <loc>/reference/write_factors.html</loc>
-  </url>
-  <url>
-    <loc>/reference/write_keywords.html</loc>
-  </url>
-  <url>
-    <loc>/reference/write_missing_values.html</loc>
-  </url>
-  <url>
-    <loc>/reference/write_people_template.html</loc>
-  </url>
-  <url>
-    <loc>/reference/write_raster_factors.html</loc>
-  </url>
-  <url>
-    <loc>/reference/write_template.html</loc>
-  </url>
-  <url>
-    <loc>/reference/write_unit_dictionary.html</loc>
-  </url>
-  <url>
-    <loc>/reference/write_units.html</loc>
-  </url>
-  <url>
-    <loc>/reference/zipRelatedFiles.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/articles/create_spatialRaster.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/reference/capAddress.html</loc></url>
+<url><loc>/reference/capContact.html</loc></url>
+<url><loc>/reference/capPublisher.html</loc></url>
+<url><loc>/reference/capRights.html</loc></url>
+<url><loc>/reference/cap_ror.html</loc></url>
+<url><loc>/reference/configure_caplter_project.html</loc></url>
+<url><loc>/reference/configure_ltreb_project.html</loc></url>
+<url><loc>/reference/configure_som_project.html</loc></url>
+<url><loc>/reference/configure_urex_project.html</loc></url>
+<url><loc>/reference/create_citation.html</loc></url>
+<url><loc>/reference/create_dataTable.html</loc></url>
+<url><loc>/reference/create_dataset.html</loc></url>
+<url><loc>/reference/create_distribution.html</loc></url>
+<url><loc>/reference/create_eml.html</loc></url>
+<url><loc>/reference/create_entities_from_yaml.html</loc></url>
+<url><loc>/reference/create_geographic_coverage.html</loc></url>
+<url><loc>/reference/create_keywordSet.html</loc></url>
+<url><loc>/reference/create_otherEntity.html</loc></url>
+<url><loc>/reference/create_package.html</loc></url>
+<url><loc>/reference/create_spatialRaster.html</loc></url>
+<url><loc>/reference/create_spatialVector.html</loc></url>
+<url><loc>/reference/data_to_amz.html</loc></url>
+<url><loc>/reference/emlCoordSystems.html</loc></url>
+<url><loc>/reference/get_annotations.html</loc></url>
+<url><loc>/reference/get_custom_units.html</loc></url>
+<url><loc>/reference/get_emlProjection.html</loc></url>
+<url><loc>/reference/get_next_version.html</loc></url>
+<url><loc>/reference/get_package_evaluation.html</loc></url>
+<url><loc>/reference/get_people.html</loc></url>
+<url><loc>/reference/get_unit_type.html</loc></url>
+<url><loc>/reference/giosAddress.html</loc></url>
+<url><loc>/reference/giosContact.html</loc></url>
+<url><loc>/reference/giosLanguage.html</loc></url>
+<url><loc>/reference/giosPublisher.html</loc></url>
+<url><loc>/reference/harvest_dataTable.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/lterAccess.html</loc></url>
+<url><loc>/reference/projectTitle.html</loc></url>
+<url><loc>/reference/qudt_table.html</loc></url>
+<url><loc>/reference/read_attributes.html</loc></url>
+<url><loc>/reference/read_markdown.html</loc></url>
+<url><loc>/reference/read_package_configuration.html</loc></url>
+<url><loc>/reference/update_attributes.html</loc></url>
+<url><loc>/reference/write_attributes.html</loc></url>
+<url><loc>/reference/write_cap_eml.html</loc></url>
+<url><loc>/reference/write_config.html</loc></url>
+<url><loc>/reference/write_directory.html</loc></url>
+<url><loc>/reference/write_factors.html</loc></url>
+<url><loc>/reference/write_keywords.html</loc></url>
+<url><loc>/reference/write_missing_values.html</loc></url>
+<url><loc>/reference/write_people_template.html</loc></url>
+<url><loc>/reference/write_raster_factors.html</loc></url>
+<url><loc>/reference/write_template.html</loc></url>
+<url><loc>/reference/write_unit_dictionary.html</loc></url>
+<url><loc>/reference/write_units.html</loc></url>
+<url><loc>/reference/zipRelatedFiles.html</loc></url>
 </urlset>
+
