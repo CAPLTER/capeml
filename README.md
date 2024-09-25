@@ -1,9 +1,10 @@
 
+
 <!-- readme.md is generated from readme.rmd. please edit the latter. -->
 
-## capeml: tools to aid the generation of EML metadata
+### capeml: tools to aid the generation of EML metadata
 
-### overview
+#### overview
 
 This package contains tools to aid the generation of EML metadata with
 intent to publish a dataset (data + metadata) in the Environmental Data
@@ -22,24 +23,24 @@ is automatically generated if a new project is created with
 `write_directory`, which also generates a `config.yaml` file and new
 directory, or with the `write_template` function.
 
-### installation
+#### installation
 
 Install from GitHub (after installing the
 [devtools](https://cran.r-project.org/web/packages/devtools/index.html)
-package:
+package):
 
 ``` r
 devtools::install_github("CAPLTER/capeml")
 ```
 
-### options
+#### options
 
-#### EML version
+##### EML version
 
 This package defaults to the current version of EML. Users can switch to
 the previous version with `emld::eml_version("eml-2.1.1")`.
 
-#### project naming
+##### project naming
 
 Most EML-generating functions in the capeml and capemlGIS packages will
 create both physical objects and EML references to those objects. By
@@ -54,9 +55,9 @@ referenced in the EML. Note that the package identifier (number) is not
 passed as an argument, and must exist in `config.yaml` (as
 `identifier`).
 
-### getting started
+#### getting started
 
-#### new projects
+##### new projects
 
 For new projects, `write_directory` will create a project directory at
 the current (default) or specified path. The package scope and number
@@ -77,40 +78,40 @@ opening it with R is a convenient approach.
 *create project from command line*
 
 ``` r
-R --vanilla -e 'capeml::write_directory(scope = "edi", identifier = 521)'
+R --vanilla -e 'capeml::write_directory(scope = "knb-lter-cap", identifier = 716)'
 ```
 
-#### existing projects
+##### existing projects
 
 For existing projects, we can generate any of the needed configuration
 files with package functions:
 
--   `write_config` generates `config.yaml` with the package scope and
-    identifier (e.g., “edi”, 521) passed as an argument to the function.
-    A version number (default = 1) can be passed as a separate argument.
--   `write_template` generates a template work flow as a Quarto (qmd)
-    file named with the package scope and identifier.
--   `write_people_template` generates a template yaml file for providing
-    metadata regarding project personnel.
--   `write_keywords` generates a template csv file for providing
-    metadata regarding project keywords.
+- `write_config` generates `config.yaml` with the package scope and
+  identifier (e.g., “edi”, 521) passed as an argument to the function. A
+  version number (default = 1) can be passed as a separate argument.
+- `write_template` generates a template work flow as a Quarto (qmd) file
+  named with the package scope and identifier.
+- `write_people_template` generates a template yaml file for providing
+  metadata regarding project personnel.
+- `write_keywords` generates a template csv file for providing metadata
+  regarding project keywords.
 
-### construct a dataset
+#### construct a dataset
 
-#### project details: dataset package number and package identifier
+##### project details: dataset package number and package identifier
 
 Package details, including scope and identifier are read from
 config.yaml. The appropriate version is determined by identifying the
 highest version currently in the production environment of the EDI
 repository (1 for new packages).
 
-#### title
+##### title
 
 The dataset title is read from the `title` parameter of `config.yaml`.
 The title can be quoted or unquoted but must be quoted if the title
 contains a colon.
 
-#### maintenance
+##### maintenance
 
 The maintenance status of a project is read from the `maintenance`
 parameter of `config.yaml`. Standardized language is provided for either
@@ -119,19 +120,19 @@ updates are anticipated) maintenance regimes. `NULL` or text other than
 `none` or `regular` will omit the `maintenance` element from the
 resulting EML.
 
-#### abstract
+##### abstract
 
 The `create_dataset` function will look for a `abstract.md` file in the
 working directory or at the path provided if specified. `abstract.md`
 must be a markdown file.
 
-#### keywords
+##### keywords
 
 `write_keywords` creates a template as a csv file for supplying dataset
 keywords. The `create_dataset` function will look for a `keywords.csv`
 file in the working directory or at the path provided if specified.
 
-#### methods
+##### methods
 
 The `create_dataset` function will look for a `methods.md` file in the
 working directory or at the path provided if specified (`methods.md`
@@ -145,19 +146,19 @@ if provenance data are required or there are multiple methods files.
 main <- list(description = read_markdown("methods.md"))
 
 # provenance: naip
-naip <- emld::as_emld(EDIutils::api_get_provenance_metadata("knb-lter-cap.623.1"))
+naip <- emld::as_emld(EDIutils::get_provenance_metadata("knb-lter-cap.623.1"))
 naip$`@context` <- NULL
 naip$`@type` <- NULL
 
 # provenance: lst
-landSurfaceTemp <- emld::as_emld(EDIutils::api_get_provenance_metadata("knb-lter-cap.677.1"))
+landSurfaceTemp <- emld::as_emld(EDIutils::get_provenance_metadata("knb-lter-cap.677.1"))
 landSurfaceTemp$`@context` <- NULL
 landSurfaceTemp$`@type` <- NULL
 
 rich_methods <- EML::eml$methods(methodStep = list(main, naip, landSurfaceTemp))
 ```
 
-#### coverages
+##### coverages
 
 *Geographic* and *temporal* coverages are straightforward and documented
 in the work flow, but creating a *taxonomic* coverage is more involved.
@@ -220,7 +221,7 @@ taxaCoverage <- taxonomyCleanr::make_taxonomicCoverage(path = my_path)
 coverage$taxonomicCoverage <- taxaCoverage
 ```
 
-#### people
+##### people
 
 Project personnel metadata in the form of `<creator>`,
 `<metadataProvider>`, and `<associatedParty>` are provided via the
@@ -310,56 +311,15 @@ yaml or draw them from a tabular file.
 If employing a tabular csv file to generate personnel metadata, it must
 have the following structure:
 
-<table>
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 11%" />
-<col style="width: 12%" />
-<col style="width: 20%" />
-<col style="width: 24%" />
-<col style="width: 20%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>last_name</th>
-<th>first_name</th>
-<th>middle_name</th>
-<th>organization</th>
-<th>email</th>
-<th>orcid</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Gannon</td>
-<td>Richard</td>
-<td>NA</td>
-<td>Phoenix Cardinals</td>
-<td>rgannon@cardinals.usfl</td>
-<td>1111-1111-11x1-1111</td>
-</tr>
-<tr class="even">
-<td>Payton</td>
-<td>Sean</td>
-<td>NA</td>
-<td>Colorado Broncos</td>
-<td>spayton@broncos.usfl</td>
-<td>NA</td>
-</tr>
-<tr class="odd">
-<td>Staley</td>
-<td>Brandon</td>
-<td>NA</td>
-<td>California Chargers</td>
-<td>bstaley@chargers.usfl</td>
-<td>3x33-3333-3333-2222</td>
-</tr>
-</tbody>
-</table>
+| last_name | first_name | middle_name | organization        | email                  | orcid               |
+|-----------|------------|-------------|---------------------|------------------------|---------------------|
+| Gannon    | Richard    | NA          | Phoenix Cardinals   | rgannon@cardinals.usfl | 1111-1111-11x1-1111 |
+| Payton    | Sean       | NA          | Colorado Broncos    | spayton@broncos.usfl   | NA                  |
+| Staley    | Brandon    | NA          | California Chargers | bstaley@chargers.usfl  | 3x33-3333-3333-2222 |
 
-#### data objects
+##### data objects
 
-##### overview: create a EML dataTable
+**overview: create a EML dataTable**
 
 There are (up to) three resources that we use to provide metadata about
 our EML dataTable data objects. The workflow goes like this:
@@ -374,14 +334,14 @@ in the working directory based on properties of the data entity such
 that metadata properties (e.g., attributeDefinition, units, annotations)
 can be added via a editor.
 
-1.  If relevant, generate a yaml template specific to that data object
+3.  If relevant, generate a yaml template specific to that data object
     to document entity attributes that are factors (categorical).
 
 `write_factors(data_entity)` will generate a template as a yaml file in
 the working directory based on columns of the data entity that are
 factors such that details of factor levels can be added via a editor.
 
-1.  Add the data entity details (e.g., data object name, description) to
+4.  Add the data entity details (e.g., data object name, description) to
     the `data_objects.yaml` file in the project directory. An entry for
     a dataTable where the data object in the R environment is titled
     `datasonde_record` might look like the following:
@@ -398,7 +358,7 @@ datasonde_record:
   additional_information: ~
 ```
 
-1.  when the dataset is created, any numeric attributes that had custom
+5.  when the dataset is created, any numeric attributes that had custom
     (i.e., not in the EML schemas) will be listed in a
     `custom_units.yaml` template file where a description can be
     provided.
@@ -425,16 +385,15 @@ resource listed in `data_objects.yaml`. This function provides many
 services for given a rectangular data matrix of type dataframe or tibble
 in the R environment:
 
--   the data entity is written to file as a csv in the working directory
-    with the file name: identifier_data-entity-name.csv (or
-    data-entity-name.csv if project naming is not invoked).
--   metadata provided in the attributes and factors (if relevant)
-    templates are ingested
--   a EML object of type dataTable that reflects metadata detailed in
-    the attributes and factors files noted above is returned
--   units that are outside the EML standard unit library (e.g., custom,
-    QUDT) are added to a `custom_units.yaml` file in the project
-    directory
+- the data entity is written to file as a csv in the working directory
+  with the file name: identifier_data-entity-name.csv (or
+  data-entity-name.csv if project naming is not invoked).
+- metadata provided in the attributes and factors (if relevant)
+  templates are ingested
+- a EML object of type dataTable that reflects metadata detailed in the
+  attributes and factors files noted above is returned
+- units that are outside the EML standard unit library (e.g., custom,
+  QUDT) are added to a `custom_units.yaml` file in the project directory
 
 We can invoke `create_dataTable` outside of building a dataset, which
 can be helpful for previewing dataTable EML metadata before it goes into
@@ -467,7 +426,7 @@ my_table_DT <- capeml::create_dataTable(
 )
 ```
 
-##### overview: create a EML otherEntity
+**overview: create a EML otherEntity**
 
 A EML object of type otherEntity can be created from a single file or a
 directory. In the case of generating a otherEntity object from a
@@ -602,7 +561,7 @@ well_water_use:
   entity_value_description: ~
 ```
 
-##### annotations
+**annotations**
 
 `capeml` supports adding semantic annotations to attributes. This is
 facilitated by adding *propertyURI*, *propertyLabel*, *valueURI*, and
@@ -622,7 +581,7 @@ datetime:
   formatString: YYYY-MM-DD
 ```
 
-##### units
+**units**
 
 `capeml` supports the following unit types: (1) units in the EML
 standard library, (2) custom units, and (3) units documented by QUDT.
@@ -654,7 +613,7 @@ In the case of QUDT units, these are documented also in a
 `annotations.yaml` file that is read when the EML eml is generated (this
 file does not need to be edited).
 
-#### citations
+##### citations
 
 Below are sample work flows that use `capeml`’s `create_citation`
 function to generate citations by passing a resource DOI to crossref.
@@ -670,7 +629,7 @@ environment. `literatureCited` entities must be in a list named
 Note that, unlike a `literatureCited` citation, a `usageCitation` is
 **not** wrapped in a citation tag.
 
-##### literature cited
+**literature cited**
 
 ``` r
 cook    <- capeml::create_citation("https://doi.org/10.1016/j.envpol.2018.04.013")
@@ -684,7 +643,7 @@ citations <- list(
 ) # close citation
 ```
 
-##### usage citations
+**usage citations**
 
 ``` r
 brown <- capeml::create_citation("https://doi.org/10.3389/fevo.2020.569730")
@@ -694,7 +653,7 @@ usages <- list(brown) # close usages
 dataset$usageCitation <- usages
 ```
 
-##### citations that do no have a DOI
+**citations that do not have a DOI**
 
 Though a DOI makes documenting references easy, we can add citations
 that do not have a DOI. There are many ways to address this but likely
