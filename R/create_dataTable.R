@@ -191,12 +191,7 @@ create_dataTable <- function(
 
   # file format
 
-  fileDataFormat <- EML::eml$dataFormat(
-    externallyDefinedFormat = EML::eml$externallyDefinedFormat(
-      formatName = "Comma Separated Values Text")
-  )
-
-  dataTablePhysical$dataFormat <- fileDataFormat
+  # uses simpole text format that does not need to be declared
 
 
   # attributes ---------------------------------------------------------------
