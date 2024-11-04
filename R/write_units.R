@@ -29,6 +29,8 @@
 #' @param entity_id
 #'  (character) A string that uniquely identifies the object in the R
 #'  environment (e.g., the hash of a table)
+#' @param raster
+#'  (boolean) Boolean indicating that the target data are a raster
 #'
 #' @import yaml
 #' @importFrom dplyr inner_join mutate
@@ -57,16 +59,28 @@
 #'
 write_units <- function(
   entity_name,
-  entity_id
+  entity_id,
+  raster = FALSE
 ) {
 
   qudt   <- FALSE
   custom <- FALSE
 
-  attributes_table <- capeml::read_attributes(
-    entity_name = entity_name,
-    entity_id   = entity_id
-  )[["table"]]
+  if (raster == TRUE) {
+
+    attributes_table <- capeml::read_raster_attributes(
+      entity_name = entity_name,
+      entity_id   = entity_id
+    )[["table"]]
+
+  } else {
+
+    attributes_table <- capeml::read_attributes(
+      entity_name = entity_name,
+      entity_id   = entity_id
+    )[["table"]]
+
+  }
 
   attributes_units_unique <- unique(attributes_table[!is.na(attributes_table$unit), ][["unit"]])
   attributes_units_types  <- purrr::map(.x = attributes_units_unique, ~ capeml::get_unit_type(this_unit = .x))
