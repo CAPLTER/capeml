@@ -1,5 +1,5 @@
-#' @title Read information from attributes and factors metadata files, and
-#' document missing value codes
+#' @title Read entity attribute information from attributes and factors
+#' metadata files, and document missing value codes
 #'
 #' @description The read_attributes function reads an entity's attribute
 #' details from a "entity name"_attrs.yaml or "entity name"_attrs.csv file in
@@ -77,53 +77,58 @@ read_attributes <- function(
 
   # attributes ----------------------------------------------------------------
 
-  # load attributes from yaml or csv (default to yaml)
-  if (file.exists(paste0(string_pointer, "_attrs.yaml"))) {
+  attrs <- read_attributes_file(
+    string_pointer,
+    entity_id
+  )
 
-    attrs <- yaml::yaml.load_file(paste0(string_pointer, "_attrs.yaml"))
-    attrs <- yaml::yaml.load(attrs)
-    attrs <- tibble::enframe(attrs) |>
-      tidyr::unnest_wider(value) |>
-      dplyr::select(-one_of("name"))
-
-  } else if (!file.exists(paste0(string_pointer, "_attrs.yaml")) && file.exists(paste0(string_pointer, "_attrs.csv"))) {
-
-    attrs <- utils::read.csv(paste0(string_pointer, "_attrs.csv"))
-
-  } else {
-
-    stop(paste0("attributes file: ", string_pointer, "_attrs.yaml ", "not found in ", getwd()))
-
-  }
-
-  # column classes to vector (req'd by set_attributes)
-  classes <- attrs |>
-    dplyr::pull(columnClasses)
-
-  # copy attributeDefinition to defintion as appropriate;
-  # remove col classes from attrs (req'd by set_attributes);
-  # remove empty columns (targets here are max and min values, which can throw
-  # an error for data without any numeric columns)
-  # empty strings to NA
-
-  attrs[attrs == ""] <- NA
-
-  # helper function to remove missing columns
-  not_all_na <- function(x) {
-    !all(is.na(x))
-  }
-
-  attrs <- attrs |>
-    dplyr::mutate(
-      id         = paste0(entity_id, "_", row.names(attrs)),
-      definition = NA_character_,
-      definition = dplyr::case_when(
-        grepl("character", columnClasses) & ((is.na(definition) | definition == "")) ~ attributeDefinition,
-        TRUE ~ definition
-      )
-      ) |>
-    dplyr::select(-columnClasses) |>
-    dplyr::select_if(not_all_na)
+  # # load attributes from yaml or csv (default to yaml)
+  # if (file.exists(paste0(string_pointer, "_attrs.yaml"))) {
+  #
+  #   attrs <- yaml::yaml.load_file(paste0(string_pointer, "_attrs.yaml"))
+  #   attrs <- yaml::yaml.load(attrs)
+  #   attrs <- tibble::enframe(attrs) |>
+  #     tidyr::unnest_wider(value) |>
+  #     dplyr::select(-one_of("name"))
+  #
+  # } else if (!file.exists(paste0(string_pointer, "_attrs.yaml")) && file.exists(paste0(string_pointer, "_attrs.csv"))) {
+  #
+  #   attrs <- utils::read.csv(paste0(string_pointer, "_attrs.csv"))
+  #
+  # } else {
+  #
+  #   stop(paste0("attributes file: ", string_pointer, "_attrs.yaml ", "not found in ", getwd()))
+  #
+  # }
+  #
+  # # column classes to vector (req'd by set_attributes)
+  # classes <- attrs |>
+  #   dplyr::pull(columnClasses)
+  #
+  # # copy attributeDefinition to defintion as appropriate;
+  # # remove col classes from attrs (req'd by set_attributes);
+  # # remove empty columns (targets here are max and min values, which can throw
+  # # an error for data without any numeric columns)
+  # # empty strings to NA
+  #
+  # attrs[attrs == ""] <- NA
+  #
+  # # helper function to remove missing columns
+  # not_all_na <- function(x) {
+  #   !all(is.na(x))
+  # }
+  #
+  # attrs <- attrs |>
+  #   dplyr::mutate(
+  #     id         = paste0(entity_id, "_", row.names(attrs)),
+  #     definition = NA_character_,
+  #     definition = dplyr::case_when(
+  #       grepl("character", columnClasses) & ((is.na(definition) | definition == "")) ~ attributeDefinition,
+  #       TRUE ~ definition
+  #     )
+  #     ) |>
+  #   dplyr::select(-columnClasses) |>
+  #   dplyr::select_if(not_all_na)
 
 
   # factors -------------------------------------------------------------------
@@ -184,18 +189,18 @@ read_attributes <- function(
   # return --------------------------------------------------------------------
 
   attr_list <- EML::set_attributes(
-    attributes    = attrs,
+    attributes    = attrs[["attrs"]],
     factors       = fcts,
-    col_classes   = classes,
+    col_classes   = attrs[["classes"]],
     missingValues = mvframe
   )
 
-  attrs["columnClasses"] <- classes
+  attrs["columnClasses"] <- attrs[["classes"]]
 
   return(
     list(
       eml   = attr_list,
-      table = attrs
+      table = attrs[["attrs"]]
     )
   )
 

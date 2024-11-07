@@ -83,7 +83,10 @@ write_units <- function(
   }
 
   attributes_units_unique <- unique(attributes_table[!is.na(attributes_table$unit), ][["unit"]])
-  attributes_units_types  <- purrr::map(.x = attributes_units_unique, ~ capeml::get_unit_type(this_unit = .x))
+  attributes_units_types  <- purrr::map(
+    .x = attributes_units_unique,
+    .f = ~ capeml::get_unit_type(this_unit = .x)
+  )
 
   if (!all(sapply(attributes_units_types, is.null))) {
 
@@ -165,12 +168,21 @@ write_units <- function(
 
     if (qudt == TRUE && custom == TRUE) {
 
-      qudt_for_unitlist <- unique(purrr::map(.x = qudt_annotations, ~ list(name = .x$"name")))
+      qudt_for_unitlist <- unique(
+        purrr::map(
+          .x = qudt_annotations,
+          .f = ~ list(name = .x$"name")
+        )
+      )
       new_custom_units  <- c(new_custom_units, qudt_for_unitlist)
 
     } else if (qudt == TRUE && custom == FALSE) {
 
-      new_custom_units <- unique(purrr::map(.x = qudt_annotations, ~ list(name = .x$"name")))
+      new_custom_units <- unique(
+        purrr::map(
+          .x = qudt_annotations,
+          .f = ~ list(name = .x$"name"))
+      )
 
     }
 

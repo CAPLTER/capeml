@@ -4,13 +4,15 @@
 \alias{write_units}
 \title{Create template yaml file(s) for supplying attribute unit metadata}
 \usage{
-write_units(entity_name, entity_id)
+write_units(entity_name, entity_id, raster = FALSE)
 }
 \arguments{
 \item{entity_name}{(character) Quoted name of the data object in the R environment}
 
 \item{entity_id}{(character) A string that uniquely identifies the object in the R
 environment (e.g., the hash of a table)}
+
+\item{raster}{(boolean) Boolean indicating that the target data are a raster}
 }
 \value{
 `annotations.yaml`, `custom_units.yaml`, both, or neither depending
