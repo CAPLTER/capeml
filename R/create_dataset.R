@@ -155,6 +155,7 @@ create_dataset <- function(
     pubDate            = if (!is.null(publication_date)) { publication_date } else { as.character(Sys.Date()) },
     language           = "english",
     intellectualRights = capRights,
+    licensed           = cap_licensed,
     abstract           = abstract,
     keywordSet         = keywords,
     coverage           = coverage,

@@ -33,11 +33,12 @@
 #' @title default GIOS address
 #' @export giosAddress
 giosAddress <- EML::eml$address(
-  deliveryPoint = c("Arizona State University", "Global Institute of Sustainability and Innovation"),
-  city = "Tempe",
+  deliveryPoint      = c("Arizona State University", "Global Institute of Sustainability and Innovation"),
+  city               = "Tempe",
   administrativeArea = "AZ",
-  postalCode = "85287-5402",
-  country = "USA")
+  postalCode         = "85287-5402",
+  country            = "USA"
+)
 
 #' @title default GIOS publisher as EML::publisher
 #' @export giosPublisher
@@ -106,6 +107,15 @@ giosLanguage <- "english"
 #' @title capRights: default intellectual rights statement passed to EML-generating workflow
 #' @export capRights
 capRights <- 'This data package is released to the "public domain" under Creative Commons CC0 1.0 "No Rights Reserved" (see: https://creativecommons.org/publicdomain/zero/1.0/). The consumer of these data ("Data User" herein) has an ethical obligation to cite it appropriately in any publication that results from its use. The Data User should realize that these data may be actively used by others for ongoing research and that coordination may be necessary to prevent duplicate publication. The Data User is urged to contact the authors of these data if any questions about methodology or results occur. Where appropriate, the Data User is encouraged to consider collaboration or coauthorship with the authors. The Data User should realize that misinterpretation of data may occur if used out of context of the original study. While substantial efforts are made to ensure the accuracy of data and associated documentation, complete accuracy of data sets cannot be guaranteed. All data are made available "as is". The Data User should be aware, however, that data are updated periodically and it is the responsibility of the Data User to check for new versions of the data. The data authors and the repository where these data were obtained shall not be liable for damages resulting from any use or misinterpretation of the data. Thank you.'
+
+
+# license ----------------------------------------------------------------------
+
+cap_licensed <- EML::eml$licensed(
+  licenseName = "Creative Commons Zero v1.0 Universal",
+  url         = "https://spdx.org/licenses/CC0-1.0.html",
+  identifier  = "CC0-1.0"
+)
 
 
 # access ------------------------------------------------------------------
