@@ -1,28 +1,23 @@
 #' @title Load attribute information from a entity attribute yaml or csv file
 #'
-#' @description The \code{read_attributes_file} function reads an entity's attribute
-#' details from a "entity name"_attrs.yaml or "entity name"_attrs.csv file in
-#' the working directory - the details of which are incorporated into the EML
-#' metadata for that entity. If present in the working directory, factor
-#' metadata in a "entity name"_factors.yaml or "entity name"_factors.csv are
-#' read and incorporated into attribute metadata. NA, NaN, and user-provided
-#' missing value codes are documented for each variable if they exist.
+#' @description The \code{read_attributes_file} function reads an entity's
+#' attribute details from a "entity name"_attrs.yaml or "entity name"_attrs.csv
+#' file in the working directory - the details of which are incorporated into
+#' the EML metadata for that entity.
 #'
-#' @details The \code{read_attributes_file} function reads an entity's attribute
-#' details from a "entity name"_attrs.yaml or "entity name"_attrs.csv file in
-#' the working directory - the details of which are incorporated into the EML
-#' metadata for that entity. If present in the working directory, factor
-#' metadata in a "entity name"_factors.yaml or "entity name"_factors.csv are
-#' read and incorporated into attribute metadata. NA, NaN, and user-provided
-#' missing value codes are documented for each variable if they exist.
+#' @details The \code{read_attributes_file} function reads an entity's
+#' attribute details from a "entity name"_attrs.yaml or "entity name"_attrs.csv
+#' file in the working directory - the details of which are incorporated into
+#' the EML metadata for that entity.
 #'
-#' @note Recent versions of the capeml package generate attribute and factor
-#' metadata files in yaml format; the code{read_attributes_file} function will look also
-#' for attributes files in csv format to accommodate older projects.
+#' @note Recent versions of the capeml package generate attribute (and factor)
+#' metadata files in yaml format; the code{read_attributes_file} function will
+#' look also for attributes files in csv format to accommodate older projects.
 #'
-#' @note The \code{read_attributes_file} function is intended primarily as a helper to
-#' other functions in the capeml ecosystem so is not meant to be called
-#' directly (but can be).
+#' @note The \code{read_attributes_file} function is intended primarily as a
+#' helper to other functions in the capeml ecosystem (notably
+#' \code{read_attributes} and \code{read_raster_attributes}) so is not meant to
+#' be called directly (but can be).
 #'
 #' @param string_pointer
 #' (character) The quoted name of the data entity.
@@ -37,8 +32,7 @@
 #' @importFrom tibble enframe
 #' @importFrom dplyr pull select select_if case_when mutate
 #'
-#' @return A entity of type EML attributes or list of attributes (for testing
-#' and debugging)
+#' @return A list of a list of attributes and column classes
 #'
 #' @export
 #'
@@ -66,15 +60,14 @@ read_attributes_file <- function(
 
   }
 
-  # column classes to vector (req'd by set_attributes)
+  # column classes to vector (required by EML::set_attributes)
   classes <- attrs |>
     dplyr::pull(columnClasses)
 
-  # copy attributeDefinition to defintion as appropriate;
-  # remove col classes from attrs (req'd by set_attributes);
-  # remove empty columns (targets here are max and min values, which can throw
-  # an error for data without any numeric columns)
-  # empty strings to NA
+  # copy attributeDefinition to defintion as appropriate; remove col classes
+  # from attrs (req'd by set_attributes); remove empty columns (targets here
+  # are max and min values, which can throw an error for data without any
+  # numeric columns) empty strings to NA
 
   attrs[attrs == ""] <- NA
 
