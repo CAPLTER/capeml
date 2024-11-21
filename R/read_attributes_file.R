@@ -11,7 +11,7 @@
 #' the EML metadata for that entity.
 #'
 #' @note Recent versions of the capeml package generate attribute (and factor)
-#' metadata files in yaml format; the code{read_attributes_file} function will
+#' metadata files in yaml format; the \code{read_attributes_file} function will
 #' look also for attributes files in csv format to accommodate older projects.
 #'
 #' @note The \code{read_attributes_file} function is intended primarily as a

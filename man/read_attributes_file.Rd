@@ -14,33 +14,27 @@ this will usually be the name or hash of the data table (or otherwise) of
 which the attribute is associated.}
 }
 \value{
-A entity of type EML attributes or list of attributes (for testing
-and debugging)
+A list of a list of attributes and column classes
 }
 \description{
-The \code{read_attributes_file} function reads an entity's attribute
-details from a "entity name"_attrs.yaml or "entity name"_attrs.csv file in
-the working directory - the details of which are incorporated into the EML
-metadata for that entity. If present in the working directory, factor
-metadata in a "entity name"_factors.yaml or "entity name"_factors.csv are
-read and incorporated into attribute metadata. NA, NaN, and user-provided
-missing value codes are documented for each variable if they exist.
+The \code{read_attributes_file} function reads an entity's
+attribute details from a "entity name"_attrs.yaml or "entity name"_attrs.csv
+file in the working directory - the details of which are incorporated into
+the EML metadata for that entity.
 }
 \details{
-The \code{read_attributes_file} function reads an entity's attribute
-details from a "entity name"_attrs.yaml or "entity name"_attrs.csv file in
-the working directory - the details of which are incorporated into the EML
-metadata for that entity. If present in the working directory, factor
-metadata in a "entity name"_factors.yaml or "entity name"_factors.csv are
-read and incorporated into attribute metadata. NA, NaN, and user-provided
-missing value codes are documented for each variable if they exist.
+The \code{read_attributes_file} function reads an entity's
+attribute details from a "entity name"_attrs.yaml or "entity name"_attrs.csv
+file in the working directory - the details of which are incorporated into
+the EML metadata for that entity.
 }
 \note{
-Recent versions of the capeml package generate attribute and factor
-metadata files in yaml format; the code{read_attributes_file} function will look also
-for attributes files in csv format to accommodate older projects.
+Recent versions of the capeml package generate attribute (and factor)
+metadata files in yaml format; the \code{read_attributes_file} function will
+look also for attributes files in csv format to accommodate older projects.
 
-The \code{read_attributes_file} function is intended primarily as a helper to
-other functions in the capeml ecosystem so is not meant to be called
-directly (but can be).
+The \code{read_attributes_file} function is intended primarily as a
+helper to other functions in the capeml ecosystem (notably
+\code{read_attributes} and \code{read_raster_attributes}) so is not meant to
+be called directly (but can be).
 }

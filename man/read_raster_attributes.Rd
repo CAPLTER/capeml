@@ -29,12 +29,15 @@ file in the working directory - the details of which are incorporated into
 the EML metadata for that entity.
 }
 \note{
-Recent versions of the capeml package generate attribute and factor
-metadata files in yaml format; the \code{read_raster_attributes} function
-will look also for attributes files in csv format to accommodate older
-projects.
-
 The \code{read_raster_attributes} function is intended primarily as a
 helper to other functions in the capeml ecosystem so is not meant to be
 called directly (but can be).
+
+The \code{read_raster_attributes} function is a helper function to the
+capemlGIS package. This separate function for attributes associated with
+rasters (as opposed to any other data type with the \code{read_attributes}
+function) is to avoid the tricky challenge of reading the data object into
+the R environment that is integral to \code{read_attributes}; in some cases
+we do read the raster object into the environment but not always so we do
+not want to force it as would be the case with \code{read_attributes}.
 }

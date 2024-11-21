@@ -15,8 +15,8 @@ read_attributes(
 \item{entity_name}{(character) The quoted name of the data entity.}
 
 \item{missing_value_code}{(optional)
-(character) read_attributes will automatically document the presence of NA
-and NaN entries as missing values in the EML output. The user has the
+(character) \code{read_attributes} will automatically document the presence
+of NA and NaN entries as missing values in the EML output. The user has the
 ability to identify an additional indicator of missing values (e.g.,
 "-9999", "missing") if present.}
 
@@ -29,7 +29,7 @@ A entity of type EML attributes or list of attributes (for testing
 and debugging)
 }
 \description{
-The read_attributes function reads an entity's attribute
+The \code{read_attributes} function reads an entity's attribute
 details from a "entity name"_attrs.yaml or "entity name"_attrs.csv file in
 the working directory - the details of which are incorporated into the EML
 metadata for that entity. If present in the working directory, factor
@@ -38,7 +38,7 @@ read and incorporated into attribute metadata. NA, NaN, and user-provided
 missing value codes are documented for each variable if they exist.
 }
 \details{
-The read_attributes function reads an entity's attribute
+The \code{read_attributes} function reads an entity's attribute
 details from a "entity name"_attrs.yaml or "entity name"_attrs.csv file in
 the working directory - the details of which are incorporated into the EML
 metadata for that entity. If present in the working directory, factor
@@ -47,12 +47,16 @@ read and incorporated into attribute metadata. NA, NaN, and user-provided
 missing value codes are documented for each variable if they exist.
 }
 \note{
-Recent versions of the capeml package generate attribute and factor
-metadata files in yaml format; the read_attributes function will look also
-for attributes files in csv format to accommodate older projects.
+The \code{read_attributes} function is specific to all data types
+_except_ rasters. A sister function \code{read_raster_attributes} addresses
+similar functionality for raster data.
 
-The read_attributes function is intended primarily as a helper to
-other functions in the capeml ecosystem so is not meant to be called
+Recent versions of the capeml package generate attribute and factor
+metadata files in yaml format; the \code{read_attributes} function will look
+also for attributes files in csv format to accommodate older projects.
+
+The \code{read_attributes} function is intended primarily as a helper
+to other functions in the capeml ecosystem so is not meant to be called
 directly (but can be).
 
 Missing value codes are not documented for geometry columns of spatial

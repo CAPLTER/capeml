@@ -88,22 +88,24 @@ update_attributes <- function(
   if (rlang::is_expression(entity_name)) {
 
     string_pointer <- rlang::get_expr(entity_name)
-    object_pointer <- get(entity_name)
+    # object_pointer <- get(entity_name)
 
   } else {
 
     string_pointer <- deparse(substitute(entity_name))
-    object_pointer <- entity_name
+    # object_pointer <- entity_name
 
   }
 
 
   # read entity and yaml file data
 
-  attrs_from_read  <- capeml::read_attributes(entity_name = string_pointer)[["table"]]
+  suppressWarnings(
+    attrs_from_read <- capeml::read_attributes(entity_name = string_pointer)[["table"]]
+  )
 
   attrs_from_write <- capeml::write_attributes(
-    dfname      = object_pointer,
+    dfname      = string_pointer,
     return_type = "attributes"
   ) |> 
     dplyr::bind_rows()
@@ -145,7 +147,7 @@ update_attributes <- function(
 
   # join and update
 
-  numeric_cols <- attrs_from_read[attrs_from_read$columnClasses == "numeric", ][["attributeName"]]
+numeric_cols <- attrs_from_read[!is.na(attrs_from_read$numberType), ][["attributeName"]]
 
   attrs_from_write <- attrs_from_write |> 
     dplyr::filter(attributeName %in% c(numeric_cols)) |> 

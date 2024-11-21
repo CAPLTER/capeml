@@ -44,8 +44,10 @@
 <url><loc>/reference/projectTitle.html</loc></url>
 <url><loc>/reference/qudt_table.html</loc></url>
 <url><loc>/reference/read_attributes.html</loc></url>
+<url><loc>/reference/read_attributes_file.html</loc></url>
 <url><loc>/reference/read_markdown.html</loc></url>
 <url><loc>/reference/read_package_configuration.html</loc></url>
+<url><loc>/reference/read_raster_attributes.html</loc></url>
 <url><loc>/reference/update_attributes.html</loc></url>
 <url><loc>/reference/write_attributes.html</loc></url>
 <url><loc>/reference/write_cap_eml.html</loc></url>
