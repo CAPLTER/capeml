@@ -113,7 +113,7 @@ capRights <- 'This data package is released to the "public domain" under Creativ
 
 cap_licensed <- EML::eml$licensed(
   licenseName = "Creative Commons Zero v1.0 Universal",
-  url         = "https://spdx.org/licenses/CC0-1.0.html",
+  url         = "https://spdx.org/licenses/CC0-1.0",
   identifier  = "CC0-1.0"
 )
 
