@@ -2,64 +2,136 @@
 title: "capeml template"
 author: "information manager"
 date: Sys.Date()
-output: html_document
-editor_options: 
-  chunk_output_type: console
 ---
 
+```{r}
+#| eval: TRUE
+#| label: metadata
 
-# methods
+readxl::read_excel(
+  path  = "*.xlsx",
+  sheet = "attributes"
+) |>
+  readr::write_csv("attributes.csv")
 
-Methods are automatically read from a `methods.md` file in the project
-directory. If more elaborate methods are required, e.g., to incorporate
-provenance, use the enhancedMethods approach.
+readxl::read_excel(
+  path  = "*.xlsx",
+  sheet = "attribute_codes"
+) |>
+  readr::write_csv("attribute_codes.csv")
+
+readxl::read_excel(
+  path  = "*.xlsx",
+  sheet = "dataset"
+) |>
+  readr::write_csv("dataset.csv")
+
+readxl::read_excel(
+  path  = "*.xlsx",
+  sheet = "data_entities"
+) |>
+  readr::write_csv("data_entities.csv")
+```
 
 
-# coverages
+```{r}
+#| eval: TRUE
+#| label: personnel
 
-```{r coverages}
+personnel <- readxl::read_excel(
+  path  = "*.xlsx",
+  sheet = "personnel"
+) |>
+  dplyr::mutate(
+    data_source  = "~/Dropbox/floating/cap_authors.csv",
+    project_role = dplyr::case_when(
+      role == "associatedParty" ~ "some_project_role",
+      TRUE ~ NA_character_
+    )
+  ) |>
+  dplyr::select(
+    last_name,
+    first_name,
+    role_type = role,
+    project_role,
+    email,
+    orcid = ORCiD,
+    data_source
+  )
 
-# begindate <- format(min(data_frame$date_col), "%Y-%m-%d")
-# enddate   <- format(max(data_frame$date_col), "%Y-%m-%d")
+# Convert to a list of lists
+personnel_list <- purrr::transpose(personnel)
 
-geographicDescription <- "CAP LTER study area"
+# write to people.yaml (edit as needed)
+yaml::write_yaml(
+  x    = personnel_list,
+  file = "people.yaml"
+)
+```
 
-coverage <- EML::set_coverage(
-  begin = "YYYY-MM-DD",
-  end   = "YYYY-MM-DD",
-  geographicDescription = geographicDescription,
-  west  = -x,
-  east  = -x,
-  north = +x,
-  south = +x
+
+```{r}
+#| eval: TRUE
+#| label: keywords
+
+(
+  readxl::read_excel(
+    path  = "*.xlsx",
+    sheet = "keywords"
+  ) |>
+    readr::write_csv("/tmp/keywords.csv")
+)
+```
+
+
+```{r}
+#| eval: TRUE
+#| label: coverages
+
+dataset <- readxl::read_excel(
+  path  = "*.xlsx",
+  sheet = "dataset"
 )
 
+coverage <- EML::set_coverage(
+  begin                 = "",
+  end                   = "",
+  geographicDescription = capeml::read_package_configuration()[["geographic_description"]],
+  west                  = dataset[dataset$metadata_field == "west",  ]$metadata,
+  east                  = dataset[dataset$metadata_field == "east",  ]$metadata,
+  north                 = dataset[dataset$metadata_field == "north", ]$metadata,
+  south                 = dataset[dataset$metadata_field == "south", ]$metadata
+)
 ```
 
 
-# dataset
+```{r}
+#| eval: TRUE
+#| label: build
 
-Optionally, provide: abstract, methods, keywords, publication date.
-
-```{r construct-dataset}
+devtools::load_all("~/localRepos/capeml")
 
 dataset <- capeml::create_dataset()
-```
-
-
-# eml
-
-```{r construct-eml, eval=TRUE}
-
-eml <- capeml::create_eml()
-```
-
-```{r validate-eml, eval=TRUE}
+eml     <- capeml::create_eml()
 
 EML::eml_validate(eml)
-```
-
-```{r eml-to-file, eval=TRUE}
-
 capeml::write_cap_eml()
+
+source("~/Documents/localSettings/aws.s3")
+
+lapply(
+  X   = list.files(pattern = ""),
+  FUN = capeml::data_to_amz
+)
+
+source("~/Documents/localSettings/edi.R")
+capeml::get_package_evaluation(full_report = FALSE)
+
+# report <- capeml::get_package_evaluation(full_report = TRUE)
+# xml2::write_xml(report, "/tmp/report.xml")
+
+capeml::create_package(environment = "staging")
+
+EDIutils::logout()
 ```
+

@@ -39,7 +39,7 @@ capeml::get_unit_type("dog_years")
 #        name   type
 # 1 dog_years custom
 
-capeml::capeml::get_unit_type("C-M")
+capeml::get_unit_type("C-M")
 # A tibble: 1 × 4
 # name    unit                           label         type      
 # <chr>   <chr>                          <chr>         <chr>     

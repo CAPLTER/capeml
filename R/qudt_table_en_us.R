@@ -33,4 +33,4 @@
 #' }
 #'
 #' @source \url{https://raw.githubusercontent.com/qudt/qudt-public-repo/master/vocab/unit/VOCAB_QUDT-UNITS-ALL-v2.1.ttl}
-"qudt_table"
+"qudt_table_en_us"

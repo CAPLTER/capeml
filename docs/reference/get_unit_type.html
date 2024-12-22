@@ -99,7 +99,25 @@ but can be used independently.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">capeml</span><span class="fu">::</span><span class="fu">get_unit_type</span><span class="op">(</span><span class="st">"dog_years"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">#        name   type</span></span></span>
+<span class="r-in"><span><span class="co"># 1 dog_years custom</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">capeml</span><span class="fu">::</span><span class="fu">get_unit_type</span><span class="op">(</span><span class="st">"C-M"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># A tibble: 1 × 4</span></span></span>
+<span class="r-in"><span><span class="co"># name    unit                           label         type      </span></span></span>
+<span class="r-in"><span><span class="co"># &lt;chr&gt;   &lt;chr&gt;                          &lt;chr&gt;         &lt;chr&gt;     </span></span></span>
+<span class="r-in"><span><span class="co"># 1 C-M   http://qudt.org/vocab/unit/C-M Coulomb Meter qudt_en_us</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">capeml</span><span class="fu">::</span><span class="fu">get_unit_type</span><span class="op">(</span><span class="st">"meter"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># NULL</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co">#'</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

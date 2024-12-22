@@ -1,9 +1,15 @@
 #' @title Construct a template capeml workflow
 #'
-#' @description Write a workflow template Rmd file for the capeml workflow
+#' @description Write a workflow template qmd file for the capeml workflow
+#'
+#' @note While the function does provide a generalized template for much of the
+#' capeml workflow, creating data entities (e.g., dataTable, otherEntity) are
+#' not included. Further, the template is geared heavily to drawing on a
+#' metadata [template](https://globalfutures.asu.edu/caplter/data/submit-data/)
+#' that is part of the data submission process for the CAP LTER.
 #'
 #' @usage
-#'     write_template(
+#'     capeml::write_template(
 #'       scope,
 #'       identifier,
 #'       path,
@@ -22,17 +28,17 @@
 #'  (logical) indicates to overwrite an existing file if one exists (default =
 #'  FALSE).
 #'
-#' @return A Rmarkdown (Rmd) file named with the project scope and identifier
+#' @return A quarto (qmd) file named with the project scope and identifier
 #' (number).
 #'
-#' @details Existing files with the package name and .Rmd extension at
+#' @details Existing files with the package name and .qmd extension at
 #' \code{path} will not be overwritten unless overwrite is made explicit.
 #'
 #' @examples
 #' \dontrun{
 #' # Template data package directory "edi.521"
 #'
-#' write_template(
+#' capeml::write_template(
 #'   scope      = "edi",
 #'   identifier = 521,
 #'   path       = '~/Desktop'
@@ -65,9 +71,9 @@ write_template <- function(
 
   # stop if file exists
 
-  if (file.exists(paste0(path, "/", package_name, ".Rmd")) & overwrite == FALSE) {
+  if (file.exists(paste0(path, "/", package_name, ".qmd")) & overwrite == FALSE) {
     stop(
-      paste0(path, "/", package_name, ".Rmd", " already exists - use overwrite")
+      paste0(path, "/", package_name, ".qmd", " already exists - use overwrite")
     )
   }
 
@@ -76,19 +82,19 @@ write_template <- function(
 
   file.copy(
     from = system.file(
-      "/templates/workflow.Rmd",
+      "/templates/workflow.qmd",
       package = "capeml"
       ),
     to = paste0(
       path,
       "/",
       package_name,
-      ".Rmd"
+      ".qmd"
     )
   )
 
-  #   end ------------------------------------------------------------------------
+  # end ------------------------------------------------------------------------
 
-  message(paste0("created ", package_name, ".Rmd at ", path))
+  message(paste0("created ", package_name, ".qmd at ", path))
 
 }

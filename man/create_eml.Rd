@@ -23,6 +23,5 @@ entity, such as access and dataset, in the working environment; these
 parameters are not passed directly to the function and must exist in the
 working environment.
 
-Some parameters, such access, are loaded in the backgroud when the
-package is loaded and not called directly by the user.
+Some parameters, such access, are loaded in the background when the '
 }

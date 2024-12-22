@@ -364,11 +364,6 @@ create_dataset <- function(
   }
 
 
-  # add associated party if exists
-
-  # if (exists("associatedParty")) { dataset$associatedParty <- associatedParty }
-
-
   # add literature citations if exists
 
   num_citations <- 0

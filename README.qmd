@@ -7,7 +7,7 @@ format: gfm
 <br>
 <br>
 
-### capeml: tools to aid the generation of EML metadata
+#### capeml: tools to aid the generation of EML metadata
 
 #### overview
 
@@ -47,7 +47,10 @@ Creating a new project from the command line (*sensu* below) then opening it wit
 
 *create project from command line*
 
-```{r project-cli, eval=FALSE}
+```{r}
+#| eval: false
+#| label: project-cli
+
 R --vanilla -e 'capeml::write_directory(scope = "knb-lter-cap", identifier = 716)'
 ```
 
@@ -55,10 +58,15 @@ R --vanilla -e 'capeml::write_directory(scope = "knb-lter-cap", identifier = 716
 
 For existing projects, we can generate any of the needed configuration files with package functions:
 
-- `write_config` generates `config.yaml` with the package scope and identifier (e.g., "edi", 521) passed as an argument to the function. A version number (default = 1) can be passed as a separate argument.
-- `write_template` generates a template work flow as a Quarto (qmd) file named with the package scope and identifier.
-- `write_people_template` generates a template yaml file for providing metadata regarding project personnel.
-- `write_keywords` generates a template csv file for providing metadata regarding project keywords.
+- `write_config` generates `config.yaml` with the package scope and identifier
+(e.g., "edi", 521) passed as an argument to the function. A version number
+(default = 1) can be passed as a separate argument.
+- `write_template` generates a template work flow as a Quarto (qmd) file named
+with the package scope and identifier.
+- `write_people_template` generates a template yaml file for providing metadata
+regarding project personnel.
+- `write_keywords` generates a template csv file for providing metadata
+regarding project keywords.
 
 #### construct a dataset
 
@@ -91,20 +99,25 @@ Alternatively, the work flow below is an approach of developing methods if prove
 ```{r rich_methods, eval=FALSE}
 
 # methods from file tagged as markdown
-main <- list(description = read_markdown("methods.md"))
+main <- list(description = capeml::read_markdown("methods.md"))
 
 # provenance: naip
-naip <- emld::as_emld(EDIutils::get_provenance_metadata("knb-lter-cap.623.1"))
+naip            <- emld::as_emld(EDIutils::get_provenance_metadata("knb-lter-cap.623.1"))
 naip$`@context` <- NULL
-naip$`@type` <- NULL
+naip$`@type`    <- NULL
 
 # provenance: lst
-landSurfaceTemp <- emld::as_emld(EDIutils::get_provenance_metadata("knb-lter-cap.677.1"))
+landSurfaceTemp            <- emld::as_emld(EDIutils::get_provenance_metadata("knb-lter-cap.677.1"))
 landSurfaceTemp$`@context` <- NULL
-landSurfaceTemp$`@type` <- NULL
+landSurfaceTemp$`@type`    <- NULL
 
-rich_methods <- EML::eml$methods(methodStep = list(main, naip, landSurfaceTemp))
-
+rich_methods <- EML::eml$methods(
+  methodStep = list(
+    main,
+    naip,
+    landSurfaceTemp
+  )
+)
 ```
 
 ##### coverages
@@ -113,7 +126,9 @@ rich_methods <- EML::eml$methods(methodStep = list(main, naip, landSurfaceTemp))
 
 A sample work flow for creating a taxonomic coverage:
 
-```{r taxonomyCleanr, eval = FALSE}
+```{r}
+#| eval: false
+#| label: taxonomyCleanr
 
 my_path <- getwd() # taxonomyCleanr requires a path (to build the taxa_map)
 
@@ -194,12 +209,12 @@ Project personnel metadata in the form of `<creator>`, `<metadataProvider>`, and
   email: spayton@broncos.usfl
   orcid: ~
   data_source: ~
-- last_name: Staley
-  first_name: Brandon
+- last_name: Jim
+  first_name: Harbaugh
   middle_name: ~
   role_type: associatedParty
   project_role: "head coach"
-  email: bstaley@chargers.usfl
+  email: jharbaugh@chargers.usfl
   orcid: 3x33-3333-3333-2222
   data_source: ~
 ```
@@ -229,8 +244,8 @@ If personnel are involved with many or repeated projects, it may be easier to ke
   email: ~
   orcid: ~
   data_source: "path/file.csv"
-- last_name: Staley
-  first_name: Br
+- last_name: Harbaugh
+  first_name: Jim
   middle_name: ~
   role_type: associatedParty
   project_role: "head coach"
@@ -245,7 +260,7 @@ If employing a tabular csv file to generate personnel metadata, it must have the
 | -----------|------------|-------------|----------------------|--------------------------|---------------------|
 | Gannon     | Richard    | NA          | Phoenix Cardinals    | rgannon@cardinals.usfl   | 1111-1111-11x1-1111 |
 | Payton     | Sean       | NA          | Colorado Broncos     | spayton@broncos.usfl     | NA                  |
-| Staley     | Brandon    | NA          | California Chargers  | bstaley@chargers.usfl    | 3x33-3333-3333-2222 |
+| Harbaugh   | Jim    | NA              | California Chargers  | jharbaugh@chargers.usfl  | 3x33-3333-3333-2222 |
 
 
 ##### data objects
@@ -293,7 +308,9 @@ Under the hood, `capeml` is using the `create_dataTable` function to build the d
 
 We can invoke `create_dataTable` outside of building a dataset, which can be helpful for previewing dataTable EML metadata before it goes into a xml file or debugging. A workflow around `create_dataTable` might look like this:
 
-```{r my-table, eval=FALSE}
+```{r}
+#| eval: false
+#| label: my-table
 
 my_table <- import / generate...process...
 
@@ -318,7 +335,6 @@ my_table_DT <- capeml::create_dataTable(
   dateRangeField          = "my_date_field",
   additional_information  = my_additional_info
 )
-
 ```
 
 **overview: create a EML otherEntity**
@@ -335,7 +351,9 @@ As with `create_dataTable()`, `create_otherEntity()` can also take advantage of 
 
 In this example, we will generate EML otherEntity metadata for a ESRI shapefile titled UEI_Features_CAPLTER_2010_2017_JAB.shp (plus *.dbf, *.prj, and other shapefile files) that is in a directory of the same name.
 
-```{r other-entity-vector, eval=FALSE}
+```{r}
+#| eval: false
+#| label: other-entity-vector
 
 # Read the data into R, here a shapefile using the sf package being careful to
 # name the resulting object in the R environment with the same name of the
@@ -359,7 +377,6 @@ UEI_Features_CAPLTER_2010_2017_JAB <- UEI_Features_CAPLTER_2010_2017_JAB |>
 
 capeml::write_attributes(UEI_Features_CAPLTER_2010_2017_JAB, overwrite = TRUE)
 capeml::write_factors(UEI_Features_CAPLTER_2010_2017_JAB, overwrite = TRUE)
-
 ```
 
 As with a dataTable, we add the otherEntity details to the `data_objects.yaml` file.
@@ -402,7 +419,9 @@ well_water_use:
 
 If the raster data are categorical, we can construct a template to provide metadata about the factor levels using the `write_raster_factors()` tool from the capemlGIS package. `write_raster_factors()` works similarly to capeml's `write_factors()` but accommodates the matrix structure and single data type of raster data. In the example below, the well_water_use raster features changes in water level - the changes are in units of acre-feet but the changes are binned in ranges such that the values are categorical. We can use the `capemlGIS::write_raster_factors` function to generate a metadata template (well_water_use.yaml) in the working directory that we can use do document the details of the categories, which will be read when the otherEntity EML is generated.
 
-```{r other-entity-raster, eval=FALSE}
+```{r}
+#| eval: false
+#| label:  other-entity-raster
 
 well_water_use <- read raster data "well_water_use.img"
 
@@ -458,7 +477,7 @@ Temp_deg_C:
   columnClasses: numeric
 ```
 
-Both custom and QUDT units are documented in a `custom_units.yaml` file that is generated when the EML dataset is generated. In the case of QUDT units, they are listed only for schema compliance. For custom units, however, there is a description field for each custom units in `custom_units.yaml` where a description should be provided.
+Both custom and QUDT units are documented in a `custom_units.yaml` file that is written when the EML dataset is generated. In the case of QUDT units, they are listed only for schema compliance. For custom units, however, there is a description field for each custom units in `custom_units.yaml` where a description should be provided.
 
 In the case of QUDT units, these are documented also in a `annotations.yaml` file that is read when the EML eml is generated (this file does not need to be edited).
 
@@ -472,7 +491,9 @@ Note that, unlike a `literatureCited` citation, a `usageCitation` is **not** wra
 
 **literature cited**
 
-```{r literature-cited, eval=FALSE}
+```{r}
+#| eval: false
+#| label: literature-cited
 
 cook    <- capeml::create_citation("https://doi.org/10.1016/j.envpol.2018.04.013")
 sartory <- capeml::create_citation("https://doi.org/10.1007/BF00031869")
@@ -483,7 +504,6 @@ citations <- list(
     sartory
   ) # close list of citations
 ) # close citation
-
 ```
 
 **usage citations**
@@ -495,23 +515,25 @@ brown <- capeml::create_citation("https://doi.org/10.3389/fevo.2020.569730")
 usages <- list(brown) # close usages
 
 dataset$usageCitation <- usages
-
 ```
 
 **citations that do not have a DOI**
 
 Though a DOI makes documenting references easy, we can add citations that do not have a DOI. There are many ways to address this but likely easiest is to get or create a citation for the reference in bibtex format. [bibutils](http://sourceforge.net/p/bibutils/home/Bibutils/) is a helpful utility that can convert other citation formats, such as .ris, to bibtex. With bibutils, we can convert ris to an intermediate xml format and then to bibtex.
 
-```{sh bibutils, eval=FALSE}
+```{sh}
+#| eval: false
+#| label: bibutils
 
 wget -O ~/Desktop/tellman_dissertation.ris https://repository.asu.edu/items/53734.ris
 cat tellman_dissertation.ris | ris2xml | xml2bib >> tellman_dissertation.bib
-
 ```
 
 Once we have the citation in bibtex format, we can add it along with other citations as in the example below where we added the citation for the Tellman dissertation to a suite of citations generated with capeml's `create_citiation` function.
 
-```{r custom-citations, eval=FALSE}
+```{r}
+#| eval: false
+#| label: custom-citations
 
 tellman_2021 <- capeml::create_citation("https://doi.org/10.1016/j.worlddev.2020.105374")
 lerner_2018  <- capeml::create_citation("https://doi.org/10.1016/j.cities.2018.06.009")

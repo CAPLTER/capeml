@@ -4,7 +4,7 @@
 \alias{write_template}
 \title{Construct a template capeml workflow}
 \usage{
-write_template(
+capeml::write_template(
       scope,
       identifier,
       path,
@@ -24,21 +24,28 @@ current directory.}
 FALSE).}
 }
 \value{
-A Rmarkdown (Rmd) file named with the project scope and identifier
+A quarto (qmd) file named with the project scope and identifier
 (number).
 }
 \description{
-Write a workflow template Rmd file for the capeml workflow
+Write a workflow template qmd file for the capeml workflow
 }
 \details{
-Existing files with the package name and .Rmd extension at
+Existing files with the package name and .qmd extension at
 \code{path} will not be overwritten unless overwrite is made explicit.
+}
+\note{
+While the function does provide a generalized template for much of the
+capeml workflow, creating data entities (e.g., dataTable, otherEntity) are
+not included. Further, the template is geared heavily to drawing on a
+metadata [template](https://globalfutures.asu.edu/caplter/data/submit-data/)
+that is part of the data submission process for the CAP LTER.
 }
 \examples{
 \dontrun{
 # Template data package directory "edi.521"
 
-write_template(
+capeml::write_template(
   scope      = "edi",
   identifier = 521,
   path       = '~/Desktop'

@@ -4,7 +4,7 @@
 
 <br> <br>
 
-### capeml: tools to aid the generation of EML metadata
+#### capeml: tools to aid the generation of EML metadata
 
 #### overview
 
@@ -145,19 +145,25 @@ if provenance data are required or there are multiple methods files.
 
 ``` r
 # methods from file tagged as markdown
-main <- list(description = read_markdown("methods.md"))
+main <- list(description = capeml::read_markdown("methods.md"))
 
 # provenance: naip
-naip <- emld::as_emld(EDIutils::get_provenance_metadata("knb-lter-cap.623.1"))
+naip            <- emld::as_emld(EDIutils::get_provenance_metadata("knb-lter-cap.623.1"))
 naip$`@context` <- NULL
-naip$`@type` <- NULL
+naip$`@type`    <- NULL
 
 # provenance: lst
-landSurfaceTemp <- emld::as_emld(EDIutils::get_provenance_metadata("knb-lter-cap.677.1"))
+landSurfaceTemp            <- emld::as_emld(EDIutils::get_provenance_metadata("knb-lter-cap.677.1"))
 landSurfaceTemp$`@context` <- NULL
-landSurfaceTemp$`@type` <- NULL
+landSurfaceTemp$`@type`    <- NULL
 
-rich_methods <- EML::eml$methods(methodStep = list(main, naip, landSurfaceTemp))
+rich_methods <- EML::eml$methods(
+  methodStep = list(
+    main,
+    naip,
+    landSurfaceTemp
+  )
+)
 ```
 
 ##### coverages
@@ -253,12 +259,12 @@ personnel metadata for two `<creators>`, and one each
   email: spayton@broncos.usfl
   orcid: ~
   data_source: ~
-- last_name: Staley
-  first_name: Brandon
+- last_name: Jim
+  first_name: Harbaugh
   middle_name: ~
   role_type: associatedParty
   project_role: "head coach"
-  email: bstaley@chargers.usfl
+  email: jharbaugh@chargers.usfl
   orcid: 3x33-3333-3333-2222
   data_source: ~
 ```
@@ -300,8 +306,8 @@ yaml or draw them from a tabular file.
   email: ~
   orcid: ~
   data_source: "path/file.csv"
-- last_name: Staley
-  first_name: Br
+- last_name: Harbaugh
+  first_name: Jim
   middle_name: ~
   role_type: associatedParty
   project_role: "head coach"
@@ -313,11 +319,11 @@ yaml or draw them from a tabular file.
 If employing a tabular csv file to generate personnel metadata, it must
 have the following structure:
 
-| last_name | first_name | middle_name | organization        | email                  | orcid               |
-|-----------|------------|-------------|---------------------|------------------------|---------------------|
-| Gannon    | Richard    | NA          | Phoenix Cardinals   | rgannon@cardinals.usfl | 1111-1111-11x1-1111 |
-| Payton    | Sean       | NA          | Colorado Broncos    | spayton@broncos.usfl   | NA                  |
-| Staley    | Brandon    | NA          | California Chargers | bstaley@chargers.usfl  | 3x33-3333-3333-2222 |
+| last_name | first_name | middle_name | organization | email | orcid |
+|----|----|----|----|----|----|
+| Gannon | Richard | NA | Phoenix Cardinals | rgannon@cardinals.usfl | 1111-1111-11x1-1111 |
+| Payton | Sean | NA | Colorado Broncos | spayton@broncos.usfl | NA |
+| Harbaugh | Jim | NA | California Chargers | jharbaugh@chargers.usfl | 3x33-3333-3333-2222 |
 
 ##### data objects
 
@@ -606,7 +612,7 @@ Temp_deg_C:
 ```
 
 Both custom and QUDT units are documented in a `custom_units.yaml` file
-that is generated when the EML dataset is generated. In the case of QUDT
+that is written when the EML dataset is generated. In the case of QUDT
 units, they are listed only for schema compliance. For custom units,
 however, there is a description field for each custom units in
 `custom_units.yaml` where a description should be provided.
@@ -666,7 +672,6 @@ to bibtex. With bibutils, we can convert ris to an intermediate xml
 format and then to bibtex.
 
 ``` sh
-
 wget -O ~/Desktop/tellman_dissertation.ris https://repository.asu.edu/items/53734.ris
 cat tellman_dissertation.ris | ris2xml | xml2bib >> tellman_dissertation.bib
 ```

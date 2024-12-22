@@ -11,8 +11,8 @@
 #' parameters are not passed directly to the function and must exist in the
 #' working environment.
 #'
-#' @note Some parameters, such access, are loaded in the backgroud when the
-#' package is loaded and not called directly by the user.
+#' @note Some parameters, such access, are loaded in the background when the '
+#package is loaded and not called directly by the user.
 #'
 #' @import EML
 #'
