@@ -1,5 +1,5 @@
 ---
-title: false
+title: "capeml EML pipelines"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{eml_pipeline}
@@ -31,14 +31,21 @@ htmltools::tags$script("mermaid.initialize({startOnLoad:true});")
 ```
 
 *This page is best viewed with the light background* 
-
-### capeml pipeline for constructing EML type spatialRaster
+  
+  
+#### capeml pipeline for constructing EML type spatialRaster
 
 ```{r rasters, echo=FALSE}
 
 # Mermaid rasters diagram
 DiagrammeR::mermaid(
   diagram = '
+---
+  config:
+  themeVariables:
+      fontSize: 24px 
+---
+
 flowchart LR
     A["capemlGIS::create_raster()"]
     A --> E["my_raster_SR
@@ -71,7 +78,9 @@ subgraph I ["raster metadata"]
 end
 
 I --> A
+
+linkStyle default stroke:grey, stroke-width:4px
 ',
-width = 960
+width = 1020
 )
 ```

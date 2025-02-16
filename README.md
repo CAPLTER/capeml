@@ -4,9 +4,9 @@
 
 <br> <br>
 
-#### capeml: tools to aid the generation of EML metadata
+### capeml: tools to aid the generation of EML metadata
 
-#### overview
+### overview
 
 This package contains tools to aid the generation of EML metadata with
 intent to publish a dataset (data + metadata) in the Environmental Data
@@ -25,7 +25,7 @@ is automatically generated if a new project is created with
 `write_directory`, which also generates a `config.yaml` file and new
 directory, or with the `write_template` function.
 
-#### installation
+### installation
 
 Install from GitHub (after installing the
 [devtools](https://cran.r-project.org/web/packages/devtools/index.html)
@@ -35,14 +35,14 @@ package):
 devtools::install_github("CAPLTER/capeml")
 ```
 
-#### options
+### options
 
-##### EML version
+#### EML version
 
 This package defaults to the current version of EML. Users can switch to
 the previous version with `emld::eml_version("eml-2.1.1")`.
 
-##### project naming
+#### project naming
 
 Most EML-generating functions in the capeml and capemlGIS packages will
 create both physical objects and EML references to those objects. By
@@ -57,9 +57,9 @@ referenced in the EML. Note that the package identifier (number) is not
 passed as an argument, and must exist in `config.yaml` (as
 `identifier`).
 
-#### getting started
+### getting started
 
-##### new projects
+#### new projects
 
 For new projects, `write_directory` will create a project directory at
 the current (default) or specified path. The package scope and number
@@ -83,7 +83,7 @@ opening it with R is a convenient approach.
 R --vanilla -e 'capeml::write_directory(scope = "knb-lter-cap", identifier = 716)'
 ```
 
-##### existing projects
+#### existing projects
 
 For existing projects, we can generate any of the needed configuration
 files with package functions:
@@ -98,22 +98,22 @@ files with package functions:
 - `write_keywords` generates a template csv file for providing metadata
   regarding project keywords.
 
-#### construct a dataset
+### construct a dataset
 
-##### project details: dataset package number and package identifier
+#### project details: dataset package number and package identifier
 
 Package details, including scope and identifier are read from
 config.yaml. The appropriate version is determined by identifying the
 highest version currently in the production environment of the EDI
 repository (1 for new packages).
 
-##### title
+#### title
 
 The dataset title is read from the `title` parameter of `config.yaml`.
 The title can be quoted or unquoted but must be quoted if the title
 contains a colon.
 
-##### maintenance
+#### maintenance
 
 The maintenance status of a project is read from the `maintenance`
 parameter of `config.yaml`. Standardized language is provided for either
@@ -122,19 +122,19 @@ updates are anticipated) maintenance regimes. `NULL` or text other than
 `none` or `regular` will omit the `maintenance` element from the
 resulting EML.
 
-##### abstract
+#### abstract
 
 The `create_dataset` function will look for a `abstract.md` file in the
 working directory or at the path provided if specified. `abstract.md`
 must be a markdown file.
 
-##### keywords
+#### keywords
 
 `write_keywords` creates a template as a csv file for supplying dataset
 keywords. The `create_dataset` function will look for a `keywords.csv`
 file in the working directory or at the path provided if specified.
 
-##### methods
+#### methods
 
 The `create_dataset` function will look for a `methods.md` file in the
 working directory or at the path provided if specified (`methods.md`
@@ -166,7 +166,7 @@ rich_methods <- EML::eml$methods(
 )
 ```
 
-##### coverages
+#### coverages
 
 *Geographic* and *temporal* coverages are straightforward and documented
 in the work flow, but creating a *taxonomic* coverage is more involved.
@@ -229,7 +229,7 @@ taxaCoverage <- taxonomyCleanr::make_taxonomicCoverage(path = my_path)
 coverage$taxonomicCoverage <- taxaCoverage
 ```
 
-##### people
+#### people
 
 Project personnel metadata in the form of `<creator>`,
 `<metadataProvider>`, and `<associatedParty>` are provided via the
@@ -325,7 +325,7 @@ have the following structure:
 | Payton | Sean | NA | Colorado Broncos | spayton@broncos.usfl | NA |
 | Harbaugh | Jim | NA | California Chargers | jharbaugh@chargers.usfl | 3x33-3333-3333-2222 |
 
-##### data objects
+#### data objects
 
 **overview: create a EML dataTable**
 
@@ -621,7 +621,7 @@ In the case of QUDT units, these are documented also in a
 `annotations.yaml` file that is read when the EML eml is generated (this
 file does not need to be edited).
 
-##### citations
+#### citations
 
 Below are sample work flows that use `capeml`’s `create_citation`
 function to generate citations by passing a resource DOI to crossref.
