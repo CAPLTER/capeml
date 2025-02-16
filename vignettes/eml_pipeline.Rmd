@@ -1,0 +1,77 @@
+---
+title: false
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{eml_pipeline}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include=FALSE, echo=FALSE}
+library(capeml)
+```
+
+```{r mermaid_include, echo=FALSE}
+
+# Include Mermaid JavaScript library
+htmltools::tags$script(src = "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js")
+```
+
+```{r mermaid_initialize, echo=FALSE}
+
+# Initialize Mermaid
+htmltools::tags$script("mermaid.initialize({startOnLoad:true});")
+```
+
+*This page is best viewed with the light background* 
+
+### capeml pipeline for constructing EML type spatialRaster
+
+```{r rasters, echo=FALSE}
+
+# Mermaid rasters diagram
+DiagrammeR::mermaid(
+  diagram = '
+flowchart LR
+    A["capemlGIS::create_raster()"]
+    A --> E["my_raster_SR
+        <i>(temp object in R env)</i>    
+    "]
+    E --> D["capeml::create_dataset()"]
+    G["my_raster.tif
+        <i>(on disk)</i>
+    "] --> A
+
+subgraph J["annotations & units"]
+    direction LR
+    B["annotations.yaml"]
+    C["custom_units.yaml
+        <i>(edit if needed)</i>
+    "]
+end
+
+A --> |"if (a) custom or QUDT units, or (b) other annotations"|J
+J --> D
+
+subgraph I ["raster metadata"]
+    F["my_raster_attrs.yaml
+        <i>(if relevant)</i>
+    "]
+    H["my_raster_factors.yaml
+        <i>(if relevant)</i>
+    "]
+    F <--> |-- OR --|H
+end
+
+I --> A
+',
+width = 960
+)
+```
