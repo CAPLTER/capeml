@@ -31,6 +31,9 @@
 #'  environment (e.g., the hash of a table)
 #' @param raster
 #'  (boolean) Boolean indicating that the target data are a raster
+#' @param provided_attributes_table
+#' (tbl_df,tbl,data.frame) attributes table equivalent to attrs[["table"]]
+#'
 #'
 #' @import yaml
 #' @importFrom dplyr inner_join mutate
@@ -58,15 +61,26 @@
 #' @export
 #'
 write_units <- function(
-  entity_name,
-  entity_id,
-  raster = FALSE
+  entity_name               = NULL,
+  entity_id                 = NULL,
+  raster                    = FALSE,
+  provided_attributes_table = NULL
 ) {
 
   qudt   <- FALSE
   custom <- FALSE
 
-  if (raster == TRUE) {
+  if (!is.null(provided_attributes_table)) {
+
+    attributes_table <- provided_attributes_table
+
+  } else if (raster == TRUE) {
+
+    if (missing("entity_name") | missing("entity_id")) {
+
+      stop("missing entity_name or entity_id") 
+
+    }
 
     attributes_table <- capeml::read_raster_attributes(
       entity_name = entity_name,
@@ -74,6 +88,12 @@ write_units <- function(
     )[["table"]]
 
   } else {
+
+    if (missing("entity_name") | missing("entity_id")) {
+
+      stop("missing entity_name or entity_id") 
+
+    }
 
     attributes_table <- capeml::read_attributes(
       entity_name = entity_name,
