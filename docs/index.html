@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">capeml</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -456,7 +456,7 @@
 <span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="at">  </span><span class="fu">projectNaming</span><span class="kw">:</span><span class="at"> </span><span class="ch">FALSE</span></span>
 <span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="at">  </span><span class="fu">additional_information</span><span class="kw">:</span><span class="at"> </span><span class="st">"This is a spatial data object..."</span></span>
 <span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="at">  </span><span class="fu">entity_value_description</span><span class="kw">:</span><span class="at"> </span><span class="st">"acre-feet"</span></span></code></pre></div>
-<p>If the raster data are categorical, we can construct a template to provide metadata about the factor levels using the <code>write_raster_factors()</code> tool from the capemlGIS package. <code>write_raster_factors()</code> works similarly to capeml’s <code><a href="reference/write_factors.html">write_factors()</a></code> but accommodates the matrix structure and single data type of raster data. In the example below, the well_water_use raster features changes in water level - the changes are in units of acre-feet but the changes are binned in ranges such that the values are categorical. We can use the <code>capemlGIS::write_raster_factors</code> function to generate a metadata template (well_water_use.yaml) in the working directory that we can use do document the details of the categories, which will be read when the otherEntity EML is generated.</p>
+<p>If the raster data are categorical, we can construct a template to provide metadata about the factor levels using the <code>write_raster_factors()</code> tool from the capemlGIS package. <code>write_raster_factors()</code> works similarly to capeml’s <code><a href="reference/write_factors.html">write_factors()</a></code> but accommodates the matrix structure and single data type of raster data. In the example below, the well_water_use raster features changes in water level - the changes are in units of acre-feet but the changes are binned in ranges such that the values are categorical. We can use the <code><a href="https://rdrr.io/pkg/capemlGIS/man/write_raster_factors.html" class="external-link">capemlGIS::write_raster_factors</a></code> function to generate a metadata template (well_water_use.yaml) in the working directory that we can use do document the details of the categories, which will be read when the otherEntity EML is generated.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>well_water_use <span class="ot">&lt;-</span> read raster data <span class="st">"well_water_use.img"</span></span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>capemlGIS<span class="sc">::</span><span class="fu">write_raster_factors</span>(</span>

@@ -11,7 +11,7 @@ the R environment (or on disk in the case of rasters)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">capeml</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,7 +53,12 @@ the R environment (or on disk in the case of rasters).</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">write_units</span><span class="op">(</span><span class="va">entity_name</span>, <span class="va">entity_id</span>, raster <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">write_units</span><span class="op">(</span></span>
+<span>  entity_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  entity_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  raster <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  provided_attributes_table <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -71,6 +76,10 @@ environment (e.g., the hash of a table)</p></dd>
 
 <dt id="arg-raster">raster<a class="anchor" aria-label="anchor" href="#arg-raster"></a></dt>
 <dd><p>(boolean) Boolean indicating that the target data are a raster</p></dd>
+
+
+<dt id="arg-provided-attributes-table">provided_attributes_table<a class="anchor" aria-label="anchor" href="#arg-provided-attributes-table"></a></dt>
+<dd><p>(tbl_df,tbl,data.frame) attributes table equivalent to attrs[["table"]]</p></dd>
 
 </dl></div>
     <div class="section level2">
