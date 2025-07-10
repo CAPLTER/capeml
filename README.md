@@ -88,15 +88,15 @@ R --vanilla -e 'capeml::write_directory(scope = "knb-lter-cap", identifier = 716
 For existing projects, we can generate any of the needed configuration
 files with package functions:
 
-- `write_config` generates `config.yaml` with the package scope and
-  identifier (e.g., “edi”, 521) passed as an argument to the function. A
-  version number (default = 1) can be passed as a separate argument.
-- `write_template` generates a template work flow as a Quarto (qmd) file
-  named with the package scope and identifier.
-- `write_people_template` generates a template yaml file for providing
-  metadata regarding project personnel.
-- `write_keywords` generates a template csv file for providing metadata
-  regarding project keywords.
+-   `write_config` generates `config.yaml` with the package scope and
+    identifier (e.g., “edi”, 521) passed as an argument to the function.
+    A version number (default = 1) can be passed as a separate argument.
+-   `write_template` generates a template work flow as a Quarto (qmd)
+    file named with the package scope and identifier.
+-   `write_people_template` generates a template yaml file for providing
+    metadata regarding project personnel.
+-   `write_keywords` generates a template csv file for providing
+    metadata regarding project keywords.
 
 ### construct a dataset
 
@@ -169,62 +169,48 @@ rich_methods <- EML::eml$methods(
 #### coverages
 
 *Geographic* and *temporal* coverages are straightforward and documented
-in the work flow, but creating a *taxonomic* coverage is more involved.
-*Taxonomic coverage(s)* are constructed using EDI’s
-[taxonomyCleanr](https://github.com/EDIorg/taxonomyCleanr) tool suite.
+in the work flow, but creating a *taxonomic* coverage is a bit more
+involved.
 
 A sample work flow for creating a taxonomic coverage:
 
 ``` r
-my_path <- getwd() # taxonomyCleanr requires a path (to build the taxa_map)
+# Example - draw taxonomic information from existing resource:
 
-# Example: draw taxonomic information from existing resource:
-
-# plant taxa listed in the om_transpiration_factors file
-
-plantTaxa <- readr::read_csv('om_transpiration_factors.csv') |> 
-  dplyr::filter(attributeName == "species") |> 
+taxa <- dplyr::bind_rows(
+  annuals["vegetation_scientific_name"],
+  shrubs_surveys["vegetation_scientific_name"],
+  trees["vegetation_scientific_name"],
+  number_perennials["vegetation_scientific_name"],
+  hedges["vegetation_scientific_name"],
+  arthropods |>
+    dplyr::distinct(arthropod_scientific_name) |>
+    dplyr::rename(vegetation_scientific_name = arthropod_scientific_name)
+) |>
+  dplyr::rename(scientific_name = vegetation_scientific_name) |>
+  dplyr::distinct(scientific_name) |>
   as.data.frame()
 
-# create or update map. A taxa_map.csv is the heart of taxonomyCleanr. This
-# function will build the taxa_map.csv and put it in the path identified with
-# my_path.
+capeml::write_taxa_map(
+  taxa_df  = taxa,
+  taxa_col = scientific_name
+)
 
-taxonomyCleanr::create_taxa_map(
-  path = my_path,
-  x    = plantTaxa,
-  col  = "definition"
-) 
+taxaCoverage <- capeml::create_taxonomicCoverage()
 
-# Example: construct taxonomic resource:
+coverage$taxonomicCoverage <- taxaCoverage
+
+
+# Example - construct taxonomic resource:
 
 gambelQuail <- tibble::tibble(taxName = "Callipepla gambelii")
 
-# Create or update map: a taxa_map.csv is the heart of taxonomyCleanr. This
-# function will build the taxa_map.csv in the path identified with my_path.
-
-taxonomyCleanr::create_taxa_map(
-  path = my_path,
-  x    = gambelQuail,
-  col  = "taxName"
+capeml::write_taxa_map(
+  taxa_df  = gambelQuail,
+  taxa_col = taxName 
 )
 
-# Resolve taxa by attempting to match the taxon name (data.source 3 is ITIS but
-# other sources are accessible). Use `resolve_comm_taxa` instead of
-# `resolve_sci_taxa` if taxa names are common names but note that ITIS
-# (data.source 3) is the only authority taxonomyCleanr will allow for common
-# names.
-
-taxonomyCleanr::resolve_sci_taxa(
-  path         = my_path,
-  data.sources = 3 # ITIS
-) 
-
-# build the EML taxonomomic coverage
-
-taxaCoverage <- taxonomyCleanr::make_taxonomicCoverage(path = my_path)
-
-# add taxonomic to the other coverages
+taxaCoverage <- capeml::create_taxonomicCoverage()
 
 coverage$taxonomicCoverage <- taxaCoverage
 ```
@@ -319,11 +305,52 @@ yaml or draw them from a tabular file.
 If employing a tabular csv file to generate personnel metadata, it must
 have the following structure:
 
-| last_name | first_name | middle_name | organization | email | orcid |
-|----|----|----|----|----|----|
-| Gannon | Richard | NA | Phoenix Cardinals | rgannon@cardinals.usfl | 1111-1111-11x1-1111 |
-| Payton | Sean | NA | Colorado Broncos | spayton@broncos.usfl | NA |
-| Harbaugh | Jim | NA | California Chargers | jharbaugh@chargers.usfl | 3x33-3333-3333-2222 |
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 11%" />
+<col style="width: 12%" />
+<col style="width: 20%" />
+<col style="width: 24%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>last_name</th>
+<th>first_name</th>
+<th>middle_name</th>
+<th>organization</th>
+<th>email</th>
+<th>orcid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gannon</td>
+<td>Richard</td>
+<td>NA</td>
+<td>Phoenix Cardinals</td>
+<td>rgannon@cardinals.usfl</td>
+<td>1111-1111-11x1-1111</td>
+</tr>
+<tr>
+<td>Payton</td>
+<td>Sean</td>
+<td>NA</td>
+<td>Colorado Broncos</td>
+<td>spayton@broncos.usfl</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>Harbaugh</td>
+<td>Jim</td>
+<td>NA</td>
+<td>California Chargers</td>
+<td>jharbaugh@chargers.usfl</td>
+<td>3x33-3333-3333-2222</td>
+</tr>
+</tbody>
+</table>
 
 #### data objects
 
@@ -342,14 +369,14 @@ in the working directory based on properties of the data entity such
 that metadata properties (e.g., attributeDefinition, units, annotations)
 can be added via a editor.
 
-3.  If relevant, generate a yaml template specific to that data object
+1.  If relevant, generate a yaml template specific to that data object
     to document entity attributes that are factors (categorical).
 
 `write_factors(data_entity)` will generate a template as a yaml file in
 the working directory based on columns of the data entity that are
 factors such that details of factor levels can be added via a editor.
 
-4.  Add the data entity details (e.g., data object name, description) to
+1.  Add the data entity details (e.g., data object name, description) to
     the `data_objects.yaml` file in the project directory. An entry for
     a dataTable where the data object in the R environment is titled
     `datasonde_record` might look like the following:
@@ -366,7 +393,7 @@ datasonde_record:
   additional_information: ~
 ```
 
-5.  when the dataset is created, any numeric attributes that had custom
+1.  when the dataset is created, any numeric attributes that had custom
     (i.e., not in the EML schemas) will be listed in a
     `custom_units.yaml` template file where a description can be
     provided.
@@ -393,15 +420,16 @@ resource listed in `data_objects.yaml`. This function provides many
 services for given a rectangular data matrix of type dataframe or tibble
 in the R environment:
 
-- the data entity is written to file as a csv in the working directory
-  with the file name: identifier_data-entity-name.csv (or
-  data-entity-name.csv if project naming is not invoked).
-- metadata provided in the attributes and factors (if relevant)
-  templates are ingested
-- a EML object of type dataTable that reflects metadata detailed in the
-  attributes and factors files noted above is returned
-- units that are outside the EML standard unit library (e.g., custom,
-  QUDT) are added to a `custom_units.yaml` file in the project directory
+-   the data entity is written to file as a csv in the working directory
+    with the file name: identifier_data-entity-name.csv (or
+    data-entity-name.csv if project naming is not invoked).
+-   metadata provided in the attributes and factors (if relevant)
+    templates are ingested
+-   a EML object of type dataTable that reflects metadata detailed in
+    the attributes and factors files noted above is returned
+-   units that are outside the EML standard unit library (e.g., custom,
+    QUDT) are added to a `custom_units.yaml` file in the project
+    directory
 
 We can invoke `create_dataTable` outside of building a dataset, which
 can be helpful for previewing dataTable EML metadata before it goes into

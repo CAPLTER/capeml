@@ -22,7 +22,6 @@
 #' @importFrom dplyr mutate left_join arrange select row_number
 #' @importFrom purrr map_chr
 #' @importFrom readr write_csv
-#' @importFrom pointblank rows_distinct row_count_match warn_on_fail
 #'
 #' @examples
 #' \dontrun{
@@ -51,24 +50,42 @@ write_taxa_map <- function(
         )
       )
     ) |>
-    # to preserve sort order
+    # ensure unique
+    dplyr::distinct(taxa_clean) |>
+    # to preserve sort order and check duplicates (later)
     dplyr::mutate(index = dplyr::row_number())
 
   taxonomy_itis <- taxa_ids |>
     dplyr::left_join(
-      y  = taxadb_itis_tbl,
+      y = taxadb_itis_tbl,
       by = c("taxa_clean" = "scientificName")
     )
 
-  taxonomy_itis |>
-    pointblank::rows_distinct(
-      columns = index,
-      actions = pointblank::warn_on_fail()
-    ) |>
-    pointblank::row_count_match(
-      count   = nrow(taxa_df),
-      actions = pointblank::warn_on_fail()
+  taxonomy_itis_duplicates <- taxonomy_itis |>
+    dplyr::mutate(duplicate = duplicated(index)) |>
+    dplyr::filter(duplicate)
+
+  if (nrow(taxonomy_itis_duplicates) > 0) {
+
+    message("duplicate taxonomic matches: see taxa_duplicates.csv")
+
+    readr::write_csv(
+      x = taxonomy_itis_duplicates |>
+        dplyr::select(-index),
+      file = "taxa_duplicates.csv"
     )
+
+  }
+
+  # taxonomy_itis |>
+  #   pointblank::rows_distinct(
+  #     columns = index,
+  #     actions = pointblank::warn_on_fail()
+  #   ) |>
+  #   pointblank::row_count_match(
+  #     count   = nrow(taxa_df),
+  #     actions = pointblank::warn_on_fail()
+  #   )
 
   taxonomy_itis <- taxonomy_itis |>
     dplyr::arrange(index) |>

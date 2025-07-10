@@ -33,7 +33,10 @@ Imports:
     aws.s3,
     withr,
     rdflib,
-    DiagrammeR
+    DiagrammeR,
+    DBI,
+    glue,
+    taxadb
 RoxygenNote: 7.3.2
 Suggests: 
     testthat (>= 3.0.0),

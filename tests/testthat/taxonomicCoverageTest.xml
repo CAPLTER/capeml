@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="1385b256-52a9-4a1b-9b1c-ac1ed0964f80" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Dichondra micrantha</taxonRankValue>
+    <commonName>Asian ponysfoot</commonName>
+    <taxonId provider="https://itis.gov">30839</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Rafinesquia neomexicana</taxonRankValue>
+    <commonName>New Mexico plumeseed</commonName>
+    <taxonId provider="https://itis.gov">38331</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Bromus rubens</taxonRankValue>
+    <commonName>red brome</commonName>
+    <taxonId provider="https://itis.gov">40518</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>genus</taxonRankName>
+    <taxonRankValue>Atriplex</taxonRankValue>
+    <commonName>saltbush</commonName>
+    <taxonId provider="https://itis.gov">20505</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Phacelia distans</taxonRankValue>
+    <commonName>distant phacelia</commonName>
+    <taxonId provider="https://itis.gov">31485</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Hordeum murinum</taxonRankValue>
+    <commonName>mouse barley</commonName>
+    <taxonId provider="https://itis.gov">40881</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Uropappus lindleyi</taxonRankValue>
+    <commonName>Lindleys silverpuffs</commonName>
+    <taxonId provider="https://itis.gov">565589</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Cryptantha maritima</taxonRankValue>
+    <commonName>Guadalupe cryptantha</commonName>
+    <taxonId provider="https://itis.gov">31833</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>genus</taxonRankName>
+    <taxonRankValue>Schismus</taxonRankValue>
+    <commonName>Mediterranean grass</commonName>
+    <taxonId provider="https://itis.gov">42064</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Vulpia octoflora</taxonRankValue>
+    <commonName>sixweeks grass</commonName>
+    <taxonId provider="https://itis.gov">42264</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Herniaria hirsuta</taxonRankValue>
+    <commonName>hairy rupturewort</commonName>
+    <taxonId provider="https://itis.gov">502957</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Sphaeralcea coulteri</taxonRankValue>
+    <commonName>Coulters globemallow</commonName>
+    <taxonId provider="https://itis.gov">21924</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Lepidium lasiocarpum</taxonRankValue>
+    <commonName>shaggyfruit pepperweed</commonName>
+    <taxonId provider="https://itis.gov">22967</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>genus</taxonRankName>
+    <taxonRankValue>Astragalus</taxonRankValue>
+    <commonName>milkvetch</commonName>
+    <taxonId provider="https://itis.gov">25392</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Claytonia perfoliata</taxonRankValue>
+    <commonName>minerslettuce</commonName>
+    <taxonId provider="https://itis.gov">20395</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Baileya multiradiata</taxonRankValue>
+    <commonName>desert marigold</commonName>
+    <taxonId provider="https://itis.gov">36799</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Erodium cicutarium</taxonRankValue>
+    <commonName>storks bill</commonName>
+    <taxonId provider="https://itis.gov">29147</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Plantago ovata</taxonRankValue>
+    <commonName>desert Indianwheat</commonName>
+    <taxonId provider="https://itis.gov">504438</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Rhus lancea</taxonRankValue>
+    <taxonId provider="https://itis.gov">895126</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Oxalis albicans</taxonRankValue>
+    <commonName>radishroot woodsorrel</commonName>
+    <taxonId provider="https://itis.gov">504076</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>genus</taxonRankName>
+    <taxonRankValue>Cyperus</taxonRankValue>
+    <commonName>flatsedge</commonName>
+    <taxonId provider="https://itis.gov">39882</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Sisymbrium irio</taxonRankValue>
+    <commonName>rocketmustard</commonName>
+    <taxonId provider="https://itis.gov">23314</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Eragrostis cilianensis</taxonRankValue>
+    <commonName>strongscented lovegrass</commonName>
+    <taxonId provider="https://itis.gov">40719</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Pennisetum ciliare</taxonRankValue>
+    <commonName>buffelgrass</commonName>
+    <taxonId provider="https://itis.gov">504198</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Sorghum halepense</taxonRankValue>
+    <commonName>zacate Johnson</commonName>
+    <taxonId provider="https://itis.gov">42111</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Aristida adscensionis</taxonRankValue>
+    <commonName>sixweeks threeawn</commonName>
+    <taxonId provider="https://itis.gov">41401</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Schismus barbatus</taxonRankValue>
+    <commonName>Mediterraneangrass</commonName>
+    <taxonId provider="https://itis.gov">42066</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Boerhavia coccinea</taxonRankValue>
+    <commonName>scarlet spiderling</commonName>
+    <taxonId provider="https://itis.gov">501005</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Amsinckia menziesii</taxonRankValue>
+    <commonName>Menzies fiddleneck</commonName>
+    <taxonId provider="https://itis.gov">31711</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>family</taxonRankName>
+    <taxonRankValue>Cyperaceae</taxonRankValue>
+    <commonName>sedges</commonName>
+    <taxonId provider="https://itis.gov">39357</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Amsinckia intermedia</taxonRankValue>
+    <commonName>fiddleneck</commonName>
+    <taxonId provider="https://itis.gov">31709</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Erodium texanum</taxonRankValue>
+    <commonName>tufted filaree</commonName>
+    <taxonId provider="https://itis.gov">29153</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Eragrostis mexicana</taxonRankValue>
+    <commonName>Mexican lovegrass</commonName>
+    <taxonId provider="https://itis.gov">40749</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Funastrum cynanchoides</taxonRankValue>
+    <commonName>fringed twinevine</commonName>
+    <taxonId provider="https://itis.gov">513718</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>genus</taxonRankName>
+    <taxonRankValue>Phacelia</taxonRankValue>
+    <commonName>scorpion weed</commonName>
+    <taxonId provider="https://itis.gov">31433</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Avena fatua</taxonRankValue>
+    <commonName>wild oats</commonName>
+    <taxonId provider="https://itis.gov">41458</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Lotus salsuginosus</taxonRankValue>
+    <commonName>coastal birds foot trefoil</commonName>
+    <taxonId provider="https://itis.gov">26402</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Camissonia californica</taxonRankValue>
+    <commonName>California suncup</commonName>
+    <taxonId provider="https://itis.gov">27479</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Lotus tomentellus</taxonRankValue>
+    <commonName>strigose birds foot trefoil</commonName>
+    <taxonId provider="https://itis.gov">516138</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Portulaca oleracea</taxonRankValue>
+    <commonName>wild portulaca</commonName>
+    <taxonId provider="https://itis.gov">20422</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Eucrypta chrysanthemifolia</taxonRankValue>
+    <commonName>spotted hideseed</commonName>
+    <taxonId provider="https://itis.gov">31377</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Brassica tournefortii</taxonRankValue>
+    <commonName>Asian mustard</commonName>
+    <taxonId provider="https://itis.gov">23064</taxonId>
+  </taxonomicClassification>
+  <taxonomicClassification>
+    <taxonRankName>species</taxonRankName>
+    <taxonRankValue>Bowlesia incana</taxonRankValue>
+    <commonName>hoary bowlesia</commonName>
+    <taxonId provider="https://itis.gov">29601</taxonId>
+  </taxonomicClassification>
+</eml:eml>
