@@ -151,7 +151,7 @@ read_attributes <- function(
     missingValues = mvframe
   )
 
-  attrs["columnClasses"] <- attrs[["classes"]]
+  attrs[["columnClasses"]] <- attrs[["classes"]]
 
   return(
     list(
