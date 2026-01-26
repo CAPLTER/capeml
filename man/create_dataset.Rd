@@ -18,6 +18,8 @@ EML entity of type dataset entity is returned.
 \details{
 A dataset entity, the central component of a data package, is
 created from objects in the user's R environment and supporting yaml files.
+Prior to processing, any existing annotations.yaml and custom_units.yaml in
+the working directory are removed silently to avoid stale metadata.
 A project (default is LTER) indicates contact and project details specific
 to the research. The abstract and methods must be in markdown format -
 package will look for these files (abstract.md, methods.md) in the project
