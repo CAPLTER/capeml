@@ -82,7 +82,7 @@ read_attributes <- function(
 
   # attributes ----------------------------------------------------------------
 
-  attrs <- read_attributes_file(
+  attrs <- capeml::read_attributes_file(
     string_pointer,
     entity_id
   )
@@ -92,17 +92,74 @@ read_attributes <- function(
   fcts <- NULL
 
   # load factor metadata from yaml or csv (default to yaml)
-
   if (file.exists(paste0(string_pointer, "_factors.yaml"))) {
 
-    fcts <- yaml.load_file(paste0(string_pointer, "_factors.yaml")) |>
-      yaml::yaml.load() |>
-      tibble::enframe() |>
-      tidyr::unnest_wider(value) |>
-      tidyr::unnest_wider(attribute) |>
-      tidyr::unnest_longer(levels) |>
-      tidyr::unnest_wider(levels) |>
-      dplyr::select(-one_of("name"))
+    yaml_path <- paste0(string_pointer, "_factors.yaml")
+
+    # Parse YAML file with informative errors
+    raw_fcts <- tryCatch(
+      yaml::yaml.load_file(yaml_path),
+      error = function(e) {
+        stop(paste0(
+          "Failed to parse YAML file '", yaml_path, "'. ",
+          e$message,
+          "\nHint: Check indentation and quoting. If the first non-empty line is '|',",
+          " the file is a literal block and will be parsed again as YAML text."
+        ))
+      }
+    )
+
+    # Parse again if literal block
+    if (is.character(raw_fcts) && length(raw_fcts) == 1) {
+      raw_text <- raw_fcts
+      raw_fcts <- tryCatch(
+        yaml::yaml.load(raw_text),
+        error = function(e) {
+          stop(paste0(
+            "Failed to parse YAML literal-block content in '", yaml_path, "'. ",
+            e$message,
+            "\nHint: Apostrophes in single-quoted strings (e.g., bachelor's, master's) cause parse errors.",
+            " Switch those values to double quotes."
+          ))
+        }
+      )
+    }
+
+    # Validate expected structure: sequence of entries each with 'attribute' mapping
+    if (!is.list(raw_fcts)) {
+      stop(paste0(
+        "YAML content in '", yaml_path, "' did not produce a sequence of factor entries.\n",
+        "Expected a list of items like '- attribute: { attributeName, levels: [...] }'."
+      ))
+    }
+
+    # Flatten to a tibble: attributeName, code, definition
+    fcts <- tryCatch(
+      purrr::map_df(raw_fcts, function(item) {
+        if (is.null(item$attribute) || !is.list(item$attribute)) {
+          stop("Each factor item must contain an 'attribute' mapping.")
+        }
+        an <- item$attribute$attributeName
+        lv <- item$attribute$levels
+        if (is.null(an) || is.null(lv)) {
+          stop("Factor item missing 'attributeName' or 'levels'.")
+        }
+        purrr::map_df(lv, function(l) {
+          tibble::tibble(
+            attributeName = as.character(an),
+            code          = as.character(l$code),
+            definition    = as.character(l$definition)
+          )
+        })
+      }),
+      error = function(e) {
+        stop(paste0(
+          "Failed to convert factors from '", yaml_path, "'. ",
+          e$message,
+          "\nHint: Ensure each level has 'code' and 'definition'."
+        ))
+      }
+    )
 
   } else if (file.exists(paste0(string_pointer, "_factors.csv"))) {
 
@@ -115,35 +172,50 @@ read_attributes <- function(
 
   # drop geometry columns from consideration if simple features
   if (class(object_pointer)[[1]] == "sf") {
-
     object_pointer <- object_pointer |>
       sf::st_drop_geometry()
-
   }
 
+  # Ensure MVC is character; warn and coerce if not
+  if (!is.null(missing_value_code) && !is.character(missing_value_code)) {
+    warning("missing_value_code is not character; coercing to character: ",
+            paste0(missing_value_code, collapse = ","))
+    missing_value_code <- as.character(missing_value_code)
+  }
+
+  # Seed empty tibble with correct column types
   missing_value_frame <- tibble::tibble(
     attributeName = as.character(),
     code          = as.character(),
     definition    = as.character()
   )
 
+  # Build per-column missing values with consistent character types
   mvframe <- purrr::map_df(
-    .x         = colnames(object_pointer),
-    .f         = capeml::write_missing_values,
-    storage    = missing_value_frame,
-    dataObject = object_pointer,
-    MVC        = missing_value_code
+    .x = colnames(object_pointer),
+    .f = function(.col) {
+      out <- capeml::write_missing_values(
+        .col,
+        storage    = missing_value_frame,
+        dataObject = object_pointer,
+        MVC        = missing_value_code
+      )
+      if (is.null(out)) {
+        out <- missing_value_frame
+      } else if (nrow(out) > 0) {
+        out$attributeName <- as.character(out$attributeName)
+        out$code          <- as.character(out$code)
+        out$definition    <- as.character(out$definition)
+      }
+      out
+    }
   )
 
   if (nrow(mvframe) == 0) {
-
     mvframe <- NULL
-
   }
 
-
   # return --------------------------------------------------------------------
-
   attr_list <- EML::set_attributes(
     attributes    = attrs[["attrs"]],
     factors       = fcts,

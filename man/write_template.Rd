@@ -4,12 +4,12 @@
 \alias{write_template}
 \title{Construct a template capeml workflow}
 \usage{
-capeml::write_template(
-      scope,
-      identifier,
-      path,
-      overwrite
-    )
+write_template(
+  scope = "knb-lter-cap",
+  identifier,
+  path = ".",
+  overwrite = FALSE
+)
 }
 \arguments{
 \item{scope}{(character) Quoted name of the package scope (e.g., "edi"). The default is

@@ -8,14 +8,6 @@
 #' metadata [template](https://globalfutures.asu.edu/caplter/data/submit-data/)
 #' that is part of the data submission process for the CAP LTER.
 #'
-#' @usage
-#'     capeml::write_template(
-#'       scope,
-#'       identifier,
-#'       path,
-#'       overwrite
-#'     )
-#'
 #' @param scope
 #'  (character) Quoted name of the package scope (e.g., "edi"). The default is
 #'  "knb-lter-cap".

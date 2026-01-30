@@ -30,7 +30,7 @@
 #' @importFrom utils read.csv
 #' @importFrom tidyr unnest_wider unnest_longer
 #' @importFrom tibble enframe
-#' @importFrom dplyr pull select select_if case_when mutate
+#' @importFrom dplyr pull select select_if case_when mutate bind_rows
 #'
 #' @return A list of a list of attributes and column classes
 #'
@@ -44,11 +44,64 @@ read_attributes_file <- function(
   # load attributes from yaml or csv (default to yaml)
   if (file.exists(paste0(string_pointer, "_attrs.yaml"))) {
 
-    attrs <- yaml::yaml.load_file(paste0(string_pointer, "_attrs.yaml"))
-    attrs <- yaml::yaml.load(attrs)
-    attrs <- tibble::enframe(attrs) |>
-      tidyr::unnest_wider(value) |>
-      dplyr::select(-one_of("name"))
+    yaml_path <- paste0(string_pointer, "_attrs.yaml")
+
+    # Parse YAML file with informative errors
+    attrs <- tryCatch(
+      yaml::yaml.load_file(yaml_path),
+      error = function(e) {
+        stop(paste0(
+          "Failed to parse YAML file '", yaml_path, "'. ",
+          e$message,
+          "\nHint: Check indentation and quoting. If the first non-empty line is '|',",
+          " the file is a literal block and will be parsed again as YAML text."
+        ))
+      }
+    )
+
+    # Parse again only if the YAML document is a block scalar (string)
+    if (is.character(attrs) && length(attrs) == 1) {
+      attrs_text <- attrs
+      attrs <- tryCatch(
+        yaml::yaml.load(attrs_text),
+        error = function(e) {
+          stop(paste0(
+            "Failed to parse YAML literal-block content in '", yaml_path, "'. ",
+            e$message,
+            "\nHint: Apostrophes in single-quoted strings (e.g., don't) cause parse errors.",
+            " Switch to double quotes for those values."
+          ))
+        }
+      )
+    }
+
+    # Validate structure before flattening
+    if (!is.list(attrs)) {
+      stop(paste0(
+        "YAML content in '", yaml_path, "' did not produce a mapping of attributes.\n",
+        "Expected a named list of attribute entries; got: ", typeof(attrs)
+      ))
+    }
+    if (is.null(names(attrs)) || any(names(attrs) == "")) {
+      stop(paste0(
+        "Top-level YAML mapping in '", yaml_path, "' has missing attribute names.\n",
+        "Ensure each attribute (e.g., CASE_ID, Q1) is a named key."
+      ))
+    }
+
+    # Robustly convert named list-of-lists to a tibble
+    attrs <- tryCatch(
+      dplyr::bind_rows(attrs, .id = "name") |>
+        dplyr::select(-name),
+      error = function(e) {
+        stop(paste0(
+          "Failed to convert attributes to a data frame from '", yaml_path, "'. ",
+          e$message,
+          "\nHint: Each attribute entry must be a mapping (named list) of fields like",
+          " attributeName, attributeDefinition, columnClasses."
+        ))
+      }
+    )
 
   } else if (!file.exists(paste0(string_pointer, "_attrs.yaml")) && file.exists(paste0(string_pointer, "_attrs.csv"))) {
 
@@ -58,6 +111,14 @@ read_attributes_file <- function(
 
     stop(paste0("attributes file: ", string_pointer, "_attrs.yaml ", "not found in ", getwd()))
 
+  }
+
+  # Ensure required columns exist
+  if (!"columnClasses" %in% names(attrs)) {
+    stop("Required field 'columnClasses' missing in attributes. Ensure each attribute defines 'columnClasses'.")
+  }
+  if (!"attributeDefinition" %in% names(attrs)) {
+    attrs$attributeDefinition <- NA_character_
   }
 
   # column classes to vector (required by EML::set_attributes)
@@ -78,7 +139,7 @@ read_attributes_file <- function(
 
   attrs <- attrs |>
     dplyr::mutate(
-      id         = paste0(entity_id, "_", row.names(attrs)),
+      id         = paste0(entity_id, "_", seq_len(nrow(attrs))),
       definition = NA_character_,
       definition = dplyr::case_when(
         grepl("character", columnClasses) & ((is.na(definition) | definition == "")) ~ attributeDefinition,
