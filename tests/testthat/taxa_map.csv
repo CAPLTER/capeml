@@ -1,0 +1,48 @@
+scientific_name,taxa_clean,taxonID,taxonRank,acceptedNameUsageID,taxonomicStatus,update_date,kingdom,phylum,class,order,family,genus,specificEpithet,infraspecificEpithet,vernacularName
+Dichondra micrantha,Dichondra micrantha,ITIS:30839,species,ITIS:30839,accepted,2012-01-27,Plantae,NA,Magnoliopsida,Solanales,Convolvulaceae,Dichondra,micrantha,,Asian ponysfoot
+Rafinesquia neomexicana,Rafinesquia neomexicana,ITIS:38331,species,ITIS:38331,accepted,2010-10-05,Plantae,NA,Magnoliopsida,Asterales,Asteraceae,Rafinesquia,neomexicana,,New Mexico plumeseed
+Bromus rubens,Bromus rubens,ITIS:40518,species,ITIS:40518,accepted,2010-11-30,Plantae,NA,Magnoliopsida,Poales,Poaceae,Bromus,rubens,,red brome
+Atriplex,Atriplex,ITIS:20505,genus,ITIS:20505,accepted,2014-06-26,NA,NA,NA,NA,NA,NA,,,saltbush
+Phacelia distans,Phacelia distans,ITIS:31485,species,ITIS:31485,accepted,2011-12-08,Plantae,NA,Magnoliopsida,Boraginales,Hydrophyllaceae,Phacelia,distans,,distant phacelia
+Hordeum murinum,Hordeum murinum,ITIS:40881,species,ITIS:40881,accepted,2010-11-30,Plantae,NA,Magnoliopsida,Poales,Poaceae,Hordeum,murinum,,mouse barley
+Uropappus lindleyi,Uropappus lindleyi,ITIS:565589,species,ITIS:565589,accepted,2010-10-05,Plantae,NA,Magnoliopsida,Asterales,Asteraceae,Uropappus,lindleyi,,Lindleys silverpuffs
+Cryptantha maritima,Cryptantha maritima,ITIS:31833,species,ITIS:31833,accepted,2011-12-08,Plantae,NA,Magnoliopsida,Boraginales,Boraginaceae,Cryptantha,maritima,,Guadalupe cryptantha
+Schismus,Schismus,ITIS:42064,genus,ITIS:42064,accepted,2010-11-30,NA,NA,NA,NA,NA,NA,,,Mediterranean grass
+Vulpia octoflora,Vulpia octoflora,ITIS:42264,species,ITIS:42264,accepted,2010-11-30,Plantae,NA,Magnoliopsida,Poales,Poaceae,Vulpia,octoflora,,sixweeks grass
+Herniaria hirsuta,Herniaria hirsuta,ITIS:502957,species,ITIS:502957,accepted,2011-08-30,Plantae,NA,Magnoliopsida,Caryophyllales,Caryophyllaceae,Herniaria,hirsuta,,hairy rupturewort
+Sphaeralcea coulteri,Sphaeralcea coulteri,ITIS:21924,species,ITIS:21924,accepted,2020-08-28,Plantae,NA,Magnoliopsida,Malvales,Malvaceae,Sphaeralcea,coulteri,,Coulters globemallow
+Lepidium lasiocarpum,Lepidium lasiocarpum,ITIS:22967,species,ITIS:22967,accepted,2011-08-30,Plantae,NA,Magnoliopsida,Brassicales,Brassicaceae,Lepidium,lasiocarpum,,shaggyfruit pepperweed
+unknown,unknown,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Astragalus,Astragalus,ITIS:25392,genus,ITIS:25392,accepted,2011-06-29,NA,NA,NA,NA,NA,NA,,,milkvetch
+Claytonia perfoliata ssp. mexicana (Rydb.) Miller & Chambers,Claytonia perfoliata,ITIS:20395,species,ITIS:20395,accepted,2012-03-29,Plantae,NA,Magnoliopsida,Caryophyllales,Montiaceae,Claytonia,perfoliata,,minerslettuce
+Baileya multiradiata,Baileya multiradiata,ITIS:36799,species,ITIS:36799,accepted,2010-10-05,Plantae,NA,Magnoliopsida,Asterales,Asteraceae,Baileya,multiradiata,,desert marigold
+Erodium cicutarium,Erodium cicutarium,ITIS:29147,species,ITIS:29147,accepted,2012-06-27,Plantae,NA,Magnoliopsida,Geraniales,Geraniaceae,Erodium,cicutarium,,storks bill
+Plantago ovata,Plantago ovata,ITIS:504438,species,ITIS:504438,accepted,2011-09-22,Plantae,NA,Magnoliopsida,Lamiales,Plantaginaceae,Plantago,ovata,,desert Indianwheat
+Rhus lancea,Rhus lancea,ITIS:895126,species,ITIS:28814,synonym,2012-06-27,Plantae,NA,Magnoliopsida,Sapindales,Anacardiaceae,Searsia,lancea,,NA
+Oxalis albicans,Oxalis albicans,ITIS:504076,species,ITIS:504076,accepted,2012-08-29,Plantae,NA,Magnoliopsida,Oxalidales,Oxalidaceae,Oxalis,albicans,,radishroot woodsorrel
+Cyperus,Cyperus,ITIS:39882,genus,ITIS:39882,accepted,2011-02-04,NA,NA,NA,NA,NA,NA,,,flatsedge
+Sisymbrium irio,Sisymbrium irio,ITIS:23314,species,ITIS:23314,accepted,2011-08-30,Plantae,NA,Magnoliopsida,Brassicales,Brassicaceae,Sisymbrium,irio,,rocketmustard
+Eragrostis cilianensis,Eragrostis cilianensis,ITIS:40719,species,ITIS:40719,accepted,2010-11-30,Plantae,NA,Magnoliopsida,Poales,Poaceae,Eragrostis,cilianensis,,strongscented lovegrass
+Pennisetum ciliare,Pennisetum ciliare,ITIS:504198,species,ITIS:40574,synonym,2010-11-30,Plantae,NA,Magnoliopsida,Poales,Poaceae,Cenchrus,ciliaris,,buffelgrass
+Sorghum halepense,Sorghum halepense,ITIS:42111,species,ITIS:42111,accepted,2010-11-30,Plantae,NA,Magnoliopsida,Poales,Poaceae,Sorghum,halepense,,zacate Johnson
+Aristida adscensionis,Aristida adscensionis,ITIS:41401,species,ITIS:41401,accepted,2010-11-30,Plantae,NA,Magnoliopsida,Poales,Poaceae,Aristida,adscensionis,,sixweeks threeawn
+Oncosiphon pilulifer,Oncosiphon pilulifer,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Schismus barbatus,Schismus barbatus,ITIS:42066,species,ITIS:42066,accepted,2010-11-30,Plantae,NA,Magnoliopsida,Poales,Poaceae,Schismus,barbatus,,Mediterraneangrass
+Boerhavia coccinea,Boerhavia coccinea,ITIS:501005,species,ITIS:501005,accepted,2012-06-27,Plantae,NA,Magnoliopsida,Caryophyllales,Nyctaginaceae,Boerhavia,coccinea,,scarlet spiderling
+Amsinckia menziesii,Amsinckia menziesii,ITIS:31711,species,ITIS:31711,accepted,2011-12-08,Plantae,NA,Magnoliopsida,Boraginales,Boraginaceae,Amsinckia,menziesii,,Menzies fiddleneck
+Cyperaceae,Cyperaceae,ITIS:39357,family,ITIS:39357,accepted,2014-12-22,NA,NA,NA,NA,NA,NA,,,sedges
+Amsinckia intermedia,Amsinckia intermedia,ITIS:31709,species,ITIS:31709,accepted,2011-12-08,Plantae,NA,Magnoliopsida,Boraginales,Boraginaceae,Amsinckia,intermedia,,fiddleneck
+Erodium texanum,Erodium texanum,ITIS:29153,species,ITIS:29153,accepted,2012-06-27,Plantae,NA,Magnoliopsida,Geraniales,Geraniaceae,Erodium,texanum,,tufted filaree
+Eragrostis mexicana,Eragrostis mexicana,ITIS:40749,species,ITIS:40749,accepted,2010-11-30,Plantae,NA,Magnoliopsida,Poales,Poaceae,Eragrostis,mexicana,,Mexican lovegrass
+Funastrum cynanchoides,Funastrum cynanchoides,ITIS:513718,species,ITIS:513718,accepted,2012-05-31,Plantae,NA,Magnoliopsida,Gentianales,Apocynaceae,Funastrum,cynanchoides,,fringed twinevine
+Phacelia,Phacelia,ITIS:31433,genus,ITIS:31433,accepted,2014-12-22,NA,NA,NA,NA,NA,NA,,,scorpion weed
+Avena fatua,Avena fatua,ITIS:41458,species,ITIS:41458,accepted,2010-11-30,Plantae,NA,Magnoliopsida,Poales,Poaceae,Avena,fatua,,wild oats
+Lotus salsuginosus,Lotus salsuginosus,ITIS:26402,species,ITIS:820052,synonym,2011-06-29,Plantae,NA,Magnoliopsida,Fabales,Fabaceae,Acmispon,maritimus,,coastal birds foot trefoil
+Camissonia californica,Camissonia californica,ITIS:27479,species,ITIS:513285,synonym,2011-12-08,Plantae,NA,Magnoliopsida,Myrtales,Onagraceae,Eulobus,californicus,,California suncup
+Lotus tomentellus,Lotus tomentellus,ITIS:516138,species,ITIS:819968,synonym,2011-06-29,Plantae,NA,Magnoliopsida,Fabales,Fabaceae,Acmispon,strigosus,,strigose birds foot trefoil
+Portulaca oleracea,Portulaca oleracea,ITIS:20422,species,ITIS:20422,accepted,2012-03-29,Plantae,NA,Magnoliopsida,Caryophyllales,Portulacaceae,Portulaca,oleracea,,wild portulaca
+Eucrypta chrysanthemifolia,Eucrypta chrysanthemifolia,ITIS:31377,species,ITIS:31377,accepted,2011-12-08,Plantae,NA,Magnoliopsida,Boraginales,Hydrophyllaceae,Eucrypta,chrysanthemifolia,,spotted hideseed
+Brassica tournefortii,Brassica tournefortii,ITIS:23064,species,ITIS:23064,accepted,2011-08-30,Plantae,NA,Magnoliopsida,Brassicales,Brassicaceae,Brassica,tournefortii,,Asian mustard
+Bowlesia incana,Bowlesia incana,ITIS:29601,species,ITIS:29601,accepted,2011-07-25,Plantae,NA,Magnoliopsida,Apiales,Apiaceae,Bowlesia,incana,,hoary bowlesia
+NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+carrot,carrot,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA

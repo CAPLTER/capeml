@@ -2,7 +2,7 @@
 format: gfm
 ---
 
-<!-- readme.md is generated from readme.rmd. please edit the latter. -->
+<!-- README.md is generated from README.qmd. Please edit README.qmd, then render with: quarto render README.qmd --to gfm --output README.md -->
 
 <br>
 <br>
@@ -119,7 +119,25 @@ rich_methods <- EML::eml$methods(
 
 *Geographic* and *temporal* coverages are straightforward and documented in the work flow, but creating a *taxonomic* coverage is a bit more involved.
 
+##### when do you need capemlTaxa?
+
+| Scenario | Package(s) needed |
+|---|---|
+| You have `taxa_map.csv` from a previous run and taxa have not changed | `capeml` only |
+| You are building EML from an already-curated taxonomy table | `capeml` only |
+| You need to query ITIS to map raw taxon names for the first time | `capeml` + `capemlTaxa` |
+| Taxa have changed and `taxa_map.csv` must be refreshed | `capeml` + `capemlTaxa` |
+
+Taxonomic metadata assembly (`create_taxonomicCoverage`) always stays in `capeml`; only the initial lookup step (`write_taxa_map`) lives in `capemlTaxa`.
+
 A sample work flow for creating a taxonomic coverage:
+
+Install capemlTaxa only when you need to generate or refresh `taxa_map.csv`:
+
+```{r}
+#| eval: false
+pak::pak("caplter/capemlTaxa")
+```
 
 ```{r}
 #| eval: false
@@ -141,7 +159,7 @@ taxa <- dplyr::bind_rows(
   dplyr::distinct(scientific_name) |>
   as.data.frame()
 
-capeml::write_taxa_map(
+capemlTaxa::write_taxa_map(
   taxa_df  = taxa,
   taxa_col = scientific_name
 )
@@ -155,7 +173,7 @@ coverage$taxonomicCoverage <- taxaCoverage
 
 gambelQuail <- tibble::tibble(taxName = "Callipepla gambelii")
 
-capeml::write_taxa_map(
+capemlTaxa::write_taxa_map(
   taxa_df  = gambelQuail,
   taxa_col = taxName 
 )
