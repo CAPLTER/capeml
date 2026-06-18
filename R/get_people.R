@@ -212,13 +212,35 @@ get_person_attributes <- function(
 
   if (nrow(author) > 1) {
 
-    message("more than one record identified")
-    author <- NULL
+    candidate_names <- unique(
+      paste(author$first_name, author$last_name)
+    )
+
+    stop(
+      paste0(
+        "ambiguous person match in data source: ",
+        "last_name='", this_last_name, "'",
+        if (!is.null(this_first_name)) paste0(", first_name='", this_first_name, "'") else "",
+        "; matched ", nrow(author), " records in '", this_data_source, "'. ",
+        "Candidates include: ",
+        paste(utils::head(candidate_names, 5), collapse = ", "),
+        if (length(candidate_names) > 5) " ..." else "",
+        ". Provide a more specific name in people.yaml or deduplicate the data source."
+      ),
+      call. = FALSE
+    )
 
   } else if (nrow(author) < 1) {
 
-    message("person not found")
-    author <- NULL
+    stop(
+      paste0(
+        "person not found in data source: ",
+        "last_name='", this_last_name, "'",
+        if (!is.null(this_first_name)) paste0(", first_name='", this_first_name, "'") else "",
+        ", source='", this_data_source, "'."
+      ),
+      call. = FALSE
+    )
 
   } else {
 
