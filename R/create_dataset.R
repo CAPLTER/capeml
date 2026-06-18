@@ -33,18 +33,18 @@ create_dataset <- function(
   ) {
 
   # pre-processing cleanup: remove stale unit/annotation YAMLs if present
-  if (file.exists("annotations.yaml")) {
-    try(file.remove("annotations.yaml"), silent = TRUE)
-  }
-  if (file.exists("custom_units.yaml")) {
-    try(file.remove("custom_units.yaml"), silent = TRUE)
-  }
-
-  # confirm required components exist in R environment
-
-  if (!exists("coverage")) {
-    stop("missing coverage")
-  }
+  # if (file.exists("annotations.yaml")) {
+  #   try(file.remove("annotations.yaml"), silent = TRUE)
+  # }
+  # if (file.exists("custom_units.yaml")) {
+  #   try(file.remove("custom_units.yaml"), silent = TRUE)
+  # }
+  #
+  # # confirm required components exist in R environment
+  #
+  # if (!exists("coverage")) {
+  #   stop("missing coverage")
+  # }
 
 
   # retrieve dataset details from config.yaml
