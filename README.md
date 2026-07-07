@@ -190,6 +190,8 @@ Alternatively, the work flow below is an approach of developing methods
 if provenance data are required or there are multiple methods files.
 
 ``` r
+capeml::edi_login()
+
 # methods from file tagged as markdown
 main <- list(description = capeml::read_markdown("methods.md"))
 

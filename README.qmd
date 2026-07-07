@@ -140,6 +140,8 @@ Alternatively, the work flow below is an approach of developing methods if prove
 
 ```{r rich_methods, eval=FALSE}
 
+capeml::edi_login()
+
 # methods from file tagged as markdown
 main <- list(description = capeml::read_markdown("methods.md"))
 
