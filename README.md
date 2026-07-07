@@ -30,12 +30,55 @@ directory, or with the `write_template` function.
 
 ### installation
 
-Install from GitHub (after installing the
-[devtools](https://cran.r-project.org/web/packages/devtools/index.html)
-package):
+Install from GitHub with [pak](https://pak.r-lib.org/):
 
 ``` r
 pak::pak("CAPLTER/capeml")
+```
+
+### local PostgreSQL connections
+
+`capeml` now includes `pg_local_connect()` as a convenience helper for
+local PostgreSQL workflows that rely on the modern
+[`RPostgres`](https://rpostgres.r-dbi.org/) backend.
+
+The function connects to `localhost` and resolves credentials with the
+following precedence:
+
+- `user` / `password` arguments, if supplied
+- `DB_USER` / `POSTGRES` from `~/.Renviron`
+
+Database selection precedence is:
+
+- explicit `db` argument
+- `options(pg_local_db = ...)`
+- `PG_LOCAL_DB` from `~/.Renviron`
+- default `"caplter"`
+
+For repeat use, place credentials in `~/.Renviron`:
+
+``` text
+DB_USER=your_username
+POSTGRES=your_password
+PG_LOCAL_DB=caplter
+```
+
+Then connect with:
+
+``` r
+pg <- capeml::pg_local_connect()
+```
+
+If you need to override environment values for a particular session,
+pass them explicitly:
+
+``` r
+pg <- capeml::pg_local_connect(
+  db       = "caplter",
+  host     = "my-db-host",
+  user     = "my_user",
+  password = "my_password"
+)
 ```
 
 ### options
