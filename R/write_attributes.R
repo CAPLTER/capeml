@@ -249,6 +249,17 @@ attributes_to_yaml <- function(variable, varName) {
     )
 
   } else if (
+      inherits(variable, "difftime") ||
+      check_class(variable) %in% c("hms", "time")
+    ) {
+
+    variableAttributes <- c(
+      variableAttributes,
+      columnClasses = "character",
+      definition    = ""
+    )
+
+  } else if (
       lubridate::is.Date(variable) ||
       lubridate::is.POSIXt(variable) ||
       lubridate::is.POSIXlt(variable) ||
