@@ -39,21 +39,12 @@ create_dataset <- function(
   # if (file.exists("custom_units.yaml")) {
   #   try(file.remove("custom_units.yaml"), silent = TRUE)
   # }
-<<<<<<< HEAD
-  #
-  # # confirm required components exist in R environment
-  #
-  # if (!exists("coverage")) {
-  #   stop("missing coverage")
-  # }
-=======
 
   # confirm required components exist in R environment
 
   if (!exists("coverage")) {
     stop("missing coverage")
   }
->>>>>>> aaecab6 (fix: improve error handling in get_person_attributes for ambiguous and missing matches; add corresponding tests)
 
 
   # retrieve dataset details from config.yaml
