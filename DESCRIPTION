@@ -22,7 +22,6 @@ Imports:
     tibble,
     tools,
     yaml,
-    sf,
     stats,
     rcrossref,
     tidyr,
@@ -37,7 +36,10 @@ Imports:
 Suggests: 
     testthat (>= 3.0.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    capemlVector
+Remotes:
+    CAPLTER/capemlVector
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.0.0

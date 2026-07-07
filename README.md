@@ -16,9 +16,12 @@ and individual data entities (e.g., other entities, data tables).
 
 Helper functions for the creation of dataset metadata for dataTable and
 otherEntity objects using the [EML](https://docs.ropensci.org/EML/)
-package are supported. This package can be extended with the
-[capemlGIS](https://github.com/caplter/capemlgis) package to generate
-metadata for spatialRaster and spatialVector objects.
+package are supported. The package can be extended with companion
+packages for spatial data:
+[capemlVector](https://github.com/CAPLTER/capemlVector) for
+`spatialVector` (KML, GeoJSON, shapefile) metadata, and
+[capemlGIS](https://github.com/CAPLTER/capemlGIS) for `spatialRaster`
+metadata.
 
 A template work flow is available as part of this package. The template
 is automatically generated if a new project is created with
@@ -32,7 +35,7 @@ Install from GitHub (after installing the
 package):
 
 ``` r
-devtools::install_github("CAPLTER/capeml")
+pak::pak("CAPLTER/capeml")
 ```
 
 ### options
@@ -44,9 +47,9 @@ the previous version with `emld::eml_version("eml-2.1.1")`.
 
 #### project naming
 
-Most EML-generating functions in the capeml and capemlGIS packages will
-create both physical objects and EML references to those objects. By
-default, the package will name output files with the format
+Most EML-generating functions in the capeml ecosystem will create both
+physical objects and EML references to those objects. By default, the
+package will name output files with the format
 `identifier`\_`object-name`.`file-extension` (e.g., *664_site_map.png*).
 The target object (e.g., my_map.png) is renamed with the additional
 metadata and this object name is referenced in the EML metadata. Project
