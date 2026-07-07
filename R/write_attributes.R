@@ -30,7 +30,6 @@
 #' @import dplyr
 #' @import yaml
 #' @importFrom purrr map_chr map2
-#' @importFrom sf st_drop_geometry
 #' @importFrom stats na.omit
 #' @importFrom lubridate is.POSIXt is.POSIXlt is.POSIXct
 #'
@@ -81,12 +80,7 @@ write_attributes <- function(
 
   # do not write geometry column(s) if simple features
 
-  if (class(data_object)[[1]] == "sf") {
-
-    data_object <- data_object |>
-    sf::st_drop_geometry()
-
-  }
+  data_object <- drop_geometry(data_object)
 
 
   attribute_list <- purrr::map2(
