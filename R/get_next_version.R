@@ -5,7 +5,10 @@
 #' exist (i.e., we are constructing a new package), \code{get_next_version}
 #' will return `1` and display a corresponding note.
 #'
-#' @details \code{get_next_version} is a helper function designed to aid
+#' @details `get_next_version()` authenticates automatically with EDI using
+#' the `EDI_USER` and `EDI_PASS` environment variables when needed.
+#'
+#' \code{get_next_version} is a helper function designed to aid
 #' construction of a package identifier (e.g., the version `5` of
 #' `knb-lter-cap.624.5`). As such, the most common use case is that the
 #' function will be called internally from \code{capeml::createDataset} but the
@@ -42,6 +45,8 @@ get_next_version <- function(
   provided_identifier,
   display_message = FALSE
   ) {
+
+  capeml::edi_login()
 
   # ensure supplied scope features scope only (i.e., not package number or version)
   cleaned_scope <- stringr::str_extract(

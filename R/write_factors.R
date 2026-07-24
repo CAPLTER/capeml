@@ -25,7 +25,6 @@
 #' @import dplyr
 #' @import yaml
 #' @importFrom purrr map
-#' @importFrom sf st_drop_geometry
 #'
 #' @return The name of the file generated is returned, and a template for
 #' providing code definition metadata as a yaml file with the file name of the
@@ -96,12 +95,7 @@ write_factors <- function(dfname, overwrite = FALSE) {
 
   # drop geometry for sf objects
 
-  if (class(dfname)[[1]] == "sf") {
-
-    dfname <- dfname |>
-      sf::st_drop_geometry()
-
-  }
+  dfname <- drop_geometry(dfname)
 
 
   # list of factors in target data entity (drop geometry for sf objects)

@@ -13,6 +13,7 @@ License: CC0
 Encoding: UTF-8
 LazyData: true
 Imports:
+  DBI,
     stringr,
     dplyr,
     readr,
@@ -22,7 +23,6 @@ Imports:
     tibble,
     tools,
     yaml,
-    sf,
     stats,
     rcrossref,
     tidyr,
@@ -30,6 +30,7 @@ Imports:
     xml2,
     EDIutils,
     rlang,
+    RPostgres,
     aws.s3,
     withr,
     rdflib,
@@ -37,7 +38,10 @@ Imports:
 Suggests: 
     testthat (>= 3.0.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    capemlVector
+Remotes:
+    CAPLTER/capemlVector
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.0.0

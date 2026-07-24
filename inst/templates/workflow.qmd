@@ -124,7 +124,6 @@ lapply(
   FUN = capeml::data_to_amz
 )
 
-source("~/Documents/localSettings/edi.R")
 capeml::get_package_evaluation(full_report = FALSE)
 
 # report <- capeml::get_package_evaluation(full_report = TRUE)

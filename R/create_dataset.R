@@ -4,8 +4,10 @@
 #'
 #' @details A dataset entity, the central component of a data package, is
 #' created from objects in the user's R environment and supporting yaml files.
-#' Prior to processing, any existing annotations.yaml and custom_units.yaml in
-#' the working directory are removed silently to avoid stale metadata.
+#' Prior to processing, any existing annotations.yaml in the working directory
+#' is removed silently to avoid stale unit-annotation references. Existing
+#' custom_units.yaml content is preserved because it may contain investigator-
+#' authored descriptions that are merged forward by unit name.
 #' A project (default is LTER) indicates contact and project details specific
 #' to the research. The abstract and methods must be in markdown format -
 #' package will look for these files (abstract.md, methods.md) in the project
@@ -32,13 +34,12 @@ create_dataset <- function(
   publication_date = NULL
   ) {
 
-  # pre-processing cleanup: remove stale unit/annotation YAMLs if present
-  # if (file.exists("annotations.yaml")) {
-  #   try(file.remove("annotations.yaml"), silent = TRUE)
-  # }
-  # if (file.exists("custom_units.yaml")) {
-  #   try(file.remove("custom_units.yaml"), silent = TRUE)
-  # }
+  # pre-processing cleanup: remove stale generated unit annotations.
+  # Keep custom_units.yaml because it may contain investigator-authored
+  # descriptions that write_units() merges by unit name.
+  if (file.exists("annotations.yaml")) {
+    try(file.remove("annotations.yaml"), silent = TRUE)
+  }
 
   # confirm required components exist in R environment
 

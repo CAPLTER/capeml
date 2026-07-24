@@ -13,6 +13,10 @@
 #' can be provided by the user but, in that case, both parameters must be
 #' provided.
 #'
+#' @note `get_package_evaluation()` automatically authenticates with EDI using
+#' the `EDI_USER` and `EDI_PASS` environment variables when an EDI session is
+#' not already active.
+#'
 #' @note If warns or errors are returned, we can view the full report to
 #' examine the details of those problems. For example, write the report to file
 #' with \code{xml2::write_xml(report, "/tmp/report.xml")}, and search for e.g.,
@@ -37,6 +41,8 @@ get_package_evaluation <- function(
   scope       = NULL,
   full_report = FALSE
   ) {
+
+  capeml::edi_login()
 
   if (is.null(identifier) || is.null(scope)) {
 

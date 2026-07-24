@@ -51,7 +51,6 @@
 #' @importFrom dplyr select 
 #' @importFrom EML set_attributes
 #' @importFrom purrr map_df
-#' @importFrom sf st_drop_geometry
 #' @importFrom rlang get_expr is_expression
 #'
 #' @return A entity of type EML attributes or list of attributes (for testing
@@ -171,10 +170,7 @@ read_attributes <- function(
   # missing value coding ------------------------------------------------------
 
   # drop geometry columns from consideration if simple features
-  if (class(object_pointer)[[1]] == "sf") {
-    object_pointer <- object_pointer |>
-      sf::st_drop_geometry()
-  }
+  object_pointer <- drop_geometry(object_pointer)
 
   # Ensure MVC is character; warn and coerce if not
   if (!is.null(missing_value_code) && !is.character(missing_value_code)) {
