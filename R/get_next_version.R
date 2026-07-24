@@ -46,7 +46,7 @@ get_next_version <- function(
   display_message = FALSE
   ) {
 
-  edi_login()
+  capeml::edi_login()
 
   # ensure supplied scope features scope only (i.e., not package number or version)
   cleaned_scope <- stringr::str_extract(

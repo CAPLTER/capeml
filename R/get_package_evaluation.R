@@ -42,7 +42,7 @@ get_package_evaluation <- function(
   full_report = FALSE
   ) {
 
-  edi_login()
+  capeml::edi_login()
 
   if (is.null(identifier) || is.null(scope)) {
 

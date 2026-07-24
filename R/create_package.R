@@ -40,7 +40,7 @@ create_package <- function(
   ) {
 
   if (is.null(version)) {
-    edi_login()
+    capeml::edi_login()
   }
 
   if (is.null(identifier) || is.null(scope)) {
