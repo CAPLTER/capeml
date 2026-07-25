@@ -6,15 +6,16 @@ pillar inline in code comments, commit messages, or `CHANGELOG.md` entries.
 
 ## Why a local folder instead of an MCP filesystem server?
 
-`docs/waf/` is inside the workspace, so the agent already has read access via
-its native file tools. A filesystem MCP server here would add process overhead
-without adding capability. Use an MCP server only to reach docs **outside** the
-workspace or a live external source (e.g. `context7`, `microsoft-learn`).
+`.github/ai-reference/waf/` is inside the workspace, so the agent already has
+read access via its native file tools. A filesystem MCP server here would add
+process overhead without adding capability. Use an MCP server only to reach
+docs **outside** the workspace or a live external source (e.g. `context7`,
+`microsoft-learn`).
 
 ## Layout
 
 ```
-docs/waf/
+.github/ai-reference/waf/
 ├── README.md          # this file
 └── pillars/
     ├── reliability.md

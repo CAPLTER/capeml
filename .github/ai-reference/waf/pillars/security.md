@@ -3,6 +3,7 @@
 Least privilege, clean provenance, no leaked secrets or sensitive data.
 
 ## Checklist
+
 - [ ] No credentials, tokens, or PII committed (use env vars / `keyring`).
 - [ ] Dependencies from trusted sources; provenance/versions pinned.
 - [ ] Inputs validated at system boundaries (OWASP Top 10 where web-facing).
@@ -12,5 +13,6 @@ Least privilege, clean provenance, no leaked secrets or sensitive data.
       possible).
 
 ## Trade-off prompts
+
 - What is the blast radius if a token here leaks?
 - Does any convenience (broad tool access) expand privilege unnecessarily?

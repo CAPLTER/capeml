@@ -11,8 +11,8 @@ Before implementing anything non-trivial:
 
 1. **State the intent** — one sentence: what does this change do and why?
 2. **Note relevant WAF pillars** — which of the five pillars apply, and is
-   there an obvious trade-off to flag? (See below; consult `docs/waf/` for
-   checklists.)
+   there an obvious trade-off to flag? (See below; consult
+   `.github/ai-reference/waf/` for checklists.)
 3. **Implement** — keep changes scoped; if scope expands materially, pause and
    re-state intent.
 4. **Verify** — run tests/linters; confirm the change behaves as stated.
@@ -24,7 +24,8 @@ companion spec-driven template instead.
 ## Well-Architected pillars (decision lens)
 
 For non-trivial choices, note which pillar(s) you are optimizing for and what
-you trade away. Full checklists are in `docs/waf/pillars/`.
+you trade away. Full checklists are in
+`.github/ai-reference/waf/pillars/`.
 
 - **Reliability** — reproducibility, error handling, idempotency, recovery.
 - **Security** — least privilege, secret handling, dependency provenance,

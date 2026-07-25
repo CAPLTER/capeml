@@ -3,6 +3,7 @@
 Automation, observability, and documentation so the work is maintainable.
 
 ## Checklist
+
 - [ ] CI runs tests/linters on every change.
 - [ ] Formatting/linting automated (`styler`/`lintr`, `ruff`/`black`).
 - [ ] Rationale for non-obvious decisions captured in comments or `CHANGELOG.md`.
@@ -10,5 +11,6 @@ Automation, observability, and documentation so the work is maintainable.
 - [ ] README explains setup, run, and verify steps.
 
 ## Trade-off prompts
+
 - Could a new contributor run and verify this without tribal knowledge?
 - What manual step should be automated next?
