@@ -53,6 +53,7 @@ EDI data repository.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_package</span><span class="op">(</span></span>
 <span>  identifier <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  scope <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  version <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  environment <span class="op">=</span> <span class="st">"staging"</span>,</span>
 <span>  update <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -70,6 +71,12 @@ EDI data repository.</p>
 <dd><p>(character) Quoted package scope (e.g., "knb-lter-cap", "edi")</p></dd>
 
 
+<dt id="arg-version">version<a class="anchor" aria-label="anchor" href="#arg-version"></a></dt>
+<dd><p>(integer) Unquoted package version integer. If omitted, `create_package()`
+will determine the next version with `get_next_version()`. If supplied,
+that value is used directly and automatic EDI login is skipped.</p></dd>
+
+
 <dt id="arg-environment">environment<a class="anchor" aria-label="anchor" href="#arg-environment"></a></dt>
 <dd><p>(character) Quoted name of the EDI environment where the data package
 should be created, can be: production, staging (default), or development.</p></dd>
@@ -85,8 +92,10 @@ should be updated.</p></dd>
     <p><code>create_package</code> will look for a config.yaml file to estalish the
 package scope and identifier. Alternatively, these parameters can be
 provided by the user but, in that case, both parameters must be provided.</p>
-<p>The user must have established a connection to the EDI API (see
-EDIutils::login) in the current R session.</p>
+<p>`create_package()` uses the EDI API key stored in the `EDI_API_KEY`
+environment variable. If `version` is supplied manually, the automatic
+`edi_login()` and version lookup steps are skipped, but EDI still requires
+the API key for package creation or update.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

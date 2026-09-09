@@ -7,10 +7,10 @@
 #' package scope and identifier. Alternatively, these parameters can be
 #' provided by the user but, in that case, both parameters must be provided.
 #'
-#' @note `create_package()` automatically authenticates with EDI using the
-#' `EDI_USER` and `EDI_PASS` environment variables when an EDI session is not
-#' already active. If `version` is supplied manually, that automatic login step
-#' is skipped.
+#' @note `create_package()` uses the EDI API key stored in the `EDI_API_KEY`
+#' environment variable. If `version` is supplied manually, the automatic
+#' `edi_login()` and version lookup steps are skipped, but EDI still requires
+#' the API key for package creation or update.
 #'
 #' @param identifier
 #'  (integer) Unquoted package identifier integer

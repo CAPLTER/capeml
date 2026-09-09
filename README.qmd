@@ -138,6 +138,9 @@ The `create_dataset` function will look for a `methods.md` file in the working d
 
 Alternatively, the work flow below is an approach of developing methods if provenance data are required or there are multiple methods files.
 
+EDI API requests require an API key. Store the key as `EDI_API_KEY` in
+`~/.Renviron`, restart R, and keep the key out of scripts and version control.
+
 ```{r rich_methods, eval=FALSE}
 
 capeml::edi_login()

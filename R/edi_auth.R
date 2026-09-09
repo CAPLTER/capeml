@@ -1,8 +1,8 @@
-#' @title Log in to EDI with environment variables
+#' @title Configure EDI API key authentication
 #'
-#' @description `edi_login()` establishes an EDI session for the current R
-#' process when one is not already present. Credentials are read from the
-#' `EDI_USER` and `EDI_PASS` environment variables.
+#' @description `edi_login()` ensures that an EDI API key is available to the
+#' current R process. The key is read from the `EDI_API_KEY` environment
+#' variable.
 #'
 #' @details `capeml` calls this helper automatically before package functions
 #' that use `EDIutils`. Call it directly in interactive workflows when you need
@@ -10,40 +10,31 @@
 #' `EDIutils::get_provenance_metadata()`.
 #'
 #' @param force
-#'   (logical) Re-authenticate even if `EDI_TOKEN` or `AUTH_TOKEN` is already
-#'   set in the current R session.
+#'   (logical) Register the API key with `EDIutils::login()` even when
+#'   `EDI_API_KEY` is already set in the current R session.
 #'
-#' @return Invisibly returns `TRUE` when an authenticated session is available.
+#' @return Invisibly returns `TRUE` when API key authentication is configured.
 #'
 #' @export
 edi_login <- function(force = FALSE) {
 
-  edi_user <- Sys.getenv("EDI_USER", unset = "")
-  edi_pass <- Sys.getenv("EDI_PASS", unset = "")
+  edi_api_key <- Sys.getenv("EDI_API_KEY", unset = "")
 
-  if (!isTRUE(force) && has_edi_token()) {
+  if (!isTRUE(force) && nzchar(edi_api_key)) {
     return(invisible(TRUE))
   }
 
-  if (!nzchar(edi_user) || !nzchar(edi_pass)) {
+  if (!nzchar(edi_api_key)) {
     stop(
-      "EDI credentials not found. Set EDI_USER and EDI_PASS in your .Renviron.",
+      "EDI API key not found. Set EDI_API_KEY in your .Renviron.",
       call. = FALSE
     )
   }
 
   EDIutils::login(
-    userId = edi_user,
-    userPass = edi_pass
+    key = edi_api_key
   )
 
   invisible(TRUE)
-
-}
-
-has_edi_token <- function() {
-
-  nzchar(Sys.getenv("EDI_TOKEN", unset = "")) ||
-    nzchar(Sys.getenv("AUTH_TOKEN", unset = ""))
 
 }

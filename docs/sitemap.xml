@@ -30,6 +30,7 @@
 <url><loc>/reference/create_taxonomicCoverage.html</loc></url>
 <url><loc>/reference/data_to_amz.html</loc></url>
 <url><loc>/reference/drop_geometry.html</loc></url>
+<url><loc>/reference/edi_login.html</loc></url>
 <url><loc>/reference/emlCoordSystems.html</loc></url>
 <url><loc>/reference/get_annotations.html</loc></url>
 <url><loc>/reference/get_custom_units.html</loc></url>
@@ -45,6 +46,7 @@
 <url><loc>/reference/harvest_dataTable.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
 <url><loc>/reference/lterAccess.html</loc></url>
+<url><loc>/reference/pg_local_connect.html</loc></url>
 <url><loc>/reference/projectTitle.html</loc></url>
 <url><loc>/reference/qudt_table.html</loc></url>
 <url><loc>/reference/qudt_table_en_uk.html</loc></url>

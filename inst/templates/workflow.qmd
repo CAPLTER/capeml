@@ -33,6 +33,9 @@ readxl::read_excel(
   readr::write_csv("data_entities.csv")
 ```
 
+EDI API requests require an API key. Store the key as `EDI_API_KEY` in
+`~/.Renviron`, restart R, and keep the key out of this workflow and version
+control.
 
 ```{r}
 #| eval: TRUE

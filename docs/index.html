@@ -84,7 +84,7 @@
 <li>
 <code>user</code> / <code>password</code> arguments, if supplied</li>
 <li>
-<code>DB_USER</code> / <code>DB_PASSWORD</code> from <code>~/.Renviron</code>
+<code>DB_USER</code> / <code>POSTGRES</code> from <code>~/.Renviron</code>
 </li>
 </ul>
 <p>Database selection precedence is:</p>
@@ -99,7 +99,7 @@
 </ul>
 <p>For repeat use, place credentials in <code>~/.Renviron</code>:</p>
 <pre class="text"><code><span><span class="va">DB_USER</span><span class="op">=</span><span class="va">your_username</span></span>
-<span><span class="va">DB_PASSWORD</span><span class="op">=</span><span class="va">your_password</span></span>
+<span><span class="va">POSTGRES</span><span class="op">=</span><span class="va">your_password</span></span>
 <span><span class="va">PG_LOCAL_DB</span><span class="op">=</span><span class="va">caplter</span></span></code></pre>
 <p>Then connect with:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -108,6 +108,7 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pg</span> <span class="op">&lt;-</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/pg_local_connect.html">pg_local_connect</a></span><span class="op">(</span></span>
 <span>  db       <span class="op">=</span> <span class="st">"caplter"</span>,</span>
+<span>  host     <span class="op">=</span> <span class="st">"my-db-host"</span>,</span>
 <span>  user     <span class="op">=</span> <span class="st">"my_user"</span>,</span>
 <span>  password <span class="op">=</span> <span class="st">"my_password"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -186,8 +187,11 @@
 </h4>
 <p>The <code>create_dataset</code> function will look for a <code>methods.md</code> file in the working directory or at the path provided if specified (<code>methods.md</code> must be a markdown file).</p>
 <p>Alternatively, the work flow below is an approach of developing methods if provenance data are required or there are multiple methods files.</p>
+<p>EDI API requests require an API key. Store the key as <code>EDI_API_KEY</code> in <code>~/.Renviron</code>, restart R, and keep the key out of scripts and version control.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># methods from file tagged as markdown</span></span>
+<code class="sourceCode R"><span><span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/edi_login.html">edi_login</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># methods from file tagged as markdown</span></span>
 <span><span class="va">main</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>description <span class="op">=</span> <span class="fu">capeml</span><span class="fu">::</span><span class="fu"><a href="reference/read_markdown.html">read_markdown</a></span><span class="op">(</span><span class="st">"methods.md"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># provenance: naip</span></span>
@@ -466,7 +470,7 @@
 <p>As with all objects created with the capeml package, the resulting object is named with convention: projectid_object-name.file extension by default but this functionality can be turned off by setting projectNaming to FALSE.</p>
 <p>As with <code><a href="reference/create_dataTable.html">create_dataTable()</a></code>, <code><a href="reference/create_otherEntity.html">create_otherEntity()</a></code> can also take advantage of the <code><a href="reference/write_attributes.html">write_attributes()</a></code> and <code><a href="reference/write_factors.html">write_factors()</a></code> services of capeml. An example of where you might want to use these features would be when documenting a spatial resource that cannot be documented as type <code>spatialRaster</code> or <code>spatialVector</code> (e.g., because the resource is projected in a coordinate reference system that is not part of the EML schema). To use these services with a directory, create an object in R with the same name as the directory that will be zipped, then pass that object to <code><a href="reference/write_attributes.html">write_attributes()</a></code> and <code><a href="reference/write_factors.html">write_factors()</a></code> - capeml will look for the resulting attribute and factor (if relevant) yaml files and match them to the directory name (see following for an example).</p>
 <p><em>example: create a EML otherEntity for a vector data object</em></p>
-<p>In this example, we will generate EML otherEntity metadata for a ESRI shapefile titled UEI_Features_CAPLTER_2010_2017_JAB.shp (plus <em>.dbf, </em>.prj, and other shapefile files) that is in a directory of the same name.</p>
+<p>In this example, we will generate EML otherEntity metadata for a ESRI shapefile titled UEI_Features_CAPLTER_2010_2017_JAB.shp (plus <em>.dbf,</em> .prj, and other shapefile files) that is in a directory of the same name.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Read the data into R, here a shapefile using the sf package being careful to</span></span>
 <span><span class="co"># name the resulting object in the R environment with the same name of the</span></span>

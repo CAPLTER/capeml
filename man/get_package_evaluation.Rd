@@ -32,9 +32,8 @@ estalish the package scope and identifier. Alternatively, these parameters
 can be provided by the user but, in that case, both parameters must be
 provided.
 
-`get_package_evaluation()` automatically authenticates with EDI using
-the `EDI_USER` and `EDI_PASS` environment variables when an EDI session is
-not already active.
+`get_package_evaluation()` uses the EDI API key stored in the
+`EDI_API_KEY` environment variable.
 
 If warns or errors are returned, we can view the full report to
 examine the details of those problems. For example, write the report to file

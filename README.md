@@ -189,6 +189,10 @@ must be a markdown file).
 Alternatively, the work flow below is an approach of developing methods
 if provenance data are required or there are multiple methods files.
 
+EDI API requests require an API key. Store the key as `EDI_API_KEY` in
+`~/.Renviron`, restart R, and keep the key out of scripts and version
+control.
+
 ``` r
 capeml::edi_login()
 
@@ -520,8 +524,8 @@ match them to the directory name (see following for an example).
 *example: create a EML otherEntity for a vector data object*
 
 In this example, we will generate EML otherEntity metadata for a ESRI
-shapefile titled UEI_Features_CAPLTER_2010_2017_JAB.shp (plus *.dbf,
-*.prj, and other shapefile files) that is in a directory of the same
+shapefile titled UEI_Features_CAPLTER_2010_2017_JAB.shp (plus *.dbf,*
+.prj, and other shapefile files) that is in a directory of the same
 name.
 
 ``` r

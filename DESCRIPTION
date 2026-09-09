@@ -28,7 +28,7 @@ Imports:
     tidyr,
     lubridate,
     xml2,
-    EDIutils,
+    EDIutils (>= 3.0.0),
     rlang,
     RPostgres,
     aws.s3,

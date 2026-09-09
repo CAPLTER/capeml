@@ -5,8 +5,8 @@
 #' exist (i.e., we are constructing a new package), \code{get_next_version}
 #' will return `1` and display a corresponding note.
 #'
-#' @details `get_next_version()` authenticates automatically with EDI using
-#' the `EDI_USER` and `EDI_PASS` environment variables when needed.
+#' @details `get_next_version()` uses the EDI API key stored in the
+#' `EDI_API_KEY` environment variable.
 #'
 #' \code{get_next_version} is a helper function designed to aid
 #' construction of a package identifier (e.g., the version `5` of

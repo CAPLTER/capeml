@@ -2,21 +2,21 @@
 % Please edit documentation in R/edi_auth.R
 \name{edi_login}
 \alias{edi_login}
-\title{Log in to EDI with environment variables}
+\title{Configure EDI API key authentication}
 \usage{
 edi_login(force = FALSE)
 }
 \arguments{
-\item{force}{(logical) Re-authenticate even if `EDI_TOKEN` or `AUTH_TOKEN` is already
-set in the current R session.}
+\item{force}{(logical) Register the API key with `EDIutils::login()` even when
+`EDI_API_KEY` is already set in the current R session.}
 }
 \value{
-Invisibly returns `TRUE` when an authenticated session is available.
+Invisibly returns `TRUE` when API key authentication is configured.
 }
 \description{
-`edi_login()` establishes an EDI session for the current R
-process when one is not already present. Credentials are read from the
-`EDI_USER` and `EDI_PASS` environment variables.
+`edi_login()` ensures that an EDI API key is available to the
+current R process. The key is read from the `EDI_API_KEY` environment
+variable.
 }
 \details{
 `capeml` calls this helper automatically before package functions
