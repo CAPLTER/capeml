@@ -4,6 +4,16 @@ Tracks intentional changes to the engineering operating model: instructions,
 skills, WAF docs, and MCP config. Git history captures *what*; this file
 captures *why*. Newest first.
 
+## 2026-09-09
+- Make `AGENTS.md` the provider-neutral source of truth and reduce platform
+  files to adapters, avoiding duplicated guidance while preserving local EML
+  conventions.
+- Make AI worklog maintenance explicitly opt-in; no worklog is created by
+  default.
+- Remove Context7 guidance because its stdio server requires Node.js/npm,
+  which are not project prerequisites. Prefer HTTP documentation services or
+  official web sources without adding a project runtime dependency.
+
 ## 2026-07-24
 - Move the WAF reference material from pkgdown's generated `docs/` destination
   to `.github/ai-reference/waf/` so clean website builds cannot remove it.

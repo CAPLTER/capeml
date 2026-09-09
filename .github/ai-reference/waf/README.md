@@ -2,15 +2,16 @@
 
 Version-controlled reference material for design decisions. The agent reads
 these files on demand (native workspace file access) and cites the relevant
-pillar inline in code comments, commit messages, or `CHANGELOG.md` entries.
+pillar inline in code comments or commit messages.
 
 ## Why a local folder instead of an MCP filesystem server?
 
 `.github/ai-reference/waf/` is inside the workspace, so the agent already has
 read access via its native file tools. A filesystem MCP server here would add
-process overhead without adding capability. Use an MCP server only to reach
-docs **outside** the workspace or a live external source (e.g. `context7`,
-`microsoft-learn`).
+process overhead without adding capability. Use a connected HTTP MCP server to
+reach live external documentation when available; otherwise use official web
+documentation directly. Avoid integrations that add unused project runtime
+dependencies.
 
 ## Layout
 
