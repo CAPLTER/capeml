@@ -64,7 +64,7 @@ write_config <- function(
   dataset_params <- list(
     scope                  = scope,
     identifier             = as.integer(identifier),
-    baseURL                = "https://gios-data.s3.us-west-2.amazonaws.com/datasets/cap/",
+    baseURL                = "https://storage.googleapis.com/asuke-aws-gios-data/datasets/cap/",
     project                = "lter",
     title                  = "title with subject time place",
     maintenance            = "none",

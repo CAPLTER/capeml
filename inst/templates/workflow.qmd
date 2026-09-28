@@ -120,13 +120,6 @@ eml     <- capeml::create_eml()
 EML::eml_validate(eml)
 capeml::write_cap_eml()
 
-source("~/Documents/localSettings/aws.s3")
-
-lapply(
-  X   = list.files(pattern = ""),
-  FUN = capeml::data_to_amz
-)
-
 capeml::get_package_evaluation(full_report = FALSE)
 
 # report <- capeml::get_package_evaluation(full_report = TRUE)
