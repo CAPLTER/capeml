@@ -32,7 +32,7 @@ testthat::test_that(
     )
 
     testthat::expect_identical(actual$eml, "edi.1.7.xml")
-    testthat::expect_identical(actual$env, "staging")
+    testthat::expect_identical(actual$env, "production")
 
   }
 )
