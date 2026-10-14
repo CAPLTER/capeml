@@ -22,7 +22,7 @@
 #'  that value is used directly and automatic EDI login is skipped.
 #' @param environment
 #'  (character) Quoted name of the EDI environment where the data package
-#'  should be created, can be: production, staging (default), or development.
+#'  should be created, can be: production (default), staging, or development.
 #' @param update
 #'  (logical) Boolean value indicating if the data package already exists and
 #'  should be updated.
@@ -35,7 +35,7 @@ create_package <- function(
   identifier  = NULL,
   scope       = NULL,
   version     = NULL,
-  environment = "staging",
+  environment = "production",
   update      = FALSE
   ) {
 

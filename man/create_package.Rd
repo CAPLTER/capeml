@@ -8,7 +8,7 @@ create_package(
   identifier = NULL,
   scope = NULL,
   version = NULL,
-  environment = "staging",
+  environment = "production",
   update = FALSE
 )
 }
@@ -22,7 +22,7 @@ will determine the next version with `get_next_version()`. If supplied,
 that value is used directly and automatic EDI login is skipped.}
 
 \item{environment}{(character) Quoted name of the EDI environment where the data package
-should be created, can be: production, staging (default), or development.}
+should be created, can be: production (default), staging, or development.}
 
 \item{update}{(logical) Boolean value indicating if the data package already exists and
 should be updated.}

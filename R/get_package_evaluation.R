@@ -66,14 +66,14 @@ get_package_evaluation <- function(
   evaluation <- EDIutils::evaluate_data_package(
     eml         = paste(scope, identifier, version, "xml", sep = "."),
     useChecksum = FALSE,
-    env         = "staging"
+    env         = "production"
   )
 
   Sys.sleep(8)
 
   eval_status <- EDIutils::check_status_evaluate(
     transaction = evaluation,
-    env         = "staging"
+    env         = "production"
 
   )
 
@@ -85,7 +85,7 @@ get_package_evaluation <- function(
 
       EDIutils::read_evaluate_report_summary(
         transaction = evaluation,
-        env         = "staging"
+        env         = "production"
       )
 
     } else {
@@ -94,11 +94,11 @@ get_package_evaluation <- function(
 
       EDIutils::read_evaluate_report(
         transaction = evaluation,
-        env         = "staging"
+        env         = "production"
       )
 
     }
 
-  } 
+  }
 
 }

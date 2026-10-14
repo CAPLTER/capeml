@@ -125,7 +125,7 @@ capeml::get_package_evaluation(full_report = FALSE)
 # report <- capeml::get_package_evaluation(full_report = TRUE)
 # xml2::write_xml(report, "/tmp/report.xml")
 
-capeml::create_package(environment = "staging")
+capeml::create_package(environment = "production")
 
 EDIutils::logout()
 ```
