@@ -32,4 +32,3 @@ Before writing code, briefly state:
 
 - Re-run end-to-end from a clean checkout; outputs match.
 - State assumptions and check them; report uncertainty, not just point estimates.
-- If publishing data, hand off to the `eml-metadata` skill for the package.

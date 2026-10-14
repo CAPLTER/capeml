@@ -7,7 +7,9 @@ applyTo: "**/*.sql"
 ## Tooling and execution model
 
 - Use the VS Code PostgreSQL MCP tools as the default interface for interactive
-  exploration, diagnostics, and safe query execution.
+  exploration, diagnostics, and safe query execution. When they are not
+  available (for example, outside VS Code), fall back to `psql`, DBI, or
+  psycopg. The read-first sequence below applies either way.
 - Prefer read-first workflow:
   1. Inspect schema/context first.
   2. Run read-only queries.
