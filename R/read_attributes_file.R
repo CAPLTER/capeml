@@ -91,7 +91,14 @@ read_attributes_file <- function(
 
     # Robustly convert named list-of-lists to a tibble
     attrs <- tryCatch(
-      dplyr::bind_rows(attrs, .id = "name") |>
+      purrr::map(attrs, function(attribute) {
+        bounds <- intersect(c("minimum", "maximum"), names(attribute))
+        attribute[bounds] <- purrr::map(attribute[bounds], function(bound) {
+          if (identical(bound, "")) NA_real_ else bound
+        })
+        attribute
+      }) |>
+        dplyr::bind_rows(.id = "name") |>
         dplyr::select(-name),
       error = function(e) {
         stop(paste0(

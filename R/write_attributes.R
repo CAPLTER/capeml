@@ -14,6 +14,14 @@
 #' create_dataTable function will search for this file will creating a EML
 #' dataTable entity.
 #'
+#' Numeric bounds are calculated from finite values only. Columns with no
+#' finite values receive empty-string minimum and maximum placeholders; these
+#' bounds are omitted from the resulting EML. For such columns, numberType
+#' defaults to integer for integer storage and real otherwise.
+#'
+#' Numeric YAML values use fixed-decimal notation with 17 significant digits
+#' rather than scientific notation.
+#'
 #' @param dfname
 #' (character) The quoted or unquoted name of the data object (data frame,
 #' tibble, simple feature).
@@ -104,7 +112,17 @@ write_attributes <- function(
 
     }
 
-    attribute_yaml <- yaml::as.yaml(attribute_list)
+    attribute_yaml <- yaml::as.yaml(
+      attribute_list,
+      handlers = list(numeric = function(value) {
+        text <- format(
+          value, scientific = FALSE, digits = 17, trim = TRUE,
+          decimal.mark = "."
+        )
+        text <- ifelse(grepl(".", text, fixed = TRUE), text, paste0(text, ".0"))
+        structure(text, class = "verbatim")
+      })
+    )
 
     yaml::write_yaml(
       x    = attribute_yaml,
@@ -138,6 +156,10 @@ get_number_type <- function(numeric_object) {
 
   raw <- na.omit(numeric_object)
   raw <- raw[is.finite(raw)] # remove infs (just in case)
+
+  if (length(raw) == 0L) {
+    return(if (is.integer(numeric_object)) "integer" else "real")
+  }
 
   rounded <- floor(raw)
 
@@ -209,12 +231,14 @@ attributes_to_yaml <- function(variable, varName) {
 
   if (is.numeric(variable)) {
 
+    finite_values <- variable[is.finite(variable)]
+
     variableAttributes <- c(
       variableAttributes,
       unit       = "",
       numberType = get_number_type(variable),
-      minimum    = min(variable, na.rm = TRUE),
-      maximum    = max(variable, na.rm = TRUE)
+      minimum    = if (length(finite_values) > 0L) min(finite_values) else "",
+      maximum    = if (length(finite_values) > 0L) max(finite_values) else ""
     )
 
     if (is.integer(variable)) {
@@ -238,6 +262,14 @@ attributes_to_yaml <- function(variable, varName) {
     variableAttributes <- c(
       variableAttributes,
       columnClasses = check_class(variable),
+      definition    = ""
+    )
+
+  } else if (is.logical(variable)) {
+
+    variableAttributes <- c(
+      variableAttributes,
+      columnClasses = "character",
       definition    = ""
     )
 

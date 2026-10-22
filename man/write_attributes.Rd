@@ -39,6 +39,14 @@ format string, unit, definition, and attribute definition. The yaml file is
 written with the name of the data object in R + "_attrs". The
 create_dataTable function will search for this file will creating a EML
 dataTable entity.
+
+Numeric bounds are calculated from finite values only. Columns with no
+finite values receive empty-string minimum and maximum placeholders; these
+bounds are omitted from the resulting EML. For such columns, numberType
+defaults to integer for integer storage and real otherwise.
+
+Numeric YAML values use fixed-decimal notation with 17 significant digits
+rather than scientific notation.
 }
 \examples{
 \dontrun{
