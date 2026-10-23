@@ -34,6 +34,9 @@
 #' of entity attributes (return_type = "attributes") constructed from the data
 #' entity, the latter primarily as a helper feature for updating an existing
 #' attributes file.
+#' @param metadata_path
+#' (character) Directory to which the template is written. Defaults to
+#' \code{metadata_path} in config.yaml, else the working directory.
 #'
 #' @import dplyr
 #' @import yaml
@@ -43,7 +46,7 @@
 #'
 #' @return The name of the file generated is returned, and a template for
 #' providing attribute metadata as a yaml file with the file name of the R data
-#' object + "_attrs.yaml" is created in the working directory.
+#' object + "_attrs.yaml" is created in \code{metadata_path}.
 #'
 #' @examples
 #' \dontrun{
@@ -64,8 +67,9 @@
 #'
 write_attributes <- function(
   dfname,
-  overwrite   = FALSE,
-  return_type = "yaml"
+  overwrite     = FALSE,
+  return_type   = "yaml",
+  metadata_path = NULL
   ) {
 
   # get text reference of dataframe name for use throughout -------------------
@@ -101,7 +105,7 @@ write_attributes <- function(
   if (grepl("yaml", return_type, ignore.case = TRUE)) {
 
     # establish yaml object name for checking if exists and writing to file
-    file_name   <- paste0(namestr, "_attrs.yaml")
+    file_name <- template_target(namestr, "attrs", metadata_path)
 
     # check if attributes already exists for given data entity
     if (file.exists(file_name) && overwrite == FALSE) {

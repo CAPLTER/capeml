@@ -22,9 +22,11 @@
 #' templates if they already exist in the working directory.
 #'
 #' @note \code{write_units} evalutes a data object's attributes metadata file
-#' (e.g., `my_table_attrs.yaml`). As such, this file must exist in the working
-#' directory. This applies also to rasters for which a my_raster.yaml is
-#' employed.
+#' (e.g., `my_table_attrs.yaml`). As such, this file must exist in
+#' \code{metadata_path} or the working directory. This applies also to rasters
+#' for which a my_raster.yaml is employed. Unit templates
+#' (`annotations.yaml`, `custom_units.yaml`) are always written to the working
+#' directory.
 #'
 #' @param entity_name
 #'  (character) Quoted name of the data object in the R environment
@@ -35,6 +37,9 @@
 #'  (boolean) Boolean indicating that the target data are a raster
 #' @param provided_attributes_table
 #' (tbl_df,tbl,data.frame) attributes table equivalent to attrs[["table"]]
+#' @param metadata_path
+#'  (character) Directory of metadata templates. Defaults to
+#'  \code{metadata_path} in config.yaml, else the working directory.
 #'
 #'
 #' @import yaml
@@ -66,7 +71,8 @@ write_units <- function(
   entity_name               = NULL,
   entity_id                 = NULL,
   raster                    = FALSE,
-  provided_attributes_table = NULL
+  provided_attributes_table = NULL,
+  metadata_path             = NULL
 ) {
 
   qudt   <- FALSE
@@ -85,8 +91,9 @@ write_units <- function(
     }
 
     attributes_table <- capeml::read_raster_attributes(
-      entity_name = entity_name,
-      entity_id   = entity_id
+      entity_name   = entity_name,
+      entity_id     = entity_id,
+      metadata_path = metadata_path
     )[["table"]]
 
   } else {
@@ -98,8 +105,9 @@ write_units <- function(
     }
 
     attributes_table <- capeml::read_attributes(
-      entity_name = entity_name,
-      entity_id   = entity_id
+      entity_name   = entity_name,
+      entity_id     = entity_id,
+      metadata_path = metadata_path
     )[["table"]]
 
   }

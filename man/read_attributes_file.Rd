@@ -4,7 +4,7 @@
 \alias{read_attributes_file}
 \title{Load attribute information from a entity attribute yaml or csv file}
 \usage{
-read_attributes_file(string_pointer, entity_id)
+read_attributes_file(string_pointer, entity_id, metadata_path = NULL)
 }
 \arguments{
 \item{string_pointer}{(character) The quoted name of the data entity.}
@@ -12,6 +12,9 @@ read_attributes_file(string_pointer, entity_id)
 \item{entity_id}{(character) Quoted identifier of the data object that is being described,
 this will usually be the name or hash of the data table (or otherwise) of
 which the attribute is associated.}
+
+\item{metadata_path}{(character) Directory of metadata templates. Defaults to
+\code{metadata_path} in config.yaml, else the working directory.}
 }
 \value{
 A list of a list of attributes and column classes
@@ -19,14 +22,14 @@ A list of a list of attributes and column classes
 \description{
 The \code{read_attributes_file} function reads an entity's
 attribute details from a "entity name"_attrs.yaml or "entity name"_attrs.csv
-file in the working directory - the details of which are incorporated into
-the EML metadata for that entity.
+file in \code{metadata_path} or the working directory - the details of
+which are incorporated into the EML metadata for that entity.
 }
 \details{
 The \code{read_attributes_file} function reads an entity's
 attribute details from a "entity name"_attrs.yaml or "entity name"_attrs.csv
-file in the working directory - the details of which are incorporated into
-the EML metadata for that entity.
+file in \code{metadata_path} or the working directory - the details of
+which are incorporated into the EML metadata for that entity.
 }
 \note{
 Recent versions of the capeml package generate attribute (and factor)

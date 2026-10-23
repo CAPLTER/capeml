@@ -5,7 +5,7 @@
 \title{Update minimum and maximum values of numeric variables in existing
 attribute metadata}
 \usage{
-update_attributes(entity_name, return_type = "yaml")
+update_attributes(entity_name, return_type = "yaml", metadata_path = NULL)
 }
 \arguments{
 \item{entity_name}{(character) The name of the data entity.}
@@ -15,12 +15,15 @@ attributes template yaml file (return_type = "yaml", the default) or a list
 of entity attributes (return_type = "attributes") constructed from the data
 entity. The latter (i.e., return_type = "attributes") is really just for
 testing the function.}
+
+\item{metadata_path}{(character) Directory of metadata templates. Defaults to
+\code{metadata_path} in config.yaml, else the working directory.}
 }
 \value{
 An updated metadata template including refreshed minimum and maximum
 vales for numeric variables for providing attribute metadata as a yaml file
-with the file name of the R data object + "_attrs.yaml" in the working
-directory.
+with the file name of the R data object + "_attrs.yaml" in the directory
+where the existing attributes file was found.
 }
 \description{
 A frequent need with long-term, ongoing research is to update

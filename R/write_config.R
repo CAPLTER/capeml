@@ -9,6 +9,14 @@
 #' number; the function uses a default value of version 1 but an alternate
 #' version number can be specified.
 #'
+#' @details Two optional keys may be added to config.yaml to identify data and
+#' metadata that do not reside in the working directory (see
+#' \code{\link{get_locations}}): \code{data_path}, one or more directories
+#' that are searched (recursively, if needed) for data files; and
+#' \code{metadata_path}, a directory to which attribute and factor templates
+#' are written and from which they are read. The working directory is used if
+#' these keys are not provided.
+#'
 #' @note The function expects specifically a 3-digit package identifier (number).
 #'
 #' @param scope

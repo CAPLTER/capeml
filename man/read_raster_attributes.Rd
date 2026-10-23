@@ -4,7 +4,11 @@
 \alias{read_raster_attributes}
 \title{Read raster attribute information from attributes metadata file}
 \usage{
-read_raster_attributes(entity_name, entity_id = "data_entity")
+read_raster_attributes(
+  entity_name,
+  entity_id = "data_entity",
+  metadata_path = NULL
+)
 }
 \arguments{
 \item{entity_name}{(character) The quoted name of the data entity.}
@@ -12,6 +16,9 @@ read_raster_attributes(entity_name, entity_id = "data_entity")
 \item{entity_id}{(character) Quoted identifier of the data object that is being described,
 this will usually be the name or hash of the data table (or otherwise) of
 which the attribute is associated.}
+
+\item{metadata_path}{(character) Directory of metadata templates. Defaults to
+\code{metadata_path} in config.yaml, else the working directory.}
 }
 \value{
 A entity of type EML attributes or list of attributes (for testing
@@ -20,13 +27,13 @@ and debugging)
 \description{
 The \code{read_raster_attributes} function reads a raster's
 attribute details from a "entity name"_attrs.yaml or "entity name"_attrs.csv
-file in the working directory - the details of which are incorporated into
-the EML metadata for that entity.
+file in \code{metadata_path} or the working directory - the details of
+which are incorporated into the EML metadata for that entity.
 
 The \code{read_raster_attributes} function reads a raster's
 attribute details from a "entity name"_attrs.yaml or "entity name"_attrs.csv
-file in the working directory - the details of which are incorporated into
-the EML metadata for that entity.
+file in \code{metadata_path} or the working directory - the details of
+which are incorporated into the EML metadata for that entity.
 }
 \note{
 The \code{read_raster_attributes} function is intended primarily as a

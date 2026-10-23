@@ -8,7 +8,8 @@ metadata files, and document missing value codes}
 read_attributes(
   entity_name,
   missing_value_code = NULL,
-  entity_id = "data_entity"
+  entity_id = "data_entity",
+  metadata_path = NULL
 )
 }
 \arguments{
@@ -23,6 +24,9 @@ ability to identify an additional indicator of missing values (e.g.,
 \item{entity_id}{(character) Quoted identifier of the data object that is being described,
 this will usually be the name or hash of the data table (or otherwise) of
 which the attribute is associated.}
+
+\item{metadata_path}{(character) Directory of metadata templates. Defaults to
+\code{metadata_path} in config.yaml, else the working directory.}
 }
 \value{
 A entity of type EML attributes or list of attributes (for testing

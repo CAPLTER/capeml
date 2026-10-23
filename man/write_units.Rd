@@ -8,7 +8,8 @@ write_units(
   entity_name = NULL,
   entity_id = NULL,
   raster = FALSE,
-  provided_attributes_table = NULL
+  provided_attributes_table = NULL,
+  metadata_path = NULL
 )
 }
 \arguments{
@@ -20,6 +21,9 @@ environment (e.g., the hash of a table)}
 \item{raster}{(boolean) Boolean indicating that the target data are a raster}
 
 \item{provided_attributes_table}{(tbl_df,tbl,data.frame) attributes table equivalent to attrs[["table"]]}
+
+\item{metadata_path}{(character) Directory of metadata templates. Defaults to
+\code{metadata_path} in config.yaml, else the working directory.}
 }
 \value{
 `annotations.yaml`, `custom_units.yaml`, both, or neither depending
@@ -51,9 +55,11 @@ templates if they already exist in the working directory.
 }
 \note{
 \code{write_units} evalutes a data object's attributes metadata file
-(e.g., `my_table_attrs.yaml`). As such, this file must exist in the working
-directory. This applies also to rasters for which a my_raster.yaml is
-employed.
+(e.g., `my_table_attrs.yaml`). As such, this file must exist in
+\code{metadata_path} or the working directory. This applies also to rasters
+for which a my_raster.yaml is employed. Unit templates
+(`annotations.yaml`, `custom_units.yaml`) are always written to the working
+directory.
 }
 \examples{
 \dontrun{

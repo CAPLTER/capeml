@@ -9,14 +9,15 @@
 #' object in the R environment. The function reads the attributes and classes
 #' contained within a supporting yaml file generated from
 #' \code{write_attributes} function - \code{create_dataTable} will look for a
-#' file in the working directory with a name of type
+#' file in \code{metadata_path} or the working directory with a name of type
 #' data_object_name_attrs.yaml. Factors also are read from a supporting yaml
-#' file - \code{create_dataTable} will look for a file in the working directory
-#' with a name of type data_object_name_factors.yaml. If that exists, the
+#' file - \code{create_dataTable} will look for a file in \code{metadata_path}
+#' or the working directory with a name of type data_object_name_factors.yaml. If that exists, the
 #' factor details outlined in that file will be incorporated into the EML, else
 #' the EML will be built without factor metadata. Note that this functionality
 #' is predicated on the existence of a file containing metadata about any
-#' factors in the dataframe, that the file is in the working directory, and
+#' factors in the dataframe, that the file is in \code{metadata_path} or the
+#' working directory, and
 #' that the file matches the dataframe name precisely; the function does not
 #' look for variables of type factor in the dataframe. In addition to
 #' generating a EML entity of type dataTable, \code{create_dataTable} writes
@@ -54,6 +55,10 @@
 #' @param additional_information
 #' (character) Additional information about the data object. Should be quoted,
 #' and accepts (but does not require) markdown formatting.
+#' @param metadata_path
+#' (character) Directory of metadata templates. Defaults to
+#' \code{metadata_path} in config.yaml, else the working directory. The csv
+#' file is always written to the working directory.
 #'
 #' @import EML
 #' @importFrom tools md5sum
@@ -94,7 +99,8 @@ create_dataTable <- function(
   overwrite              = FALSE,
   projectNaming          = TRUE,
   missingValueCode       = NULL,
-  additional_information = NULL
+  additional_information = NULL,
+  metadata_path          = NULL
   ) {
 
   # get text reference of dataframe name for use throughout -------------------
@@ -123,14 +129,12 @@ create_dataTable <- function(
 
   # dataTables must have an attributes file
 
-  if (
-    !file.exists(paste0(namestr, "_attrs.csv")) &
-    !file.exists(paste0(namestr, "_attrs.yaml"))
-    ) {
-
-    stop("attributes file not found")
-
-  }
+  find_template(
+    name          = namestr,
+    type          = "attrs",
+    metadata_path = metadata_path,
+    must_exist    = TRUE
+  )
 
 
   # retrieve dataset details from config.yaml
@@ -199,7 +203,8 @@ create_dataTable <- function(
   attributes <- capeml::read_attributes(
     entity_name        = namestr,
     missing_value_code = missingValueCode,
-    entity_id          = tools::md5sum(project_name)
+    entity_id          = tools::md5sum(project_name),
+    metadata_path      = metadata_path
   )[["eml"]]
 
 
@@ -208,8 +213,9 @@ create_dataTable <- function(
   if (!is.null(find_element(attributes, "unit"))) {
 
     capeml::write_units(
-      entity_name = namestr,
-      entity_id   = tools::md5sum(project_name)
+      entity_name   = namestr,
+      entity_id     = tools::md5sum(project_name),
+      metadata_path = metadata_path
     )
 
   }

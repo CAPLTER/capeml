@@ -2,13 +2,13 @@
 #'
 #' @description The \code{read_raster_attributes} function reads a raster's
 #' attribute details from a "entity name"_attrs.yaml or "entity name"_attrs.csv
-#' file in the working directory - the details of which are incorporated into
-#' the EML metadata for that entity. 
+#' file in \code{metadata_path} or the working directory - the details of
+#' which are incorporated into the EML metadata for that entity.
 #'
 #' @description The \code{read_raster_attributes} function reads a raster's
 #' attribute details from a "entity name"_attrs.yaml or "entity name"_attrs.csv
-#' file in the working directory - the details of which are incorporated into
-#' the EML metadata for that entity. 
+#' file in \code{metadata_path} or the working directory - the details of
+#' which are incorporated into the EML metadata for that entity.
 #'
 #' @note The \code{read_raster_attributes} function is intended primarily as a
 #' helper to other functions in the capeml ecosystem so is not meant to be
@@ -28,6 +28,9 @@
 #' (character) Quoted identifier of the data object that is being described,
 #' this will usually be the name or hash of the data table (or otherwise) of
 #' which the attribute is associated.
+#' @param metadata_path
+#' (character) Directory of metadata templates. Defaults to
+#' \code{metadata_path} in config.yaml, else the working directory.
 #'
 #' @importFrom EML set_attributes
 #' @importFrom rlang get_expr is_expression
@@ -39,7 +42,8 @@
 #'
 read_raster_attributes <- function(
   entity_name,
-  entity_id = "data_entity"
+  entity_id     = "data_entity",
+  metadata_path = NULL
   ) {
 
   # establish references to the data entity and entity name
@@ -58,7 +62,8 @@ read_raster_attributes <- function(
 
   attrs <- read_attributes_file(
     string_pointer,
-    entity_id
+    entity_id,
+    metadata_path
   )
 
 

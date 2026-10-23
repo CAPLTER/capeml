@@ -5,7 +5,12 @@
 \title{Create a template yaml file for supplying attribute metadata for a
 tabular data object}
 \usage{
-write_attributes(dfname, overwrite = FALSE, return_type = "yaml")
+write_attributes(
+  dfname,
+  overwrite = FALSE,
+  return_type = "yaml",
+  metadata_path = NULL
+)
 }
 \arguments{
 \item{dfname}{(character) The quoted or unquoted name of the data object (data frame,
@@ -19,11 +24,14 @@ attributes template yaml file (return_type = "yaml", the default) or a list
 of entity attributes (return_type = "attributes") constructed from the data
 entity, the latter primarily as a helper feature for updating an existing
 attributes file.}
+
+\item{metadata_path}{(character) Directory to which the template is written. Defaults to
+\code{metadata_path} in config.yaml, else the working directory.}
 }
 \value{
 The name of the file generated is returned, and a template for
 providing attribute metadata as a yaml file with the file name of the R data
-object + "_attrs.yaml" is created in the working directory.
+object + "_attrs.yaml" is created in \code{metadata_path}.
 }
 \description{
 write_attributes creates a template as a yaml file for

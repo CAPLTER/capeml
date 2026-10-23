@@ -2,13 +2,13 @@
 #'
 #' @description The \code{read_attributes_file} function reads an entity's
 #' attribute details from a "entity name"_attrs.yaml or "entity name"_attrs.csv
-#' file in the working directory - the details of which are incorporated into
-#' the EML metadata for that entity.
+#' file in \code{metadata_path} or the working directory - the details of
+#' which are incorporated into the EML metadata for that entity.
 #'
 #' @details The \code{read_attributes_file} function reads an entity's
 #' attribute details from a "entity name"_attrs.yaml or "entity name"_attrs.csv
-#' file in the working directory - the details of which are incorporated into
-#' the EML metadata for that entity.
+#' file in \code{metadata_path} or the working directory - the details of
+#' which are incorporated into the EML metadata for that entity.
 #'
 #' @note Recent versions of the capeml package generate attribute (and factor)
 #' metadata files in yaml format; the \code{read_attributes_file} function will
@@ -25,6 +25,9 @@
 #' (character) Quoted identifier of the data object that is being described,
 #' this will usually be the name or hash of the data table (or otherwise) of
 #' which the attribute is associated.
+#' @param metadata_path
+#' (character) Directory of metadata templates. Defaults to
+#' \code{metadata_path} in config.yaml, else the working directory.
 #'
 #' @importFrom yaml yaml.load_file yaml.load
 #' @importFrom utils read.csv
@@ -38,13 +41,21 @@
 #'
 read_attributes_file <- function(
   string_pointer,
-  entity_id
+  entity_id,
+  metadata_path = NULL
   ) {
 
-  # load attributes from yaml or csv (default to yaml)
-  if (file.exists(paste0(string_pointer, "_attrs.yaml"))) {
+  attrs_path <- find_template(
+    name          = string_pointer,
+    type          = "attrs",
+    metadata_path = metadata_path,
+    must_exist    = TRUE
+  )
 
-    yaml_path <- paste0(string_pointer, "_attrs.yaml")
+  # load attributes from yaml or csv (default to yaml)
+  if (tools::file_ext(attrs_path) == "yaml") {
+
+    yaml_path <- attrs_path
 
     # Parse YAML file with informative errors
     attrs <- tryCatch(
@@ -110,13 +121,9 @@ read_attributes_file <- function(
       }
     )
 
-  } else if (!file.exists(paste0(string_pointer, "_attrs.yaml")) && file.exists(paste0(string_pointer, "_attrs.csv"))) {
-
-    attrs <- utils::read.csv(paste0(string_pointer, "_attrs.csv"))
-
   } else {
 
-    stop(paste0("attributes file: ", string_pointer, "_attrs.yaml ", "not found in ", getwd()))
+    attrs <- utils::read.csv(attrs_path)
 
   }
 

@@ -392,17 +392,17 @@ my_table_DT <- capeml::create_dataTable(
 
 **overview: create a EML otherEntity**
 
-A EML object of type otherEntity can be created from a single file or a directory. In the case of generating a otherEntity object from a directory, pass the directory path to the target_file_or_directory argument, capeml will recognize the target as a directory, and create a zipped file of the identified directory.
+A EML object of type otherEntity is created from a single file. To document a directory (e.g., the files that constitute a shapefile), zip the directory first and pass the zip file to the target_file_or_directory argument; a zip file that contains a shapefile is documented with the format "Esri Shapefile (zipped)".
 
-If the otherEntity object already is a zip file with the desired name, set the overwrite argument to FALSE to prevent overwriting the existing object.
+With project naming, a renamed copy of the file is written to the working directory. If that renamed copy already exists, `create_otherEntity()` will stop unless the overwrite argument is set to TRUE.
 
 As with all objects created with the capeml package, the resulting object is named with convention: projectid_object-name.file extension by default but this functionality can be turned off by setting projectNaming to FALSE.
 
-As with `create_dataTable()`, `create_otherEntity()` can also take advantage of the `write_attributes()` and `write_factors()` services of capeml. An example of where you might want to use these features would be when documenting a spatial resource that cannot be documented as type `spatialRaster` or `spatialVector` (e.g., because the resource is projected in a coordinate reference system that is not part of the EML schema). To use these services with a directory, create an object in R with the same name as the directory that will be zipped, then pass that object to `write_attributes()` and `write_factors()` - capeml will look for the resulting attribute and factor (if relevant) yaml files and match them to the directory name (see following for an example).
+As with `create_dataTable()`, `create_otherEntity()` can also take advantage of the `write_attributes()` and `write_factors()` services of capeml. An example of where you might want to use these features would be when documenting a spatial resource that cannot be documented as type `spatialRaster` or `spatialVector` (e.g., because the resource is projected in a coordinate reference system that is not part of the EML schema). To use these services with a zipped directory, create an object in R with the same name as the zip file (sans extension), then pass that object to `write_attributes()` and `write_factors()` - capeml will look for the resulting attribute and factor (if relevant) yaml files and match them to the zip file name (see following for an example).
 
 *example: create a EML otherEntity for a vector data object*
 
-In this example, we will generate EML otherEntity metadata for a ESRI shapefile titled UEI_Features_CAPLTER_2010_2017_JAB.shp (plus *.dbf, *.prj, and other shapefile files) that is in a directory of the same name.
+In this example, we will generate EML otherEntity metadata for a ESRI shapefile titled UEI_Features_CAPLTER_2010_2017_JAB.shp (plus *.dbf, *.prj, and other shapefile files) that is in a directory of the same name, which we have zipped to UEI_Features_CAPLTER_2010_2017_JAB.zip.
 
 ```{r}
 #| eval: false
@@ -425,8 +425,8 @@ UEI_Features_CAPLTER_2010_2017_JAB <- UEI_Features_CAPLTER_2010_2017_JAB |>
 # Generate yaml files of both the attributes and factors (if relevant) from the
 # shapefile that we read into R; these will be written to the project directory
 # with the name of the object that we created in the R environment in the first
-# step - again, this must correspond to the name of directory housing the files
-# to be zipped.
+# step - again, this must correspond to the name of the zip file (sans
+# extension).
 
 capeml::write_attributes(UEI_Features_CAPLTER_2010_2017_JAB, overwrite = TRUE)
 capeml::write_factors(UEI_Features_CAPLTER_2010_2017_JAB, overwrite = TRUE)
@@ -437,7 +437,7 @@ As with a dataTable, we add the otherEntity details to the `data_objects.yaml` f
 ```yaml
 UEI_Features_CAPLTER_2010_2017_JAB:
   type: other
-  target_file_or_directory: UEI_Features_CAPLTER_2010_2017_JAB
+  target_file_or_directory: UEI_Features_CAPLTER_2010_2017_JAB.zip
   description: "compilation of pre-existing..."
   overwrite: FALSE
   projectNaming: FALSE
@@ -449,7 +449,7 @@ As with `create_dataTable`, we can call `create_otherEntity` outside of `data_ob
 
 ```r
 uei_features_other <- capeml::create_otherEntity(
-  target_file_or_directory = "data/UEI_Features_CAPLTER_2010_2017_JAB",
+  target_file_or_directory = "data/UEI_Features_CAPLTER_2010_2017_JAB.zip",
   description              = "compilation of pre-existing..."
   additional_information   = "This is a spatial data object..."
 )

@@ -54,6 +54,9 @@
 #' of entity attributes (return_type = "attributes") constructed from the data
 #' entity. The latter (i.e., return_type = "attributes") is really just for
 #' testing the function.
+#' @param metadata_path
+#' (character) Directory of metadata templates. Defaults to
+#' \code{metadata_path} in config.yaml, else the working directory.
 #'
 #' @importFrom dplyr inner_join mutate select bind_rows
 #' @importFrom yaml write_yaml
@@ -62,8 +65,8 @@
 #'
 #' @return An updated metadata template including refreshed minimum and maximum
 #' vales for numeric variables for providing attribute metadata as a yaml file
-#' with the file name of the R data object + "_attrs.yaml" in the working
-#' directory.
+#' with the file name of the R data object + "_attrs.yaml" in the directory
+#' where the existing attributes file was found.
 #'
 #' @examples
 #' \dontrun{
@@ -80,7 +83,8 @@
 #'
 update_attributes <- function(
   entity_name,
-  return_type = "yaml"
+  return_type   = "yaml",
+  metadata_path = NULL
   ) {
 
   # establish references to the data entity and entity name
@@ -101,7 +105,10 @@ update_attributes <- function(
   # read entity and yaml file data
 
   suppressWarnings(
-    attrs_from_read <- capeml::read_attributes(entity_name = string_pointer)[["table"]]
+    attrs_from_read <- capeml::read_attributes(
+      entity_name   = string_pointer,
+      metadata_path = metadata_path
+    )[["table"]]
   )
 
   attrs_from_write <- capeml::write_attributes(
@@ -190,7 +197,10 @@ numeric_cols <- attrs_from_read[!is.na(attrs_from_read$numberType), ][["attribut
 
     attrs_updated <- yaml::as.yaml(attrs_updated)
 
-    file_name <- paste0(string_pointer, "_attrs.yaml")
+    file_name <- file.path(
+      dirname(find_template(string_pointer, "attrs", metadata_path, must_exist = TRUE)),
+      paste0(string_pointer, "_attrs.yaml")
+    )
 
     yaml::write_yaml(
       x    = attrs_updated,

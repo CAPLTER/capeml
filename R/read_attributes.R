@@ -43,6 +43,9 @@
 #' (character) Quoted identifier of the data object that is being described,
 #' this will usually be the name or hash of the data table (or otherwise) of
 #' which the attribute is associated.
+#' @param metadata_path
+#' (character) Directory of metadata templates. Defaults to
+#' \code{metadata_path} in config.yaml, else the working directory.
 #'
 #' @importFrom yaml yaml.load_file yaml.load
 #' @importFrom utils read.csv
@@ -61,7 +64,8 @@
 read_attributes <- function(
   entity_name,
   missing_value_code = NULL,
-  entity_id          = "data_entity"
+  entity_id          = "data_entity",
+  metadata_path      = NULL
   ) {
 
   # establish references to the data entity and entity name
@@ -83,17 +87,24 @@ read_attributes <- function(
 
   attrs <- capeml::read_attributes_file(
     string_pointer,
-    entity_id
+    entity_id,
+    metadata_path
   )
 
   # factors -------------------------------------------------------------------
 
   fcts <- NULL
 
-  # load factor metadata from yaml or csv (default to yaml)
-  if (file.exists(paste0(string_pointer, "_factors.yaml"))) {
+  factors_path <- find_template(
+    name          = string_pointer,
+    type          = "factors",
+    metadata_path = metadata_path
+  )
 
-    yaml_path <- paste0(string_pointer, "_factors.yaml")
+  # load factor metadata from yaml or csv (default to yaml)
+  if (!is.null(factors_path) && tools::file_ext(factors_path) == "yaml") {
+
+    yaml_path <- factors_path
 
     # Parse YAML file with informative errors
     raw_fcts <- tryCatch(
@@ -160,9 +171,9 @@ read_attributes <- function(
       }
     )
 
-  } else if (file.exists(paste0(string_pointer, "_factors.csv"))) {
+  } else if (!is.null(factors_path)) {
 
-    fcts <- utils::read.csv(paste0(string_pointer, "_factors.csv"))
+    fcts <- utils::read.csv(factors_path)
 
   }
 

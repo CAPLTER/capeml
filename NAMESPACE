@@ -22,8 +22,11 @@ export(create_package)
 export(create_taxa_list)
 export(create_taxonomicCoverage)
 export(edi_login)
+export(find_data_file)
+export(find_template)
 export(get_annotations)
 export(get_custom_units)
+export(get_locations)
 export(get_next_version)
 export(get_package_evaluation)
 export(get_people)
@@ -122,8 +125,8 @@ importFrom(tools,
   md5sum
 )
 importFrom(utils,
-  file_test,
   read.csv,
+  unzip,
   write.csv,
   zip
 )

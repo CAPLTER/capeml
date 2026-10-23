@@ -12,6 +12,12 @@
 #' workflow (within create_dataset) enables constructing all relevant data
 #' entities from a single yaml file.
 #'
+#' @details An optional \code{metadata_path} key for an entity identifies the
+#' directory of that entity's attribute and factor templates, overriding
+#' \code{metadata_path} in config.yaml. The \code{target_file_or_directory}
+#' of an otherEntity is resolved against \code{data_path} in config.yaml if
+#' not found in the working directory.
+#'
 #' @param entity_configuration
 #' (list) data entity configuration details for a single data entity read from
 #' a data resources yaml file
@@ -37,7 +43,8 @@ create_entities_from_yaml <- function(entity_configuration) {
       overwrite              = entity_configuration$overwrite,
       projectNaming          = entity_configuration$projectNaming,
       missingValueCode       = entity_configuration$missingValueCode,
-      additional_information = entity_configuration$additional_information
+      additional_information = entity_configuration$additional_information,
+      metadata_path          = entity_configuration$metadata_path
     )
 
     return(
@@ -59,7 +66,8 @@ create_entities_from_yaml <- function(entity_configuration) {
       description              = entity_configuration$description,
       overwrite                = entity_configuration$overwrite,
       project_naming           = entity_configuration$projectNaming,
-      additional_information   = entity_configuration$additional_information
+      additional_information   = entity_configuration$additional_information,
+      metadata_path            = entity_configuration$metadata_path
     )
 
     entity_id <- basename(entity_configuration$target_file_or_directory)

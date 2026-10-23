@@ -5,18 +5,21 @@
 \title{Generate a template yaml file to detail metadata for attributes that
 are factors}
 \usage{
-write_factors(dfname, overwrite = FALSE)
+write_factors(dfname, overwrite = FALSE, metadata_path = NULL)
 }
 \arguments{
 \item{dfname}{(character) Unquoted name of the R data frame or tibble.}
 
 \item{overwrite}{(logical) Logical indicating if an existing factors file in the target
 directory should be overwritten.}
+
+\item{metadata_path}{(character) Directory to which the template is written. Defaults to
+\code{metadata_path} in config.yaml, else the working directory.}
 }
 \value{
 The name of the file generated is returned, and a template for
 providing code definition metadata as a yaml file with the file name of the
-R data object + "_factors.yaml" is created in the working directory.
+R data object + "_factors.yaml" is created in \code{metadata_path}.
 }
 \description{
 \code{write_factors} creates a template as a yaml file for

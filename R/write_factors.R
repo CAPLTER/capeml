@@ -21,6 +21,9 @@
 #' @param overwrite
 #'  (logical) Logical indicating if an existing factors file in the target
 #'  directory should be overwritten.
+#' @param metadata_path
+#'  (character) Directory to which the template is written. Defaults to
+#'  \code{metadata_path} in config.yaml, else the working directory.
 #'
 #' @import dplyr
 #' @import yaml
@@ -28,7 +31,7 @@
 #'
 #' @return The name of the file generated is returned, and a template for
 #' providing code definition metadata as a yaml file with the file name of the
-#' R data object + "_factors.yaml" is created in the working directory.
+#' R data object + "_factors.yaml" is created in \code{metadata_path}.
 #'
 #' @examples
 #' \dontrun{
@@ -44,12 +47,16 @@
 #'
 #' @export
 
-write_factors <- function(dfname, overwrite = FALSE) {
+write_factors <- function(
+  dfname,
+  overwrite     = FALSE,
+  metadata_path = NULL
+  ) {
 
   # establish object name for checking if exists and, ultimately, writing to file
 
   objectName <- paste0(deparse(substitute(dfname)), "_factors")
-  fileName   <- paste0(objectName, ".yaml")
+  fileName   <- template_target(deparse(substitute(dfname)), "factors", metadata_path)
 
   # check if factors already exist for given data entity
 

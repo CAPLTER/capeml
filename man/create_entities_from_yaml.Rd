@@ -27,3 +27,10 @@ is read by create_dataset. Passing create_entities_from_yaml to a purrr
 workflow (within create_dataset) enables constructing all relevant data
 entities from a single yaml file.
 }
+\details{
+An optional \code{metadata_path} key for an entity identifies the
+directory of that entity's attribute and factor templates, overriding
+\code{metadata_path} in config.yaml. The \code{target_file_or_directory}
+of an otherEntity is resolved against \code{data_path} in config.yaml if
+not found in the working directory.
+}
