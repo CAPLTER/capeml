@@ -4,7 +4,12 @@
 \alias{read_attributes_file}
 \title{Load attribute information from a entity attribute yaml or csv file}
 \usage{
-read_attributes_file(string_pointer, entity_id, metadata_path = NULL)
+read_attributes_file(
+  string_pointer,
+  entity_id,
+  metadata_path = NULL,
+  also = NULL
+)
 }
 \arguments{
 \item{string_pointer}{(character) The quoted name of the data entity.}
@@ -15,6 +20,10 @@ which the attribute is associated.}
 
 \item{metadata_path}{(character) Directory of metadata templates. Defaults to
 \code{metadata_path} in config.yaml, else the working directory.}
+
+\item{also}{(character) Additional directories in which to look for the attributes file
+(e.g., the directory of a data file for templates co-located with the
+data).}
 }
 \value{
 A list of a list of attributes and column classes

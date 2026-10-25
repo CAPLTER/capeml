@@ -28,6 +28,10 @@
 #' @param metadata_path
 #' (character) Directory of metadata templates. Defaults to
 #' \code{metadata_path} in config.yaml, else the working directory.
+#' @param also
+#' (character) Additional directories in which to look for the attributes file
+#' (e.g., the directory of a data file for templates co-located with the
+#' data).
 #'
 #' @importFrom yaml yaml.load_file yaml.load
 #' @importFrom utils read.csv
@@ -42,13 +46,15 @@
 read_attributes_file <- function(
   string_pointer,
   entity_id,
-  metadata_path = NULL
+  metadata_path = NULL,
+  also          = NULL
   ) {
 
   attrs_path <- find_template(
     name          = string_pointer,
     type          = "attrs",
     metadata_path = metadata_path,
+    also          = also,
     must_exist    = TRUE
   )
 

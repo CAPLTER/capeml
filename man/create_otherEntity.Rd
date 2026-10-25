@@ -67,7 +67,11 @@ identified by \code{data_path} in config.yaml (see
 
 Attribute and factor metadata (e.g., file_name_attrs.yaml) are read
 from \code{metadata_path}, the working directory, or the directory of the
-target file.
+target file. For files that cannot be read into R (e.g., a zip file of
+LiDAR point clouds in LAZ format), create
+these templates with \code{\link{write_other_attributes}} and
+\code{\link{write_other_factors}}; \code{create_otherEntity} stops with a
+list of any required fields that are blank.
 }
 \examples{
 \dontrun{

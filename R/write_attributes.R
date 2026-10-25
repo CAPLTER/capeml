@@ -116,22 +116,7 @@ write_attributes <- function(
 
     }
 
-    attribute_yaml <- yaml::as.yaml(
-      attribute_list,
-      handlers = list(numeric = function(value) {
-        text <- format(
-          value, scientific = FALSE, digits = 17, trim = TRUE,
-          decimal.mark = "."
-        )
-        text <- ifelse(grepl(".", text, fixed = TRUE), text, paste0(text, ".0"))
-        structure(text, class = "verbatim")
-      })
-    )
-
-    yaml::write_yaml(
-      x    = attribute_yaml,
-      file = file_name
-    )
+    write_attribute_yaml(attribute_list, file_name)
 
     message(paste0("constructed attribute yaml: ", file_name))
 
@@ -144,6 +129,35 @@ write_attributes <- function(
     stop("ambiguous return_type, should be 'yaml' or 'attributes'")
 
   }
+
+}
+
+
+#' @title Write a list of attribute metadata to a yaml template
+#'
+#' @description \code{write_attribute_yaml} writes attribute metadata to file
+#' as a yaml block scalar with numeric values in fixed-decimal notation.
+#'
+#' @noRd
+#'
+write_attribute_yaml <- function(attribute_list, file_name) {
+
+  attribute_yaml <- yaml::as.yaml(
+    attribute_list,
+    handlers = list(numeric = function(value) {
+      text <- format(
+        value, scientific = FALSE, digits = 17, trim = TRUE,
+        decimal.mark = "."
+      )
+      text <- ifelse(grepl(".", text, fixed = TRUE), text, paste0(text, ".0"))
+      structure(text, class = "verbatim")
+    })
+  )
+
+  yaml::write_yaml(
+    x    = attribute_yaml,
+    file = file_name
+  )
 
 }
 

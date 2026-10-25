@@ -522,6 +522,54 @@ object to `write_attributes()` and `write_factors()` - capeml will look
 for the resulting attribute and factor (if relevant) yaml files and
 match them to the zip file name (see following for an example).
 
+*example: create a EML otherEntity with attribute metadata for a file
+that cannot be read into R*
+
+Some files cannot be read into R, or are too large to read, so
+`write_attributes()` and `write_factors()` cannot construct templates
+from them. An example is a zip file of LiDAR point clouds in LAZ format:
+each point record has fields such as X, Y, Z, and Classification that
+should be documented as attributes, but the archive cannot be read as a
+table. Instead, `write_other_attributes()` and `write_other_factors()`
+construct blank templates from attribute names and classes that we
+provide. The EML schema permits attribute metadata for any otherEntity
+regardless of file format.
+
+``` r
+# point record fields of the LiDAR point clouds (LAZ) in lidar_tiles.zip
+capeml::write_other_attributes(
+  target_file    = "lidar_tiles.zip",
+  attributes     = c("X", "Y", "Z", "Classification", "GpsTime"),
+  column_classes = c("numeric", "numeric", "numeric", "factor", "numeric")
+)
+
+# codes of categorical attributes (use character(0) if not yet known)
+capeml::write_other_factors(
+  target_file = "lidar_tiles.zip",
+  factors     = list(Classification = c("1", "2", "3", "4", "5", "6", "7", "17"))
+)
+```
+
+This yields `lidar_tiles_attrs.yaml` and `lidar_tiles_factors.yaml` (in
+`metadata_path`, if set in `config.yaml`) that we annotate:
+
+- every attribute requires an `attributeDefinition`
+- numeric attributes require a `unit` and a `numberType` (natural,
+  whole, integer, or real); `minimum` and `maximum` are optional and
+  must be entered manually
+- Date attributes require a `formatString` (e.g., YYYY-MM-DD)
+- every factor code requires a `definition`, and every attribute of
+  class factor requires codes
+
+Attributes must describe variables that exist within the file. Details
+about the file itself (e.g., author, number of files in an archive,
+version) are not attributes; provide those in the `description` or
+`additional_information`. Missing value codes are not supported in these
+templates. `create_otherEntity()` reads the annotated templates (as part
+of `data_objects.yaml` or called directly) and stops with a list of any
+required fields that are blank. See `?write_other_attributes` for
+details.
+
 *example: create a EML otherEntity for a vector data object*
 
 In this example, we will generate EML otherEntity metadata for a ESRI

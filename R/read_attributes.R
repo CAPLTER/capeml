@@ -93,12 +93,102 @@ read_attributes <- function(
 
   # factors -------------------------------------------------------------------
 
+  fcts <- read_factors_file(
+    string_pointer = string_pointer,
+    metadata_path  = metadata_path
+  )
+
+
+  # missing value coding ------------------------------------------------------
+
+  # drop geometry columns from consideration if simple features
+  object_pointer <- drop_geometry(object_pointer)
+
+  # Ensure MVC is character; warn and coerce if not
+  if (!is.null(missing_value_code) && !is.character(missing_value_code)) {
+    warning("missing_value_code is not character; coercing to character: ",
+            paste0(missing_value_code, collapse = ","))
+    missing_value_code <- as.character(missing_value_code)
+  }
+
+  # Seed empty tibble with correct column types
+  missing_value_frame <- tibble::tibble(
+    attributeName = as.character(),
+    code          = as.character(),
+    definition    = as.character()
+  )
+
+  # Build per-column missing values with consistent character types
+  mvframe <- purrr::map_df(
+    .x = colnames(object_pointer),
+    .f = function(.col) {
+      out <- capeml::write_missing_values(
+        .col,
+        storage    = missing_value_frame,
+        dataObject = object_pointer,
+        MVC        = missing_value_code
+      )
+      if (is.null(out)) {
+        out <- missing_value_frame
+      } else if (nrow(out) > 0) {
+        out$attributeName <- as.character(out$attributeName)
+        out$code          <- as.character(out$code)
+        out$definition    <- as.character(out$definition)
+      }
+      out
+    }
+  )
+
+  if (nrow(mvframe) == 0) {
+    mvframe <- NULL
+  }
+
+  # return --------------------------------------------------------------------
+  attr_list <- EML::set_attributes(
+    attributes    = attrs[["attrs"]],
+    factors       = fcts,
+    col_classes   = attrs[["classes"]],
+    missingValues = mvframe
+  )
+
+  attrs[["columnClasses"]] <- attrs[["classes"]]
+
+  return(
+    list(
+      eml   = attr_list,
+      table = attrs[["attrs"]]
+    )
+  )
+
+}
+
+
+#' @title Load factor metadata from a entity factors yaml or csv file
+#'
+#' @description \code{read_factors_file} reads the code definitions of an
+#' entity's factors from a "entity name"_factors.yaml or "entity
+#' name"_factors.csv file in \code{metadata_path}, the working directory, or
+#' any directories passed to \code{also}. Yaml files may be in the block
+#' scalar format written by \code{write_factors} or plain yaml.
+#'
+#' @return A data frame of attributeName, code, and definition, or NULL if a
+#' factors file is not found.
+#'
+#' @noRd
+#'
+read_factors_file <- function(
+  string_pointer,
+  metadata_path = NULL,
+  also          = NULL
+  ) {
+
   fcts <- NULL
 
   factors_path <- find_template(
     name          = string_pointer,
     type          = "factors",
-    metadata_path = metadata_path
+    metadata_path = metadata_path,
+    also          = also
   )
 
   # load factor metadata from yaml or csv (default to yaml)
@@ -177,66 +267,6 @@ read_attributes <- function(
 
   }
 
-
-  # missing value coding ------------------------------------------------------
-
-  # drop geometry columns from consideration if simple features
-  object_pointer <- drop_geometry(object_pointer)
-
-  # Ensure MVC is character; warn and coerce if not
-  if (!is.null(missing_value_code) && !is.character(missing_value_code)) {
-    warning("missing_value_code is not character; coercing to character: ",
-            paste0(missing_value_code, collapse = ","))
-    missing_value_code <- as.character(missing_value_code)
-  }
-
-  # Seed empty tibble with correct column types
-  missing_value_frame <- tibble::tibble(
-    attributeName = as.character(),
-    code          = as.character(),
-    definition    = as.character()
-  )
-
-  # Build per-column missing values with consistent character types
-  mvframe <- purrr::map_df(
-    .x = colnames(object_pointer),
-    .f = function(.col) {
-      out <- capeml::write_missing_values(
-        .col,
-        storage    = missing_value_frame,
-        dataObject = object_pointer,
-        MVC        = missing_value_code
-      )
-      if (is.null(out)) {
-        out <- missing_value_frame
-      } else if (nrow(out) > 0) {
-        out$attributeName <- as.character(out$attributeName)
-        out$code          <- as.character(out$code)
-        out$definition    <- as.character(out$definition)
-      }
-      out
-    }
-  )
-
-  if (nrow(mvframe) == 0) {
-    mvframe <- NULL
-  }
-
-  # return --------------------------------------------------------------------
-  attr_list <- EML::set_attributes(
-    attributes    = attrs[["attrs"]],
-    factors       = fcts,
-    col_classes   = attrs[["classes"]],
-    missingValues = mvframe
-  )
-
-  attrs[["columnClasses"]] <- attrs[["classes"]]
-
-  return(
-    list(
-      eml   = attr_list,
-      table = attrs[["attrs"]]
-    )
-  )
+  return(fcts)
 
 }

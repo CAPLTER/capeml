@@ -23,7 +23,11 @@
 #'
 #' @note Attribute and factor metadata (e.g., file_name_attrs.yaml) are read
 #' from \code{metadata_path}, the working directory, or the directory of the
-#' target file.
+#' target file. For files that cannot be read into R (e.g., a zip file of
+#' LiDAR point clouds in LAZ format), create
+#' these templates with \code{\link{write_other_attributes}} and
+#' \code{\link{write_other_factors}}; \code{create_otherEntity} stops with a
+#' list of any required fields that are blank.
 #'
 #' @param target_file_or_directory
 #'  (character) The quoted name and path of the data file (the argument name
@@ -254,87 +258,59 @@ create_otherEntity <- function(
   )
 
 
-  # attributes -----------------------------------------------------------------
+  # attributes and factors ------------------------------------------------------
 
-  # helper function to remove missing columns
-  not_all_na <- function(x) {
-    !all(is.na(x))
-  }
+  # templates (see write_other_attributes and write_other_factors) are read from
+  # metadata_path, the working directory, or, for older projects, the directory
+  # of the target file
 
-  # templates co-located with a target file are supported for older projects
-  template_directories <- source_directory
-
-  attrs_path <- find_template(
-    name          = template_name,
-    type          = "attrs",
-    metadata_path = metadata_path,
-    also          = template_directories,
-    extensions    = "yaml"
+  has_attributes <- !is.null(
+    find_template(
+      name          = template_name,
+      type          = "attrs",
+      metadata_path = metadata_path,
+      also          = source_directory
+    )
   )
 
-  if (!is.null(attrs_path)) {
+  attrs   <- NULL
+  classes <- NULL
 
-    attrs <- yaml::yaml.load_file(attrs_path)
-    attrs <- yaml::yaml.load(attrs)
-    attrs <- tibble::enframe(attrs) |>
-    tidyr::unnest_wider(value) |>
-    dplyr::select(-one_of("name"))
+  if (has_attributes) {
 
-    # column classes to vector (req'd by set_attributes)
-    classes <- attrs |>
-    dplyr::pull(columnClasses)
+    attributes_from_file <- read_attributes_file(
+      string_pointer = template_name,
+      entity_id      = targetFileBaseName,
+      metadata_path  = metadata_path,
+      also           = source_directory
+    )
 
-    # - copy attributeDefinition to defintion as appropriate;
-    # - remove col classes from attrs (req'd by set_attributes);
-    # - remove empty columns (especially max & min, which
-    #   can throw an error for data without any numeric cols)
-    attrs <- attrs |>
-    dplyr::mutate(
-      definition = case_when(
-        grepl("character", columnClasses) & ((is.na(definition) | definition == "")) ~ attributeDefinition,
-        TRUE ~ definition
-      )
-      ) |>
-    dplyr::select(-columnClasses) |>
-    dplyr::select_if(not_all_na)
-
-    has_attributes <- TRUE
-
-  } else {
-
-    has_attributes <- FALSE
+    attrs   <- attributes_from_file[["attrs"]]
+    classes <- attributes_from_file[["classes"]]
 
   }
 
-
-  # factors --------------------------------------------------------------------
-
-  # use factors if exist
-
-  factors_path <- find_template(
-    name          = template_name,
-    type          = "factors",
-    metadata_path = metadata_path,
-    also          = template_directories,
-    extensions    = "yaml"
+  entity_factors <- read_factors_file(
+    string_pointer = template_name,
+    metadata_path  = metadata_path,
+    also           = source_directory
   )
 
-  if (!is.null(factors_path)) {
+  has_factors <- !is.null(entity_factors)
 
-    entity_factors <- yaml.load_file(factors_path) |>
-      yaml::yaml.load() |>
-      tibble::enframe() |>
-      tidyr::unnest_wider(value) |>
-      tidyr::unnest_wider(attribute) |>
-      tidyr::unnest_longer(levels) |>
-      tidyr::unnest_wider(levels) |>
-      dplyr::select(-one_of("name"))
+  check_attribute_templates(
+    attrs   = attrs,
+    classes = classes,
+    factors = entity_factors,
+    source  = template_name
+  )
 
-    has_factors <- TRUE
 
-  } else {
+  # units ----------------------------------------------------------------------
 
-    has_factors <- FALSE
+  if (has_attributes && "unit" %in% names(attrs) && any(!is.na(attrs[["unit"]]))) {
+
+    capeml::write_units(provided_attributes_table = attrs)
 
   }
 
@@ -420,7 +396,10 @@ create_otherEntity <- function(
 
   # return other entity object -------------------------------------------------
 
-  message("created otherEntity: ", targetFileBaseName, " sans attributes")
+  message(
+    "created otherEntity: ", targetFileBaseName,
+    if (has_attributes == FALSE && has_factor_only == FALSE) " sans attributes"
+  )
   return(newOE)
 
 }

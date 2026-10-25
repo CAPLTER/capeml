@@ -51,6 +51,8 @@ export(write_directory)
 export(write_factors)
 export(write_keywords)
 export(write_missing_values)
+export(write_other_attributes)
+export(write_other_factors)
 export(write_people_template)
 export(write_template)
 export(write_units)
@@ -84,6 +86,7 @@ importFrom(lubridate,
 )
 importFrom(purrr,
   every,
+  imap,
   keep,
   list_rbind,
   list_transpose,
@@ -104,7 +107,10 @@ importFrom(rlang,
   get_expr,
   is_expression
 )
-importFrom(stats,na.omit)
+importFrom(stats,
+  na.omit,
+  setNames
+)
 importFrom(stringr,
   str_detect,
   str_extract,
@@ -136,6 +142,7 @@ importFrom(xml2,
   xml_text
 )
 importFrom(yaml,
+  as.yaml,
   write_yaml,
   yaml.load,
   yaml.load_file
