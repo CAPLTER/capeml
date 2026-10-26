@@ -25,6 +25,13 @@
 #'     Any existing xml files named with \code{packageScopeNumber} at
 #'     \code{path} will be overwritten.
 #'
+#' @note When \code{filePathName} is not provided, the package version is
+#' read from the optional \code{version} key in config.yaml if present;
+#' otherwise it is determined from the EDI repository with
+#' \code{\link{get_next_version}}, which requires the \code{EDI_API_KEY}
+#' environment variable and network access to EDI. See
+#' \code{\link{read_package_configuration}}.
+#'
 #' @examples
 #' \dontrun{
 #'
@@ -51,10 +58,7 @@ write_cap_eml <- function(emlEntity = eml, filePathName) {
 
     # package version
 
-    this_version <- capeml::get_next_version(
-      provided_scope      = configurations$scope,
-      provided_identifier = configurations$identifier
-    )
+    this_version <- resolve_version(configurations)
 
 
     # package name (scope + identifier +  version)

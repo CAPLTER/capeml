@@ -19,6 +19,12 @@
 #' project config.yaml; these parameters are not passed directly to the
 #' function and must exist in the working environment or configuration file(s).
 #'
+#' @note The package version is read from the optional \code{version} key in
+#' config.yaml if present; otherwise it is determined from the EDI repository
+#' with \code{\link{get_next_version}}, which requires the \code{EDI_API_KEY}
+#' environment variable and network access to EDI. See
+#' \code{\link{read_package_configuration}}.
+#'
 #' @param publication_date
 #' (character) Quoted ISO date - defaults to \code{Sys.Date()}
 #'
@@ -55,10 +61,9 @@ create_dataset <- function(
 
   # package version
 
-  this_version <- capeml::get_next_version(
-    provided_scope      = configurations$scope,
-    provided_identifier = configurations$identifier,
-    display_message     = TRUE
+  this_version <- resolve_version(
+    configurations  = configurations,
+    display_message = TRUE
   )
 
 

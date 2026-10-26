@@ -4,13 +4,22 @@
 \alias{write_config}
 \title{write a project config.yaml file}
 \usage{
-write_config(scope = "knb-lter-cap", identifier, path = ".", overwrite = FALSE)
+write_config(
+  scope = "knb-lter-cap",
+  identifier,
+  version = NULL,
+  path = ".",
+  overwrite = FALSE
+)
 }
 \arguments{
 \item{scope}{(character) Quoted name of the package scope (e.g., "edi"). The default is
 "knb-lter-cap".}
 
 \item{identifier}{(integer) Data package identifier (number).}
+
+\item{version}{(integer) Optional data package version to hard-code in config.yaml.
+Defaults to \code{NULL} (version determined from the EDI repository).}
 
 \item{path}{(character) Path to where the config file will be written. Defaults to the
 current directory.}
@@ -25,9 +34,11 @@ directory (default) or supplied path.
 \details{
 A template config.yaml file is written to the working directory or
 specified location. The function requires that the package scope and number
-(e.g., "edi", 521) are provided. Package identifiers include a verion
-number; the function uses a default value of version 1 but an alternate
-version number can be specified.
+(e.g., "edi", 521) are provided. By default, no package version is written
+and capeml determines the next version from the EDI repository. Supplying
+\code{version} hard-codes the version in config.yaml so that no EDI API
+call is needed to determine it (see
+\code{\link{read_package_configuration}}).
 
 Two optional keys may be added to config.yaml to identify data and
 metadata that do not reside in the working directory (see

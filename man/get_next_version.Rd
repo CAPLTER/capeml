@@ -36,6 +36,10 @@ construction of a package identifier (e.g., the version `5` of
 `knb-lter-cap.624.5`). As such, the most common use case is that the
 function will be called internally from \code{capeml::createDataset} but the
 function can be called directly.
+
+To avoid this API call, set the optional \code{version} key in config.yaml
+(see \code{\link{read_package_configuration}}); capeml functions that
+construct the package name will then use that value instead.
 }
 \examples{
 \dontrun{

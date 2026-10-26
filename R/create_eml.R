@@ -14,6 +14,12 @@
 #' @note Some parameters, such access, are loaded in the background when the '
 #package is loaded and not called directly by the user.
 #'
+#' @note The package version is read from the optional \code{version} key in
+#' config.yaml if present; otherwise it is determined from the EDI repository
+#' with \code{\link{get_next_version}}, which requires the \code{EDI_API_KEY}
+#' environment variable and network access to EDI. See
+#' \code{\link{read_package_configuration}}.
+#'
 #' @import EML
 #'
 #' @return EML entity of type EML is returned.
@@ -35,10 +41,7 @@ create_eml <- function() {
 
   # package version
 
-  this_version <- capeml::get_next_version(
-    provided_scope      = configurations$scope,
-    provided_identifier = configurations$identifier
-  )
+  this_version <- resolve_version(configurations)
 
 
   # package name (scope + identifier +  version)

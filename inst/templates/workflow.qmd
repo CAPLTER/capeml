@@ -112,6 +112,9 @@ coverage <- EML::set_coverage(
 #| eval: TRUE
 #| label: build
 
+# package version: determined from the EDI repository unless `version` is set
+# in config.yaml (e.g., `version: 3`), which avoids EDI API calls (e.g., SOL)
+
 devtools::load_all("~/localRepos/capeml")
 
 dataset <- capeml::create_dataset()

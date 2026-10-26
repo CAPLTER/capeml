@@ -7,7 +7,9 @@
 read_package_configuration()
 }
 \value{
-A list of configuration details.
+A list of configuration details. The \code{version} element is an
+integer when \code{version} is set in config.yaml and \code{NULL}
+otherwise.
 }
 \description{
 The read_package_configuration function reads the project
@@ -15,6 +17,17 @@ configuration details from the config.yaml file that must exist in the
 working directory. This is a internal, convenience function intended mostly
 for the utility of other capeml functions but read_package_configuration can
 be run independenty.
+}
+\details{
+An optional \code{version} key in config.yaml hard-codes the data
+package version (e.g., \code{version: 3}). When present, capeml functions
+that construct the package name (\code{\link{create_dataset}},
+\code{\link{create_eml}}, \code{\link{write_cap_eml}}) use that value and
+do not query the EDI repository with \code{\link{get_next_version}}. This
+is useful where the EDI API is slow or unavailable (e.g., on ASU SOL). The
+value must be a positive whole number and is not updated automatically:
+increment it for each new revision of the package. Omit the key to have
+capeml determine the next version from the EDI repository.
 }
 \note{
 This function if a bit of overkill in the sense that other capeml

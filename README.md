@@ -136,7 +136,8 @@ files with package functions:
 
 - `write_config` generates `config.yaml` with the package scope and
   identifier (e.g., “edi”, 521) passed as an argument to the function. A
-  version number (default = 1) can be passed as a separate argument.
+  version number can optionally be passed as a separate argument to
+  hard-code the package version (see below).
 - `write_template` generates a template work flow as a Quarto (qmd) file
   named with the package scope and identifier.
 - `write_people_template` generates a template yaml file for providing
@@ -152,6 +153,27 @@ Package details, including scope and identifier are read from
 config.yaml. The appropriate version is determined by identifying the
 highest version currently in the production environment of the EDI
 repository (1 for new packages).
+
+##### hard-coding the package version
+
+Determining the version requires calls to the EDI API (and an
+`EDI_API_KEY`), which can be slow or unavailable in remote environments
+such as ASU SOL. To skip the API entirely, add a `version` key to
+`config.yaml`:
+
+``` yaml
+scope: knb-lter-cap
+identifier: 716
+version: 3
+```
+
+When `version` is present, `create_dataset`, `create_eml`, and
+`write_cap_eml` use that value, print a message noting that the EDI
+repository was not queried, and make no API calls. The value must be a
+positive whole number. It is not updated automatically: increment it for
+each new revision of the package, or remove the key to return to
+determining the version from EDI. `write_config(..., version = 3)`
+writes the key when creating a new `config.yaml`.
 
 #### title
 

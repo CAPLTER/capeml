@@ -15,10 +15,22 @@
 #' newer config.yaml styles; this logic is better encapsulated into this single
 #' function rather than every place configuration details are accessed.
 #'
+#' @details An optional \code{version} key in config.yaml hard-codes the data
+#' package version (e.g., \code{version: 3}). When present, capeml functions
+#' that construct the package name (\code{\link{create_dataset}},
+#' \code{\link{create_eml}}, \code{\link{write_cap_eml}}) use that value and
+#' do not query the EDI repository with \code{\link{get_next_version}}. This
+#' is useful where the EDI API is slow or unavailable (e.g., on ASU SOL). The
+#' value must be a positive whole number and is not updated automatically:
+#' increment it for each new revision of the package. Omit the key to have
+#' capeml determine the next version from the EDI repository.
+#'
 #' @importFrom yaml yaml.load_file yaml.load
 #' @importFrom stringr str_extract
 #'
-#' @return A list of configuration details.
+#' @return A list of configuration details. The \code{version} element is an
+#' integer when \code{version} is set in config.yaml and \code{NULL}
+#' otherwise.
 #'
 #' @export
 #'
@@ -80,6 +92,29 @@ read_package_configuration <- function() {
   identifier <- as.integer(identifier)
 
 
+  # package version (optional): when provided, callers skip the EDI API lookup
+
+  version <- configurations[["version"]]
+
+  if (!is.null(version)) {
+
+    if (
+      length(version) != 1 ||
+        !is.numeric(version) ||
+        is.na(version) ||
+        version < 1 ||
+        version != round(version)
+    ) {
+
+      stop("config.yaml version must be a positive whole number (e.g., 3)")
+
+    }
+
+    version <- as.integer(version)
+
+  }
+
+
   # baseURL | project | title | maintenance
 
   fileURL     <- configurations[["baseURL"]]
@@ -106,6 +141,7 @@ read_package_configuration <- function() {
   list(
     scope                  = scope,
     identifier             = identifier,
+    version                = version,
     fileURL                = fileURL,
     title                  = title,
     project                = project,
