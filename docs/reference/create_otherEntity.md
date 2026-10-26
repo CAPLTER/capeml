@@ -1,0 +1,124 @@
+# create EML entity of type otherEntity
+
+`create_otherEntity` generates a EML entity of type otherEntity.
+
+## Usage
+
+``` r
+create_otherEntity(
+  target_file_or_directory,
+  description,
+  overwrite = FALSE,
+  project_naming = TRUE,
+  additional_information = NULL,
+  entity_value_description,
+  metadata_path = NULL
+)
+```
+
+## Arguments
+
+- target_file_or_directory:
+
+  (character) The quoted name and path of the data file (the argument
+  name is retained for compatibility with existing data_objects.yaml
+  files).
+
+- description:
+
+  (character) A description of the data entity.
+
+- overwrite:
+
+  (logical) If project naming is enabled, a logical indicating whether
+  to overwrite an existing renamed file in the working directory.
+
+- project_naming:
+
+  (logical) Indicating if the file should be renamed per the style used
+  by the CAP LTER (default) with the package number + base file name +
+  file extension. The passed file name will be used if this parameter is
+  set to FALSE.
+
+- additional_information:
+
+  (character) Additional information about the data object. Should be
+  quoted, and accepts (but not required) markdown formatting.
+
+- entity_value_description:
+
+  (character) For raster data, a desciption of the raster value.
+
+- metadata_path:
+
+  (character) Directory of metadata templates. Defaults to
+  `metadata_path` in config.yaml, else the working directory.
+
+## Value
+
+EML entity of type otherEntity is returned. Additionally, a copy of the
+data file renamed with the package number + base file name + file
+extension is written to the working directory if project naming is
+enabled.
+
+## Details
+
+A otherEntity entity is created from a single file (e.g.,
+desert_fertilization_sampling_sites.kml). The resulting entity is
+renamed with the package number + base file name + file extension if
+project naming is enabled. Directories are not supported; zip a
+directory before calling `create_otherEntity` and pass the zip file. A
+zip file that contains a shapefile (.shp) is documented with the format
+"Esri Shapefile (zipped)".
+
+## Note
+
+`create_otherEntity` will look for a package identifier and baseURL in
+config.yaml. \`baseURL\` must be provided. \`package identifier\` must
+be provided if project naming is enabled.
+
+The target data file can be located anywhere on a local computer but a
+renamed file will be written to the current working directory (the
+source location is never written to). A target that is not found as
+given is searched for in the directories identified by `data_path` in
+config.yaml (see [`find_data_file`](find_data_file.md)).
+
+Attribute and factor metadata (e.g., file_name_attrs.yaml) are read from
+`metadata_path`, the working directory, or the directory of the target
+file. For files that cannot be read into R (e.g., a zip file of LiDAR
+point clouds in LAZ format), create these templates with
+[`write_other_attributes`](write_other_attributes.md) and
+[`write_other_factors`](write_other_factors.md); `create_otherEntity`
+stops with a list of any required fields that are blank.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+
+ # using default parameters
+
+ desert_fertilization_sites <- capeml::create_otherEntity(
+   target_file_or_directory = "path-to-file/sampling_sites.Rmd",
+   description              = "long-term study site documentation"
+ )
+
+ # set overwrite = TRUE - has the effect of overwriting an existing renamed
+ # copy of the file in the working directory.
+
+ pass_codebook_2011 <- capeml::create_otherEntity(
+   target_file_or_directory = "PASS-2011-Codebook-Feb2016rev.pdf",
+   description              = "PASS 2011 survey codebook",
+   overwrite                = TRUE
+ )
+
+ # example of a zipped directory without project naming:
+
+ max_temperature <- capeml::create_otherEntity(
+   target_file_or_directory = "max_temperature.zip",
+   description              = "rasters of max temperature years 2000-2016",
+   project_naming           = FALSE
+ )
+
+} # }
+```

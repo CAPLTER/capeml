@@ -1,0 +1,40 @@
+# configure_caplter
+
+configure_caplter establishes several data set elements that are likely
+to be consistent across all CAP LTER or GIOS data sets, including
+language, distribution, and access. In addition, address, publisher, and
+contact are established each specific to CAP LTER or GIOS. The
+appropriate reference (to CAP LTER or GIOS) should be made for these
+elements at the time of eml\$dataset construction. Note that several
+elements apply to all projects. These include: giosLanguage, capRights,
+and lterAccess.
+
+## Usage
+
+``` r
+giosAddress
+```
+
+## Value
+
+establishes in the R environment upon package load, eml entities
+referenced in (or outside) a EML development template.
+
+## Details
+
+configure_caplter establishes several data set elements that are likely
+to be consistent across all CAP LTER or GIOS data sets, including
+language, distribution, and access. In addition, address, publisher, and
+contact are established each specific to CAP LTER or GIOS. The
+appropriate reference (to CAP LTER or GIOS) should be made for these
+elements at the time of eml\$dataset construction. Most of these eml
+entities are established in the R environment when the capeml package is
+loaded and available for reference in the EML development template.
+Distribution is the exception as this is a function that requires the
+data set package identifier as an input.
+
+## Note
+
+Most entities are simply loaded when the package is loaded without the
+need to call them explicitly. An exception is the create_distribution()
+function.

@@ -1,0 +1,55 @@
+# Create metadata of type EML dataTable from existing dataTable metadata in an xml file
+
+\`harvest_dataTable\` harvests EML metadata from existing dataTable
+metadata in an xml file. The output is a EML entity of type dataTable
+that can be included in a data package. The most common use case is when
+including an existing dataTable in a new data package or one that is
+being updated - \`harvest_dataTable\` allows adding the dataTable
+metadata to the new or updated data package EML without re-creating the
+data entity. This may be best explained with an examle. The CAP LTER
+maintains several micrometeorological stations. Data from the
+long-running stations are subsetted into approximately decadal
+intervals. Rather than rebuilding historic data to include with package
+updates, \`harvest_dataTable\` allows (re)constructing the metadata for
+those historic data entities for inclusion in the package update without
+having to actually recreate the data entities. Because the data are
+already published, all details (especially the hash) are identical and
+the data files are accessible on AWS (even better: upload can be skipped
+entirely for data that already loaded into EDI).
+
+## Usage
+
+``` r
+harvest_dataTable(metadata_file)
+```
+
+## Arguments
+
+- metadata_file:
+
+  (character) The quoted path and name of the xml file that houses the
+  dataTable metadata.
+
+## Value
+
+EML dataTable object is returned.
+
+## Details
+
+\`harvest_dataTable\` is very much like \`create_dataTable\` in that it
+generates an EML object with dataTable properties appropriate for
+inclusion in a data package. However, rather than building the metadata
+as is the case for \`create_dataTable\`, \`harvest_dataTable\` harvests
+existing dataTable metadata (that reside in an xml file, the input to
+the function). Further, \`harvest_dataTable\` does not generate or
+otherwise interact with data, or attribute or factor metadata files.
+
+## Note
+
+dataTable metadata must reside in an xml file that contains only
+metadata pertaining to the dataTable of interest. That is,
+\`harvest_dataTable\` will harvest metadata from an xml file that houses
+metadata for a dataTable, but that file should contain only metadata
+pertaining to that dataTable (\`harvest_dataTable\` is unable to harvest
+metadata from a richer xml file that houses information beyond the
+dataTable of interest).

@@ -1,0 +1,78 @@
+# Read entity attribute information from attributes and factors metadata files, and document missing value codes
+
+The `read_attributes` function reads an entity's attribute details from
+a "entity name"\_attrs.yaml or "entity name"\_attrs.csv file in the
+working directory - the details of which are incorporated into the EML
+metadata for that entity. If present in the working directory, factor
+metadata in a "entity name"\_factors.yaml or "entity name"\_factors.csv
+are read and incorporated into attribute metadata. NA, NaN, and
+user-provided missing value codes are documented for each variable if
+they exist.
+
+## Usage
+
+``` r
+read_attributes(
+  entity_name,
+  missing_value_code = NULL,
+  entity_id = "data_entity",
+  metadata_path = NULL
+)
+```
+
+## Arguments
+
+- entity_name:
+
+  (character) The quoted name of the data entity.
+
+- missing_value_code:
+
+  (optional) (character) `read_attributes` will automatically document
+  the presence of NA and NaN entries as missing values in the EML
+  output. The user has the ability to identify an additional indicator
+  of missing values (e.g., "-9999", "missing") if present.
+
+- entity_id:
+
+  (character) Quoted identifier of the data object that is being
+  described, this will usually be the name or hash of the data table (or
+  otherwise) of which the attribute is associated.
+
+- metadata_path:
+
+  (character) Directory of metadata templates. Defaults to
+  `metadata_path` in config.yaml, else the working directory.
+
+## Value
+
+A entity of type EML attributes or list of attributes (for testing and
+debugging)
+
+## Details
+
+The `read_attributes` function reads an entity's attribute details from
+a "entity name"\_attrs.yaml or "entity name"\_attrs.csv file in the
+working directory - the details of which are incorporated into the EML
+metadata for that entity. If present in the working directory, factor
+metadata in a "entity name"\_factors.yaml or "entity name"\_factors.csv
+are read and incorporated into attribute metadata. NA, NaN, and
+user-provided missing value codes are documented for each variable if
+they exist.
+
+## Note
+
+The `read_attributes` function is specific to all data types \_except\_
+rasters. A sister function `read_raster_attributes` addresses similar
+functionality for raster data.
+
+Recent versions of the capeml package generate attribute and factor
+metadata files in yaml format; the `read_attributes` function will look
+also for attributes files in csv format to accommodate older projects.
+
+The `read_attributes` function is intended primarily as a helper to
+other functions in the capeml ecosystem so is not meant to be called
+directly (but can be).
+
+Missing value codes are not documented for geometry columns of spatial
+(sf) objects.

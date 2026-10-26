@@ -1,0 +1,51 @@
+# Customizations Changelog
+
+Tracks intentional changes to the engineering operating model:
+instructions, skills, WAF docs, and MCP config. Git history captures
+*what*; this file captures *why*. Newest first.
+
+## 2026-09-09
+
+- Make `AGENTS.md` the provider-neutral source of truth and reduce
+  platform files to adapters, avoiding duplicated guidance while
+  preserving local EML conventions.
+- Make AI worklog maintenance explicitly opt-in; no worklog is created
+  by default.
+- Remove Context7 guidance because its stdio server requires
+  Node.js/npm, which are not project prerequisites. Prefer HTTP
+  documentation services or official web sources without adding a
+  project runtime dependency.
+
+## 2026-07-24
+
+- Move the WAF reference material from pkgdown’s generated `docs/`
+  destination to `.github/ai-reference/waf/` so clean website builds
+  cannot remove it.
+- Update AI instruction paths to the new version-controlled location.
+
+## 2026-06-29
+
+- Update R guidance: treat `renv` as suggested (not required), prefer
+  explicit non-base namespacing, and favor `purrr` iteration patterns
+  over `for` loops by default.
+- Standardize Python guidance on the Astral `uv` workflow (`uv lock`,
+  `uv sync`, `uv run`) across base, analysis, and reliability
+  references.
+- Add PostgreSQL instruction set
+  (`.github/instructions/postgresql.instructions.md`) with MCP-first
+  workflow guidance (context -\> query -\> modify), safety checks, and
+  performance review expectations.
+- Update README with a dedicated PostgreSQL section so users discover
+  MCP-first DB workflow guidance from the template landing page.
+- Add a PostgreSQL MCP quick-start checklist in README for faster
+  onboarding to safe DB workflows.
+
+## 2026-06-29
+
+- Initial scaffold: lightweight `copilot-instructions.md`
+  (think-then-code with inline WAF awareness, no spec/plan gates),
+  R/Python/analysis style instructions, `well-architected` instruction,
+  and WAF pillar checklists. Forked from the spec-driven template —
+  omits `/spec`, `/plan` prompts and `Architect`/`Planner` agents by
+  design. Use when formal spec overhead is not warranted (exploratory
+  work, solo projects, known domains).
