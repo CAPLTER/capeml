@@ -1,8 +1,18 @@
 #' @title Connect to a local PostgreSQL database
 #'
-#' @description \code{pg_local_connect} creates a \code{DBI} connection to a
-#' PostgreSQL database on \code{localhost} using the modern
-#' \code{RPostgres} backend.
+#' @description \strong{Deprecated.} \code{pg_local_connect} will be removed
+#' from capeml; database connections are outside the scope of generating EML
+#' metadata. Connect with \code{DBI} and \code{RPostgres} directly instead:
+#' \preformatted{pg <- DBI::dbConnect(
+#'   drv      = RPostgres::Postgres(),
+#'   dbname   = "caplter",
+#'   host     = "localhost",
+#'   user     = Sys.getenv("DB_USER"),
+#'   password = Sys.getenv("POSTGRES")
+#' )}
+#'
+#' \code{pg_local_connect} creates a \code{DBI} connection to a PostgreSQL
+#' database on \code{localhost} using the \code{RPostgres} backend.
 #'
 #' @details Database selection precedence is:
 #' \enumerate{
@@ -21,6 +31,10 @@
 #' This function is intended as a convenience helper for local development and
 #' data exploration workflows that need a PostgreSQL connection while keeping
 #' credentials outside the codebase.
+#'
+#' @note \code{DBI} and \code{RPostgres} are suggested rather than required
+#' dependencies of capeml so that installing capeml does not require compiling
+#' \code{RPostgres} against \code{libpq}; install them to use this function.
 #'
 #' @note Set credentials in \code{~/.Renviron} to avoid hardcoding them in
 #' scripts, for example:
@@ -72,6 +86,19 @@ pg_local_connect <- function(
   host     = "localhost",
   port     = 5432L
   ) {
+
+  .Deprecated(
+    old = "pg_local_connect",
+    msg = paste0(
+      "'pg_local_connect()' is deprecated and will be removed from capeml.\n",
+      "Use DBI::dbConnect(RPostgres::Postgres(), ...) instead."
+    )
+  )
+
+  rlang::check_installed(
+    pkg    = c("DBI", "RPostgres"),
+    reason = "to use `pg_local_connect()`."
+  )
 
   db_name <- db
   if (is.null(db_name) || !nzchar(trimws(db_name))) {

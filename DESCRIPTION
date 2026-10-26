@@ -13,7 +13,6 @@ License: CC0
 Encoding: UTF-8
 LazyData: true
 Imports:
-  DBI,
     stringr,
     dplyr,
     readr,
@@ -30,7 +29,6 @@ Imports:
     xml2,
     EDIutils (>= 3.0.0),
     rlang,
-    RPostgres,
     withr,
     rdflib
 Suggests:
@@ -38,7 +36,9 @@ Suggests:
     knitr,
     rmarkdown,
     capemlVector,
-    DiagrammeR
+    DiagrammeR,
+    DBI,
+    RPostgres
 Remotes:
     CAPLTER/capemlVector
 VignetteBuilder: knitr

@@ -28,9 +28,12 @@ pak::pak("CAPLTER/capeml")
 
 ### local PostgreSQL connections
 
-`capeml` now includes `pg_local_connect()` as a convenience helper for local
-PostgreSQL workflows that rely on the modern
-[`RPostgres`](https://rpostgres.r-dbi.org/) backend.
+**Deprecated:** `pg_local_connect()` will be removed from `capeml`. Connect
+with `DBI::dbConnect(RPostgres::Postgres(), ...)` directly instead. `DBI` and
+`RPostgres` are no longer installed with `capeml`.
+
+`pg_local_connect()` is a convenience helper for local PostgreSQL workflows
+that rely on the [`RPostgres`](https://rpostgres.r-dbi.org/) backend.
 
 The function connects to `localhost` and resolves credentials with the
 following precedence:

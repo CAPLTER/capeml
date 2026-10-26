@@ -31,9 +31,19 @@ function attempts to read \code{POSTGRES} from the environment.}
 A \code{DBIConnection} object.
 }
 \description{
-\code{pg_local_connect} creates a \code{DBI} connection to a
-PostgreSQL database on \code{localhost} using the modern
-\code{RPostgres} backend.
+\strong{Deprecated.} \code{pg_local_connect} will be removed
+from capeml; database connections are outside the scope of generating EML
+metadata. Connect with \code{DBI} and \code{RPostgres} directly instead:
+\preformatted{pg <- DBI::dbConnect(
+  drv      = RPostgres::Postgres(),
+  dbname   = "caplter",
+  host     = "localhost",
+  user     = Sys.getenv("DB_USER"),
+  password = Sys.getenv("POSTGRES")
+)}
+
+\code{pg_local_connect} creates a \code{DBI} connection to a PostgreSQL
+database on \code{localhost} using the \code{RPostgres} backend.
 }
 \details{
 Database selection precedence is:
@@ -55,6 +65,10 @@ data exploration workflows that need a PostgreSQL connection while keeping
 credentials outside the codebase.
 }
 \note{
+\code{DBI} and \code{RPostgres} are suggested rather than required
+dependencies of capeml so that installing capeml does not require compiling
+\code{RPostgres} against \code{libpq}; install them to use this function.
+
 Set credentials in \code{~/.Renviron} to avoid hardcoding them in
 scripts, for example:
 \preformatted{DB_USER=your_username
