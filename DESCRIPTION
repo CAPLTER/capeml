@@ -36,9 +36,7 @@ Suggests:
     knitr,
     rmarkdown,
     capemlVector,
-    DiagrammeR,
-    DBI,
-    RPostgres
+    DiagrammeR
 Remotes:
     CAPLTER/capemlVector
 VignetteBuilder: knitr
